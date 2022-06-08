@@ -27,35 +27,30 @@ Revision	:0.1
 */
 
 class ei_axi4_test_c();
-	virtual ei_axi4_interface vif;
-	ei_axi4_environment env;
-	ei_axi4_env_config_c env_cfg;
+  virtual ei_axi4_interface vif;
+  ei_axi4_environment env;
+  ei_axi4_env_config_c env_cfg;
  
-////////////////////////////////////////////////////////////////////////////////
-//   Method name          : new()
-//   Parameters passed    : physical interface
-//   Returned parameters  : None
-//   Description          : takes physical interface from top and links here
-////////////////////////////////////////////////////////////////////////////////
+/**
+/*   Method name          : new()
+/*   Parameters passed    : physical interface
+/*   Returned parameters  : None
+/*   Description          : takes physical interface from top and links here
+**/
+  function new(ei_axi4_interface pif);
+	this.vif    = pif;
+	env_cfg     = new();
+	env 	    = new(vif,env_cfg);
+  end
 
-	function new(ei_axi4_interface pif);
-		this.vif = pif;
-	end
-
-////////////////////////////////////////////////////////////////////////////////
-//   Method name          : env_build()
-//   Parameters passed    : None
-//   Returned parameters  : None
-//   Description          : Builds environment
-////////////////////////////////////////////////////////////////////////////////	
-	task env_build();
-	    env_cfg = new();
-		env = new(vif,env_cfg);
-		build_components;
-	endtask : env_build
+/**
+/*   Method name          : env_build()
+/*   Parameters passed    : None
+/*   Returned parameters  : None
+/*   Description          : Builds environment
+**/
+  task env_run();
+    run_components;
+  endtask : env_run
 	
-	task env_run();
-		run_components;
-	endtask : env_run
-	
-endclass
+endclass : ei_axi4_test_c

@@ -26,121 +26,159 @@ Revision:0.1
 -------------------------------------------------------------------------------
 */
 
+`include "ei_axi4_helper_functions.sv"
+
+
+
+
 import ei_axi4_helper_functions::*;
+`include "ei_axi4_macros.sv"
+class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH);
 
-typedef enum bit [1:0] {FIXED, INCR, WRAP, RESERVED} BURST_TYPE_e;
-typedef enum bit [1:0] {OKAY, EXOKAY, SLVERR, DECERR} RESPONSE_e;
-typedef enum bit [1:0] {READ, WRITE, READ_WRITE} TRANSACTION_TYPE_e;
-typedef enum bit {NO_ERROR, ERROR} ERROR_e;
-
-class ei_axi4_transaction_c#(BUS_WIDTH = `BUS_WIDTH);
-
-  localparam BUS_BYTE_LANES = BUS_WIDTH / 8;
+  localparam DATA_BUS_BYTES = DATA_WIDTH / 8;
 
 	
-
-
 	//-------Signal write read-------
 
-	rand TRANSACTION_TYPE_e transaction_type;
+	rand transaction_type_e transaction_type;
 
-	//-------Read Address Channel------- 		
-	randc bit [31:0] 		araddr;
-	randc BURST_TYPE_e	    arburst;
-	randc bit [7:0]  		arlen;
-	randc bit [2:0]  		arsize;
-	bit        			    arvalid;
-	bit        			 	arready;
+	//-------Read and write Address Channel------- 		
+	randc bit [ADDR_WIDTH - 1:0] 		addr;
+	randc burst_type_e	    burst;
+	randc bit [7:0]  		len;
+	randc bit [2:0]  		size;
+
 	
 	//-------Read Data Channel-------
-	bit [BUS_WIDTH-1:0] rdata[];
-	RESPONSE_e          rresp[];
-	bit                 rlast;
-	bit                 rvalid;
-	bit                 rready;
+	rand bit [DATA_WIDTH-1:0]           data[];
+	response_e                      rresp[];
+	bit [DATA_BUS_BYTES - 1:0] wstrb[];
 
-  //-------Write Address Channel-------
-	randc bit awaddr;
-	randc bit [7:0] awlen;
-	randc bit [2:0] awsize;
-	randc BURST_TYPE_e awburst;
-    bit awvalid;
-	bit awready;
-	
-	//-------Write Data Channel------- 
-	rand bit [BUS_WIDTH - 1:0] wdata[];
-	rand bit [BUS_BYTE_LANES - 1:0] wstrb[];
-	bit wlast;	// FIXME: is wlast needed in transaction class, if so should it be array?
-	bit wvalid;
-	bit wready;
 
 	//-------Write Response Channel-------
-	RESPONSE_e bresp;
-	bit bvalid;	
-	bit bready;
+	response_e bresp;
 
-	rand ERROR_e error_4k_boundary;
-	rand ERROR_e error_wrap_unaligned;
-	rand ERROR_e error_wrap_len;
-	rand ERROR_e error_fixed_len;
-	rand ERROR_e error_early_termination;
+        rand possible_errors_e errors;
+
 
 	constraint error_ct {
-		error_4k_boundary dist { ERROR := 1, NO_ERROR := 999 };
-		error_wrap_unalligned dist { ERROR := 1, NO_ERROR := 999 };
-		error_wrap_len dist { ERROR := 1, NO_ERROR := 999 };
-		error_fixed_len dist { ERROR := 1, NO_ERROR := 999 };
-		error_early_termination dist { ERROR := 1, NO_ERROR := 999 };
+		errors dist {{ERROR_4K_BOUNDARY, 
+		ERROR_WRAP_UNALLIGNED, 
+		ERROR_WRAP_LEN, 
+		ERROR_FIXED_LEN, 
+		ERROR_EARLY_TERMINATION} :/ 1, 
+		NO_ERROR :/ 999};
 	}
 
+         
+
 	constraint burst_type_ct {
-		awburst inside {FIXED, INCR, WRAP};
-		arburst inside {FIXED, INCR, WRAP};
+		burst inside {FIXED, INCR, WRAP};
 	}
 
 	constraint burst_wrap_len_ct {
-		(awburst == WRAP) -> (awlen inside {1, 3, 7, 15});
-		(arburst == WRAP) -> (arlen inside {1, 3, 7, 15});
+		(burst == WRAP) -> (len inside {1, 3, 7, 15});
 	}
 
 	constraint burst_fixed_len_ct {
-		(awburst == FIXED) -> (awlen < 16);
-		(arburst == FIXED) -> (arlen < 16);
+		(burst == FIXED) -> (len < 16);
 	}
 
 	constraint burst_wrap_aligned_addr_ct {
-		(awburst == WRAP) -> ((awaddr % (2 ** awsize)) == 1'b0);
-		(arburst == WRAP) -> ((araddr % (2 ** arsize)) == 1'b0);
+		(burst == WRAP) -> ((addr % (2 ** size)) == 1'b0);
 	}
 
 	constraint transfer_size_ct {
-		(2 ** awsize) <= BUS_WIDTH;
-		(2 ** arsize) <= BUS_WIDTH;
+		((2 ** size) <= DATA_BUS_BYTES );
 	}
 
 	constraint boundary_4kb_ct {
-		(((awaddr - (awaddr % (2 ** awsize))) % 4096) + ((awlen + 1) * (2 ** awsize))) <= 4096;
-		(((araddr - (araddr % (2 ** arsize))) % 4096) + ((arlen + 1) * (2 ** arsize))) <= 4096;
+		(((addr - (addr % (2 ** size))) % 4096) + ((len + 1) * (2 ** size))) <= 4096;
 	}
 
 	constraint data_arr_size_ct {
-		wdata.size() == awlen + 1;
+		data.size() == len + 1;
 	}
 
 	function void post_randomize();
-		wstrb = new[awlen + 1];
-		for(int i = 0; i <= awlen; i++) begin
+		wstrb = new[len + 1];
+		for(int i = 0; i <= len; i++) begin
 			wstrb[i] = get_wstrb(
-				.awaddr(awaddr), 
-				.awburst(awburst), 
-				.awsize(awsize), 
-				.awlen(awlen), 
+				.awaddr(addr), 
+				.awburst(burst), 
+				.awsize(size), 
+				.awlen(len), 
 				.beat_no(i)
 			);
 		end
 	endfunction
 
-	function void copy(ref ei_axi4_master_transaction trans);
+    function void print();
+
+
+
+        $display("----------------------------------------");
+        $display("             TRANSACTION_TYPE           ");
+        $display("----------------------------------------");
+
+        $display("Transaction_type = %0s",transaction_type.name);
+
+
+
+        $display("----------------------------------------");
+        $display("             ERROR_TYPE                 ");
+        $display("----------------------------------------");
+      
+        $display("errors = %0s", errors.name);
+
+
+
+        $display("----------------------------------------");
+        $display("             ADDRESS SIGNALS            ");
+        $display("----------------------------------------");
+
+        $display("addr = %0h", addr);
+        $display("len = %0d", len);
+        $display("size = %0d", size);
+        $display("burst = %0s", burst.name);
+
+
+
+        $display("----------------------------------------"); 
+        $display("               DATA SIGNALS             ");
+        $display("----------------------------------------");
+        
+        foreach(data[i]) begin
+            $display("data[%0d] = %h", i, data[i]);
+        end
+
+        if(transaction_type inside {WRITE, READ_WRITE}) begin
+        	foreach(wstrb[i]) begin
+            		$display("wstrb[%0d] = %b",i, wstrb[i]);
+        	end
+	end 
+
+
+
+        $display("----------------------------------------"); 
+        $display("           RESPONSE SIGNALS             ");
+        $display("----------------------------------------");
+ 
+        if(transaction_type inside {READ, READ_WRITE}) begin
+            foreach(rresp[i]) begin
+                $display("rresp[%0d] = %0s", i,  rresp[i].name);
+            end
+        end
+        if(transaction_type inside {WRITE, READ_WRITE}) begin
+            $display("bresp = %0s", bresp.name);
+        end
+
+        
+
+
+    endfunction : print
+
+	function copy(ei_axi4_transaction_c trans);
 		trans = new this;
 	endfunction : copy
 

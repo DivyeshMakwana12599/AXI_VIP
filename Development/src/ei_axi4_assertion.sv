@@ -26,105 +26,111 @@ eInfochips
 Revision:0.1
 -------------------------------------------------------------------------------
 */
+
 parameter BUS_WIDTH = 64;
 parameter BUS_BYTE_LANES = 8;
 
 module assertion(
-    input logic aclk,
-    	  logic aresetn,
-	  logic [31:0] awaddr,
-	  logic [7:0] awlen,
-          logic [2:0] awsize,
-          logic [1:0] awburst,
- 	  logic awvalid,
-	  logic awready,
-          logic [BUS_WIDTH - 1:0] wdata,
-	  logic [BUS_BYTE_LANES - 1:0] wstrb,
-	  logic wlast,
-	  logic wvalid,
-	  logic wready,
-	  logic [1:0] bresp,
-	  logic bvalid,	
-	  logic bready,		
-	  logic [31:0] araddr,
-	  logic [1:0] arburst,
-	  logic [7:0] arlen,
-	  logic [2:0] arsize,
-	  logic arvalid,
-	  logic arready,
-	  logic [BUS_WIDTH - 1:0] rdata,
-	  logic [1:0] rresp,
-	  logic rlast,
-	  logic rvalid,
-	  logic rready);
+  input logic aclk,
+    	logic aresetn,
+	    logic [31:0] awaddr,
+	    logic [7:0] awlen,
+        logic [2:0] awsize,
+        logic [1:0] awburst,
+ 	    logic awvalid,
+	    logic awready,
+        logic [BUS_WIDTH - 1:0] wdata,
+	    logic [BUS_BYTE_LANES - 1:0] wstrb,
+	    logic wlast,
+	    logic wvalid,
+	    logic wready,
+  	    logic [1:0] bresp,
+	    logic bvalid,	
+	    logic bready,		
+	    logic [31:0] araddr,
+	    logic [1:0] arburst,
+	    logic [7:0] arlen,
+	    logic [2:0] arsize,
+	    logic arvalid,
+	    logic arready,
+	    logic [BUS_WIDTH - 1:0] rdata,
+	    logic [1:0] rresp,
+	    logic rlast,
+	    logic rvalid,
+	    logic rready);
 
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name             : pass_print_f()
-	//   Parameters passed       : None
-	//   Returned parameters     : None
-	//   Description             : printing statement pass for assertion 
-	////////////////////////////////////////////////////////////////////////////////
+	/**
+	\*   Method name             : pass_print_f()
+	\*   Parameters passed       : None
+	\*   Returned parameters     : None
+	\*   Description             : printing statement pass for assertion 
+	*/
 	function void pass_print_f();
-		$display("*************************************************************************");
-		$display("*\t @%0t >>>> %m >>>> ASSETION PASSED \t        *",$time);
-		$display("*************************************************************************");
+	  $display("*************************************************************************");
+	  $display("*\t @%0t >>>> %m >>>> ASSETION PASSED \t        *",$time);
+	  $display("*************************************************************************");
 	endfunction :pass_print_f
 
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name             : fail_print_f()
-	//   Parameters passed       : None
-	//   Returned parameters     : None
-	//   Description             : printing statement fail for assertion 
-	////////////////////////////////////////////////////////////////////////////////
+	/**
+	\*   Method name             : fail_print_f()
+	\*   Parameters passed       : None
+	\*   Returned parameters     : None
+	\*   Description             : printing statement fail for assertion 
+	*/
 	function void fail_print_f();
-		$display("*************************************************************************");
-		$display("*\t @%0t >>>> %m >>>> ASSERTION FAILED \t        *",$time);
-		$display("*************************************************************************");
+	  $display("*************************************************************************");
+	  $display("*\t @%0t >>>> %m >>>> ASSERTION FAILED \t        *",$time);
+	  $display("*************************************************************************");
 	endfunction :fail_print_f
 
 	//logic Temp_ARESETn;
 	assign #1 temp_aresetn = aresetn;
 	//assign #1 temp_aclk = aclk;
 	
-	////////////////////////////////////////////////////////////////////////////////
-	//   property name           : assertion_at_rst_asserted()
-	//   Parameters passed       : signals [awvalid, arvalid, wvalid, bavlid, rvalid]
-	//   Returned parameters     : None
-	//   Description             : property fpr signals if reset is asserted 
-	////////////////////////////////////////////////////////////////////////////////
+	/**
+	\*   property name           : assertion_at_rst_asserted()
+	\*   Parameters passed       : signals [awvalid, arvalid, wvalid, bavlid, rvalid]
+	\*   Returned parameters     : None
+	\*   Description             : property fpr signals if reset is asserted 
+	*/
 	property assertion_at_rst_asserted(signal);
-		@(negedge temp_aresetn) 1'b1 -> (signal == 0);
+	  @(negedge temp_aresetn) 1'b1 -> !(signal);
 	endproperty
 	
-	////////////////////////////////////////////////////////////////////////////////
-	//   property name           : assertion_after_rst_deassertion()
-	//   Parameters passed       : signals [awvalid, arvalid, wvalid]
-	//   Returned parameters     : None
-	//   Description             : property fpr signals if reset is deasserted
-	////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	\*   property name           : assertion_after_rst_deassertion()
+	\*   Parameters passed       : signals [awvalid, arvalid, wvalid]
+	\*   Returned parameters     : None
+	\*   Description             : property fpr signals if reset is deasserted
+	*/
 	property assertion_after_rst_deassertion(signal); 
-		@(posedge aclk) $rose(aresetn) |=> signal[*1];
+	  @(posedge aclk) $rose(aresetn) |-> ##1 signal[=1:$];
 	endproperty
 
-	////////////////////////////////////////////////////////////////////////////////
-	//   property name           : assertion_invalid_signal()
-	//   Parameters passed       : signals [awvalid, arvalid, wvalid, bvalid, rvalid]
-	//   Returned parameters     : None
-	//   Description             : property if reset is there then signal can not be x or z
-	////////////////////////////////////////////////////////////////////////////////
-	property assertion_invalid_signal(valid_signal,signal);
-		@(posedge aclk) valid_signal |-> ((signal != 1'bx) && (signal != 1'bz));
+	
+	/**
+	\*   property name           : assertion_invalid_signal()
+	\*   Parameters passed       : vaid_signal[asresetn,awvalid,arvalid,bvlid,rvalid,wvalid],
+	\*			       un_signal [awvalid, arvalid, wvalid, bvalid, rvalid,]
+	\*   Returned parameters     : None
+	\*   Description             : property if reset and valid signal is there then signal can not be x or z
+	*/
+	property assertion_invalid_signal(valid_signal,un_signal);
+	  @(posedge aclk) valid_signal |-> !($isunknown(un_signal));
 	endproperty
 
-	////////////////////////////////////////////////////////////////////////////////
-	//   property name           : assertion_for_stable_signal()
-	//   Parameters passed       : signal1[valid signals], signal2[ready signals], st_signal[control signals]
-	//   Returned parameters     : None
-	//   Description             : property for signal should stable for handshaking signals
-	////////////////////////////////////////////////////////////////////////////////
-	property assertion_for_stable_signal(signal1,signal2,st_signal);
-		@(posedge aclk) (signal1 == 1 && signal2 == 0) |-> $stable(st_signal);
+
+	/**
+	\*   property name           : assertion_for_stable_signal()
+	\*   Parameters passed       : valid_signal[valid signals], ready_signal[ready signals], st_signal[control signals]
+	\*   Returned parameters     : None
+	\*   Description             : property for signal should stable till handshaking
+	*/
+	property assertion_for_stable_signal(valid_signal,ready_signal,st_signal);
+	  @(posedge aclk) $rose(valid_signal) |-> ##1 $stable(st_signal)[*0:$] ##0 ready_signal;
 	endproperty
+
 
 	// ASSERT PROPERTY FOR AWVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_002 : assert property (assertion_at_rst_asserted(awvalid)) pass_print_f(); 
@@ -279,5 +285,8 @@ module assertion(
 	else fail_print_f();
 
 endmodule :assertion
+
+
+
 
 

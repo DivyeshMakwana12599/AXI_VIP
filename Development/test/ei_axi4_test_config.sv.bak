@@ -26,14 +26,13 @@ eInfochips
 Revision		: 0.1
 ------------------------------------------------------------------------------*/
 
-
 //declaring enum for transfer type, address type and burst type
-typedef enum {READ, WRITE} transfer_type_e;
+typedef enum bit[1:0] {READ, WRITE, WRITE_READ, READ_WRITE) transfer_type_e;
 typedef enum {aligned, unaligned} addr_type_e;
 typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
 
 //parameterized test_config class
-class ei_axi4_test_config_c ;
+class ei_axi4_test_config_c #(int BUS_WIDTH =`BUS_WIDTH);
 
 	int total_num_trans;				//to count total number of transaction
 	int passed_trans;					//count passed transaction
@@ -56,29 +55,21 @@ endclass :ei_axi4_test_config_c
 
 
 //testcases
-class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
+class ei_axi4_sanity_test extends ei_axi4_test_config_c;
 	
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : new()											  //	
-	//   Parameters passed    : none       										  //
-	//   Returned parameters  : None											  //
-	//   Description          : take command line argument for size and length    //
-	////////////////////////////////////////////////////////////////////////////////
+	//constructor
 	function new();
 		if($value$plusargs("size=%0d", transfer_size);
-		else begin
-		  $fatal("invalid input");
-		end
-		
-		if($value$plusargs("length=%0d", transaction_length);
-		else begin
-		  $fatal("invalid input");
-		end
-		
-		random_burst_type   = 1;			//fixed,incr,wrap
-		random_addr_type    = 1;		    //aligned, unaligned
-		total_num_trans     = 2;			//num of transactions
-		testname   		    = "ei_axi4_SANITY_TEST";
+			else
+			  $fatal("invalid input");
+		if($value$plusargs("size=%0d", transaction_length);
+			else
+			  $fatal("invalid input");
+	
+		burst_type 		= FIXED;		//assign burst type
+		addr_type  		= aligned;		//aligned, unaligned
+		total_num_trans = 2;			//num of transactions
+		testname   		= "ei_axi4_SANITY_TEST";
 	endfunction 
 
 endclass : ei_axi4_sanity_test_c

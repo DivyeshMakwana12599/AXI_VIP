@@ -4,8 +4,8 @@
 File name 	: ei_axi4_top.sv
 Title 		: Top Module
 Project 	: AMBA AXI-4 SV VIP
-Created On      : 03-June-22
-Developers      : Shivam Prasad
+Created On  : 03-June-22
+Developers  : Shivam Prasad
 Purpose 	: Top module binds interface and Testbench Layers
  
 Assumptions :
@@ -26,23 +26,7 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-`include "ei_axi4_include_all.sv" 
-
-`define PERIOD 5
-`define VERBOSITY LOW                      // `"`VERBOSITY`"
-`define ASSERTION ON
-`define COVERAGE ON
-`define BUS_WIDTH 32
-`define AXI_VERSION AXI4
-
-`define SV_RAND_CHECK(r) \
-	do begin \
-		if ((r)) begin \
-			$display("%s:%0d: Randomization passed %b", \
-			`__FILE__, `__LINE__, r); \
-		end \
-end while (0)
-         
+`include "ei_axi4_include_all.sv"      
 module ei_axi4_top;
 
   bit aclk;
@@ -50,24 +34,24 @@ module ei_axi4_top;
   bit dummy;
   
   ei_axi4_interface_c pif(.aclk(aclk),.aresetn(aresetn));
-  ei_axi4_test_config_c test(pif);
+  ei_axi4_test_c test;
   ei_axi4_test_config_c cfg_t;
+ 
+  always #PERIOD aclk = ~aclk;
   
-  always #PERIOD aclk =~aclk;
-  
+  /* To initialize the variables */
   initial begin 
-    ARESETn = 1;   
+    aresetn  = 1;
   end
   
+   /* To build */
   initial begin
-      dummy = $value$plusargs("testname=%s", cfg_t.testname);
-	  test = new(pif);
-    end
-  
+    dummy    = $value$plusargs("testname=%s", cfg_t.testname);
+    test     = new(pif);
+   end
+
   initial begin
-  
-	$dumpfile("dumpfile.vcd");
-	$dumpvars;
+    $dumpfile("dumpfile.vcd");
+    $dumpvars;
   end
-  
 endmodule : ei_axi_top

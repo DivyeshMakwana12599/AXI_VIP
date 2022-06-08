@@ -27,183 +27,182 @@ Revision:0.1
 */
 
 interface ei_axi4_interface #(int BUS_WIDTH =`BUS_WIDTH)(
-  input bit aclk,
-  input bit aresetn
-);
+    input bit aclk,
+    input bit aresetn);
 	
-	localparam BUS_BYTE_LANES = BUS_WIDTH/8;
+    localparam BUS_BYTE_LANES = BUS_WIDTH/8;
 
-	logic [31:0] awaddr;
-	logic [7:0] awlen;
-	logic [2:0] awsize;
-	logic [1:0] awburst;
-	logic awvalid;
-	logic awready;
+    logic [31:0] awaddr;
+    logic [7:0] awlen;
+    logic [2:0] awsize;
+    logic [1:0] awburst;
+    logic awvalid;
+    logic awready;
 	
-	logic [BUS_WIDTH - 1:0] wdata;
-	logic [BUS_BYTE_LANES - 1:0] wstrb;
-	logic wlast;
-	logic wvalid;
-	logic wready;
+    logic [BUS_WIDTH - 1:0] wdata;
+    logic [BUS_BYTE_LANES - 1:0] wstrb;
+    logic wlast;
+    logic wvalid;
+    logic wready;
 
-	logic [1:0] bresp;
-	logic bvalid;	
-	logic bready;
+    logic [1:0] bresp;
+    logic bvalid;	
+    logic bready;
 	
-	// read address channel 		
-	logic [31:0] araddr;
-	logic [1:0] arburst;
-	logic [7:0] arlen;
-	logic [2:0] arsize;
-	logic arvalid;
-	logic arready;
-	
-	// read data channel
-	logic [BUS_WIDTH - 1:0] rdata;
-	logic [1:0] rresp;
-	logic rlast;
-	logic rvalid;
-	logic rready; 
-	
-	clocking master_cb @(posedge aclk);
-	
-		default input #1 output #1; 
-		
-		// write address channel 
-		output awaddr;
-		output awlen;
-		output awsize;
-		output awburst;
-		output awvalid;
-		input awready;
-		
-		// write data channel 
-		output wdata;
-		output wstrb;
-		output wlast;
-		output wvalid;
-		input  wready;
-
-		//write response channel
-		input bresp;
-		input bvalid;	
-		output bready;
-		
-		// read address channel 		
-		output araddr;
-		output arburst;
-		output arlen;
-		output arsize;
-		output arvalid;
-		input arready;
+    // read address channel 		
+    logic [31:0] araddr;
+    logic [1:0] arburst;
+    logic [7:0] arlen;
+    logic [2:0] arsize; 
+    logic arvalid;
+    logic arready;
 	
     // read data channel
-		input rdata;
-		input rresp;
-		input rlast;
-		input rvalid;
-		output rready; 
+    logic [BUS_WIDTH - 1:0] rdata;
+    logic [1:0] rresp;
+    logic rlast;
+    logic rvalid;
+    logic rready; 
+
+    clocking master_cb @(posedge aclk); 
+      default input #1 output #1; 
+		
+      // write address channel 
+      output awaddr;
+      output awlen;
+      output awsize;
+      output awburst;
+      output awvalid;
+      input awready;
+		
+      // write data channel 
+      output wdata;
+      output wstrb;
+      output wlast;
+      output wvalid;
+      input  wready;
+
+      //write response channel
+      input bresp;
+      input bvalid;	
+      output bready;
+		
+      // read address channel 		
+      output araddr;
+      output arburst;
+      output arlen;
+      output arsize;
+      output arvalid;
+      input arready;
 	
-	endclocking : master_cb
-
-	clocking slave_cb @(posedge aclk);
+      // read data channel
+      input rdata;
+      input rresp;
+      input rlast;
+      input rvalid;
+      output rready; 
 	
-		default input #1 output #1; 
-		
-		// write address channel 
-		input awaddr;
-		input awlen;
-		input awsize;
-		input awburst;
-		input awvalid;
-		output awready;
-		
-		// write data channel 
-		input wdata;
-		input wstrb;
-		input wlast;
-		input wvalid;
-		output wready;
+    endclocking : master_cb
 
-		//write response channel
-		output bresp;
-		output bvalid;	
-		input bready;
-		
-		// read address channel 		
-		input araddr;
-		input arburst;
-		input arlen;
-		input arsize;
-		input arvalid;
-		output arready;
+    clocking slave_cb @(posedge aclk);
 	
-    // read data channel
-		output rdata;
-		output rresp;
-		output rlast;
-		output rvalid;
-		input rready; 
+      default input #1 output #1; 
+		
+      // write address channel 
+      input awaddr;
+      input awlen;
+      input awsize;
+      input awburst;
+      input awvalid;
+      output awready;
+		
+      // write data channel 
+      input wdata;
+      input wstrb;
+      input wlast;
+      input wvalid;
+      output wready;
+
+      //write response channel
+      output bresp;
+      output bvalid;	
+      input bready;
 	
-	endclocking : slave_cb
-
-	clocking monitor_cb @(posedge aclk);       // clocking block for monitor  
-		default input #1 output #1; 
-		
-		// write address channel 
-		input awaddr;
-		input awlen;
-		input awsize;
-		input awburst;
-		input awvalid;
-		input awready;
-		
-		// write data channel 
-		input wdata;
-		input wstrb;
-		input wlast;
-		input wvalid;
-		input wready;
-
-		//write response channel
-		input bresp;
-		input bvalid;	
-		input bready;
-		
-		// read address channel 		
-		input araddr;
-		input arburst;
-		input arlen;
-		input arsize;
-		input arvalid;
-		input arready;
+      // read address channel 		
+      input araddr;
+      input arburst;
+      input arlen;
+      input arsize;
+      input arvalid;
+      output arready;
 	
-    // read data channel
-		input rdata;
-		input rresp;
-		input rlast;
-		input rvalid;
-		input rready;
+      // read data channel
+      output rdata;
+      output rresp;
+      output rlast;
+      output rvalid;
+      input rready;
+ 
+    endclocking : slave_cb
+
+    clocking monitor_cb @(posedge aclk);       // clocking block for monitor  
+      default input #1 output #1; 
 		
-	endclocking : monitor_cb
+      // write address channel 
+      input awaddr;
+      input awlen;
+      input awsize;
+      input awburst;
+      input awvalid;
+      input awready;
+		
+      // write data channel 
+      input wdata;
+      input wstrb;
+      input wlast;
+      input wvalid;
+      input wready;
 
-	modport MTR (
-    clocking master_cb,
-    input aresetn, 
-    output arvalid,
-    output awvalid,
-    output wvalid
-  );
-	modport SLV (
-    clocking slave_cb,
-    input aresetn,
-    output rvalid,
-    output bvalid
-  );
+      //write response channel
+      input bresp;
+      input bvalid;	
+      input bready;
+		
+      // read address channel 		
+      input araddr;
+      input arburst;
+      input arlen;
+      input arsize;
+      input arvalid;
+      input arready;
+	
+      // read data channel
+      input rdata;
+      input rresp;
+      input rlast;
+      input rvalid;
+      input rready;
+		
+    endclocking : monitor_cb
 
-	modport MON (
-    clocking monitor_cb,
-    input aresetn
-  );
+    modport MTR (
+      clocking master_cb,
+      input aresetn, 
+      output arvalid,
+      output awvalid,
+      output wvalid
+    );
+  
+    modport SLV (
+      clocking slave_cb,
+      input aresetn,
+      output rvalid,
+      output bvalid
+    );
+
+    modport MON (
+      clocking monitor_cb,
+      input aresetn
+    );
 
 endinterface : ei_axi4_interface

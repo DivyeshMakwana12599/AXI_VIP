@@ -27,31 +27,24 @@ Revision	:0.1
 */
 class ei_axi4_slave_agent();
 
-	virtual ei_axi4_interface vif;		//virtual interface
-	ei_axi4_slave_driver s_drv;
-    ei_axi4_slave_monitor s_mon;
-	mailbox#(ei_axi4_transaction) mon2scb;
-	ei_axi4_env_config env_cfg;
-	
-	function new( mailbox#(ei_axi4_transaction) mon2scb, ei_axi4_env_config env_cfg );
-		s_drv = new();
-		s_mon = new();
-		this.mon2scb = mon2scb;
-		this.env_cfg = env_Cfg;
-		
-	endfunction
-	
-	 function void build();
+  virtual ei_axi4_interface vif;		//virtual interface
+  ei_axi4_slave_driver slv_drv;
+  ei_axi4_slave_monitor slv_mon;
+  mailbox#(ei_axi4_transaction) slv_mon2scb;
+  ei_axi4_env_config env_cfg;
 
-       if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
-            s_drv = new();
-        end
-        s_mon = new(mon2scb);
-    endfunction  
-	
-	task run();
-	
-	endtask
-	
-	
+  function new( mailbox#(ei_axi4_transaction) slv_mon2scb, ei_axi4_env_config env_cfg );
+    this.slv_mon2scb = slv_mon2scb;
+    this.env_cfg = env_Cfg;
+    if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
+	  slv_drv = new();
+    end
+    slv_mon = new(slv_mon2scb);
+  endfunction
+
+  task run();
+    
+  endtask
+
+
 endclass
