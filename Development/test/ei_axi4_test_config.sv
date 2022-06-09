@@ -28,9 +28,9 @@ Revision		: 0.1
 
 
 //declaring enum for transfer type, address type and burst type
-typedef enum {WR_RD, SEQ_WR_RD, PRLL_WR_RD} transfer_type_e;
-typedef enum {ALIGNED, UNALIGNED} addr_type_e;
-typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
+//typedef enum {WR_RD, SEQ_WR_RD, PRLL_WR_RD, RANDOM} transfer_type_e;
+//typedef enum {ALIGNED, UNALIGNED} addr_type_e;
+//typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
 
 //parameterized test_config class
 class ei_axi4_test_config_c ;
@@ -50,27 +50,37 @@ class ei_axi4_test_config_c ;
 	bit random_burst_type;
 	bit random_address_type;
 	
-	string testname;					//to take testname as argument
+	string testname;					//for identification testcase
 	
+    task display();
+        $display("=======================================");
+        $display("== TESTNAME : %20s ===",testname);
+        $display("=======================================");
+    endtask
+
 endclass :ei_axi4_test_config_c
 
 
 //testcases
 class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 	
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : new()											  //	
-	//   Parameters passed    : none       										  //
-	//   Returned parameters  : None											  //
-	//   Description          : take command line argument for size and length    //
-	////////////////////////////////////////////////////////////////////////////////
-	function new();
-		if($value$plusargs("size=%0d", transfer_size);
+	/***
+	//   Method name          : new()											  	
+	//   Parameters passed    : none       										  
+	//   Returned parameters  : None											  
+	//   Description          : take command line argument for size and length    
+	***/
+	function new()
+        if($value$plusargs("size=%d", transfer_size))begin
+            $display("transfer size = %d", transfer_size);
+        end
 		else begin
 		  $fatal("invalid input");
 		end
 		
-		if($value$plusargs("length=%0d", transaction_length);
+        if($value$plusargs("length=%0d", transaction_length))begin
+            $display("transfer length = %0d", transaction_length);
+        end
 		else begin
 		  $fatal("invalid input");
 		end
@@ -79,6 +89,6 @@ class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 		random_addr_type    = 1;		    //aligned, unaligned
 		total_num_trans     = 2;			//num of transactions
 		testname   		    = "ei_axi4_SANITY_TEST";
-	endfunction 
+	endfunction
 
 endclass : ei_axi4_sanity_test_c

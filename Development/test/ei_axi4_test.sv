@@ -30,6 +30,7 @@ class ei_axi4_test_c();
   virtual ei_axi4_interface vif;
   ei_axi4_environment env;
   ei_axi4_env_config_c env_cfg;
+  ei_axi4_test_config_c test_cfg;
   
  
 /**
@@ -38,10 +39,18 @@ class ei_axi4_test_c();
 /*   Returned parameters  : None
 /*   Description          : takes physical interface from top and links here
 **/
-  function new(ei_axi4_interface pif);
+  function new(ei_axi4_interface pif);  
+    if($test$plusargs("SANITY_TEST")begin
+    ei_axi4_sanity_test_c sanity_test;
+    sanity_test = new();
+    test_cfg    = sanity_test;
+    test_cfg.display();
+    end
+
 	this.vif    = pif;
 	env_cfg     = new();
-	env 	    = new(vif,env_cfg);
+	env 	    = new(vif,env_cfg, test_cfg);
+    env.run();
   end
 
 /**
