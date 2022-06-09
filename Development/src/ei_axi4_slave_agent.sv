@@ -43,8 +43,12 @@ class ei_axi4_slave_agent();
   endfunction
 
   task run();
-    
+      if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
+        fork 
+          mst_agt.run();
+          slv_agt.run();
+        join
+      end
+
   endtask
-
-
 endclass
