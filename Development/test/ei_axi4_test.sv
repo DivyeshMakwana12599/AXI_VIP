@@ -1,8 +1,8 @@
 /*
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-File name 	: ei_axi4_slave_agent.sv
-Title 		: Slave Agent
+File name 	: ei_axi4_test.sv
+Title 		: Slave test
 Project 	: AMBA AXI-4 SV VIP
 Created On  : 06-June-22
 Developers  : Shivam Prasad
@@ -25,30 +25,33 @@ eInfochips
 Revision	:0.1
 -------------------------------------------------------------------------------
 */
-class ei_axi4_slave_agent();
 
-  virtual ei_axi4_interface vif;		//virtual interface
-  ei_axi4_slave_driver slv_drv;
-  ei_axi4_slave_monitor slv_mon;
-  mailbox#(ei_axi4_transaction) slv_mon2scb;
-  ei_axi4_env_config env_cfg;
+class ei_axi4_test_c();
+  virtual ei_axi4_interface vif;
+  ei_axi4_environment env;
+  ei_axi4_env_config_c env_cfg;
+  
+ 
+/**
+/*   Method name          : new()
+/*   Parameters passed    : physical interface
+/*   Returned parameters  : None
+/*   Description          : takes physical interface from top and links here
+**/
+  function new(ei_axi4_interface pif);
+	this.vif    = pif;
+	env_cfg     = new();
+	env 	    = new(vif,env_cfg);
+  end
 
-  function new( mailbox#(ei_axi4_transaction) slv_mon2scb, ei_axi4_env_config env_cfg );
-    this.slv_mon2scb = slv_mon2scb;
-    this.env_cfg = env_Cfg;
-    if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
-	  slv_drv = new();
-    end
-    slv_mon = new(slv_mon2scb);
-  endfunction
-
-  task run();
-      if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
-        fork 
-          mst_agt.run();
-          slv_agt.run();
-        join
-      end
-
-  endtask
-endclass
+/**
+/*   Method name          : env_build()
+/*   Parameters passed    : None
+/*   Returned parameters  : None
+/*   Description          : Builds environment
+**/
+  task env_run();
+    run_components;
+  endtask : env_run
+	
+endclass : ei_axi4_test_c
