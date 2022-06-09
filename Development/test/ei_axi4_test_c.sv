@@ -30,6 +30,8 @@ class ei_axi4_test_c();
   virtual ei_axi4_interface vif;
   ei_axi4_environment env;
   ei_axi4_env_config_c env_cfg;
+  ei_axi4_test_config_c test_cfg;
+
  
 /**
 /*   Method name          : new()
@@ -40,7 +42,15 @@ class ei_axi4_test_c();
   function new(ei_axi4_interface pif);
 	this.vif    = pif;
 	env_cfg     = new();
-	env 	    = new(vif,env_cfg);
+	
+    if($test$plusargs("SANITY_TEST"))begin
+      ei_axi4_sanity_test_c sanity_test;
+      sanity_test = new();
+      test_cfg    = sanity_test;
+    end
+    env = new(vif, env_cfg, test_cfg);
+    env.vif  = pif;
+    env.run();
   end
 
 /**
