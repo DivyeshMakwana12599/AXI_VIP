@@ -1,12 +1,12 @@
 /*
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-File name 	: ei_axi4_top.sv
-Title 		: Top Module
+File name 	: ei_axi4_test.sv
+Title 		: Slave test
 Project 	: AMBA AXI-4 SV VIP
-Created On  : 03-June-22
+Created On  : 06-June-22
 Developers  : Shivam Prasad
-Purpose 	: Top module binds interface and Testbench Layers
+Purpose 	: Slave Agent contains Slave Driver, Slave Receive Monitor. It acts as AXI4 slave
  
 Assumptions :
 Limitations : 
@@ -26,32 +26,32 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-`include "../src/ei_axi4_include_all.svh"      
-module ei_axi4_top;
-
-  bit aclk;
-  bit aresetn;
-  bit dummy;
+class ei_axi4_test_c();
+  virtual ei_axi4_interface vif;
+  ei_axi4_environment env;
+  ei_axi4_env_config_c env_cfg;
   
-  ei_axi4_interface_c pif(.aclk(aclk),.aresetn(aresetn));
-  ei_axi4_test_c test;
-  ei_axi4_test_config_c cfg_t;
  
-  always #PERIOD aclk = ~aclk;
-  
-  /* To initialize the variables */
-  initial begin 
-    aresetn  = 1;
+/**
+/*   Method name          : new()
+/*   Parameters passed    : physical interface
+/*   Returned parameters  : None
+/*   Description          : takes physical interface from top and links here
+**/
+  function new(ei_axi4_interface pif);
+	this.vif    = pif;
+	env_cfg     = new();
+	env 	    = new(vif,env_cfg);
   end
-  
-   /* To build */
-  initial begin
-    dummy    = $value$plusargs("testname=%s", cfg_t.testname);
-    test     = new(pif);
-   end
 
-  initial begin
-    $dumpfile("dumpfile.vcd");
-    $dumpvars;
-  end
-endmodule : ei_axi_top
+/**
+/*   Method name          : env_build()
+/*   Parameters passed    : None
+/*   Returned parameters  : None
+/*   Description          : Builds environment
+**/
+  task env_run();
+    run_components;
+  endtask : env_run
+	
+endclass : ei_axi4_test_c
