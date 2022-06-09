@@ -39,7 +39,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     logic awvalid;
     logic awready;
 	
-    logic [BUS_WIDTH - 1:0] wdata;
+    logic [DATA_WIDTH - 1:0] wdata;
     logic [BUS_BYTE_LANES - 1:0] wstrb;
     logic wlast;
     logic wvalid;
