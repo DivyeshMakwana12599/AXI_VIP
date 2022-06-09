@@ -64,7 +64,7 @@ endclass :ei_axi4_mst_generator_c
 	////////////////////////////////////////////////////////////////////////////////		    
   task ei_axi4_generator_c::run();
     begin
-      $display("%t, TXGEN::RUN PHASE", $time);
+      $display("%t, GEN::RUN PHASE", $time);
       repeat(cfg.total_num_trans)begin
             
       case(cfg_t.transfer_type)
@@ -85,8 +85,7 @@ endclass :ei_axi4_mst_generator_c
 							end
 						
 						if(tr.transaction_type == READ)begin
-						    temp.wdata.delete();
-							temp2 = new temp1;
+						   	temp2 = new temp1;
 					        temp2.wdata.delete();
 							gen2drv.put(temp2);
 							end
@@ -95,47 +94,3 @@ endclass :ei_axi4_mst_generator_c
         end
       end
   endtask :run
-    
-         
-                 
-                 
-              
-          
-          
-          
-          
-  
-
-/*
-class ei_axi4_master_generator_c;
-    ei_axi4_transaction_c tr;
-    ei_axi4_transaction_c blueprint;
-    ei_axi4_test_config t_cfg;
-
-    mailbox gen2drv #(ei_axi4_transaction_c);
-
-    function new(mailbox gen2drv #(ei_axi4_transaction_c));
-    
-        this.gen2drv = gen2drv
-        t_cfg = new();
-    
-    endfunction : new
-
-    task run();
-        @(vif.MTR.master_cb);
-        repeat(t_cfg.total_no_of_transaction) begin 
-            tr = new();
-            if(!tr.randomize()) begin // if 1 
-                $display("Randomization Failed !!!!!");
-            end // if 1
-
-            else begin // else 1 
-                tr.copy(blueprint)
-                gen2drv.put(blueprint);
-            end // else 1
-        end // repeat
-    
-    endtask : run
-endclass : ei_axi4_master_generator_c
-
-*/

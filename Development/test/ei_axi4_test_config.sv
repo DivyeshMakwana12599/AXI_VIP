@@ -28,8 +28,8 @@ Revision		: 0.1
 
 
 //declaring enum for transfer type, address type and burst type
-typedef enum {READ, WRITE} transfer_type_e;
-typedef enum {aligned, unaligned} addr_type_e;
+typedef enum {WR_RD, SEQ_WR_RD, PRLL_WR_RD} transfer_type_e;
+typedef enum {ALIGNED, UNALIGNED} addr_type_e;
 typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
 
 //parameterized test_config class
