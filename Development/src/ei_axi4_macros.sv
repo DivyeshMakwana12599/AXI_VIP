@@ -4,8 +4,17 @@
 `define VERBOSITY LOW                      // `"`VERBOSITY`"
 `define ASSERTION ON
 `define COVERAGE ON
-`define BUS_WIDTH 32
+`define DATA_WIDTH 64
+`define ADDR_WIDTH 32
+`define BUS_BYTE_LANES `DATA_WIDTH/8
 `define AXI_VERSION AXI4
+
+
+
+typedef enum bit [1:0] {FIXED, INCR, WRAP} burst_type_e;
+typedef enum bit [1:0] {OKAY, EXOKAY, SLVERR, DECERR} response_e;
+typedef enum bit [1:0] {READ, WRITE, READ_WRITE} transaction_type_e;
+typedef enum bit [2:0] {NO_ERROR, ERROR_4K_BOUNDARY, ERROR_WRAP_UNALLIGNED, ERROR_WRAP_LEN, ERROR_FIXED_LEN, ERROR_EARLY_TERMINATION}possible_errors_e;
 
 `define SV_RAND_CHECK(r) \
 	do begin \
