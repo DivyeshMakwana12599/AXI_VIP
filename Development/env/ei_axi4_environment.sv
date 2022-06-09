@@ -42,12 +42,13 @@ class ei_axi4_environment_c ();
 
   virtual ei_axi4_interface vif;
 
-////////////////////////////////////////////////////////////////////////////////
-//   Method name          : new()
-//   Parameters passed    : interface vif
-//   Returned parameters  : None
-//   Description          : links interface
-////////////////////////////////////////////////////////////////////////////////	
+/**
+*\   Method name          : new()
+*\   arameters passed    : interface vif
+*\   Returned parameters  : None
+*\   Description          : links virtual interface,mailboxs and builds slave agent
+*\                         components
+**/
   function new(ei_axi4_interface vif, ei_axi4_env_config env_cfg);
 	this.vif = vif;
     this.env_cfg = env_cfg;
@@ -62,12 +63,12 @@ class ei_axi4_environment_c ();
   endfunction
 
 /**
-/*   Method name          : run_components()
-/*   Parameters passed    : None
-/*   Returned parameters  : None
-/*   Description          : runs environment components
+*\   Method name          : run_components()
+*\   Parameters passed    : None
+*\   Returned parameters  : None
+*\   Description          : runs environment components
 **/	
-  task run_components();
+  task run();
 	
     fork
 	  mst_agt.run();
@@ -75,6 +76,6 @@ class ei_axi4_environment_c ();
 	  scb.run();
 	  ref_model.run();
     join
-  endtask : run_components
+  endtask : run
 
 endclass :ei_axi4_environment_c

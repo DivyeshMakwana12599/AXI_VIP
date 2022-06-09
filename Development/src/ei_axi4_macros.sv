@@ -10,12 +10,15 @@
 `define AXI_VERSION AXI4
 
 
+<<<<<<< HEAD
 
 typedef enum bit [1:0] {FIXED, INCR, WRAP} burst_type_e;
 typedef enum bit [1:0] {OKAY, EXOKAY, SLVERR, DECERR} response_e;
 typedef enum bit [1:0] {READ, WRITE, READ_WRITE} transaction_type_e;
 typedef enum bit [2:0] {NO_ERROR, ERROR_4K_BOUNDARY, ERROR_WRAP_UNALLIGNED, ERROR_WRAP_LEN, ERROR_FIXED_LEN, ERROR_EARLY_TERMINATION}possible_errors_e;
 
+=======
+>>>>>>> 2c7c973ea4f762e9c89977595edd522ac6c39c24
 `define SV_RAND_CHECK(r) \
 	do begin \
 		if ((r)) begin \

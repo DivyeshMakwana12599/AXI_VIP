@@ -26,7 +26,7 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-`include "ei_axi4_include_all.sv"      
+`include "../src/ei_axi4_include_all.svh"      
 module ei_axi4_top;
 
   bit aclk;
