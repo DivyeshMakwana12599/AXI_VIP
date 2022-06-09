@@ -26,11 +26,11 @@ Revision:0.1
 -------------------------------------------------------------------------------
 */
 
-interface ei_axi4_interface #(int BUS_WIDTH =`BUS_WIDTH)(
+interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     input bit aclk,
     input bit aresetn);
 	
-    localparam BUS_BYTE_LANES = BUS_WIDTH/8;
+    localparam BUS_BYTE_LANES = DATA_WIDTH/8;
 
     logic [31:0] awaddr;
     logic [7:0] awlen;
@@ -39,7 +39,7 @@ interface ei_axi4_interface #(int BUS_WIDTH =`BUS_WIDTH)(
     logic awvalid;
     logic awready;
 	
-    logic [BUS_WIDTH - 1:0] wdata;
+    logic [DATA_WIDTH - 1:0] wdata;
     logic [BUS_BYTE_LANES - 1:0] wstrb;
     logic wlast;
     logic wvalid;
@@ -185,7 +185,7 @@ interface ei_axi4_interface #(int BUS_WIDTH =`BUS_WIDTH)(
 		
     endclocking : monitor_cb
 
-    modport MTR (
+    modport MST (
       clocking master_cb,
       input aresetn, 
       output arvalid,

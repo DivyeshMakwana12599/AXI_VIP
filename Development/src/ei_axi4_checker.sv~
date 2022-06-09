@@ -134,7 +134,8 @@ class ei_axi4_checker_c;
 
         // check transfer size must be less than DATA_WIDTH
         if(transfer_size > `DATA_WIDTH) begin
-            $error("No. of transfer within a single burst must be lesser then the data bus width");
+            $error("No. of transfer within a single burst must be \ 
+            lesser then the data bus width");
             return FAIL;
         end
 

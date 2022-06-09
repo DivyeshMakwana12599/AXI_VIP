@@ -35,7 +35,7 @@ module ei_axi4_top;
   
   ei_axi4_interface_c pif(.aclk(aclk),.aresetn(aresetn));
   ei_axi4_test_c test;
-  ei_axi4_test_config_c cfg_t;
+ // ei_axi4_test_config_c cfg_t;
  
   always #PERIOD aclk = ~aclk;
   
@@ -46,7 +46,7 @@ module ei_axi4_top;
   
    /* To build */
   initial begin
-    dummy    = $value$plusargs("testname=%s", cfg_t.testname);
+  //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
     test     = new(pif);
    end
 
