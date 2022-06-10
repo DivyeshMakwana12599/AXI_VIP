@@ -27,6 +27,7 @@ Revision	:0.1
 */
 
 `include "../src/ei_axi4_include_all.svh"      
+
 module ei_axi4_top;
 
   bit aclk;
@@ -37,7 +38,7 @@ module ei_axi4_top;
   ei_axi4_test_c test;
  // ei_axi4_test_config_c cfg_t;
  
-  always #PERIOD aclk = ~aclk;
+  always #(`PERIOD) aclk = ~aclk;
   
   /* To initialize the variables */
   initial begin 
@@ -54,4 +55,4 @@ module ei_axi4_top;
     $dumpfile("dumpfile.vcd");
     $dumpvars;
   end
-endmodule : ei_axi_top
+endmodule : ei_axi4_top

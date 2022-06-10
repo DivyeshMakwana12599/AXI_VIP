@@ -61,7 +61,7 @@ class ei_axi4_checker_c;
   *\ function check_write_signals
   *\ Note: checker function for write packet
   */
-  protected function RESULT_e check_write_signals();
+  protected function RESULT_e check_write_signals(ei_axi4_transaction_c tr);
     bit [`BUS_BYTE_LANES - 1:0] golden_strb[];
 
     golden_strb = new[tr.len + 1];
@@ -69,7 +69,7 @@ class ei_axi4_checker_c;
       golden_strb[i] = get_wstrb(tr.addr, tr.burst, tr.size, tr.len, i);
     end
 
-    if(!check_common_signals()) begin
+    if(!check_common_signals(tr)) begin
       return FAIL;
     end
 
@@ -90,9 +90,9 @@ class ei_axi4_checker_c;
   *\ function check_read_signals
   *\ Note: checker function for read packet
   */
-  protected function RESULT_e check_read_signals();
+  protected function RESULT_e check_read_signals(ei_axi4_transaction_c tr);
 
-    if(!check_common_signals()) begin
+    if(!check_common_signals(tr)) begin
       return FAIL;
     end
 
@@ -111,7 +111,7 @@ class ei_axi4_checker_c;
   *\ Note: checker function for all the common signals
   *\       of AXI-4 i.e., len, size, burst, addr
   */
-  protected function RESULT_e check_common_signals();
+  protected function RESULT_e check_common_signals(ei_axi4_transaction_c tr);
     bit [6:0] transfer_size = 2 ** tr.size;
 
     // check if the addr is crossing 4KB boundary

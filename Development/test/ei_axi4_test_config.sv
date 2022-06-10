@@ -86,7 +86,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 		end
 		
 		random_burst_type   = 1;			//fixed,incr,wrap
-		random_addr_type    = 1;		    //aligned, unaligned
+		random_address_type    = 1;		    //aligned, unaligned
 		total_num_trans     = 2;			//num of transactions
         transfer_type       = WR_RD;
 		testname   		    = "ei_axi4_SANITY_TEST";

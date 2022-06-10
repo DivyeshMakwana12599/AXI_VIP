@@ -65,7 +65,7 @@ endclass :ei_axi4_master_generator_c
   task ei_axi4_master_generator_c::run();
     begin
       $display("%t, GEN::RUN PHASE", $time);
-      repeat(cfg.total_num_trans)begin
+      repeat(cfg_t.total_num_trans)begin
             
       case(cfg_t.transfer_type)
 			WR_RD :
@@ -86,7 +86,7 @@ endclass :ei_axi4_master_generator_c
 						
 						if(tr.transaction_type == READ)begin
 						   	temp2 = new temp1;
-					        temp2.wdata.delete();
+					        temp2.data.delete();
 							gen2drv.put(temp2);
 							end
 				end

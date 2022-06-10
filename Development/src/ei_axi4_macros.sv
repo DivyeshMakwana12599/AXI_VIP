@@ -8,7 +8,7 @@
 `define ADDR_WIDTH 32
 `define BUS_BYTE_LANES `DATA_WIDTH/8
 `define AXI_VERSION AXI4
-`define VMST vif.MST.master_cb 
+`define VMST vif.MST.master_driver_cb
 
 
 //<<<<<<< HEAD

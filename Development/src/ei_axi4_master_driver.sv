@@ -2,16 +2,17 @@ class ei_axi4_master_driver_c;
     
     ei_axi4_transaction_c tr;
 
-    ei_axi4_transaction_c queue[$];
+    ei_axi4_transaction_c write_queue[$];
+    ei_axi4_transaction_c read_queue[$];
 
     mailbox #(ei_axi4_transaction_c) gen2drv;
     int running_index;
-    virtual ei_axi4_interface_c vif;
+    virtual ei_axi4_interface vif;
     semaphore sema0,sema1;
 
     function new();
 
-        this.genrdrv = gen2drv;
+        this.gen2drv = gen2drv;
         this.vif = vif;
         sema0 = new(1);
         sema1 = new(1);
@@ -37,9 +38,9 @@ class ei_axi4_master_driver_c;
             if(tr.transaction_type == READ)begin
                 // push in read queue
                 read_queue.push_back(tr);
-                read_address(); 
+                read_address_task(); 
             fork//3
-                read_data(); // join none here only 
+                // read_data_task(); // join none here only 
             join_none//3
             end 
 
@@ -50,7 +51,7 @@ class ei_axi4_master_driver_c;
     
     endtask : run
 
-    task write_address();
+    task write_address_task();
         @(`VMST);
         `VMST.awvalid <= 1'b1;
         `VMST.awaddr <= write_queue[running_index].addr;
@@ -64,11 +65,11 @@ class ei_axi4_master_driver_c;
             `VMST.wlast <= 1'b0;
         
 
-    endtask : write_address 
+    endtask : write_address_task 
 
     task write_data_task();
         
-        sema.get(1);   
+        sema0.get(1);   
 
         @(`VMST iff(`VMST.awready));
         `VMST.wvalid <= 1'b1;
@@ -86,7 +87,7 @@ class ei_axi4_master_driver_c;
         end //for
 
         //if(`VMST.wlast == 1'b1)begin
-        @(`VMST iff(wlast == 1'b1))
+        @(`VMST iff(`VMST.wlast == 1'b1))
             @(`VMST);
             `VMST.wlast <= 1'b0;
             `VMST.write_queue[0].wdata <= 'bx;
@@ -101,7 +102,6 @@ class ei_axi4_master_driver_c;
                 //vif.bready <= 1;
                 @(`VMST);
                 vif.bready <= 1'b0;
-        sema.put(1);
       //  @(`VMST iff(`VMST.wlast == 1)) 
             @(`VMST iff(`VMST.wvalid && `VMST.wready && `VMST.wlast)) 
             `VMST.bready <= 1'b1;
@@ -112,7 +112,7 @@ class ei_axi4_master_driver_c;
             write_queue.pop_front();
             running_index--;
     
-            sema.put(1);
+            sema0.put(1);
     endtask : write_response_task 
 
     task read_address_task();

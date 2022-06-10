@@ -49,7 +49,7 @@ class ei_axi4_environment_c;
 *\   Description          : links virtual interface,mailboxs and builds slave agent
 *\                         components
 **/
-  function new(ei_axi4_interface vif, ei_axi4_env_config env_cfg);
+  function new(virtual ei_axi4_interface vif, ei_axi4_env_config_c env_cfg);
 	this.vif = vif;
     this.env_cfg = env_cfg;
 	mst_mon2ref       = new(); 
