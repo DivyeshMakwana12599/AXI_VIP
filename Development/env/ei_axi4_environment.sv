@@ -26,7 +26,7 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-class ei_axi4_environment_c ();
+class ei_axi4_environment_c;
 
   ei_axi4_master_agent_c mst_agt;
   ei_axi4_slave_agent_c slv_agt;

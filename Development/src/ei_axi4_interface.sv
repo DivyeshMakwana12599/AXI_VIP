@@ -26,13 +26,13 @@ Revision:0.1
 -------------------------------------------------------------------------------
 */
 
-interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
+interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADDR_WIDTH)(
     input bit aclk,
     input bit aresetn);
 	
     localparam BUS_BYTE_LANES = DATA_WIDTH/8;
 
-    logic [31:0] awaddr;
+    logic [ADDR_WIDTH - 1:0] awaddr;
     logic [7:0] awlen;
     logic [2:0] awsize;
     logic [1:0] awburst;
@@ -58,7 +58,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     logic arready;
 	
     // read data channel
-    logic [BUS_WIDTH - 1:0] rdata;
+    logic [DATA_WIDTH - 1:0] rdata;
     logic [1:0] rresp;
     logic rlast;
     logic rvalid;
@@ -190,7 +190,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
       input aresetn, 
       output arvalid,
       output awvalid,
-      output wvali
+      output wvalid
     );
   
     modport SLV (

@@ -28,6 +28,7 @@ Revision:0.1
 
 package ei_axi4_helper_functions;
 
+    `include "../src/ei_axi4_macros.sv"
 	function bit [31:0] calculate_size_aligned_address (
 		bit [31:0] address, bit [2:0] awsize
 	);
