@@ -5,17 +5,14 @@ class ei_axi4_master_driver_c;
     ei_axi4_transaction_c queue[$];
 
     mailbox #(ei_axi4_transaction_c) gen2drv;
-
     int running_index;
-
-    virtual ei_axi4_interface_c `VMST;
-
+    virtual ei_axi4_interface_c vif;
     semaphore sema0,sema1;
 
     function new();
 
         this.genrdrv = gen2drv;
-        this.`VMST = `VMST;
+        this.vif = vif;
         sema0 = new(1);
         sema1 = new(1);
 
@@ -63,7 +60,7 @@ class ei_axi4_master_driver_c;
         running_index++;
 
         @(`VMST iff(`VMST.awready <= 1'b1)) 
-            `VMST.awvalid <= 1'b0;
+        `VMST.awvalid <= 1'b0;
             `VMST.wlast <= 1'b0;
         
 
@@ -73,7 +70,7 @@ class ei_axi4_master_driver_c;
         
         sema.get(1);   
 
-        @(`VMST iff(`VMST.awready);
+        @(`VMST iff(`VMST.awready));
         `VMST.wvalid <= 1'b1;
 
         for(int i = 0; i <= write_queue[0].len ; i++)begin 
@@ -97,15 +94,14 @@ class ei_axi4_master_driver_c;
 
     endtask : write_data_task
 
-    task write_esponse_task();
-<<<<<<< HEAD
+    task write_response_task();
+    
       //  @(`VMST iff(vif.wlast == 1))begin 
             @(`VMST iff(vif.bvalid <= 1))
                 //vif.bready <= 1;
                 @(`VMST);
                 vif.bready <= 1'b0;
         sema.put(1);
-=======
       //  @(`VMST iff(`VMST.wlast == 1)) 
             @(`VMST iff(`VMST.wvalid && `VMST.wready && `VMST.wlast)) 
             `VMST.bready <= 1'b1;
@@ -117,7 +113,6 @@ class ei_axi4_master_driver_c;
             running_index--;
     
             sema.put(1);
->>>>>>> d6e936256d6c79e61193b982941c5b24d92bacac
     endtask : write_response_task 
 
     task read_address_task();

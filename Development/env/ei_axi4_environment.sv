@@ -30,15 +30,15 @@ class ei_axi4_environment_c;
 
   ei_axi4_master_agent_c mst_agt;
   ei_axi4_slave_agent_c slv_agt;
-  ei_axi4_refrance_model_c ref_model;
+  ei_axi4_reference_model_c ref_model;
   ei_axi4_scoreboard_c scb;
   ei_axi4_checker_c check;
   //ei_axi4_transaction_c mtr;
-  ei_axi4_env_config env_cfg
+  ei_axi4_env_config_c env_cfg;
 
-  mailbox#(ei_axi4_transaction) slv_mon2scb;
-  mailbox#(ei_axi4_transaction) mst_mon2ref;
-  mailbox#(ei_axi4_transaction) ref2scb;
+  mailbox#(ei_axi4_transaction_c) slv_mon2scb;
+  mailbox#(ei_axi4_transaction_c) mst_mon2ref;
+  mailbox#(ei_axi4_transaction_c) ref2scb;
 
   virtual ei_axi4_interface vif;
 
