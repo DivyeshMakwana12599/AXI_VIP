@@ -26,13 +26,8 @@ Revision:0.1
 -------------------------------------------------------------------------------
 */
 
-`include "ei_axi4_helper_functions.sv"
-
-
-
-
 import ei_axi4_helper_functions::*;
-`include "ei_axi4_macros.sv"
+
 class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH);
 
   localparam DATA_BUS_BYTES = DATA_WIDTH / 8;

@@ -25,7 +25,7 @@ eInfochips
 Revision		: 0.1
 ------------------------------------------------------------------------------*/
 
-class ei_axi4_mst_generator_c;
+class ei_axi4_master_generator_c;
   
   ei_axi4_transaction_c tr, temp1, temp2;
   mailbox #(ei_axi4_transaction_c) gen2drv;
@@ -39,7 +39,7 @@ class ei_axi4_mst_generator_c;
   extern function new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
   extern task run();
   
-endclass :ei_axi4_mst_generator_c
+endclass :ei_axi4_master_generator_c
           
 		  
 	////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ endclass :ei_axi4_mst_generator_c
 	//   Returned parameters  : None											  //
 	//   Description          : take argument from environment class 			  //
 	////////////////////////////////////////////////////////////////////////////////
-  function ei_axi4_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
+  function ei_axi4_master_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
 	tr 						= new();
 	this.gen2drv            = gen2drv;
     this.cfg_t              = cfg_t;
@@ -62,7 +62,7 @@ endclass :ei_axi4_mst_generator_c
 	//   Returned parameters  : None											  //
 	//   Description          : to generate packet as per testcase requirement    //
 	////////////////////////////////////////////////////////////////////////////////		    
-  task ei_axi4_generator_c::run();
+  task ei_axi4_master_generator_c::run();
     begin
       $display("%t, GEN::RUN PHASE", $time);
       repeat(cfg.total_num_trans)begin
