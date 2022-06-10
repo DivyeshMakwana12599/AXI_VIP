@@ -48,3 +48,79 @@ class ei_axi4_master_driver_c;
 
             /*if(tr.transaction_type == READ_WRITE)beg
             end*/
+            join_any // 1
+        end // forever
+    
+    endtask : run
+
+    task write_address();
+        @(`VMST);
+        `VMST.awvalid <= 1'b1;
+        `VMST.awaddr <= write_queue[running_index].addr;
+        `VMST.awburst <= write_queue[running_index].burst;
+        `VMST.awlen <= write_queue[running_index].len;
+        `VMST.awsize <= write_queue[running_index].size;
+        running_index++;
+
+        @(`VMST iff(`VMST.awready <= 1'b1)) 
+            `VMST.awvalid <= 1'b0;
+            `VMST.wlast <= 1'b0;
+        
+
+    endtask : write_address 
+
+    task write_data_task();
+        
+        sema.get(1);   
+
+        @(`VMST iff(`VMST.awready);
+        `VMST.wvalid <= 1'b1;
+
+        for(int i = 0; i <= write_queue[0].len ; i++)begin 
+            `VMST.wdata <= write_queue[0].data[i];
+            `VMST.wstrb <= write_queue[0].wstrb[i];
+
+            if(i == write_queue[0].len)begin 
+                `VMST.wlast <= 1'b1;
+            end
+
+            @(`VMST iff(`VMST.wready));
+
+        end //for
+
+        //if(`VMST.wlast == 1'b1)begin
+        @(`VMST iff(wlast == 1'b1))
+            @(`VMST);
+            `VMST.wlast <= 1'b0;
+            `VMST.write_queue[0].wdata <= 'bx;
+            `VMST.write_queue[0].wstrb <= 'bx;
+
+    endtask : write_data_task
+
+    task write_esponse_task();
+      //  @(`VMST iff(`VMST.wlast == 1)) 
+            @(`VMST iff(`VMST.wvalid && `VMST.wready && `VMST.wlast)) 
+            `VMST.bready <= 1'b1;
+               
+            @(`VMST);
+            `VMST.bready <= 1'b0;
+
+            write_queue.pop_front();
+            running_index--;
+    
+            sema.put(1);
+    endtask : write_response_task 
+
+    task read_address_task();
+        
+        @(`VMST);
+        `VMST.arvalid <= 1'b1;
+        `VMST.araddr <= read_queue[running_index].data;
+        `VMST.arlen <= read_queue[running_index].len;
+        `VMST.arsize <= read_queue[running_index].size;
+        `VMST.arburst <= read_queue[running_index].burst;
+
+        running_index ++;
+        
+    endtask : read_address_task
+endclass : ei_axi4_master_driver_c 
