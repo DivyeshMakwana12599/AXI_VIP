@@ -4,3 +4,10 @@
 ./Development/tb/.*
 ./Development/test/.*
 ./Development/
+./Development/src/csrc/*
+./Development/src/simv.daidir/*
+./Development/src/csrc
+./Development/src/simv.daidir
+./Development/src/simv
+./Development/src/ucli.key
+
