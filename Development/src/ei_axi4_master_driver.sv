@@ -1,4 +1,4 @@
-class ei_axi4_master_driver_c();
+class ei_axi4_master_driver_c;
     
     ei_axi4_transaction_c tr;
 
@@ -102,12 +102,10 @@ class ei_axi4_master_driver_c();
 
     task write_esponse_task();
       //  @(`VMST iff(vif.wlast == 1))begin 
-            @(`VMST iff(vif.bvalid <= 1))begin 
+            @(`VMST iff(vif.bvalid <= 1))
                 //vif.bready <= 1;
                 @(`VMST);
                 vif.bready <= 1'b0;
-            end //iff(wlast)
-        end //iff(bvalid)
         sema.put(1);
     endtask : write_response_task 
 

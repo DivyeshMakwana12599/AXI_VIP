@@ -17,7 +17,7 @@
 
 
 `include "../src/ei_axi4_master_generator.sv"
-// `include "../src/ei_axi4_master_driver.sv"
+`include "../src/ei_axi4_master_driver.sv"
 `include "../src/ei_axi4_master_transmit_monitor.sv"
 `include "../src/ei_axi4_master_agent.sv"
 
