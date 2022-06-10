@@ -11,3 +11,8 @@
 ./Development/src/simv
 ./Development/src/ucli.key
 
+./Development/src/*.bak
+./Development/bin/*.bak
+./Development/env/*.bak
+./Development/tb/*.bak
+./Development/test/*.bak
