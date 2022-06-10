@@ -33,6 +33,7 @@ Revision		: 0.1
 //typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
 
 //parameterized test_config class
+
 class ei_axi4_test_config_c ;
 
 	int total_num_trans;				//to count total number of transaction
@@ -44,7 +45,6 @@ class ei_axi4_test_config_c ;
     transfer_type_e transfer_type;		//type of transfer
 	addr_type_e     addr_type;			//align, unaligned
     burst_type_e    burst_type;			//fixed, incr, wrap, reserve
-	
 	bit random_transfer_size;			//1 = enable randomization, 0 =  disable rand mode
 	bit random_transaction_length;		
 	bit random_burst_type;
@@ -70,7 +70,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 	//   Returned parameters  : None											  
 	//   Description          : take command line argument for size and length    
 	***/
-	function new()
+    function new();
         if($value$plusargs("size=%d", transfer_size))begin
             $display("transfer size = %d", transfer_size);
         end
@@ -88,6 +88,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 		random_burst_type   = 1;			//fixed,incr,wrap
 		random_addr_type    = 1;		    //aligned, unaligned
 		total_num_trans     = 2;			//num of transactions
+        transfer_type       = WR_RD;
 		testname   		    = "ei_axi4_SANITY_TEST";
 	endfunction
 

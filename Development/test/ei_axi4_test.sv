@@ -26,9 +26,9 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-class ei_axi4_test_c();
+class ei_axi4_test_c;
   virtual ei_axi4_interface vif;
-  ei_axi4_environment env;
+  ei_axi4_environment_c env;
   ei_axi4_env_config_c env_cfg;
   ei_axi4_test_config_c test_cfg;
   

@@ -1,0 +1,6 @@
+./Development/src/.*
+./Development/bin/.*
+./Development/env/.*
+./Development/tb/.*
+./Development/test/.*
+./Development/
