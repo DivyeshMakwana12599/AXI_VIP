@@ -64,7 +64,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     logic rvalid;
     logic rready; 
 
-    clocking master_cb @(posedge aclk); 
+    clocking master_driver_cb @(posedge aclk); 
       default input #1 output #1; 
 		
       // write address channel 
@@ -93,18 +93,18 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
       output arlen;
       output arsize;
       output arvalid;
-      input arready;
+      input  arready;
 	
       // read data channel
-      input rdata;
-      input rresp;
-      input rlast;
-      input rvalid;
+      input  rdata;
+      input  rresp;
+      input  rlast;
+      input  rvalid;
       output rready; 
 	
-    endclocking : master_cb
+    endclocking : master_driver_cb
 
-    clocking slave_cb @(posedge aclk);
+    clocking slave_driver_cb @(posedge aclk);
 	
       default input #1 output #1; 
 		
@@ -143,7 +143,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
       output rvalid;
       input rready;
  
-    endclocking : slave_cb
+    endclocking : slave_driver_cb
 
     clocking monitor_cb @(posedge aclk);       // clocking block for monitor  
       default input #1 output #1; 
@@ -186,15 +186,15 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     endclocking : monitor_cb
 
     modport MST (
-      clocking master_cb,
+      clocking master_driver_cb,
       input aresetn, 
       output arvalid,
       output awvalid,
-      output wvalid
+      output wvali
     );
   
     modport SLV (
-      clocking slave_cb,
+      clocking slave_driver_cb,
       input aresetn,
       output rvalid,
       output bvalid

@@ -1,135 +1,114 @@
-class ei_axi4_master_driver_c;
-
+class ei_axi4_master_driver_c();
+    
     ei_axi4_transaction_c tr;
+
+    ei_axi4_transaction_c queue[$];
 
     mailbox #(ei_axi4_transaction_c) gen2drv;
 
-    virtual ei_axi4_interface vif;
+    virtual ei_axi4_interface_c vif;
 
-    function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual ei_axi4_interface vif);
-        this.gen2drv = gen2drv;
+    semaphore sema0,sema1;
+
+    function new();
+
+        this.genrdrv = gen2drv;
         this.vif = vif;
+        sema0 = new(1);
+        sema1 = new(1);
+
     endfunction : new
 
     task run();
-
-        forever begin 
-            //@(vif.MON.master_cb);
-            //@(vif.master_cb);
-            gen2drv.get(tr);
-            tr.copy(blueprint);
-
-            if(blueprint.transaction_type == WRITE) begin 
-                write_address_task();
-                write_data_task();
-                write_response_task();
-            end 
-
-            if(blueprint.transaction_type == READ) begin 
-                read_address_task();
-                read_data_task();
-            end 
-        end // forever
-
-    endtask : run 
-
-
-    task write_address_task();
         
-        @(vif.MTR.master_cb);
+        forever begin 
+            gen2drv.get(tr);
+            fork//1
+            // check logic in fork join_any
+            if(tr.transaction_type == WRITE)begin
+                write_queue.push_back(tr);
+                write_address_task();
+                // join none this task only
+                fork//2
+                    write_data_task();
+                    write_response_task();
+                join_none//2 
+            end 
 
-        vif.awvalid <= 1;
-        vif.awaddr <= blueprint.awaddr;
-        vif.awburst <= blueprint.awburst;
-        vif.awlen <= blueprint.awlen;
-        vif.awsize <= blueprint.awsize;
+            if(tr.transaction_type == READ)begin
+                // push in read queue
+                read_queue.push_back(tr);
+                read_address(); 
+            fork//3
+                read_data(); // join none here only 
+            join_none//3
+            end 
 
-        //@(vif.MTR.master_cb);
-        if(blueprint.awvalid == 1) begin 
-            @(vif.awready);
+            /*if(tr.transaction_type == READ_WRITE)beg
+            end*/
+            join_any // 1
+        end // forever
+    
+    endtask : run
+
+    task write_address();
+        @(`VMST);
+        vif.awvalid <= 1'b1;
+        vif.awaddr <= write_queue[0].addr;
+        vif.awburst <= write_queue[0].burst;
+        vif.awlen <= write_queue[0].len;
+        vif.awsize <= write_queue[0].size;
+
+        @(`VMST iff(vif.awready <= 1'b1))begin 
             vif.awvalid <= 1'b0;
-            vif.wvalid <= 1'b1;
             vif.wlast <= 1'b0;
-            vif.awaddr <= 1'bx;
-        end 
+            vif.awaddr <= 'bx;
+        end // iff(awready)
 
-    endtask : write_address_task
+    endtask : write_address 
 
     task write_data_task();
-
-        @(vif.wready);
         
-        for(int i = 0 ; i <= AWLEN ; i++) begin 
-            vif.wdata <= blueprint.wdata[i]; 
-            vif.wstrb <= blueprint.wstrb[i];
+        sema.get(1);   
 
-            if(i == blueprint.AWLEN) begin 
-                vif.wlast <= 1;
-            end 
+        @(`VMST);
+        vif.wvalid <= 1'b1;
 
-            if(vif.wlast == 1) begin 
-            @(vif.MTR.master_cb);
-            vif.wlast <= 1'b0;
+        for(int i = 0; i <= tr.len ; i++)begin 
+            vif.wdata <= tr.data[i];
+            vif.wstrb <= tr.wstrb[i];
+
+            if(i == tr.len)begin 
+                vif.wlast <= 1'b1;
+            end
+
+            @(`VMST iff(vif.wready));
+
+        end //for
+
+        //if(vif.wlast == 1'b1)begin
+        @(`VMST iff(wlast == 1'b1))begin
+
+            @(`VMST);
             vif.wvalid <= 1'b0;
-            vif.wdata <= 1'bx;
-            vif.wstrb <= 1'bx;
-            end // wlast
-        end // for loop
-    
+            vif.wlast <= 1'b0;
+            vif.wdata <= 'bx;
+            vif.wstrb <= 'bx;
+            vif.bready <= 1'b1;
+
+        end // if(wlast)
+
     endtask : write_data_task
 
-    task write_response_task();
+    task write_esponse_task();
+      //  @(`VMST iff(vif.wlast == 1))begin 
+            @(`VMST iff(vif.bvalid <= 1))begin 
+                //vif.bready <= 1;
+                @(`VMST);
+                vif.bready <= 1'b0;
+            end //iff(wlast)
+        end //iff(bvalid)
+        sema.put(1);
+    endtask : write_response_task 
 
-        if(vif.wlast == 1) begin 
-            @(vif.bvalid);
-            vif.bready <= 1;
-
-            if(blueprint.bready == 1'b1) begin 
-                @(vif.MTR.master_cb);
-                vif.bready <= 0;
-            end // bready
-        end // wlast
-
-
-    endtask : write_response_task
-
-    task read_address_task();
-        @(vif.MTR.master_cb);
-        vif.arvalid <= 1;
-        vif.araddr <= blueprint.araddr;
-        vif.arburst <= blueprint.arburst;
-        vif.arlen <= blueprint.arlen;
-        vif.arsize <= blueprint.arsize;
-
-        if(blueprint.arvalid == 1'b1) begin 
-            @(vif.arready); // wait for arready to be asserted
-            vif.arvalid <= 1'b0;
-            vif.rready <= 1'b1;
-            vif.rlast <= 1'b0;
-            vif.araddr <= 1'bx;
-        end // arvalid
-
-    endtask : read_address_task
-
-    task read_data_task();
-
-        @(vif.rvalid);
-
-        for (int i = 0 ; i <= blueprint.ARLEN ; i++) begin 
-            vif.rdata <= blueprint.rdata[i];
-            vif.rresp <= blueprint.rresp[i];
-
-            if(i = blueprint.arlen) begin 
-                vif.rlast <= 1;
-            end 
-        end 
-
-        if(vif.rlast == 1'b1) begin 
-            @(vif.MTR.master_cb);
-            vif.rlast <= 1'b0;
-            vif.rready <= 1'b0;
-            vif.rdata <= 1'b0;
-        end 
-
-    endtask : read_data_task 
-endclass : ei_axi4_master_driver_c
+endclass : ei_axi4_master_driver_c 
