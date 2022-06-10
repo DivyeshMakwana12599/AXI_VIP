@@ -37,18 +37,19 @@ class ei_axi4_slave_agent();
     this.slv_mon2scb = slv_mon2scb;
     this.env_cfg = env_Cfg;
     if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
-	  slv_drv = new();
+      slv_drv = new(.vif(vif));
     end
-    slv_mon = new(slv_mon2scb);
+    slv_mon = new(.vif.(vif),.slv_mon2scb(slv_mon2scb));
   endfunction
-
+  
   task run();
       if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
         fork 
-          mst_agt.run();
-          slv_agt.run();
+          slv_drv.run();
+          slv_mon.run();
         join
       end
+      
 
   endtask
 endclass
