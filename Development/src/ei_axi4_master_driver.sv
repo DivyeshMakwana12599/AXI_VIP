@@ -90,8 +90,8 @@ class ei_axi4_master_driver_c;
         @(`VMST iff(`VMST.wlast == 1'b1))
             @(`VMST);
             `VMST.wlast <= 1'b0;
-            `VMST.write_queue[0].wdata <= 'bx;
-            `VMST.write_queue[0].wstrb <= 'bx;
+            `VMST.wdata <= 'bx;
+            `VMST.wstrb <= 'bx;
 
     endtask : write_data_task
 
@@ -103,7 +103,7 @@ class ei_axi4_master_driver_c;
                 @(`VMST);
                 vif.bready <= 1'b0;
       //  @(`VMST iff(`VMST.wlast == 1)) 
-            @(`VMST iff(`VMST.wvalid && `VMST.wready && `VMST.wlast)) 
+            @(`VMST iff(`VMST.wready && `VMST.wlast)) //FIXME : here removed wvalid check is ot okay or not ? 
             `VMST.bready <= 1'b1;
                
             @(`VMST);
@@ -119,7 +119,7 @@ class ei_axi4_master_driver_c;
         
         @(`VMST);
         `VMST.arvalid <= 1'b1;
-        `VMST.araddr <= read_queue[running_index].data;
+        `VMST.araddr <= read_queue[running_index].addr;
         `VMST.arlen <= read_queue[running_index].len;
         `VMST.arsize <= read_queue[running_index].size;
         `VMST.arburst <= read_queue[running_index].burst;

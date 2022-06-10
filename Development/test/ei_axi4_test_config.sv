@@ -38,8 +38,7 @@ class ei_axi4_test_config_c ;
 
 	int total_num_trans;				//to count total number of transaction
 	int passed_trans;					//count passed transaction
-	int failed_trans;					//count failed transaction
-	
+	int failed_trans;					//count failed transaction	
 	bit [2:0] transfer_size;			//size of trasnfer
 	bit [7:0] transaction_length;		//length of transaction
     transfer_type_e transfer_type;		//type of transfer

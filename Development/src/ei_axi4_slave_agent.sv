@@ -33,9 +33,9 @@ class ei_axi4_slave_agent_c;
   mailbox#(ei_axi4_transaction_c) slv_mon2scb;
   ei_axi4_env_config_c env_cfg;
 
-  function new( mailbox#(ei_axi4_transaction_c) slv_mon2scb, ei_axi4_env_config_c env_cfg );
+  function new( mailbox#(ei_axi4_transaction_c) slv_mon2scb, ei_axi4_env_config_c env_cfg, virtual ei_axi4_interface vif);
     this.slv_mon2scb = slv_mon2scb;
-    this.env_cfg = env_Cfg;
+    this.env_cfg = env_cfg;
     if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
       slv_drv = new(.vif(vif));
     end

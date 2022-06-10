@@ -78,7 +78,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
       // write data channel 
       output wdata;
       output wstrb;
-      output wlast;
+      inout  wlast;
       output wvalid;
       input  wready;
 
@@ -98,7 +98,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
       // read data channel
       input  rdata;
       input  rresp;
-      input  rlast;
+      inout  rlast;
       input  rvalid;
       output rready; 
 	

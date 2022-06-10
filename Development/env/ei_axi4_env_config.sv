@@ -29,7 +29,6 @@ Revision:0.1
 class ei_axi4_env_config_c;
 
   // The set the following properties to a value to configure the environment
-  typedef enum bit {PASSIVE, ACTIVE} AGENT_TYPE_e;
   AGENT_TYPE_e master_agent_active_passive_switch;
   AGENT_TYPE_e slave_agent_active_passive_switch;
 

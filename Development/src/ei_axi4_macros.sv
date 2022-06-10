@@ -22,7 +22,7 @@ typedef enum bit [2:0] {NO_ERROR, ERROR_4K_BOUNDARY, ERROR_WRAP_UNALLIGNED,
 typedef enum bit {PASS, FAIL} RESULT_e; //used in checker
 typedef enum bit {ALIGNED, UNALIGNED} addr_type_e;
 typedef enum bit [1:0] {WR_RD} transfer_type_e;
-
+typedef enum bit {PASSIVE, ACTIVE} AGENT_TYPE_e;
 //=======
 //>>>>>>> 2c7c973ea4f762e9c89977595edd522ac6c39c24
 `define SV_RAND_CHECK(r) \

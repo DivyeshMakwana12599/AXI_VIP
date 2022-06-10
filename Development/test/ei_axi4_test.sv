@@ -39,6 +39,7 @@ class ei_axi4_test_c;
 /*   Returned parameters  : None
 /*   Description          : takes physical interface from top and links here
 **/
+
   function new(virtual ei_axi4_interface pif);  
     if($test$plusargs("SANITY_TEST"))begin
     ei_axi4_sanity_test_c sanity_test;
@@ -50,7 +51,8 @@ class ei_axi4_test_c;
 	this.vif    = pif;
 	env_cfg     = new();
 	env 	    = new(vif,env_cfg, test_cfg);
-    env.run();
+   // env.run(); //FIXME : can't use task inside a function 
+    
   endfunction
 
 /**
@@ -60,7 +62,7 @@ class ei_axi4_test_c;
 /*   Description          : Builds environment
 **/
   task env_run();
-    run_components;
+    env.run();
   endtask : env_run
 	
 endclass : ei_axi4_test_c

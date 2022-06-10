@@ -46,4 +46,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WID
     read_tr   = new();
     write_tr  = new();
   endfunction
+
+  task run();
+
+  endtask : run
 endclass : ei_axi4_slave_driver_c
