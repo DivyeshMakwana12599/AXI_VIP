@@ -239,7 +239,7 @@ module assertion(
         pass_print_f();
         else begin
             $display("ASSERT PROPERTY IF REST IS THERE THEN AWVALID CAN NOT DRIVE X/Z");
-            fail_print_f();
+         fail_print_f();
         end
 
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN WVALID CAN NOT DRIVE X OR Z

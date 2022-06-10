@@ -5,5 +5,5 @@ PYTHONPATH=/home/hitesh.patel/VCS_2020/work/vcs/R-2020.12-SP2/linux64/lib/pylib2
 export PYTHONPATH
 LD_LIBRARY_PATH=/home/hitesh.patel/VCS_2020/work/vcs/R-2020.12-SP2/linux64/lib:/home/hitesh.patel/VCS_2020/work/vcs/R-2020.12-SP2/linux64/lib/pylib27
 export LD_LIBRARY_PATH
-/home/hitesh.patel/VCS_2020/work/vcs/R-2020.12-SP2/linux64/bin/vcsfind_create_index.exe  -z  "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/./idents_nFghtS.xml.gz" "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/./idents_tapi.xml.gz" -o "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/fsearch.db_tmp"
+/home/hitesh.patel/VCS_2020/work/vcs/R-2020.12-SP2/linux64/bin/vcsfind_create_index.exe  -z  "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/./idents_HvYSI7.xml.gz" "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/./idents_tapi.xml.gz" -o "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/fsearch.db_tmp"
 \mv "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/fsearch.db_tmp" "/home/sandip.mali/AXI_VIP/Development/src/simv.daidir/debug_dump/fsearch/fsearch.db"
