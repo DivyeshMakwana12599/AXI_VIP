@@ -33,6 +33,14 @@ Revision	: 0.1
 */
 
 
-class ei_axi4_slave_driver();
+class ei_axi4_slave_driver() #(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH);
+  logic [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [`ADDR_WIDTH - 1 - ($clog(`DATA_BUS_BYTES)):0]];;
+  ei_axi4_transaction_c read_tr;
+  ei_axi4_transaction_c write_tr;
 
+  function new(ei_axi4_interface_c vif)
+    this.vif  = vif;
+    read_tr   = new();
+    write_tr  + new();
+  endfunction
 endclass : ei_axi4_slave_driver

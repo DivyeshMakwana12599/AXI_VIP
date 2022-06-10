@@ -24,6 +24,7 @@ typedef enum bit {PASS, FAIL} RESULT_e; //used in checker
 //=======
 //>>>>>>> 2c7c973ea4f762e9c89977595edd522ac6c39c24
 `define SV_RAND_CHECK(r) \
+  
 	do begin \
 		if ((r)) begin \
 			$display("%s:%0d: Randomization passed %b", \
