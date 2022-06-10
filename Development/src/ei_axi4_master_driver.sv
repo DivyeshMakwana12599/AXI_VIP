@@ -6,14 +6,16 @@ class ei_axi4_master_driver_c;
 
     mailbox #(ei_axi4_transaction_c) gen2drv;
 
-    virtual ei_axi4_interface_c vif;
+    int running_index;
+
+    virtual ei_axi4_interface_c `VMST;
 
     semaphore sema0,sema1;
 
     function new();
 
         this.genrdrv = gen2drv;
-        this.vif = vif;
+        this.`VMST = `VMST;
         sema0 = new(1);
         sema1 = new(1);
 
@@ -53,17 +55,17 @@ class ei_axi4_master_driver_c;
 
     task write_address();
         @(`VMST);
-        vif.awvalid <= 1'b1;
-        vif.awaddr <= write_queue[0].addr;
-        vif.awburst <= write_queue[0].burst;
-        vif.awlen <= write_queue[0].len;
-        vif.awsize <= write_queue[0].size;
+        `VMST.awvalid <= 1'b1;
+        `VMST.awaddr <= write_queue[running_index].addr;
+        `VMST.awburst <= write_queue[running_index].burst;
+        `VMST.awlen <= write_queue[running_index].len;
+        `VMST.awsize <= write_queue[running_index].size;
+        running_index++;
 
-        @(`VMST iff(vif.awready <= 1'b1))begin 
-            vif.awvalid <= 1'b0;
-            vif.wlast <= 1'b0;
-            vif.awaddr <= 'bx;
-        end // iff(awready)
+        @(`VMST iff(`VMST.awready <= 1'b1)) 
+            `VMST.awvalid <= 1'b0;
+            `VMST.wlast <= 1'b0;
+        
 
     endtask : write_address 
 
@@ -71,42 +73,63 @@ class ei_axi4_master_driver_c;
         
         sema.get(1);   
 
-        @(`VMST);
-        vif.wvalid <= 1'b1;
+        @(`VMST iff(`VMST.awready);
+        `VMST.wvalid <= 1'b1;
 
-        for(int i = 0; i <= tr.len ; i++)begin 
-            vif.wdata <= tr.data[i];
-            vif.wstrb <= tr.wstrb[i];
+        for(int i = 0; i <= write_queue[0].len ; i++)begin 
+            `VMST.wdata <= write_queue[0].data[i];
+            `VMST.wstrb <= write_queue[0].wstrb[i];
 
-            if(i == tr.len)begin 
-                vif.wlast <= 1'b1;
+            if(i == write_queue[0].len)begin 
+                `VMST.wlast <= 1'b1;
             end
 
-            @(`VMST iff(vif.wready));
+            @(`VMST iff(`VMST.wready));
 
         end //for
 
-        //if(vif.wlast == 1'b1)begin
-        @(`VMST iff(wlast == 1'b1))begin
-
+        //if(`VMST.wlast == 1'b1)begin
+        @(`VMST iff(wlast == 1'b1))
             @(`VMST);
-            vif.wvalid <= 1'b0;
-            vif.wlast <= 1'b0;
-            vif.wdata <= 'bx;
-            vif.wstrb <= 'bx;
-            vif.bready <= 1'b1;
-
-        end // if(wlast)
+            `VMST.wlast <= 1'b0;
+            `VMST.write_queue[0].wdata <= 'bx;
+            `VMST.write_queue[0].wstrb <= 'bx;
 
     endtask : write_data_task
 
     task write_esponse_task();
+<<<<<<< HEAD
       //  @(`VMST iff(vif.wlast == 1))begin 
             @(`VMST iff(vif.bvalid <= 1))
                 //vif.bready <= 1;
                 @(`VMST);
                 vif.bready <= 1'b0;
         sema.put(1);
+=======
+      //  @(`VMST iff(`VMST.wlast == 1)) 
+            @(`VMST iff(`VMST.wvalid && `VMST.wready && `VMST.wlast)) 
+            `VMST.bready <= 1'b1;
+               
+            @(`VMST);
+            `VMST.bready <= 1'b0;
+
+            write_queue.pop_front();
+            running_index--;
+    
+            sema.put(1);
+>>>>>>> d6e936256d6c79e61193b982941c5b24d92bacac
     endtask : write_response_task 
 
+    task read_address_task();
+        
+        @(`VMST);
+        `VMST.arvalid <= 1'b1;
+        `VMST.araddr <= read_queue[running_index].data;
+        `VMST.arlen <= read_queue[running_index].len;
+        `VMST.arsize <= read_queue[running_index].size;
+        `VMST.arburst <= read_queue[running_index].burst;
+
+        running_index ++;
+        
+    endtask : read_address_task
 endclass : ei_axi4_master_driver_c 
