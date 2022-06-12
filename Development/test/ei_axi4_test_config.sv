@@ -28,11 +28,11 @@ Revision		: 0.1
 
 
 //declaring enum for transfer type, address type and burst type
-//typedef enum {WR_RD, SEQ_WR_RD, PRLL_WR_RD, RANDOM} transfer_type_e;
-//typedef enum {ALIGNED, UNALIGNED} addr_type_e;
-//typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
+typedef enum {WR_RD, SEQ_WR_RD, PRLL_WR_RD, RANDOM} transfer_type_e;
+typedef enum {ALIGNED, UNALIGNED} addr_type_e;
+typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
 
-//parameterized test_config class
+//configuration class
 class ei_axi4_test_config_c ;
 
 	int total_num_trans;				//to count total number of transaction
@@ -48,7 +48,7 @@ class ei_axi4_test_config_c ;
 	bit random_transfer_size;			//1 = enable randomization, 0 =  disable rand mode
 	bit random_transaction_length;		
 	bit random_burst_type;
-	bit random_address_type;
+	bit random_addr_type;
 	
 	string testname;					//for identification testcase
 	
@@ -70,7 +70,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 	//   Returned parameters  : None											  
 	//   Description          : take command line argument for size and length    
 	***/
-	function new()
+	function new();
         if($value$plusargs("size=%d", transfer_size))begin
             $display("transfer size = %d", transfer_size);
         end
