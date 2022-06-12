@@ -6,7 +6,7 @@ class ei_axi4_master_driver_c;
     ei_axi4_transaction_c read_queue[$];
 
     mailbox #(ei_axi4_transaction_c) gen2drv;
-    int running_index;
+    int write_running_index, read_running_index;
     virtual ei_axi4_interface vif;
     semaphore sema0,sema1;
 
@@ -44,8 +44,19 @@ class ei_axi4_master_driver_c;
             join_none//3
             end 
 
-            /*if(tr.transaction_type == READ_WRITE)beg
-            end*/
+            if(tr.transaction_type == READ_WRITE)begin
+                fork//4
+                    write_address_task();
+                    read_address_task();
+                join//4
+
+                fork //5
+                    write_data_task();
+                    write_response_task();
+                    read_data_task();
+                join_none//5
+
+            end
             join_any // 1
         end // forever
     
@@ -54,11 +65,11 @@ class ei_axi4_master_driver_c;
     task write_address_task();
         @(`VMST);
         `VMST.awvalid <= 1'b1;
-        `VMST.awaddr <= write_queue[running_index].addr;
-        `VMST.awburst <= write_queue[running_index].burst;
-        `VMST.awlen <= write_queue[running_index].len;
-        `VMST.awsize <= write_queue[running_index].size;
-        running_index++;
+        `VMST.awaddr <= write_queue[write_running_index].addr;
+        `VMST.awburst <= write_queue[write_running_index].burst;
+        `VMST.awlen <= write_queue[write_running_index].len;
+        `VMST.awsize <= write_queue[write_running_index].size;
+        write_running_index++;
 
         @(`VMST iff(`VMST.awready <= 1'b1)) 
         `VMST.awvalid <= 1'b0;
@@ -87,7 +98,7 @@ class ei_axi4_master_driver_c;
         end //for
 
         //if(`VMST.wlast == 1'b1)begin
-        @(`VMST iff(`VMST.wlast == 1'b1))
+       // @(`VMST iff(`VMST.wlast == 1'b1))
             @(`VMST);
             `VMST.wlast <= 1'b0;
             `VMST.wdata <= 'bx;
@@ -110,7 +121,7 @@ class ei_axi4_master_driver_c;
             `VMST.bready <= 1'b0;
 
             write_queue.pop_front();
-            running_index--;
+            write_running_index--;
     
             sema0.put(1);
     endtask : write_response_task 
@@ -119,12 +130,36 @@ class ei_axi4_master_driver_c;
         
         @(`VMST);
         `VMST.arvalid <= 1'b1;
-        `VMST.araddr <= read_queue[running_index].addr;
-        `VMST.arlen <= read_queue[running_index].len;
-        `VMST.arsize <= read_queue[running_index].size;
-        `VMST.arburst <= read_queue[running_index].burst;
+        `VMST.araddr <= read_queue[read_running_index].addr;
+        `VMST.arlen <= read_queue[read_running_index].len;
+        `VMST.arsize <= read_queue[read_running_index].size;
+        `VMST.arburst <= read_queue[read_running_index].burst;
 
-        running_index ++;
+        read_running_index ++;
         
+        @(`VMST iff(`VMST.arready));
+        `VMST.arvalid <= 1'b0;
+        `VMST.rlast <= 1'b0;
+
     endtask : read_address_task
+        
+    task read_data_task();
+        
+        sema1.get(1);
+
+        @(`VMST iff(`VMST.arready));
+
+        `VMST.rready <= 1'b1;
+ 
+        for(int i = 0 ; i <= read_queue[0].len ; i++)begin 
+
+            @(`VMST iff(`VMST.rvalid));
+
+        end// for 
+
+        read_queue.pop_front();
+        read_running_index --;
+        sema1.put(1);
+        
+    endtask : read_data_task
 endclass : ei_axi4_master_driver_c 

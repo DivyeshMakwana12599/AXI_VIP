@@ -44,7 +44,8 @@ class ei_axi4_test_config_c ;
     transfer_type_e transfer_type;		//type of transfer
 	addr_type_e     addr_type;			//align, unaligned
     burst_type_e    burst_type;			//fixed, incr, wrap, reserve
-	bit random_transfer_size;			//1 = enable randomization, 0 =  disable rand mode
+
+    bit random_transfer_size;			//1 = enable randomization, 0 =  disable rand mode
 	bit random_transaction_length;		
 	bit random_burst_type;
 	bit random_address_type;
@@ -85,7 +86,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
 		end
 		
 		random_burst_type   = 1;			//fixed,incr,wrap
-		random_address_type    = 1;		    //aligned, unaligned
+		random_address_type = 1;		    //aligned, unaligned
 		total_num_trans     = 2;			//num of transactions
         transfer_type       = WR_RD;
 		testname   		    = "ei_axi4_SANITY_TEST";

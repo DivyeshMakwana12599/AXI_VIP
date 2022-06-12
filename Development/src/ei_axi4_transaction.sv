@@ -149,10 +149,9 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 
         if(transaction_type inside {WRITE, READ_WRITE}) begin
         	foreach(wstrb[i]) begin
-            		$display("wstrb[%0d] = %b",i, wstrb[i]);
+            		$display("wstrb[%0d] = \t %b",i, wstrb[i]);
         	end
 	end 
-
 
 
         $display("----------------------------------------"); 
@@ -168,13 +167,13 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
             $display("bresp = %0s", bresp.name);
         end
 
-        
-
 
     endfunction : print
 
 	function copy(ei_axi4_transaction_c trans);
 		trans = new this;
 	endfunction : copy
+    
 
 endclass : ei_axi4_transaction_c
+
