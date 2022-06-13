@@ -17,6 +17,9 @@ class ei_axi4_master_agent_c;
     this.env_cfg = env_cfg;
     this.test_cfg = test_cfg;
     this.mst_mon2ref = mst_mon2ref;
+    mst_gen = new();
+    mst_drv = new();
+    mst_mon = new();
 
   endfunction
 
@@ -24,14 +27,13 @@ class ei_axi4_master_agent_c;
         
         if (env_cfg.master_agent_active_passive_switch == ACTIVE)begin 
             fork : active
-            mst_gen.run();
-            mst_drv.run();
-            mst_mon.run();
+           mst_gen.run();
+ //           mst_mon.run();
             join_any : active
         end 
 
         else begin 
-            mst_mon.run();
+  //          mst_mon.run();
         end 
         
     endtask : run
