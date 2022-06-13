@@ -8,7 +8,7 @@
 `define ADDR_WIDTH 32
 `define BUS_BYTE_LANES `DATA_WIDTH/8
 `define AXI_VERSION AXI4
-`define VMST vif.MST.master_cb 
+`define VMST vif.MST.master_driver_cb
 
 
 //<<<<<<< HEAD
@@ -20,10 +20,13 @@ typedef enum bit [2:0] {NO_ERROR, ERROR_4K_BOUNDARY, ERROR_WRAP_UNALLIGNED,
                         ERROR_WRAP_LEN, ERROR_FIXED_LEN, 
                         ERROR_EARLY_TERMINATION}possible_errors_e;
 typedef enum bit {PASS, FAIL} RESULT_e; //used in checker
-
+typedef enum bit {ALIGNED, UNALIGNED} addr_type_e;
+typedef enum bit [1:0] {WR_RD} transfer_type_e;
+typedef enum bit {PASSIVE, ACTIVE} AGENT_TYPE_e;
 //=======
 //>>>>>>> 2c7c973ea4f762e9c89977595edd522ac6c39c24
 `define SV_RAND_CHECK(r) \
+\
 	do begin \
 		if ((r)) begin \
 			$display("%s:%0d: Randomization passed %b", \

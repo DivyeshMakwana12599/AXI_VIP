@@ -33,6 +33,22 @@ Revision	: 0.1
 */
 
 
-class ei_axi4_slave_driver();
+class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
+                               ADDR_WIDTH = `ADDR_WIDTH);
+  localparam BUS_BYTE_LANES = DATA_WIDTH / 8;
+  bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1:0]];;
+  ei_axi4_transaction_c read_tr;
+  ei_axi4_transaction_c write_tr;
 
-endclass : ei_axi4_slave_driver
+  virtual ei_axi4_interface vif;
+
+  function new(virtual ei_axi4_interface vif);
+    this.vif  = vif;
+    read_tr   = new();
+    write_tr  = new();
+  endfunction
+
+  task run();
+
+  endtask : run
+endclass : ei_axi4_slave_driver_c

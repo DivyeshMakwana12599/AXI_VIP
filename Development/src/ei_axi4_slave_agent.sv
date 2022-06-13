@@ -22,32 +22,54 @@ This file may not be distributed, copied, or reproduced in any manner,
 electronic or otherwise, without the express written consent of
 eInfochips 
 -------------------------------------------------------------------------------
-Revision	:0.1
+Revision	:  0.1
 -------------------------------------------------------------------------------
 */
-class ei_axi4_slave_agent();
-
+class ei_axi4_slave_agent_c;
   virtual ei_axi4_interface vif;		//virtual interface
-  ei_axi4_slave_driver slv_drv;
-  ei_axi4_slave_monitor slv_mon;
-  mailbox#(ei_axi4_transaction) slv_mon2scb;
-  ei_axi4_env_config env_cfg;
+  ei_axi4_slave_driver_c slv_drv;
+  ei_axi4_slave_monitor_c slv_mon;
+  mailbox#(ei_axi4_transaction_c) slv_mon2scb;
+  ei_axi4_env_config_c env_cfg;
 
-  function new( mailbox#(ei_axi4_transaction) slv_mon2scb, ei_axi4_env_config env_cfg );
+/**
+*\   Method name          : new()
+*\   parameters passed    : parametersied mailbox of slave monitor to scoreboard
+*\                          environment config class handle, virtual interface 
+*\                          handle                      
+*\   Returned parameters  : None
+*\   Description          : function links virtual interface and slave monitor 
+*\                          to scoreboad mailbox.
+*\                          It also builds slave driver and slave monitor based
+*\                          on environment configuration.(Active/pasive agent)
+**/
+  function new( mailbox#(ei_axi4_transaction_c) slv_mon2scb, 
+                ei_axi4_env_config_c env_cfg, virtual ei_axi4_interface vif);
     this.slv_mon2scb = slv_mon2scb;
-    this.env_cfg = env_Cfg;
+    this.env_cfg = env_cfg;
     if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
-	  slv_drv = new();
+      slv_drv = new(.vif(vif));
     end
-    slv_mon = new(slv_mon2scb);
+    slv_mon = new(.vif(vif),.slv_mon2scb(slv_mon2scb));
   endfunction
-
+ 
+/**
+*\   Method name          : run()
+*\   parameters passed    : None
+*\   Returned parameters  : None
+*\   Description          : run method called by environment and it runs slave 
+*\                          driver and slave monitor based on type agent 
+*\                          configuration
+**/
   task run();
       if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
         fork 
-          mst_agt.run();
-          slv_agt.run();
+          slv_drv.run();
+          slv_mon.run();
         join
+      end
+      else begin
+        slv_mon.run();
       end
 
   endtask

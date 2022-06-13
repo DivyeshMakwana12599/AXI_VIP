@@ -26,13 +26,8 @@ Revision:0.1
 -------------------------------------------------------------------------------
 */
 
-`include "ei_axi4_helper_functions.sv"
-
-
-
-
 import ei_axi4_helper_functions::*;
-`include "ei_axi4_macros.sv"
+
 class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH);
 
   localparam DATA_BUS_BYTES = DATA_WIDTH / 8;
@@ -45,20 +40,20 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 	//-------Read and write Address Channel------- 		
 	randc bit [ADDR_WIDTH - 1:0]    addr;
 	randc burst_type_e	            burst;
-	randc bit [7:0]  		len;
-	randc bit [2:0]  		size;
+	randc bit [7:0]  		        len;
+	randc bit [2:0]  		        size;
 
 	
 	//-------Read Data Channel-------
-	rand bit [DATA_WIDTH-1:0]           data[];
+	rand bit [DATA_WIDTH-1:0]       data[];
 	response_e                      rresp[];
-	bit [DATA_BUS_BYTES - 1:0] wstrb[];
+	bit [DATA_BUS_BYTES - 1:0]      wstrb[];
 
 
 	//-------Write Response Channel-------
 	response_e bresp;
 
-        rand possible_errors_e errors;
+    rand possible_errors_e errors;
 
 
 	constraint error_ct {
@@ -121,7 +116,7 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
         $display("             TRANSACTION_TYPE           ");
         $display("----------------------------------------");
 
-        $display("Transaction_type = %0s",transaction_type.name);
+        $write("Transaction_type = %0s",transaction_type.name);
 
 
 

@@ -26,13 +26,13 @@ Revision:0.1
 -------------------------------------------------------------------------------
 */
 
-interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
+interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADDR_WIDTH)(
     input bit aclk,
     input bit aresetn);
 	
     localparam BUS_BYTE_LANES = DATA_WIDTH/8;
 
-    logic [31:0] awaddr;
+    logic [ADDR_WIDTH - 1:0] awaddr;
     logic [7:0] awlen;
     logic [2:0] awsize;
     logic [1:0] awburst;
@@ -58,13 +58,13 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     logic arready;
 	
     // read data channel
-    logic [BUS_WIDTH - 1:0] rdata;
+    logic [DATA_WIDTH - 1:0] rdata;
     logic [1:0] rresp;
     logic rlast;
     logic rvalid;
     logic rready; 
 
-    clocking master_cb @(posedge aclk); 
+    clocking master_driver_cb @(posedge aclk); 
       default input #1 output #1; 
 		
       // write address channel 
@@ -78,7 +78,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
       // write data channel 
       output wdata;
       output wstrb;
-      output wlast;
+      inout  wlast;
       output wvalid;
       input  wready;
 
@@ -93,18 +93,18 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
       output arlen;
       output arsize;
       output arvalid;
-      input arready;
+      input  arready;
 	
       // read data channel
-      input rdata;
-      input rresp;
-      input rlast;
-      input rvalid;
+      input  rdata;
+      input  rresp;
+      inout  rlast;
+      input  rvalid;
       output rready; 
 	
-    endclocking : master_cb
+    endclocking : master_driver_cb
 
-    clocking slave_cb @(posedge aclk);
+    clocking slave_driver_cb @(posedge aclk);
 	
       default input #1 output #1; 
 		
@@ -143,7 +143,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
       output rvalid;
       input rready;
  
-    endclocking : slave_cb
+    endclocking : slave_driver_cb
 
     clocking monitor_cb @(posedge aclk);       // clocking block for monitor  
       default input #1 output #1; 
@@ -186,7 +186,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     endclocking : monitor_cb
 
     modport MST (
-      clocking master_cb,
+      clocking master_driver_cb,
       input aresetn, 
       output arvalid,
       output awvalid,
@@ -194,7 +194,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH)(
     );
   
     modport SLV (
-      clocking slave_cb,
+      clocking slave_driver_cb,
       input aresetn,
       output rvalid,
       output bvalid
