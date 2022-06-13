@@ -42,12 +42,12 @@ class ei_axi4_mst_generator_c;
 endclass :ei_axi4_mst_generator_c
           
 		  
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : new()											  //	
-	//   Parameters passed    : mailbox and test_config							  //
-	//   Returned parameters  : None											  //
-	//   Description          : take argument from environment class 			  //
-	////////////////////////////////////////////////////////////////////////////////
+	/***
+	//   Method name          : new()											  	
+	//   Parameters passed    : mailbox and test_config							  
+	//   Returned parameters  : None											  
+	//   Description          : take argument from environment class 			  
+	***/
   function ei_axi4_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
 	tr 						= new();
 	this.gen2drv            = gen2drv;
@@ -56,12 +56,12 @@ endclass :ei_axi4_mst_generator_c
     this.transaction_length = cfg_t.transaction_length;
   endfunction
           
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : run()											  //	
-	//   Parameters passed    : none                							  //
-	//   Returned parameters  : None											  //
-	//   Description          : to generate packet as per testcase requirement    //
-	////////////////////////////////////////////////////////////////////////////////		    
+	/***
+	//   Method name          : run()											  
+	//   Parameters passed    : none                							  
+	//   Returned parameters  : None											  
+	//   Description          : to generate packet as per testcase requirement    
+	***/
   task ei_axi4_generator_c::run();
     begin
       $display("%t, GEN::RUN PHASE", $time);
