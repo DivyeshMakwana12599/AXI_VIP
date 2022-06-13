@@ -33,7 +33,8 @@ Revision	: 0.1
 */
 
 
-class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH);
+class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
+                               ADDR_WIDTH = `ADDR_WIDTH);
   localparam BUS_BYTE_LANES = DATA_WIDTH / 8;
   bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1:0]];;
   ei_axi4_transaction_c read_tr;
