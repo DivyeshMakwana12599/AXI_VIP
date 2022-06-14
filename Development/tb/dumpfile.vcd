@@ -1,0 +1,1217 @@
+$date
+	Wed Jun 15 00:41:33 2022
+$end
+
+$version
+	Synopsys VCS version R-2020.12-SP2_Full64
+$end
+
+$timescale
+	1s
+$end
+
+$comment Csum: 1 db962d2dd3c06260 $end
+
+
+$scope module $unit $end
+$upscope $end
+
+
+$scope module ei_axi4_helper_functions $end
+
+$scope function calculate_size_aligned_address $end
+$var reg 32 ! calculate_size_aligned_address [31:0] $end
+$var reg 32 " address [31:0] $end
+$var reg 3 # awsize [2:0] $end
+$upscope $end
+
+
+$scope function get_wstrb $end
+$var reg 8 $ get_wstrb [7:0] $end
+$var reg 32 % awaddr [31:0] $end
+$var reg 2 & awburst [1:0] $end
+$var reg 3 ' awsize [2:0] $end
+$var reg 8 ( awlen [7:0] $end
+$var reg 32 ) beat_no [31:0] $end
+$var reg 6 * transfer_size [5:0] $end
+
+$scope begin unnamed$$_0 $end
+$var reg 32 + lower_wrap_boundary [31:0] $end
+$var reg 32 , upper_wrap_boundary [31:0] $end
+$upscope $end
+
+$upscope $end
+
+$upscope $end
+
+
+$scope module assertion $end
+$var reg 1 - aclk $end
+$var reg 1 . aresetn $end
+$var reg 32 / awaddr [31:0] $end
+$var reg 8 0 awlen [7:0] $end
+$var reg 3 1 awsize [2:0] $end
+$var reg 2 2 awburst [1:0] $end
+$var reg 1 3 awvalid $end
+$var reg 1 4 awready $end
+$var reg 64 5 wdata [63:0] $end
+$var reg 8 6 wstrb [7:0] $end
+$var reg 1 7 wlast $end
+$var reg 1 8 wvalid $end
+$var reg 1 9 wready $end
+$var reg 2 : bresp [1:0] $end
+$var reg 1 ; bvalid $end
+$var reg 1 < bready $end
+$var reg 32 = araddr [31:0] $end
+$var reg 2 > arburst [1:0] $end
+$var reg 8 ? arlen [7:0] $end
+$var reg 3 @ arsize [2:0] $end
+$var reg 1 A arvalid $end
+$var reg 1 B arready $end
+$var reg 64 C rdata [63:0] $end
+$var reg 2 D rresp [1:0] $end
+$var reg 1 E rlast $end
+$var reg 1 F rvalid $end
+$var reg 1 G rready $end
+$var wire 1 H temp_aresetn $end
+
+$scope function pass_print_f $end
+$upscope $end
+
+
+$scope function fail_print_f $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_002 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_003 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_005 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_001 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_004 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_010 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_011 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_013 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_009 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_012 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_015 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_017 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_019 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_022 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_024 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_026 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_031 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_033 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_038 $end
+$upscope $end
+
+
+$scope task _$$txp______assert_AXI4_ASSERTION_042 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_002 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_002 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_003 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_003 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_005 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_005 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_001 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_001 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_004 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_004 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_007 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_007 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_008 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_008 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_006 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_006 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_010 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_010 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_011 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_011 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_013 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_013 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_009 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_009 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_012 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_012 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_014 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_014 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_016 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_016 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_018 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_018 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_020 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_020 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_021 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_021 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_023 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_023 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_025 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_025 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_027 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_027 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_028 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_028 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_030 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_030 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_032 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_032 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_035 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_035 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_037 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_037 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_039 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_039 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_041 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_041 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_015 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_015 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_017 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_017 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_019 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_019 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_022 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_022 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_024 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_024 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_026 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_026 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_031 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_031 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_033 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_033 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_038 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_038 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI4_ASSERTION_042 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI4_ASSERTION_042 $end
+$upscope $end
+
+$upscope $end
+
+
+$scope module ei_axi4_top $end
+$var reg 1 I aclk $end
+$var reg 1 J aresetn $end
+$var reg 1 K dummy $end
+
+$scope begin unnamed$$_vcs_3 $end
+$upscope $end
+
+
+$scope begin unnamed$$_vcs_0 $end
+$upscope $end
+
+
+$scope begin unnamed$$_vcs_1 $end
+$upscope $end
+
+
+$scope begin unnamed$$_vcs_2 $end
+$upscope $end
+
+
+$scope begin unnamed$$_vcs_4 $end
+$upscope $end
+
+
+$scope module pif $end
+$var reg 1 L aresetn $end
+$var reg 1 M bvalid $end
+$var reg 1 N bready $end
+$var reg 1 O arvalid $end
+$var reg 1 P aclk $end
+$var reg 32 Q awaddr [31:0] $end
+$var reg 8 R awlen [7:0] $end
+$var reg 3 S awsize [2:0] $end
+$var reg 2 T awburst [1:0] $end
+$var reg 1 U awvalid $end
+$var reg 1 V awready $end
+$var reg 64 W wdata [63:0] $end
+$var reg 8 X wstrb [7:0] $end
+$var reg 1 Y wlast $end
+$var reg 1 Z wvalid $end
+$var reg 1 [ wready $end
+$var reg 2 \ bresp [1:0] $end
+$var reg 32 ] araddr [31:0] $end
+$var reg 2 ^ arburst [1:0] $end
+$var reg 8 _ arlen [7:0] $end
+$var reg 3 ` arsize [2:0] $end
+$var reg 1 a arready $end
+$var reg 64 b rdata [63:0] $end
+$var reg 2 c rresp [1:0] $end
+$var reg 1 d rlast $end
+$var reg 1 e rvalid $end
+$var reg 1 f rready $end
+$upscope $end
+
+$upscope $end
+
+$enddefinitions $end
+
+#0
+$dumpvars
+b10001011010101010100000101111000 "
+b010 #
+b10001011010101010100000101111000 !
+b10001011010101010100000101111000 %
+b01 &
+b00000011 (
+b010 '
+b00000000000000000000000000000011 )
+b00001111 $
+b000100 *
+b00000000000000000000000000000000 +
+b00000000000000000000000000000000 ,
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx =
+bxx >
+bxxxxxxxx ?
+bxxx @
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /
+bxx 2
+bxxxxxxxx 0
+bxxx 1
+bxx :
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx C
+bxx D
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 5
+bxxxxxxxx 6
+0I
+1J
+bxx c
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx b
+bxxx `
+bxxxxxxxx _
+bxx ^
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ]
+bxx \
+bxxxxxxxx X
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx W
+bxx T
+bxxx S
+bxxxxxxxx R
+bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Q
+0K
+x-
+x.
+x3
+x4
+x7
+x8
+x9
+x;
+x<
+xA
+xB
+xE
+xF
+xG
+xH
+0P
+1L
+xa
+xO
+xV
+xU
+xN
+xM
+xd
+xf
+xe
+xY
+x[
+xZ
+$end
+#5
+1I
+1P
+1O
+#6
+1V
+1[
+1a
+b10111001000011111100110111110110 ]
+b00000011 _
+b010 `
+b01 ^
+#10
+0I
+0P
+#15
+1I
+1P
+#16
+0O
+0d
+#20
+0I
+0P
+#25
+1I
+1P
+1O
+#26
+0a
+1f
+b10001011010101010100000101101100 ]
+#30
+0I
+0P
+#35
+1I
+1P
+#40
+0I
+0P
+#45
+1I
+1P
+#50
+0I
+0P
+#55
+1I
+1P
+#60
+0I
+0P
+#65
+1I
+1P
+#70
+0I
+0P
+#75
+1I
+1P
+#80
+0I
+0P
+#85
+1I
+1P
+#90
+0I
+0P
+#95
+1I
+1P
+#100
+0I
+0P
+#105
+1I
+1P
+#110
+0I
+0P
+#115
+1I
+1P
+#120
+0I
+0P
+#125
+1I
+1P
+#130
+0I
+0P
+#135
+1I
+1P
+#140
+0I
+0P
+#145
+1I
+1P
+#150
+0I
+0P
+#155
+1I
+1P
+#160
+0I
+0P
+#165
+1I
+1P
+#170
+0I
+0P
+#175
+1I
+1P
+#180
+0I
+0P
+#185
+1I
+1P
+#190
+0I
+0P
+#195
+1I
+1P
+#200
+0I
+0P
+#205
+1I
+1P
+#210
+0I
+0P
+#215
+1I
+1P
+#220
+0I
+0P
+#225
+1I
+1P
+#230
+0I
+0P
+#235
+1I
+1P
+#240
+0I
+0P
+#245
+1I
+1P
+#250
+0I
+0P
+#255
+1I
+1P
+#260
+0I
+0P
+#265
+1I
+1P
+#270
+0I
+0P
+#275
+1I
+1P
+#280
+0I
+0P
+#285
+1I
+1P
+#290
+0I
+0P
+#295
+1I
+1P
+#300
+0I
+0P
+#305
+1I
+1P
+#310
+0I
+0P
+#315
+1I
+1P
+#320
+0I
+0P
+#325
+1I
+1P
+#330
+0I
+0P
+#335
+1I
+1P
+#340
+0I
+0P
+#345
+1I
+1P
+#350
+0I
+0P
+#355
+1I
+1P
+#360
+0I
+0P
+#365
+1I
+1P
+#370
+0I
+0P
+#375
+1I
+1P
+#380
+0I
+0P
+#385
+1I
+1P
+#390
+0I
+0P
+#395
+1I
+1P
+#400
+0I
+0P
+#405
+1I
+1P
+#410
+0I
+0P
+#415
+1I
+1P
+#420
+0I
+0P
+#425
+1I
+1P
+#430
+0I
+0P
+#435
+1I
+1P
+#440
+0I
+0P
+#445
+1I
+1P
+#450
+0I
+0P
+#455
+1I
+1P
+#460
+0I
+0P
+#465
+1I
+1P
+#470
+0I
+0P
+#475
+1I
+1P
+#480
+0I
+0P
+#485
+1I
+1P
+#490
+0I
+0P
+#495
+1I
+1P
+#500
+0I
+0P
+#505
+1I
+1P
+#510
+0I
+0P
+#515
+1I
+1P
+#520
+0I
+0P
+#525
+1I
+1P
+#530
+0I
+0P
+#535
+1I
+1P
+#540
+0I
+0P
+#545
+1I
+1P
+#550
+0I
+0P
+#555
+1I
+1P
+#560
+0I
+0P
+#565
+1I
+1P
+#570
+0I
+0P
+#575
+1I
+1P
+#580
+0I
+0P
+#585
+1I
+1P
+#590
+0I
+0P
+#595
+1I
+1P
+#600
+0I
+0P
+#605
+1I
+1P
+#610
+0I
+0P
+#615
+1I
+1P
+#620
+0I
+0P
+#625
+1I
+1P
+#630
+0I
+0P
+#635
+1I
+1P
+#640
+0I
+0P
+#645
+1I
+1P
+#650
+0I
+0P
+#655
+1I
+1P
+#660
+0I
+0P
+#665
+1I
+1P
+#670
+0I
+0P
+#675
+1I
+1P
+#680
+0I
+0P
+#685
+1I
+1P
+#690
+0I
+0P
+#695
+1I
+1P
+#700
+0I
+0P
+#705
+1I
+1P
+#710
+0I
+0P
+#715
+1I
+1P
+#720
+0I
+0P
+#725
+1I
+1P
+#730
+0I
+0P
+#735
+1I
+1P
+#740
+0I
+0P
+#745
+1I
+1P
+#750
+0I
+0P
+#755
+1I
+1P
+#760
+0I
+0P
+#765
+1I
+1P
+#770
+0I
+0P
+#775
+1I
+1P
+#780
+0I
+0P
+#785
+1I
+1P
+#790
+0I
+0P
+#795
+1I
+1P
+#800
+0I
+0P
+#805
+1I
+1P
+#810
+0I
+0P
+#815
+1I
+1P
+#820
+0I
+0P
+#825
+1I
+1P
+#830
+0I
+0P
+#835
+1I
+1P
+#840
+0I
+0P
+#845
+1I
+1P
+#850
+0I
+0P
+#855
+1I
+1P
+#860
+0I
+0P
+#865
+1I
+1P
+#870
+0I
+0P
+#875
+1I
+1P
+#880
+0I
+0P
+#885
+1I
+1P
+#890
+0I
+0P
+#895
+1I
+1P
+#900
+0I
+0P
+#905
+1I
+1P
+#910
+0I
+0P
+#915
+1I
+1P
+#920
+0I
+0P
+#925
+1I
+1P
+#930
+0I
+0P
+#935
+1I
+1P
+#940
+0I
+0P
+#945
+1I
+1P
+#950
+0I
+0P
+#955
+1I
+1P
+#960
+0I
+0P
+#965
+1I
+1P
+#970
+0I
+0P
+#975
+1I
+1P
+#980
+0I
+0P
+#985
+1I
+1P
+#990
+0I
+0P
+#995
+1I
+1P

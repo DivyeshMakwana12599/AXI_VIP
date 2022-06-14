@@ -16,11 +16,6 @@ class ei_axi4_master_driver_c;
         sema0 = new(1);
         sema1 = new(1);
 
-        vif.awready = 1'b1;
-        vif.wready = 1'b1;
-        vif.arready = 1'b1;
-        vif.rvalid = 1'b1;
-        vif.bvalid = 1'b1;
     endfunction : new
 /**
     task run();
@@ -44,7 +39,7 @@ class ei_axi4_master_driver_c;
         forever begin
          //   $display("??????????????????hkkkkkkkello");
             gen2drv.get(tr);
-            $display(tr);
+            // $display(tr);
             fork//1
             // check logic in fork join_any
                 begin //1
@@ -163,23 +158,14 @@ class ei_axi4_master_driver_c;
         
         @(`VMST);
         vif.arvalid <= 1'b1;
-        $display("-------------------------------------------------------");
-        $display("read_running_index = %0d",read_running_index);
-        foreach(read_queue[i])
-        $display("read_queue[%0d] = %0p",i,read_queue[i]);
         `VMST.araddr <= read_queue[read_running_index].addr;
         `VMST.arlen <= read_queue[read_running_index].len;
         `VMST.arsize <= read_queue[read_running_index].size;
         `VMST.arburst <= read_queue[read_running_index].burst;
-        $display("[queue] araddr = %0p", read_queue[read_running_index].addr);
-        $display("[transaction] araddr = %0p",read_queue[read_running_index].addr);
-        $display("[interface] araddr = %0p",vif.araddr);
-        $display("[interface] arvalid = %0b",vif.arvalid);
         read_running_index ++;
         
-        
-        $display("__________ addr $time = %0t", $time);
         @(`VMST iff(`VMST.arready));
+      $display("Hello");
         `VMST.arvalid <= 1'b0;
         `VMST.rlast <= 1'b0;
     endtask : read_address_task
@@ -188,9 +174,7 @@ class ei_axi4_master_driver_c;
         
         sema1.get(1);
 
-        $display("__________ data before $time = %0t", $time);
         @(`VMST iff(`VMST.arready));
-        $display("__________ data after $time = %0t", $time);
 
         `VMST.rready <= 1'b1;
  

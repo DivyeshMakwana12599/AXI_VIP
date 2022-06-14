@@ -67,14 +67,22 @@ class ei_axi4_test_config_c ;
 	rand bit [2:0] transfer_size;			//size of trasnfer
 	rand bit [7:0] transaction_length;		//length of transaction
 	rand addr_type_e     addr_type;			//align, unaligned
-    rand burst_type_e    burst_type;		//fixed, incr, wrap, reserve	
+  rand burst_type_e    burst_type;		//fixed, incr, wrap, reserve	
 	
-	constraint reasonable {total_num_trans inside {[1:1000]};}
+	constraint reasonable {total_num_trans inside {[1:10]};}
+
+  constraint wrap_len_ct {
+    (burst_type == WRAP) -> (transaction_length inside {1, 3, 7, 15});
+  }
+
+  constraint transfer_size_ct{
+    (2 ** transfer_size) <= `BUS_BYTE_LANES;
+  }
 	
 	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : post_randomize()								  //	
-	//   Parameters passed    : none       										  //
-	//   Returned parameters  : None											  //
+	//   Method name          : post_randomize()								                  //	
+	//   Parameters passed    : none       										                    //
+	//   Returned parameters  : None											                        //
 	//   Description          : take command line argument                        //
 	////////////////////////////////////////////////////////////////////////////////
 	function new();

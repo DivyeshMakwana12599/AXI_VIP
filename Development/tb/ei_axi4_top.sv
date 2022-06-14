@@ -49,10 +49,15 @@ module ei_axi4_top;
   initial begin
   //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
     test  =  new(pif);
+    test.run();
    end
 
   initial begin
     $dumpfile("dumpfile.vcd");
     $dumpvars;
+  end
+
+  initial begin
+    #1000 $finish;
   end
 endmodule : ei_axi4_top
