@@ -10,61 +10,93 @@ class ei_axi4_master_driver_c;
     virtual ei_axi4_interface vif;
     semaphore sema0,sema1;
 
-    function new();
-
+    function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual ei_axi4_interface vif);
         this.gen2drv = gen2drv;
         this.vif = vif;
         sema0 = new(1);
         sema1 = new(1);
 
+        vif.awready = 1'b1;
+        vif.wready = 1'b1;
+        vif.arready = 1'b1;
+        vif.rvalid = 1'b1;
+        vif.bvalid = 1'b1;
     endfunction : new
+/**
+    task run();
+        forever begin 
+            tr = new();
+            gen2drv.get(tr);
+            $display("[interface] transaction = %0p",tr);
+
+            if(tr.transaction_type == READ)begin 
+                `VMST.arvalid <= 1'b1;
+                $display("[interface] arvalid = %0p",vif.arvalid);
+                `VMST.araddr <= tr.addr;
+                $display("[interface] araddr = %0p", vif.araddr);
+            end 
+        end 
+    endtask : run**/
+    
 
     task run();
-        
-        forever begin 
+        //$display("......................hello"); 
+        forever begin
+         //   $display("??????????????????hkkkkkkkello");
             gen2drv.get(tr);
+            $display(tr);
             fork//1
             // check logic in fork join_any
-            if(tr.transaction_type == WRITE)begin
-                write_queue.push_back(tr);
-                write_address_task();
-                // join none this task only
-                fork//2
-                    write_data_task();
-                    write_response_task();
-                join_none//2 
-            end 
+                begin //1
+                        if(tr.transaction_type == WRITE)begin
+                            write_queue.push_back(tr);
+                            write_address_task();
+                         fork//2
+                            write_data_task();
+                            write_response_task();
+                         join_none//2 
+                        end 
+                end //1
 
-            if(tr.transaction_type == READ)begin
-                // push in read queue
-                read_queue.push_back(tr);
-                read_address_task(); 
-            fork//3
-                // read_data_task(); // join none here only 
-            join_none//3
-            end 
+                begin //2
+                    
+                        if(tr.transaction_type == READ)begin
+                            read_queue.push_back(tr);
+                            read_address_task(); 
+                            fork//3
+                                 read_data_task(); // join none here only 
+                            join_none//3
+                        end
+                end //2
 
-            if(tr.transaction_type == READ_WRITE)begin
-                fork//4
-                    write_address_task();
-                    read_address_task();
-                join//4
+                begin //3
 
-                fork //5
-                    write_data_task();
-                    write_response_task();
-                    read_data_task();
-                join_none//5
+                        if(tr.transaction_type == READ_WRITE)begin
+                            fork//4
+                                write_address_task();
+                                read_address_task();
+                            join//4
 
-            end
-            join_any // 1
+                            fork //5
+                                write_data_task();
+                                write_response_task();
+                                read_data_task();
+                            join_none//5
+
+                        end
+                end//3
+            join // 1
         end // forever
+        #5;
     
     endtask : run
 
     task write_address_task();
         @(`VMST);
         `VMST.awvalid <= 1'b1;
+       // $display("write_running_index = %0d",write_running_index);
+      //  $display("write_queue = %0p",write_queue);
+
         `VMST.awaddr <= write_queue[write_running_index].addr;
         `VMST.awburst <= write_queue[write_running_index].burst;
         `VMST.awlen <= write_queue[write_running_index].len;
@@ -73,7 +105,7 @@ class ei_axi4_master_driver_c;
 
         @(`VMST iff(`VMST.awready <= 1'b1)) 
         `VMST.awvalid <= 1'b0;
-            `VMST.wlast <= 1'b0;
+        `VMST.wlast <= 1'b0;
         
 
     endtask : write_address_task 
@@ -94,12 +126,12 @@ class ei_axi4_master_driver_c;
             end
 
             @(`VMST iff(`VMST.wready));
-
+                
         end //for
 
         //if(`VMST.wlast == 1'b1)begin
        // @(`VMST iff(`VMST.wlast == 1'b1))
-            @(`VMST);
+            `VMST.wvalid <= 1'b0;
             `VMST.wlast <= 1'b0;
             `VMST.wdata <= 'bx;
             `VMST.wstrb <= 'bx;
@@ -126,28 +158,39 @@ class ei_axi4_master_driver_c;
             sema0.put(1);
     endtask : write_response_task 
 
+
     task read_address_task();
         
         @(`VMST);
-        `VMST.arvalid <= 1'b1;
+        vif.arvalid <= 1'b1;
+        $display("-------------------------------------------------------");
+        $display("read_running_index = %0d",read_running_index);
+        foreach(read_queue[i])
+        $display("read_queue[%0d] = %0p",i,read_queue[i]);
         `VMST.araddr <= read_queue[read_running_index].addr;
         `VMST.arlen <= read_queue[read_running_index].len;
         `VMST.arsize <= read_queue[read_running_index].size;
         `VMST.arburst <= read_queue[read_running_index].burst;
-
+        $display("[queue] araddr = %0p", read_queue[read_running_index].addr);
+        $display("[transaction] araddr = %0p",read_queue[read_running_index].addr);
+        $display("[interface] araddr = %0p",vif.araddr);
+        $display("[interface] arvalid = %0b",vif.arvalid);
         read_running_index ++;
         
+        
+        $display("__________ addr $time = %0t", $time);
         @(`VMST iff(`VMST.arready));
         `VMST.arvalid <= 1'b0;
         `VMST.rlast <= 1'b0;
-
     endtask : read_address_task
         
     task read_data_task();
         
         sema1.get(1);
 
+        $display("__________ data before $time = %0t", $time);
         @(`VMST iff(`VMST.arready));
+        $display("__________ data after $time = %0t", $time);
 
         `VMST.rready <= 1'b1;
  
@@ -155,11 +198,15 @@ class ei_axi4_master_driver_c;
 
             @(`VMST iff(`VMST.rvalid));
 
-        end// for 
+        end// for
+      
+        `VMST.rready <= 1'b0;
 
         read_queue.pop_front();
         read_running_index --;
         sema1.put(1);
         
     endtask : read_data_task
+
+    
 endclass : ei_axi4_master_driver_c 
