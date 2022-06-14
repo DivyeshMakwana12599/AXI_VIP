@@ -170,8 +170,14 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 
     endfunction : print
 
-	function copy(ei_axi4_transaction_c trans);
-		trans = new this;
+	function ei_axi4_transaction_c copy(ei_axi4_transaction_c trans = null);
+    if(trans == null) begin
+      copy = new();
+    end
+    else begin
+      $cast(copy, trans);
+    end
+    copy = new this;
 	endfunction : copy
     
 

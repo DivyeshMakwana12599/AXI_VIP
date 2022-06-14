@@ -32,9 +32,7 @@ class ei_axi4_environment_c;
   ei_axi4_slave_agent_c slv_agt;
   ei_axi4_reference_model_c ref_model;
   ei_axi4_scoreboard_c scb;
-  ei_axi4_checker_c check;
   ei_axi4_env_config_c env_cfg;
-  ei_axi4_test_config_c test_cfg;
 
   mailbox#(ei_axi4_transaction_c) slv_mon2scb;
   mailbox#(ei_axi4_transaction_c) mst_mon2ref;
@@ -49,7 +47,7 @@ class ei_axi4_environment_c;
 *\   Description          : links virtual interface,mailboxs and builds slave agent
 *\                          components
 **/
-  function new(virtual ei_axi4_interface vif, ei_axi4_env_config_c env_cfg, ei_axi4_test_config_c test_cfg);
+  function new(virtual ei_axi4_interface vif, ei_axi4_env_config_c env_cfg);
 	this.vif = vif;
     this.env_cfg = env_cfg;
   	mst_mon2ref       = new(); 
@@ -57,9 +55,8 @@ class ei_axi4_environment_c;
     ref2scb           = new();
     ref_model         = new(.ref2scb(ref2scb),.mst_mon2ref(mst_mon2ref));
     scb               = new(.ref2scb(ref2scb),.slv_mon2scb(slv_mon2scb));
-    mst_agt           = new(.mst_mon2ref(mst_mon2ref),.env_cfg(env_cfg),.vif(vif),.test_cfg(test_cfg));
+    mst_agt           = new(.mst_mon2ref(mst_mon2ref),.env_cfg(env_cfg),.vif(vif));
     slv_agt           = new(.slv_mon2scb(slv_mon2scb),.env_cfg(env_cfg),.vif(vif));
-  	check             = new();
   endfunction
 
 /**

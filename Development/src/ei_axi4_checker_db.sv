@@ -3,7 +3,7 @@ class ei_axi4_checker_db_c;
   ei_axi4_checker_cfg_c check_cfg[string];
 
   function void register_checker(string checker_id, string checker_description);
-    check_cfg[checker_id] = new(checker_id, checker_description);
+    check_cfg[checker_id] = new(checker_description);
   endfunction
 
   function void disable_checker(string checker_id);

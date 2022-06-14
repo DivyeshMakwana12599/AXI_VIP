@@ -87,7 +87,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         read_address_run();
         read_data_run();
       join_any
-      disbale run_AXI_slave_driver;
+      disable run_AXI_slave_driver;
     end
   endtask : run
 
@@ -102,10 +102,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task reset_run();
-    @(`VSLV iff (vif.arestn == 0)) begin
-      `VSLV.aresetn   <= 0;
+    @(`VSLV iff (vif.aresetn == 0)) begin
       `VSLV.awready   <= 0;
       `VSLV.arready   <= 0;
+      `VSLV.wready    <= 0;
       `VSLV.bvalid    <= 0;
       `VSLV.rvalid    <= 0;
       q_awaddr.delete();
@@ -125,8 +125,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
   task write_address_run();
      // write_addr2data.get(1);
-     `VSLV.awready    = 1;
-     @(`VSLV iff(`VLSV.awvalid == 1)) begin
+     `VSLV.awready    <= 1;
+     @(`VSLV iff(`VSLV.awvalid == 1)) begin
        write_tr         =   new();
        write_tr.addr    =  `VSLV.awaddr;
        write_tr.burst   =  `VSLV.awburst;
@@ -140,56 +140,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
    endtask : write_address_run
 
    function void calculate_write();
-<<<<<<< HEAD
-	   bit [31:0] start_addr;
-	   bit [31:0] aligned_address;
-	   bit [31:0] address_n;
-	   bit [1:0]  burst;
-	
-  	 int number_bytes;
-  	 int burst_len;
-  	 int lbl;
-  	 int ubl;
-  	 int lower_wb,upper_wb;
-
-  	 start_addr = write_tr.addr;
-  	 number_bytes = 2**write_tr.size;
-  	 burst_len = write_tr.len + 1; //
-  	 burst = write_tr.burst;
-  	 address_n = start_addr;
-     aligned_address = ((start_addr/number_bytes))* number_bytes;
-
-	   if(burst == INCR) begin 
-		  for(int count = 1; count <= burst_len; count++) begin
-			  if(count==1) begin
-			 	 q_awaddr.push_back(address_n); 
-			  end
-			  else begin
-			   address_n = aligned_address + ((count-1) * number_bytes); 
-				 q_awaddr.push_back(address_n); 
-			  end
-		  end
-	   end
-	
-	  if(burst == WRAP) begin 
-		  lower_wb = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
-		  upper_wb = lower_wb + (number_bytes*burst_len);
-		  aligned_address = start_addr;
-		  q_awaddr.push_back(start_addr);
-		  aligned_address = ((start_addr/number_bytes))* number_bytes;
-      
-      for(int i=1; i< burst_len; i++) begin
-			
-				address_n = address_n + number_bytes;
-				if(upper_wb == address_n) begin
-					address_N = lower_wb;
-					q_awaddr.push_back(address_n);
-				end
-				else begin
-					q_awaddr.push_back(address_n); 	
-				end 		
-		   end
-=======
      bit [31:0] start_addr;
      bit [31:0] aligned_address;
      bit [31:0] address_n;
@@ -231,14 +181,13 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       
         address_n = address_n + number_bytes;
         if(upper_wb == address_n) begin
-          address_N = lower_wb;
+          address_n = lower_wb;
           q_awaddr.push_back(address_n);
         end
         else begin
           q_awaddr.push_back(address_n);  
         end     
        end
->>>>>>> 8a87f35d8b9194ef60890a3aee922c838f2b141a
       end 
    endfunction : calculate_write
 
@@ -259,7 +208,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
        INCR   : incr_write();
        WRAP   : wrap_write();
      endcase
-   end
   endtask : write_data_run
 
 /**
@@ -273,18 +221,14 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task fixed_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-<<<<<<< HEAD
-    `VSLV.wready    = 1;	
-=======
-    `VSLV.wready    = 1;  
->>>>>>> 8a87f35d8b9194ef60890a3aee922c838f2b141a
+    `VSLV.wready    <= 1;  
      mem_addr        = (q_awaddr[0])/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
-      @(`VSLV iff(`VSLV.wvalid == 1 && write_tr.wready = 1);
+      @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb   =   new[1];
       write_tr.data    =   new[1];
-      write_tr.wstrb   =   `VSLV.wstrb;
-      write_tr.data    =   `VSLV.wdata; 
+      write_tr.wstrb[0]=   `VSLV.wstrb;
+      write_tr.data[0] =   `VSLV.wdata; 
 
       if(write_tr.wstrb[0][i]==1) begin
         // if strobe is 1 then data is valid and store to memory
@@ -305,20 +249,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task incr_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-<<<<<<< HEAD
-    `VSLV.wready    = 1;	
-=======
-    `VSLV.wready    = 1;  
->>>>>>> 8a87f35d8b9194ef60890a3aee922c838f2b141a
+    `VSLV.wready    <= 1;  
     mem_addr        = q_awaddr.pop_front();
     mem_addr        = (q_awaddr.pop_front()) / 8;
 
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
-      @(`VSLV iff(`VSLV.wvalid == 1 && write_tr.wready = 1);
+      @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb   =   new[1];
       write_tr.data    =   new[1];
-      write_tr.wstrb   =   `VSLV.wstrb;
-      write_tr.data    =   `VSLV.wdata; 
+      write_tr.wstrb[0]   =   `VSLV.wstrb;
+      write_tr.data[0]    =   `VSLV.wdata; 
 
       if(write_tr.wstrb[0][i]==1) begin
         // if strobe is 1 then data is valid and store to memory
@@ -331,18 +271,14 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task wrap_write();
    
      bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-<<<<<<< HEAD
-    `VSLV.wready    = 1;	
-=======
-    `VSLV.wready    = 1;  
->>>>>>> 8a87f35d8b9194ef60890a3aee922c838f2b141a
+    `VSLV.wready    <= 1;  
     mem_addr        = (q_awaddr.pop_front() )/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
-      @(`VSLV iff(`VSLV.wvalid == 1 && write_tr.wready = 1);
+      @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb   =   new[1];
       write_tr.data    =   new[1];
-      write_tr.wstrb   =   `VSLV.wstrb;
-      write_tr.data    =   `VSLV.wdata; 
+      write_tr.wstrb[0]   =   `VSLV.wstrb;
+      write_tr.data[0]    =   `VSLV.wdata; 
 
       if(write_tr.wstrb[0][i]==1) begin
         // if strobe is 1 then data is valid and store to memory
@@ -354,106 +290,55 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
 
   task write_response_run();
-    `VSLV.wready       = 1;
-    @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast);
+    `VSLV.wready       <= 1;
+    @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast));
     @(`VSLV);
-    `write_tr.bresp    = new[1];
-    `VSLV.wready       = 0;
-    `VSLV.bvalid       = 1;
-     write_tr.bresp[0] = OKAY; 
-    `VSLV.bresp        = write_tr.bresp;
+    `VSLV.wready       <= 0;
+    `VSLV.bvalid       <= 1;
+     write_tr.bresp = OKAY; 
+    `VSLV.bresp        <= write_tr.bresp;
     @(`VSLV iff(`VSLV.bready == 1));
-    `VSLV.bresp       = 'bz ;
+    `VSLV.bresp       <= 'bz ;
   endtask
 
   task read_address_run();
-    read_chanel.get(1);
-     `VSLV.arready    = 1;
-     @(`VSLV iff(`VLSV.arvalid == 1)) begin
+    read_channel.get(1);
+     `VSLV.arready    <= 1;
+    @(`VSLV iff(`VSLV.arvalid == 1));
        read_tr         =   new();
        read_tr.addr    =  `VSLV.araddr;
        read_tr.burst   =  `VSLV.arburst;
        read_tr.len     =  `VSLV.arlen;
        read_tr.size    =  `VSLV.arsize;
        calculate_read_address();
-       @(`VSLV) `VSLV.arready = 0;
+       @(`VSLV) `VSLV.arready <= 0;
        read_channel.put(1); 
   endtask
   
   task read_data_run();
    read_channel.get(1);
-   for(i=0;i<read_tr.len;i++) begin
-       if(`VSLV.aresetn == 0) begin
+   for(int i=0;i<read_tr.len;i++) begin
+       if(vif.aresetn == 0) begin
            break;
        end
        else begin
-           `VSLV.rvalid = 1;
-           `VSLV.rdata = rdata(i);
-           `VSLV.rresp = 0;
-           if(i = read_tr.len) begin
-               `VSLV.rlast = 1;
+           `VSLV.rvalid <= 1;
+           `VSLV.rdata <= rdata(i);
+           `VSLV.rresp <= 0;
+           if(i == read_tr.len) begin
+               `VSLV.rlast <= 1;
            end
            else begin
-               `VSLV.rlast = 0; 
+               `VSLV.rlast <= 0; 
            end
-           wait(`VSLV.rready);
+           @(`VSLV iff(`VSLV.rready));
        end
    end
-   @(`VSLV) `VSLV.rvalid = 0;
+   @(`VSLV) `VSLV.rvalid <= 0;
    read_channel.put(1); 
   endtask
 
  function void calculate_read_address();
-<<<<<<< HEAD
-	   bit [31:0] start_addr;
-	   bit [31:0] aligned_address;
-	   bit [31:0] address_n;
-	   bit [1:0]  burst;
-	
-  	 int number_bytes;
-  	 int burst_len;
-  	 int lbl;
-  	 int ubl;
-  	 int lower_wb,upper_wb;
-
-  	 start_addr = read_tr.addr;
-  	 number_bytes = 2**read_tr.size;
-  	 burst_len = read_tr.len + 1; 
-  	 burst = read_tr.burst;
-  	 address_n = start_addr;
-     aligned_address = ((start_addr/number_bytes))* number_bytes;
-
-	   if(burst == INCR) begin 
-		  for(int count = 1; count <= burst_len; count++) begin
-			  if(count==1) begin
-			 	 q_araddr.push_back(address_n); 
-			  end
-			  else begin
-			   address_n = aligned_address + ((count-1) * number_bytes); 
-				 q_araddr.push_back(address_n); 
-			  end
-		  end
-	   end
-	
-	  if(burst == WRAP) begin 
-		  lower_wb = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
-		  upper_wb = lower_wb + (number_bytes*burst_len);
-		  aligned_address = start_addr;
-		  q_araddr.push_back(start_addr);
-		  aligned_address = ((start_addr/number_bytes))* number_bytes;
-     
-      for(int i=1; i< burst_len; i++) begin
-			
-				address_n = address_n + number_bytes;
-				if(upper_wb == address_n) begin
-					address_N = lower_wb;
-					q_araddr.push_back(address_n);
-				end
-				else begin
-					q_araddr.push_back(address_n); 	
-				end 		
-		   end
-=======
      bit [31:0] start_addr;
      bit [31:0] aligned_address;
      bit [31:0] address_n;
@@ -495,71 +380,28 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       
         address_n = address_n + number_bytes;
         if(upper_wb == address_n) begin
-          address_N = lower_wb;
+          address_n = lower_wb;
           q_araddr.push_back(address_n);
         end
         else begin
           q_araddr.push_back(address_n);  
         end     
        end
->>>>>>> 8a87f35d8b9194ef60890a3aee922c838f2b141a
       end
    endfunction : calculate_read_address
 
 function bit [63:0] rdata(int i);
-<<<<<<< HEAD
-		
-		bit [31:0] addr; // Start addres
-		bit [3:0]  data_bus_bytes = 8;
-		bit [2:0]  lbl, ubl;
-		bit [31:0] aligned_address;
-		int        number_Bytes;
-		bit [63:0] len_sel_r;
-		int        mem_addr_r;
-		
-		len_sel_r    = {8{8'hff}};
-		Number_Bytes = 2 ** tr_read.size;
-		
-		
-		
-		if(i == 0) begin
-			addr = q_araddr.pop_front();
-			mem_addr_r = addr / data_bus_bytes;
-		    aligned_address = (addr/number_bytes) * number_bytes;
-        lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
-			ubl = aligned_address + (number_bytes - 1'b1) -
-                                    ((addr / data_dus_dytes)) * data_bus_bytes;
-			
-			len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-            len_sel_r   = len_sel_r >> ((Data_Bus_Bytes - 1) - ubl) * 8;
-			rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
-		
-		end
-		else begin
-			addr = q_araddr.pop_front();
-			lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
-			ubl = lbl + number_bytes-1'b1;
-			
-			mem_addr_r = addr / data_bus_bytes;
-			len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-            len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
-			
-			rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
-			
-		end
-	endfunction :rdata
-=======
     
     bit [31:0] addr; // Start addres
     bit [3:0]  data_bus_bytes = 8;
     bit [2:0]  lbl, ubl;
     bit [31:0] aligned_address;
-    int        number_Bytes;
+    int        number_bytes;
     bit [63:0] len_sel_r;
     int        mem_addr_r;
     
     len_sel_r    = {8{8'hff}};
-    Number_Bytes = 2 ** tr_read.size;
+    number_bytes = 2 ** read_tr.size;
     
     
     
@@ -569,10 +411,10 @@ function bit [63:0] rdata(int i);
         aligned_address = (addr/number_bytes) * number_bytes;
         lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
       ubl = aligned_address + (number_bytes - 1'b1) -
-                                    ((addr / data_dus_dytes)) * data_bus_bytes;
+                                    ((addr / data_bus_bytes)) * data_bus_bytes;
       
       len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-            len_sel_r   = len_sel_r >> ((Data_Bus_Bytes - 1) - ubl) * 8;
+            len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
       rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
     
     end
@@ -589,7 +431,7 @@ function bit [63:0] rdata(int i);
       
     end
   endfunction :rdata
->>>>>>> 8a87f35d8b9194ef60890a3aee922c838f2b141a
 
 
 endclass : ei_axi4_slave_driver_c
+

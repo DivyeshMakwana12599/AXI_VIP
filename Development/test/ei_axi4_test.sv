@@ -29,16 +29,19 @@ Revision		: 0.1
         virtual ei_axi4_interface vif;
      function new(virtual ei_axi4_interface vif);
          this.vif = vif;
-      //testcase-01
+     endfunction
+
+     task run();
+        //testcase-01
        if($test$plusargs("READ_TEST")) begin
-	     ei_axi4_rd_test_c read_test;
+         ei_axi4_rd_test_c read_test;
          read_test = new(vif);
-		 read_test.start();
+         read_test.start();
        end
-	   
+     
        else begin
          $display("\n----------PLEASE ENTER A TESTNAME TO PROCEED------------");
        end
-     endfunction
+     endtask
 
  endclass

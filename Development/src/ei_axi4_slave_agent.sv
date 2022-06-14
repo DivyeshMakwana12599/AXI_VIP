@@ -28,7 +28,7 @@ Revision	:  0.1
 class ei_axi4_slave_agent_c;
   virtual ei_axi4_interface vif;		//virtual interface
   ei_axi4_slave_driver_c slv_drv;
-  ei_axi4_slave_monitor_c slv_mon;
+  ei_axi4_monitor_c slv_mon;
   mailbox#(ei_axi4_transaction_c) slv_mon2scb;
   ei_axi4_env_config_c env_cfg;
 
@@ -50,7 +50,7 @@ class ei_axi4_slave_agent_c;
     if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
       slv_drv = new(.vif(vif));
     end
-    slv_mon = new(.vif(vif),.slv_mon2scb(slv_mon2scb));
+    slv_mon = new(1, ,slv_mon2scb, vif);
   endfunction
  
 /**

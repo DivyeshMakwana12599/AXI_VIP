@@ -150,7 +150,7 @@ class ei_axi4_checker_c;
       return FAIL;
     end
     else begin
-      checker_cb.pass("AXI4_CHECK_012");
+      checker_db.pass("AXI4_CHECK_012");
     end
 
     if(!(tr.bresp inside {OKAY, SLVERR})) begin

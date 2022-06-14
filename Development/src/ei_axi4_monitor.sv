@@ -20,7 +20,7 @@ class ei_axi4_monitor_c;
     mailbox#(ei_axi4_transaction_c) mon2scb = null,
     virtual ei_axi4_interface.MON vif
   );
-    this.tx_rx_monitor_cfg = tx_tx_monitor_cfg;  
+    this.tx_rx_monitor_cfg = tx_rx_monitor_cfg;  
     if(mon2ref != null) begin
       this.mon2ref = mon2ref;
     end
@@ -43,7 +43,7 @@ class ei_axi4_monitor_c;
           monitor_write_channel();
         end
         begin : reset
-          @(posedge vif.aclk iff(!vif.aresetn));
+          @(`MON_CB iff(!vif.aresetn));
         end
       join_any
       disable read_channel;
@@ -60,7 +60,7 @@ class ei_axi4_monitor_c;
       rd_trans.addr = `MON_CB.araddr;
       rd_trans.burst = `MON_CB.arburst;
       rd_trans.len = `MON_CB.arlen;
-      rd_trans.size = `MON.arsize;
+      rd_trans.size = `MON_CB.arsize;
       fork
         monitor_read_data_channel(rd_trans);
       join_none
@@ -82,7 +82,7 @@ class ei_axi4_monitor_c;
 
     read_data_channel.put(1);
 
-    if(axi4_checker.check(rd_trans) == ei_axi4_cheker_c::FAIL) begin
+    if(axi4_checker.check(rd_trans) == FAIL) begin
       return;
     end
     for(int i = 0; i <= rd_trans.len; i++) begin
@@ -107,7 +107,7 @@ class ei_axi4_monitor_c;
       wr_trans.addr = `MON_CB.awaddr;
       wr_trans.burst = `MON_CB.awburst;
       wr_trans.len = `MON_CB.awlen;
-      wr_trans.size = `MON.awsize;
+      wr_trans.size = `MON_CB.awsize;
       fork
         monitor_write_data_channel(wr_trans);
       join_none
