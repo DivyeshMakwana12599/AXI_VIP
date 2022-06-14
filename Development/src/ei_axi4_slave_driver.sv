@@ -36,19 +36,403 @@ Revision	: 0.1
 class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
                                ADDR_WIDTH = `ADDR_WIDTH);
   localparam BUS_BYTE_LANES = DATA_WIDTH / 8;
-  bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1:0]];;
+  bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1:0]];
+  //bit unsigned [ DATA_WIDTH : 0 ] q_wdata[$];
+  //bit unsigned [ DATA_WIDTH : 0 ] q_rdata[$];
+  bit [31:0] q_awaddr[$];
+  bit [31:0] q_araddr[$]; 
+
+  semaphore write_addr2data;
+  semaphore read_channel; 
+
   ei_axi4_transaction_c read_tr;
   ei_axi4_transaction_c write_tr;
-
   virtual ei_axi4_interface vif;
+  
+
+/**
+*\   Method name          : new()
+*\   parameters passed    : virtual interface handle                      
+*\   Returned parameters  : None
+*\   Description          : function links virtual interface and also it builds
+*\                          two handles of transaction class, read transaction
+*\                          write transaction
+**/
 
   function new(virtual ei_axi4_interface vif);
     this.vif  = vif;
-    read_tr   = new();
-    write_tr  = new();
+    write_addr2data = new(1);
+    read_channel = new(1); 
+   // read_tr   = new();
+  //  write_tr  = new();
   endfunction
 
-  task run();
+/**
+*\   Method name          : run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          : this task contains multiple task within fork 
+*\                          join_any which are following AXI Protocol for 
+*\                          reset,write address,write data,write response, 
+*\                          read address, read data
+**/
 
+  task run();
+    forever begin
+      fork : run_AXI_slave_driver
+        reset_run();
+        write_address_run();
+        write_data_run();
+        write_response_run();
+        read_address_run();
+        read_data_run();
+      join_any
+      disbale run_AXI_slave_driver;
+    end
   endtask : run
+
+/**
+*\   Method name          : reset_run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
+
+  task reset_run();
+    @(`VSLV iff (vif.arestn == 0)) begin
+      `VSLV.aresetn   <= 0;
+      `VSLV.awready   <= 0;
+      `VSLV.arready   <= 0;
+      `VSLV.bvalid    <= 0;
+      `VSLV.rvalid    <= 0;
+      q_awaddr.delete();
+    end
+  endtask : reset_run
+
+
+/**
+*\   Method name          : write_address_run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
+
+  task write_address_run();
+     // write_addr2data.get(1);
+     `VSLV.awready    = 1;
+     @(`VSLV iff(`VLSV.awvalid == 1)) begin
+       write_tr         =   new();
+       write_tr.addr    =  `VSLV.awaddr;
+       write_tr.burst   =  `VSLV.awburst;
+       write_tr.len     =  `VSLV.awlen;
+       write_tr.size    =  `VSLV.awsize;
+       calculate_write();
+       @(`VSLV) `VSLV.awready <= 0;
+      // write_addr2data.put(1);     //semaphore
+
+     end
+   endtask : write_address_run
+
+   function void calculate_write();
+	   bit [31:0] start_addr;
+	   bit [31:0] aligned_address;
+	   bit [31:0] address_n;
+	   bit [1:0]  burst;
+	
+  	 int number_bytes;
+  	 int burst_len;
+  	 int lbl;
+  	 int ubl;
+  	 int lower_wb,upper_wb;
+
+  	 start_addr = write_tr.addr;
+  	 number_bytes = 2**write_tr.size;
+  	 burst_len = write_tr.len + 1; //
+  	 burst = write_tr.burst;
+  	 address_n = start_addr;
+     aligned_address = ((start_addr/number_bytes))* number_bytes;
+
+	   if(burst == INCR) begin 
+		  for(int count = 1; count <= burst_len; count++) begin
+			  if(count==1) begin
+			 	 q_awaddr.push_back(address_n); 
+			  end
+			  else begin
+			   address_n = aligned_address + ((count-1) * number_bytes); 
+				 q_awaddr.push_back(address_n); 
+			  end
+		  end
+	   end
+	
+	  if(burst == WRAP) begin 
+		  lower_wb = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
+		  upper_wb = lower_wb + (number_bytes*burst_len);
+		  aligned_address = start_addr;
+		  q_awaddr.push_back(start_addr);
+		  aligned_address = ((start_addr/number_bytes))* number_bytes;
+      
+      for(int i=1; i< burst_len; i++) begin
+			
+				address_n = address_n + number_bytes;
+				if(upper_wb == address_n) begin
+					address_N = lower_wb;
+					q_awaddr.push_back(address_n);
+				end
+				else begin
+					q_awaddr.push_back(address_n); 	
+				end 		
+		   end
+      end 
+   endfunction : calculate_write
+
+/**
+*\   Method name          : write_data_run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
+  task write_data_run();
+    //write_addr2data.get(1);
+    @(posedge `VSLV.wvalid);
+     case (write_tr.burst) 
+       FIXED  : fixed_write();
+       INCR   : incr_write();
+       WRAP   : wrap_write();
+     endcase
+   end
+  endtask : write_data_run
+
+/**
+*\   Method name          : fixed_write()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
+  task fixed_write();
+    bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
+    `VSLV.wready    = 1;	
+     mem_addr        = (q_awaddr[0])/ 8;
+    for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
+      @(`VSLV iff(`VSLV.wvalid == 1 && write_tr.wready = 1);
+      write_tr.wstrb   =   new[1];
+      write_tr.data    =   new[1];
+      write_tr.wstrb   =   `VSLV.wstrb;
+      write_tr.data    =   `VSLV.wdata; 
+
+      if(write_tr.wstrb[0][i]==1) begin
+        // if strobe is 1 then data is valid and store to memory
+        slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
+      end
+    end
+
+  endtask : fixed_write
+
+/*
+*\   Method name          : incr_write()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
+  task incr_write();
+    bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
+    `VSLV.wready    = 1;	
+    mem_addr        = q_awaddr.pop_front();
+    mem_addr        = (q_awaddr.pop_front()) / 8;
+
+    for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
+      @(`VSLV iff(`VSLV.wvalid == 1 && write_tr.wready = 1);
+      write_tr.wstrb   =   new[1];
+      write_tr.data    =   new[1];
+      write_tr.wstrb   =   `VSLV.wstrb;
+      write_tr.data    =   `VSLV.wdata; 
+
+      if(write_tr.wstrb[0][i]==1) begin
+        // if strobe is 1 then data is valid and store to memory
+        slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
+      end
+    end
+   // write_addr2data.put(1);
+  endtask : incr_write
+
+  task wrap_write();
+   
+     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
+    `VSLV.wready    = 1;	
+    mem_addr        = (q_awaddr.pop_front() )/ 8;
+    for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
+      @(`VSLV iff(`VSLV.wvalid == 1 && write_tr.wready = 1);
+      write_tr.wstrb   =   new[1];
+      write_tr.data    =   new[1];
+      write_tr.wstrb   =   `VSLV.wstrb;
+      write_tr.data    =   `VSLV.wdata; 
+
+      if(write_tr.wstrb[0][i]==1) begin
+        // if strobe is 1 then data is valid and store to memory
+        slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
+      end
+    end
+  endtask : wrap_write
+
+
+
+  task write_response_run();
+    `VSLV.wready       = 1;
+    @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast);
+    @(`VSLV);
+    `write_tr.bresp    = new[1];
+    `VSLV.wready       = 0;
+    `VSLV.bvalid       = 1;
+     write_tr.bresp[0] = OKAY; 
+    `VSLV.bresp        = write_tr.bresp;
+    @(`VSLV iff(`VSLV.bready == 1));
+    `VSLV.bresp       = 'bz ;
+  endtask
+
+  task read_address_run();
+    read_chanel.get(1);
+     `VSLV.arready    = 1;
+     @(`VSLV iff(`VLSV.arvalid == 1)) begin
+       read_tr         =   new();
+       read_tr.addr    =  `VSLV.araddr;
+       read_tr.burst   =  `VSLV.arburst;
+       read_tr.len     =  `VSLV.arlen;
+       read_tr.size    =  `VSLV.arsize;
+       calculate_read_address();
+       @(`VSLV) `VSLV.arready = 0;
+       read_channel.put(1); 
+  endtask
+  
+  task read_data_run();
+   read_channel.get(1);
+   for(i=0;i<read_tr.len;i++) begin
+       if(`VSLV.aresetn == 0) begin
+           break;
+       end
+       else begin
+           `VSLV.rvalid = 1;
+           `VSLV.rdata = rdata(i);
+           `VSLV.rresp = 0;
+           if(i = read_tr.len) begin
+               `VSLV.rlast = 1;
+           end
+           else begin
+               `VSLV.rlast = 0; 
+           end
+           wait(`VSLV.rready);
+       end
+   end
+   @(`VSLV) `VSLV.rvalid = 0;
+   read_channel.put(1); 
+  endtask
+
+ function void calculate_read_address();
+	   bit [31:0] start_addr;
+	   bit [31:0] aligned_address;
+	   bit [31:0] address_n;
+	   bit [1:0]  burst;
+	
+  	 int number_bytes;
+  	 int burst_len;
+  	 int lbl;
+  	 int ubl;
+  	 int lower_wb,upper_wb;
+
+  	 start_addr = read_tr.addr;
+  	 number_bytes = 2**read_tr.size;
+  	 burst_len = read_tr.len + 1; 
+  	 burst = read_tr.burst;
+  	 address_n = start_addr;
+     aligned_address = ((start_addr/number_bytes))* number_bytes;
+
+	   if(burst == INCR) begin 
+		  for(int count = 1; count <= burst_len; count++) begin
+			  if(count==1) begin
+			 	 q_araddr.push_back(address_n); 
+			  end
+			  else begin
+			   address_n = aligned_address + ((count-1) * number_bytes); 
+				 q_araddr.push_back(address_n); 
+			  end
+		  end
+	   end
+	
+	  if(burst == WRAP) begin 
+		  lower_wb = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
+		  upper_wb = lower_wb + (number_bytes*burst_len);
+		  aligned_address = start_addr;
+		  q_araddr.push_back(start_addr);
+		  aligned_address = ((start_addr/number_bytes))* number_bytes;
+     
+      for(int i=1; i< burst_len; i++) begin
+			
+				address_n = address_n + number_bytes;
+				if(upper_wb == address_n) begin
+					address_N = lower_wb;
+					q_araddr.push_back(address_n);
+				end
+				else begin
+					q_araddr.push_back(address_n); 	
+				end 		
+		   end
+      end
+   endfunction : calculate_read_address
+
+function bit [63:0] rdata(int i);
+		
+		bit [31:0] addr; // Start addres
+		bit [3:0]  data_bus_bytes = 8;
+		bit [2:0]  lbl, ubl;
+		bit [31:0] aligned_address;
+		int        number_Bytes;
+		bit [63:0] len_sel_r;
+		int        mem_addr_r;
+		
+		len_sel_r    = {8{8'hff}};
+		Number_Bytes = 2 ** tr_read.size;
+		
+		
+		
+		if(i == 0) begin
+			addr = q_araddr.pop_front();
+			mem_addr_r = addr / data_bus_bytes;
+		    aligned_address = (addr/number_bytes) * number_bytes;
+        lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
+			ubl = aligned_address + (number_bytes - 1'b1) -
+                                    ((addr / data_dus_dytes)) * data_bus_bytes;
+			
+			len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
+            len_sel_r   = len_sel_r >> ((Data_Bus_Bytes - 1) - ubl) * 8;
+			rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
+		
+		end
+		else begin
+			addr = q_araddr.pop_front();
+			lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
+			ubl = lbl + number_bytes-1'b1;
+			
+			mem_addr_r = addr / data_bus_bytes;
+			len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
+            len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
+			
+			rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
+			
+		end
+	endfunction :rdata
+
+
 endclass : ei_axi4_slave_driver_c

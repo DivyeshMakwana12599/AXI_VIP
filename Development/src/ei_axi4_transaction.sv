@@ -1,7 +1,7 @@
 /*
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-File name 	: ei_axi4_master_transaction.sv
+File name 	: ei_axi4_transaction.sv
 Title 			: Master Transaction Class
 Project 		: AMBA AXI-4 SV VIP
 Created On  : 03-June-22
@@ -51,7 +51,7 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 
 
 	//-------Write Response Channel-------
-	response_e bresp;
+	response_e                      bresp;
 
     rand possible_errors_e errors;
 
