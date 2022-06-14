@@ -1,13 +1,14 @@
 /*--------------------------------------------------------------------------------
-----------------------------------------------------------------------------------
-File name 		: ei_axi4_generator_c.sv
-Title 			: Generator file for VIP testcases
+--------------------------------------------------------------------------------
+File name 		: ei_axi4_master_generator_c.sv
+Title 			: generator file for VIP testcases
 Project 		: AMBA AXI-4 SV VIP
-Created On  	: 06-June-22
+Created On  	: 10-June-22
 Developers  	: Jaspal Singh
-E-mail          : jaspal.singh@einfochips.com
-Purpose 		: Generator file for VIP Environment
- 
+E-mail          : Jaspal.Singh@einfochips.com
+Purpose 		: Transaction Class randomize the properties of transaction class having 'rand' prefix keyword
+			      and then it create a copy of randomized data, then put them into mailbox to transfer to driver
+				  
 Assumptions 	: As per the Feature plan All the pins are not declared here
 Limitations 	: 
 Known Errors	: 
@@ -25,92 +26,26 @@ eInfochips
 Revision		: 0.1
 ------------------------------------------------------------------------------*/
 
+
 class ei_axi4_master_generator_c;
-  
-  ei_axi4_transaction_c tr, temp1, temp2;
-  mailbox #(ei_axi4_transaction_c) gen2drv;
- 
-  ei_axi4_test_config_c cfg_t;
-  
-  bit [2:0]  transfer_size;			//size of trasnfer
-  bit [7:0]  transaction_length;
-  bit toggle_wr_rd;
 	
-  extern function new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
-  extern task run();
+  mailbox #(ei_axi4_transaction_c) gen2drv;  	//mailbox for transafer data from generator to driver
+  ei_axi4_transaction_c trans;
   
-endclass :ei_axi4_master_generator_c
-          
-		  
-<<<<<<< HEAD
-	/***
-	//   Method name          : new()											  	
+    /***
+	//   Method name          : new() i.e constructor							  	
 	//   Parameters passed    : mailbox and test_config							  
 	//   Returned parameters  : None											  
 	//   Description          : take argument from environment class 			  
 	***/
-  function ei_axi4_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
-=======
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : new()											  //	
-	//   Parameters passed    : mailbox and test_config							  //
-	//   Returned parameters  : None											  //
-	//   Description          : take argument from environment class 			  //
-	////////////////////////////////////////////////////////////////////////////////
-  function ei_axi4_master_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
->>>>>>> 0deee2096ed89583bc60a20244fc304c951bb24c
-	tr 						= new();
-	this.gen2drv            = gen2drv;
-    this.cfg_t              = cfg_t;
-    this.transfer_size 		= cfg_t.transfer_size;
-    this.transaction_length = cfg_t.transaction_length;
+  function new(mailbox #(ei_axi4_transaction_c) gen2drv);
+    this.gen2drv = gen2drv;
   endfunction
-          
-<<<<<<< HEAD
-	/***
-	//   Method name          : run()											  
-	//   Parameters passed    : none                							  
-	//   Returned parameters  : None											  
-	//   Description          : to generate packet as per testcase requirement    
-	***/
-  task ei_axi4_generator_c::run();
-=======
-	////////////////////////////////////////////////////////////////////////////////
-	//   Method name          : run()											  //	
-	//   Parameters passed    : none                							  //
-	//   Returned parameters  : None											  //
-	//   Description          : to generate packet as per testcase requirement    //
-	////////////////////////////////////////////////////////////////////////////////		    
-  task ei_axi4_master_generator_c::run();
->>>>>>> 0deee2096ed89583bc60a20244fc304c951bb24c
-    begin
-      $display("%t, GEN::RUN PHASE", $time);
-      repeat(cfg_t.total_num_trans)begin
-            
-      case(cfg_t.transfer_type)
-			WR_RD :
-               begin
-				    if(!tr.randomize() with {
-						(cfg_t.random_burst_type         == 1'b0)  -> (tr.burst == cfg_t.burst_type);
-						(cfg_t.random_transfer_size      == 1'b0)  -> (tr.size  == cfg_t.transfer_size);
-						(cfg_t.random_transaction_length == 1'b0)  -> (tr.len   == cfg_t.transaction_length);
-						(cfg_t.random_address_type       == 1'b0)  -> (tr.addr  == cfg_t.addr_type);
-						tr.transaction_type              == ~toggle_wr_rd;
-					})begin
-					  $fatal("Randomization Failed");
-					  end
-						if(tr.transaction_type == WRITE)begin
-							temp1 = new tr;
-							gen2drv.put(temp1);
-							end
-						
-						if(tr.transaction_type == READ)begin
-						   	temp2 = new temp1;
-					        temp2.data.delete();
-							gen2drv.put(temp2);
-							end
-				end
-        endcase
-        end
-      end
-  endtask :run
+
+  task start(ei_axi4_transaction_c trans);
+	`SV_RAND_CHECK(trans.randomize());
+	gen2drv.put(trans.copy());
+  endtask
+
+endclass :ei_axi4_master_generator_c;
+
