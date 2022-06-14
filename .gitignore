@@ -15,6 +15,9 @@
 /**/**/**/simv.daidir
 /**/**/**/simv
 /**/**/**/ucli.key
+/**/**/DVEfiles/*
+/**/**/DVEfiles
+/**/**/inter.vpd
 
 /Development/src/*.bak
 /Development/bin/*.bak
