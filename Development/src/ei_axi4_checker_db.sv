@@ -38,7 +38,6 @@ class ei_axi4_checker_db_c;
   function void fail(string checker_id);
     if(check_cfg.exists(checker_id)) begin
       if(check_cfg[checker_id].disable_checker == ei_axi4_checker_cfg_c::ON) begin
-        check_cfg[checker_id].eval_cnt++;
         check_cfg[checker_id].fail_cnt++;
         $error(checker_id,, check_cfg[checker_id].checker_description);
       end
