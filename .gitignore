@@ -3,13 +3,18 @@
 ./Development/env/.*
 ./Development/tb/.*
 ./Development/test/.*
-./Development/
-./Development/src/csrc/*
-./Development/src/simv.daidir/*
-./Development/src/csrc
-./Development/src/simv.daidir
-./Development/src/simv
-./Development/src/ucli.key
+./**/**/csrc/*
+./**/**/simv.daidir/*
+./**/**/csrc
+./**/**/simv.daidir
+./**/**/simv
+./**/**/ucli.key
+./**/**/**/csrc/*
+./**/**/**/simv.daidir/*
+./**/**/**/csrc
+./**/**/**/simv.daidir
+./**/**/**/simv
+./**/**/**/ucli.key
 
 ./Development/src/*.bak
 ./Development/bin/*.bak

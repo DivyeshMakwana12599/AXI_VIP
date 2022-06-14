@@ -28,6 +28,76 @@ Revision:0.1
 
 class ei_axi4_checker_c;
 
+  ei_axi4_checker_db_c checker_db;
+
+  function new();
+    checker_db = new();
+    // Registering the Checker
+    checker_db.register_checker(
+      "AXI4_CHECK_001", 
+      "Address must not cross 4 KB Boundary"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_002", 
+      "For Fixed burst type AWLEN must be between 0 to 15"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_003", 
+      "For Fixed burst type ARLEN must be between 0 to 15"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_004", 
+      "For WRAP burst type AWLEN must be 1, 3, 7 and 15 only"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_005", 
+      "For WRAP burst type ARLEN must be 1, 3, 7 and 15 only"
+    );
+    // checker_db.register_checker(
+      // "AXI4_CHECK_006", 
+      // "For INCR burst type AWLEN must be between 0 to 255"
+    // );
+    // checker_db.register_checker(
+      // "AXI4_CHECK_007", 
+      // "For INCR burst type ARLEN must be between 0 to 255"
+    // );
+    checker_db.register_checker(
+      "AXI4_CHECK_008", 
+      "Transfer size - AWSIZE must be lesser than Data Bus Width"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_009", 
+      "Transfer size - ARSIZE must be lesser than Data Bus Width"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_010", 
+      "AWBURST must not be equal to 2'b11 (RESERVED)"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_011", 
+      "ARBURST must not be equal to 2'b11 (RESERVED)"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_012", 
+      "Approriate WSTRB must be there"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_013", 
+      "BRESP must be OKAY or SLVERR for every transaction"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_014", 
+      "RRESP must be OKAY or SLVERR for every transfer of transaction"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_015", 
+      "For WRAP burst type AWADDR must be Aligned address only"
+    );
+    checker_db.register_checker(
+      "AXI4_CHECK_016", 
+      "For WRAP burst type ARADDR must be Aligned address only"
+    );
+  endfunction
 
   /**
   *\ function check
@@ -62,6 +132,7 @@ class ei_axi4_checker_c;
   *\ Note: checker function for write packet
   */
   protected function RESULT_e check_write_signals(ei_axi4_transaction_c tr);
+
     bit [`BUS_BYTE_LANES - 1:0] golden_strb[];
 
     golden_strb = new[tr.len + 1];
@@ -74,13 +145,20 @@ class ei_axi4_checker_c;
     end
 
 
-    if(tr.wstrb == golden_strb) begin
-      $error("[AXI4_CHECK_001] Approriate wstrb must be there for every transfer");
+    if(tr.wstrb != golden_strb) begin
+      checker_db.fail("AXI4_CHECK_012");
       return FAIL;
     end
+    else begin
+      checker_cb.fail("AXI4_CHECK_012");
+    end
+
     if(!(tr.bresp inside {OKAY, SLVERR})) begin
-      $error("[AXI4_CHECK_001] bresp must be OKAY or SLVERR");
+      checker_db.fail("AXI4_CHECK_013");
       return FAIL;
+    end
+    else begin
+      checker_db.pass("AXI4_CHECK_013");
     end
 
     return PASS;
@@ -91,6 +169,7 @@ class ei_axi4_checker_c;
   *\ Note: checker function for read packet
   */
   protected function RESULT_e check_read_signals(ei_axi4_transaction_c tr);
+    bit isError;
 
     if(!check_common_signals(tr)) begin
       return FAIL;
@@ -98,9 +177,13 @@ class ei_axi4_checker_c;
 
     foreach(tr.rresp[i]) begin
       if(!(tr.rresp[i] inside {OKAY, SLVERR})) begin
-        $error("[AXI4_CHECK_001] rresp must be OKAY or SLVERR for every transfer");
+        isError = 1'b1;
+        checker_db.fail("AXI4_CHECK_014");
         return FAIL;
       end
+    end
+    if(!isError) begin
+      checker_db.pass("AXI4_CHECK_014");
     end
 
     return PASS;
@@ -116,40 +199,99 @@ class ei_axi4_checker_c;
 
     // check if the addr is crossing 4KB boundary
     if((((tr.addr - (tr.addr % transfer_size)) % 4096
-      ) + ((tr.len + 1) * transfer_size)) > 4096) begin
-      $error("[AXI4_CHECK_001] Address must not cross 4KB Boundary!");
+    ) + ((tr.len + 1) * transfer_size)) > 4096) begin
+      checker_db.fail("AXI4_CHECK_001");
       return FAIL;
+    end
+    else begin
+      checker_db.pass("AXI4_CHECK_001");
     end
 
     // check for burst type FIXED the len must be less than 15
     if(tr.burst == FIXED && tr.len > 15) begin
-      $error("[AXI4_CHECK_00%0d] For FIXED burst type \"len\" must be between 0 to 15", tr.transaction_type == WRITE ? 2 : 3);
+      if(tr.transaction_type == WRITE) begin
+        checker_db.fail("AXI4_CHECK_002");
+      end
+      else begin
+        checker_db.fail("AXI4_CHECK_003");
+      end
       return FAIL;
+    end
+    else begin
+      if(tr.transaction_type == WRITE) begin
+        checker_db.pass("AXI4_CHECK_002");
+      end
+      else begin
+        checker_db.pass("AXI4_CHECK_003");
+      end
     end
 
     // check for burst type WRAP the transaction len be 
     // must be in the power of 2
     if(tr.burst == WRAP && !(tr.len inside {1, 3, 7, 15})) begin
-      $error("[AXI4_CHECK_001] For WRAP burst type \"len\" must be 1, 3, 7, 15");
+      if(tr.transaction_type == WRITE) begin
+        checker_db.fail("AXI4_CHECK_004");
+      end
+      else begin
+        checker_db.fail("AXI4_CHECK_005");
+      end
       return FAIL;
+    end
+    else begin
+      if(tr.transaction_type == WRITE) begin
+        checker_db.pass("AXI4_CHECK_004");
+      end
+      else begin
+        checker_db.pass("AXI4_CHECK_005");
+      end
     end
 
     // check transfer size must be less than DATA_WIDTH
     if(transfer_size > `DATA_WIDTH) begin
-      $error("[AXI4_CHECK_001] No. of transfer within a single burst must be lesser then the data bus width");
+      if(tr.transaction_type == WRITE) begin
+        checker_db.fail("AXI4_CHECK_008");
+      end
+      else begin
+        checker_db.fail("AXI4_CHECK_009");
+      end
       return FAIL;
     end
-
+    else begin
+      if(tr.transaction_type == WRITE) begin
+        checker_db.pass("AXI4_CHECK_008");
+      end
+      else begin
+        checker_db.pass("AXI4_CHECK_009");
+      end
+    end
 
     // check the burst type must not be RESERVED
     if(tr.burst == 2'b11) begin
-      $error("[AXI4_CHECK_001] Burst must not be equal to 2'b11 i.e., RESERVED");
+      if(tr.transaction_type == WRITE) begin
+        checker_db.fail("AXI4_CHECK_010");
+      end
+      else begin
+        checker_db.fail("AXI4_CHECK_011");
+      end
       return FAIL;
+    end
+    else begin
+      if(tr.transaction_type == WRITE) begin
+        checker_db.pass("AXI4_CHECK_010");
+      end
+      else begin
+        checker_db.pass("AXI4_CHECK_011");
+      end
     end
 
     // check for burst type WRAP the address must only be aligned
     if(tr.burst == WRAP && (tr.addr % transfer_size)) begin
-      $error("[AXI4_CHECK_001] For WRAP burst type address must be Aligned");
+      if(tr.transaction_type == WRITE) begin
+        checker_db.fail("AXI4_CHECK_015");
+      end
+      else begin
+        checker_db.fail("AXI4_CHECK_016");
+      end
       return FAIL;
     end
   endfunction
