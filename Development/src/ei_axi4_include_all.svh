@@ -11,6 +11,8 @@
 `include "../src/ei_axi4_interface.sv"
 
 
+`include "../src/ei_axi4_checker_cfg.sv"
+`include "../src/ei_axi4_checker_db.sv"
 `include "../src/ei_axi4_checker.sv"
 
 `include "../test/ei_axi4_test_config.sv"
