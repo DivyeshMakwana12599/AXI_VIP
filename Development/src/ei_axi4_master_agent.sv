@@ -2,22 +2,37 @@ class ei_axi4_master_agent_c;
 
   virtual ei_axi4_interface vif;
   ei_axi4_env_config_c env_cfg;
-  ei_axi4_test_config_c test_cfg;
+  ei_axi4_master_generator_c mst_gen;
+  ei_axi4_master_driver_c mst_drv;
+  ei_axi4_master_monitor_c mst_mon;
 
   mailbox#(ei_axi4_transaction_c) mst_mon2ref;
+  mailbox#(ei_axi4_transaction_c) mst_gen2drv;
 
-  function new(mailbox#(ei_axi4_transaction_c) mst_mon2ref, virtual ei_axi4_interface vif, ei_axi4_env_config_c env_cfg, ei_axi4_test_config_c test_cfg);
+
+  function new(mailbox#(ei_axi4_transaction_c) mst_mon2ref, 
+      virtual ei_axi4_interface vif, 
+      ei_axi4_env_config_c env_cfg);
 
     this.vif = vif;
     this.env_cfg = env_cfg;
-    this.test_cfg = test_cfg;
-
     this.mst_mon2ref = mst_mon2ref;
+    if(env_cfg.master_agent_active_passive== ACTIVE) begin
+	mst_gen2drv = new();
+        mst_gen = new(mst_gen2drv);
+        mst_drv = new(mst_gen2drv, vif);
+        mst_mon = new(0, mon_mon2ref, ,vif);
+    end
+    else begin
+        mst_mon = new(mon_mon2ref);
+    end
 
   endfunction
 
   task run;
-
+      mst_gen.run();
+      mst_drv.run();
+      mst_mon.run();
   endtask
 
   function void wrap_up();

@@ -4,7 +4,34 @@
 File name 		: ei_axi4_test_config.sv
 Title 			: Configuration file for VIP testcases
 Project 		: AMBA AXI-4 SV VIP
-Created On  	: 05-June-22
+Created On  	: 12-June-22
+Developers  	: Jaspal Singh
+E-mail          : jaspal.singh@einfochips.com
+Purpose 		: Configuration file for VIP Environment
+ 
+Assumptions 	: As per the Feature plan All the pins are not declared here
+Limitations 	: 
+Known Errors	: 
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Copyright (c) 2000-2022 eInfochips - All rights reserved
+This software is authored by eInfochips and is eInfochips intellectual
+property, including the copyrights in all countries in the world. This
+software is provided under a license to use only with all other rights,
+including ownership rights, being retained by eInfochips
+This file may not be distributed, copied, or reproduced in any manner,
+electronic or otherwise, without the express written consent of
+eInfochips 
+--------------------------------------------------------------------------------
+Revision		: 0.1
+------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File name 		: ei_axi4_test_config.sv
+Title 			: Configuration file for VIP testcases
+Project 		: AMBA AXI-4 SV VIP
+Created On  	: 10-June-22
 Developers  	: Jaspal Singh
 E-mail          : jaspal.singh@einfochips.com
 Purpose 		: Configuration file for VIP Environment
@@ -33,62 +60,60 @@ Revision		: 0.1
 //typedef enum {FIXED, INCR, WRAP, RESERVE} burst_type_e;
 
 //parameterized test_config class
-
 class ei_axi4_test_config_c ;
 
-	int total_num_trans;				//to count total number of transaction
-	int passed_trans;					//count passed transaction
-	int failed_trans;					//count failed transaction	
-	bit [2:0] transfer_size;			//size of trasnfer
-	bit [7:0] transaction_length;		//length of transaction
-    transfer_type_e transfer_type;		//type of transfer
-	addr_type_e     addr_type;			//align, unaligned
-    burst_type_e    burst_type;			//fixed, incr, wrap, reserve
-	bit random_transfer_size;			//1 = enable randomization, 0 =  disable rand mode
-	bit random_transaction_length;		
-	bit random_burst_type;
-	bit random_address_type;
+	rand int unsigned total_num_trans;		//to count total number of transaction
 	
-	string testname;					//for identification testcase
+	rand bit [2:0] transfer_size;			//size of trasnfer
+	rand bit [7:0] transaction_length;		//length of transaction
+	rand addr_type_e     addr_type;			//align, unaligned
+    rand burst_type_e    burst_type;		//fixed, incr, wrap, reserve	
 	
-    task display();
-        $display("=======================================");
-        $display("== TESTNAME : %20s ===",testname);
-        $display("=======================================");
-    endtask
-
+	constraint reasonable {total_num_trans inside {[1:1000]};}
+	
+	////////////////////////////////////////////////////////////////////////////////
+	//   Method name          : post_randomize()								  //	
+	//   Parameters passed    : none       										  //
+	//   Returned parameters  : None											  //
+	//   Description          : take command line argument                        //
+	////////////////////////////////////////////////////////////////////////////////
+	function new();
+		if($value$plusargs("num_of_trans=%0d", total_num_trans)) begin
+			total_num_trans.rand_mode(0);
+		end
+		else begin
+			total_num_trans.rand_mode(1);
+		end
+		
+		if($value$plusargs("size=%0d", transfer_size)) begin
+			transfer_size.rand_mode(0);
+		end
+		else begin
+			transfer_size.rand_mode(1);
+		end
+		
+		if($value$plusargs("length=%0d", transaction_length)) begin
+			transaction_length.rand_mode(0);
+		end
+		else begin
+			transaction_length.rand_mode(1);
+		end
+	    
+		if($value$plusargs("burst_type=%0s", burst_type)) begin
+			burst_type.rand_mode(0);
+		end
+		else begin
+			burst_type.rand_mode(1);
+		end
+	    
+		if($value$plusargs("addr_type=%0s", addr_type)) begin
+			addr_type.rand_mode(0);
+		end
+		else begin
+			addr_type.rand_mode(1);
+		end
+	endfunction
+	
 endclass :ei_axi4_test_config_c
 
 
-//testcases
-class ei_axi4_sanity_test_c extends ei_axi4_test_config_c;
-	
-	/***
-	//   Method name          : new()											  	
-	//   Parameters passed    : none       										  
-	//   Returned parameters  : None											  
-	//   Description          : take command line argument for size and length    
-	***/
-    function new();
-        if($value$plusargs("size=%d", transfer_size))begin
-            $display("transfer size = %d", transfer_size);
-        end
-		else begin
-		  $fatal("invalid input");
-		end
-		
-        if($value$plusargs("length=%0d", transaction_length))begin
-            $display("transfer length = %0d", transaction_length);
-        end
-		else begin
-		  $fatal("invalid input");
-		end
-		
-		random_burst_type   = 1;			//fixed,incr,wrap
-		random_address_type    = 1;		    //aligned, unaligned
-		total_num_trans     = 2;			//num of transactions
-        transfer_type       = WR_RD;
-		testname   		    = "ei_axi4_SANITY_TEST";
-	endfunction
-
-endclass : ei_axi4_sanity_test_c

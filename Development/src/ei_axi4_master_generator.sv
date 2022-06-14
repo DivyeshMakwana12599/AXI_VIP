@@ -42,6 +42,15 @@ class ei_axi4_master_generator_c;
 endclass :ei_axi4_master_generator_c
           
 		  
+<<<<<<< HEAD
+	/***
+	//   Method name          : new()											  	
+	//   Parameters passed    : mailbox and test_config							  
+	//   Returned parameters  : None											  
+	//   Description          : take argument from environment class 			  
+	***/
+  function ei_axi4_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
+=======
 	////////////////////////////////////////////////////////////////////////////////
 	//   Method name          : new()											  //	
 	//   Parameters passed    : mailbox and test_config							  //
@@ -49,6 +58,7 @@ endclass :ei_axi4_master_generator_c
 	//   Description          : take argument from environment class 			  //
 	////////////////////////////////////////////////////////////////////////////////
   function ei_axi4_master_generator_c::new(mailbox #(ei_axi4_transaction_c) gen2drv, ei_axi4_test_config_c cfg_t);
+>>>>>>> 0deee2096ed89583bc60a20244fc304c951bb24c
 	tr 						= new();
 	this.gen2drv            = gen2drv;
     this.cfg_t              = cfg_t;
@@ -56,6 +66,15 @@ endclass :ei_axi4_master_generator_c
     this.transaction_length = cfg_t.transaction_length;
   endfunction
           
+<<<<<<< HEAD
+	/***
+	//   Method name          : run()											  
+	//   Parameters passed    : none                							  
+	//   Returned parameters  : None											  
+	//   Description          : to generate packet as per testcase requirement    
+	***/
+  task ei_axi4_generator_c::run();
+=======
 	////////////////////////////////////////////////////////////////////////////////
 	//   Method name          : run()											  //	
 	//   Parameters passed    : none                							  //
@@ -63,6 +82,7 @@ endclass :ei_axi4_master_generator_c
 	//   Description          : to generate packet as per testcase requirement    //
 	////////////////////////////////////////////////////////////////////////////////		    
   task ei_axi4_master_generator_c::run();
+>>>>>>> 0deee2096ed89583bc60a20244fc304c951bb24c
     begin
       $display("%t, GEN::RUN PHASE", $time);
       repeat(cfg_t.total_num_trans)begin
