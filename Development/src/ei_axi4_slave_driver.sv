@@ -42,9 +42,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   bit [31:0] q_awaddr[$];
   bit [31:0] q_araddr[$]; 
 
-  semaphore write_addr2data;
-  semaphore read_channel; 
-
   ei_axi4_transaction_c read_tr;
   ei_axi4_transaction_c write_tr;
   virtual ei_axi4_interface vif;
@@ -61,10 +58,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
   function new(virtual ei_axi4_interface vif);
     this.vif  = vif;
-    write_addr2data = new(1);
-    read_channel = new(1); 
-   // read_tr   = new();
-  //  write_tr  = new();
+   // write_addr2data = new(1);
+    //read_channel = new(1); 
+    read_tr   = new();
+    write_tr  = new();
   endfunction
 
 /**
@@ -88,6 +85,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         read_data_run();
       join_any
       disable run_AXI_slave_driver;
+      $display("[SLAVE_DRV]--> @%0t fork join disabled",$time);
     end
   endtask : run
 
@@ -109,6 +107,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       `VSLV.bvalid    <= 0;
       `VSLV.rvalid    <= 0;
       q_awaddr.delete();
+      q_araddr.delete();
     end
   endtask : reset_run
 
@@ -127,7 +126,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      // write_addr2data.get(1);
      `VSLV.awready    <= 1;
      @(`VSLV iff(`VSLV.awvalid == 1)) begin
-       write_tr         =   new();
+      // write_tr         =   new();
        write_tr.addr    =  `VSLV.awaddr;
        write_tr.burst   =  `VSLV.awburst;
        write_tr.len     =  `VSLV.awlen;
@@ -177,8 +176,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       q_awaddr.push_back(start_addr);
       aligned_address = ((start_addr/number_bytes))* number_bytes;
       
-      for(int i=1; i< burst_len; i++) begin
-      
+      for(int i=1; i< burst_len; i++) begin 
         address_n = address_n + number_bytes;
         if(upper_wb == address_n) begin
           address_n = lower_wb;
@@ -201,8 +199,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                         
 **/
   task write_data_run();
-    //write_addr2data.get(1);
-    @(posedge `VSLV.wvalid);
+     @(`VSLV iff(q_awaddr.size != 0));
      case (write_tr.burst) 
        FIXED  : fixed_write();
        INCR   : incr_write();
@@ -230,7 +227,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       write_tr.wstrb[0]=   `VSLV.wstrb;
       write_tr.data[0] =   `VSLV.wdata; 
 
-      if(write_tr.wstrb[0][i]==1) begin
+      if(write_tr.wstrb[0][i] == 1 ) begin
         // if strobe is 1 then data is valid and store to memory
         slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
       end
@@ -298,35 +295,51 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      write_tr.bresp = OKAY; 
     `VSLV.bresp        <= write_tr.bresp;
     @(`VSLV iff(`VSLV.bready == 1));
-    `VSLV.bresp       <= 'bz ;
+    @(`VSLV)`VSLV.bresp       <= 'bz ;
   endtask
 
   task read_address_run();
-    read_channel.get(1);
+    //read_channel.get(1);
+    @(`VSLV);
+  $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t ARREADY made 1 ",$time);
      `VSLV.arready    <= 1;
     @(`VSLV iff(`VSLV.arvalid == 1));
-       read_tr         =   new();
+    $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t Handshaking done ",$time);
        read_tr.addr    =  `VSLV.araddr;
        read_tr.burst   =  `VSLV.arburst;
        read_tr.len     =  `VSLV.arlen;
        read_tr.size    =  `VSLV.arsize;
        calculate_read_address();
-       @(`VSLV) `VSLV.arready <= 0;
-       read_channel.put(1); 
+      // @(`VSLV); 
+       `VSLV.arready <= 0;
+      // read_channel.put(1); 
   endtask
   
   task read_data_run();
-   read_channel.get(1);
-   for(int i=0;i<read_tr.len;i++) begin
+  // read_channel.get(1);
+   @(`VSLV iff(q_araddr.size() != 0));
+   $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+   for(int i = 0; i < read_tr.len; i++) begin
        if(vif.aresetn == 0) begin
            break;
        end
        else begin
+         $display("[slv] : >>>>>>>>>>>>>>");
            `VSLV.rvalid <= 1;
+            $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RVALID Handshaking done ",$time);
+
            `VSLV.rdata <= rdata(i);
+
+          //@(`VSLV iff(`VSLV.rready));
            `VSLV.rresp <= 0;
-           if(i == read_tr.len) begin
+
+          //@(`VSLV iff(`VSLV.rready));
+           if(i == read_tr.len - 1) begin
                `VSLV.rlast <= 1;
+            $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Asserted ",$time);
+
+  
+
            end
            else begin
                `VSLV.rlast <= 0; 
@@ -334,8 +347,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
            @(`VSLV iff(`VSLV.rready));
        end
    end
-   @(`VSLV) `VSLV.rvalid <= 0;
-   read_channel.put(1); 
+   `VSLV.rvalid <= 0;
+   `VSLV.rlast  <= 0;
+ $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+   //read_channel.put(1); 
   endtask
 
  function void calculate_read_address();
@@ -414,7 +429,7 @@ function bit [63:0] rdata(int i);
                                     ((addr / data_bus_bytes)) * data_bus_bytes;
       
       len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-            len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
+      len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
       rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
     
     end

@@ -174,9 +174,10 @@ class ei_axi4_master_driver_c;
         
         sema1.get(1);
 
+        `VMST.rready <= 1'b1;
         @(`VMST iff(`VMST.arready));
 
-        `VMST.rready <= 1'b1;
+       // `VMST.rready <= 1'b1; //changes by [SP]
  
         for(int i = 0 ; i <= read_queue[0].len ; i++)begin 
 
