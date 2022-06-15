@@ -299,58 +299,50 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   endtask
 
   task read_address_run();
-    //read_channel.get(1);
-    @(`VSLV);
-  $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t ARREADY made 1 ",$time);
-     `VSLV.arready    <= 1;
-    @(`VSLV iff(`VSLV.arvalid == 1));
-    $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t Handshaking done ",$time);
-       read_tr.addr    =  `VSLV.araddr;
-       read_tr.burst   =  `VSLV.arburst;
-       read_tr.len     =  `VSLV.arlen;
-       read_tr.size    =  `VSLV.arsize;
-       calculate_read_address();
-      // @(`VSLV); 
-       `VSLV.arready <= 0;
-      // read_channel.put(1); 
+    forever begin
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t ARREADY made 1 ",$time);
+      `VSLV.arready    <= 1;
+      @(`VSLV iff(`VSLV.arvalid == 1));
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t Handshaking done ",$time);
+      read_tr.addr    =  `VSLV.araddr;
+      read_tr.burst   =  `VSLV.arburst;
+      read_tr.len     =  `VSLV.arlen;
+      read_tr.size    =  `VSLV.arsize;
+      calculate_read_address();
+      `VSLV.arready <= 0;
+    end
   endtask
   
   task read_data_run();
-  // read_channel.get(1);
-   @(`VSLV iff(q_araddr.size() != 0));
-   $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
-   for(int i = 0; i < read_tr.len; i++) begin
-       if(vif.aresetn == 0) begin
+    forever begin
+      @(`VSLV iff(q_araddr.size() != 0));
+      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+      for(int i = 0; i < read_tr.len; i++) begin
+        if(vif.aresetn == 0) begin
            break;
-       end
-       else begin
-         $display("[slv] : >>>>>>>>>>>>>>");
-           `VSLV.rvalid <= 1;
-            $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RVALID Handshaking done ",$time);
-
-           `VSLV.rdata <= rdata(i);
-
+        end
+        else begin
+          $display("[slv] : >>>>>>>>>>>>>>");
+          `VSLV.rvalid <= 1;
+          $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RVALID Handshaking done ",$time);
+          `VSLV.rdata <= rdata(i);
           //@(`VSLV iff(`VSLV.rready));
            `VSLV.rresp <= 0;
-
           //@(`VSLV iff(`VSLV.rready));
-           if(i == read_tr.len - 1) begin
-               `VSLV.rlast <= 1;
+          if(i == read_tr.len - 1) begin
+            `VSLV.rlast <= 1;
             $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Asserted ",$time);
-
-  
-
-           end
-           else begin
-               `VSLV.rlast <= 0; 
-           end
-           @(`VSLV iff(`VSLV.rready));
-       end
-   end
-   `VSLV.rvalid <= 0;
-   `VSLV.rlast  <= 0;
- $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
-   //read_channel.put(1); 
+          end
+          else begin
+            `VSLV.rlast <= 0; 
+          end
+          @(`VSLV iff(`VSLV.rready));
+        end
+      end
+      `VSLV.rvalid <= 0;
+      `VSLV.rlast  <= 0;
+      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+    end
   endtask
 
  function void calculate_read_address();
