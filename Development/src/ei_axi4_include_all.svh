@@ -35,6 +35,6 @@
 `include "../src/ei_axi4_read_trans.sv"
 `include "../src/ei_axi4_write_trans.sv"
 
-`include "../test/ei_axi4_testcases.sv"
+`include "../test/ei_axi4_include_all_testcases.svh"
 
 `include "../test/ei_axi4_test.sv"
