@@ -367,9 +367,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
            `VSLV.rresp <= 0;
           //@(`VSLV iff(`VSLV.rready));
           if(i == read_tr.len - 1) begin
-
-            $display("Hello @%0t", $time);
-            $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Asserted ",$time);
+              `VSLV.rlast <= 1'b1;
+                $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Asserted ",$time);
           end
           /*else begin
             `VSLV.rlast <= 0; 
