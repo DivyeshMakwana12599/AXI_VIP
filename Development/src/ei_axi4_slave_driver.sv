@@ -124,17 +124,17 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
   task write_address_run();
      // write_addr2data.get(1);
-     `VSLV.awready    <= 1;
-     @(`VSLV iff(`VSLV.awvalid == 1)) begin
-      // write_tr         =   new();
+    forever begin
+      `VSLV.awready    <= 1;
+      @(`VSLV iff(`VSLV.awvalid == 1);
+       // write_tr         =   new();
        write_tr.addr    =  `VSLV.awaddr;
        write_tr.burst   =  `VSLV.awburst;
        write_tr.len     =  `VSLV.awlen;
        write_tr.size    =  `VSLV.awsize;
        calculate_write();
        @(`VSLV) `VSLV.awready <= 0;
-      // write_addr2data.put(1);     //semaphore
-
+       // write_addr2data.put(1);     //semaphore
      end
    endtask : write_address_run
 
@@ -199,12 +199,14 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                         
 **/
   task write_data_run();
-     @(`VSLV iff(q_awaddr.size != 0));
-     case (write_tr.burst) 
-       FIXED  : fixed_write();
-       INCR   : incr_write();
-       WRAP   : wrap_write();
-     endcase
+    forever begin
+      @(`VSLV iff(q_awaddr.size != 0));
+      case (write_tr.burst)
+        FIXED  : fixed_write();
+        INCR   : incr_write();
+        WRAP   : wrap_write();
+      endcase
+    end
   endtask : write_data_run
 
 /**
@@ -219,7 +221,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task fixed_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
     `VSLV.wready    <= 1;  
-     mem_addr        = (q_awaddr[0])/ 8;
+    mem_addr        = (q_awaddr[0])/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb   =   new[1];
@@ -232,7 +234,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
       end
     end
-
   endtask : fixed_write
 
 /*
@@ -249,7 +250,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     `VSLV.wready    <= 1;  
     mem_addr        = q_awaddr.pop_front();
     mem_addr        = (q_awaddr.pop_front()) / 8;
-
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb   =   new[1];
@@ -261,10 +261,19 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         // if strobe is 1 then data is valid and store to memory
         slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
       end
-    end
-   // write_addr2data.put(1);
+    end  
   endtask : incr_write
 
+
+/*
+*\   Method name          : incr_write()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
   task wrap_write();
    
      bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
@@ -286,6 +295,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
 
 
+/*
+*\   Method name          : write_response_run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
   task write_response_run();
     `VSLV.wready       <= 1;
     @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast));
@@ -298,6 +316,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     @(`VSLV)`VSLV.bresp       <= 'bz ;
   endtask
 
+
+/*
+*\   Method name          : read_address_run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
   task read_address_run();
     forever begin
       $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t ARREADY made 1 ",$time);
@@ -312,7 +340,17 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       `VSLV.arready <= 0;
     end
   endtask
-  
+
+
+/*
+*\   Method name          : read_data_run()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
   task read_data_run();
     forever begin
       @(`VSLV iff(q_araddr.size() != 0));
@@ -345,11 +383,21 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     end
   endtask
 
+
+/*
+*\   Method name          : calculate_read_address()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/
  function void calculate_read_address();
-     bit [31:0] start_addr;
-     bit [31:0] aligned_address;
-     bit [31:0] address_n;
-     bit [1:0]  burst;
+     bit [31 : 0] start_addr;
+     bit [31 : 0] aligned_address;
+     bit [31 : 0] address_n;
+     bit [ 1 : 0] burst;
   
      int number_bytes;
      int burst_len;
@@ -397,48 +445,50 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       end
    endfunction : calculate_read_address
 
-function bit [63:0] rdata(int i);
+ /*
+*\   Method name          : rdata()
+*\   parameters passed    : integer index                       
+*\   Returned parameters  : return data width values
+*\   Description          :
+*\                         
+*\                        
+*\                         
+**/  
+function bit [63 : 0] rdata(int i);
     
-    bit [31:0] addr; // Start addres
-    bit [3:0]  data_bus_bytes = 8;
-    bit [2:0]  lbl, ubl;
-    bit [31:0] aligned_address;
-    int        number_bytes;
-    bit [63:0] len_sel_r;
-    int        mem_addr_r;
+    bit [31 : 0] addr; // Start addres
+    bit [ 3 : 0] data_bus_bytes = 8;
+    bit [ 2 : 0] lbl, ubl;
+    bit [31 : 0] aligned_address;
+    int          number_bytes;
+    bit [63 : 0] len_sel_r;
+    int          mem_addr_r;
     
-    len_sel_r    = {8{8'hff}};
-    number_bytes = 2 ** read_tr.size;
-    
-    
-    
+    len_sel_r         = {8{8'hff}};
+    number_bytes      = 2 ** read_tr.size;
+       
     if(i == 0) begin
-      addr = q_araddr.pop_front();
-      mem_addr_r = addr / data_bus_bytes;
-        aligned_address = (addr/number_bytes) * number_bytes;
-        lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
-      ubl = aligned_address + (number_bytes - 1'b1) -
+      addr            = q_araddr.pop_front();
+      mem_addr_r      = addr / data_bus_bytes;
+      aligned_address = (addr/number_bytes) * number_bytes;
+      lbl             = addr - ((addr / data_bus_bytes))* data_bus_bytes;
+      ubl             = aligned_address + (number_bytes - 1'b1) -
                                     ((addr / data_bus_bytes)) * data_bus_bytes;
       
-      len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-      len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
-      rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
+      len_sel_r       = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
+      len_sel_r       = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
+      rdata           = slv_drv_mem[mem_addr_r] & len_sel_r;
     
     end
     else begin
-      addr = q_araddr.pop_front();
-      lbl = addr - ((addr / data_bus_bytes))* data_bus_bytes;
-      ubl = lbl + number_bytes-1'b1;
+      addr            = q_araddr.pop_front();
+      lbl             = addr - ((addr / data_bus_bytes))* data_bus_bytes;
+      ubl             = lbl + number_bytes-1'b1;
       
-      mem_addr_r = addr / data_bus_bytes;
-      len_sel_r   = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-            len_sel_r   = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
-      
-      rdata = slv_drv_mem[mem_addr_r] & len_sel_r;
-      
+      mem_addr_r      = addr / data_bus_bytes;
+      len_sel_r       = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
+      len_sel_r       = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
+      rdata           = slv_drv_mem[mem_addr_r] & len_sel_r;      
     end
   endfunction :rdata
-
-
 endclass : ei_axi4_slave_driver_c
-
