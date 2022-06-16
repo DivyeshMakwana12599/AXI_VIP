@@ -19,13 +19,13 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
 	task start();
 		
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
-			wr_trans = new();
-			rd_trans = new();
 		$display("[TEST_c] : sanity test");
 		if(i%2 == 0)begin
+            wr_trans = new();
 			env.mst_agt.mst_gen.start(wr_trans);
 		end
 		else begin
+            rd_trans = new();
 			rd_trans.rand_mode(0);
 			rd_trans.addr  = wr_trans.addr;
 			rd_trans.data  = wr_trans.data;	
