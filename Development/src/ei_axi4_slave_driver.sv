@@ -413,13 +413,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      aligned_address = ((start_addr/number_bytes))* number_bytes;
 
      if(burst == INCR) begin 
-      for(int count = 1; count <= burst_len; count++) begin
+      for(int count = 1; count < burst_len; count++) begin
         if(count==1) begin
-         q_araddr.push_back(address_n); 
+         q_araddr.push_back(address_n);
+         $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
         end
         else begin
          address_n = aligned_address + ((count-1) * number_bytes); 
-         q_araddr.push_back(address_n); 
+         q_araddr.push_back(address_n);
+         $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
         end
       end
      end

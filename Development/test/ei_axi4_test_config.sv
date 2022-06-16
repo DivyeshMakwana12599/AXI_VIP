@@ -69,8 +69,8 @@ class ei_axi4_test_config_c ;
 	rand addr_type_e     addr_type;			//align, unaligned
   rand burst_type_e    burst_type;		//fixed, incr, wrap, reserve	
 	
-	//constraint reasonable {total_num_trans inside {[1:10]};}
-  constraint reasonable {total_num_trans == 1;}
+	constraint reasonable {total_num_trans inside {[1:10]};}
+ // constraint reasonable {total_num_trans == 1;}
   constraint wrap_len_ct {
     (burst_type == WRAP) -> (transaction_length inside {1, 3, 7, 15});
   }
