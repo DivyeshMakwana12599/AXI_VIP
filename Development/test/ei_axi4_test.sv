@@ -33,11 +33,41 @@ Revision		: 0.1
 
      task run();
         //testcase-01
-       if($test$plusargs("READ_TEST")) begin
+       if($test$plusargs("ei_axi4_READ_TEST")) begin
          ei_axi4_rd_test_c read_test;
          read_test = new(vif);
+         read_test.build();
          read_test.start();
+	 $display("READ TESTCASE SELECTED");
        end
+
+	//testcase-02
+       else if($test$plusargs("ei_axi4_WRITE_TEST")) begin
+	 ei_axi4_wr_test_c write_test;
+         write_test = new(vif);
+	 write_test.build();
+	 write_test.start();
+	 $display("WRITE TESTCASE SELECTED");
+       end
+	   
+	//testcase-03
+       else if($test$plusargs("ei_axi4_SANITY_TEST")) begin
+	 ei_axi4_sanity_test_c sanity_test;
+         sanity_test = new(vif);
+	 sanity_test.build();
+	 sanity_test.start();
+	 $display("SANITY TESTCASE SELECTED");
+       end      
+	   
+	//testcase-04
+       else if($test$plusargs("ei_axi4_RRANDOM_TEST")) begin
+	 ei_axi4_random_test_c random_test;
+         random_test = new(vif);
+	 random_test.build();
+	 random_test.start();
+	 $display("RANDOM WR_RD TESTCASE SELECTED");
+       end
+	   
      
        else begin
          $display("\n----------PLEASE ENTER A TESTNAME TO PROCEED------------");
