@@ -36,11 +36,11 @@ Revision  : 0.1
 class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
                                ADDR_WIDTH = `ADDR_WIDTH);
   localparam BUS_BYTE_LANES = DATA_WIDTH / 8;
-  bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1:0]];
+  bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1 : 0]];
   //bit unsigned [ DATA_WIDTH : 0 ] q_wdata[$];
   //bit unsigned [ DATA_WIDTH : 0 ] q_rdata[$];
-  bit [31:0] q_awaddr[$];
-  bit [31:0] q_araddr[$]; 
+  bit [31 : 0] q_awaddr[$];
+  bit [31 : 0] q_araddr[$]; 
 
   ei_axi4_transaction_c read_tr;
   ei_axi4_transaction_c write_tr;
@@ -57,11 +57,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   function new(virtual ei_axi4_interface vif);
-    this.vif  = vif;
-   // write_addr2data = new(1);
-    //read_channel = new(1); 
-    read_tr   = new();
-    write_tr  = new();
+    this.vif    = vif; 
+    read_tr     = new();
+    write_tr    = new();
   endfunction
 
 /**
@@ -101,11 +99,11 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
   task reset_run();
     @(`VSLV iff (vif.aresetn == 0)) begin
-      `VSLV.awready   <= 0;
-      `VSLV.arready   <= 0;
-      `VSLV.wready    <= 0;
-      `VSLV.bvalid    <= 0;
-      `VSLV.rvalid    <= 0;
+      `VSLV.awready     <= 0;
+      `VSLV.arready     <= 0;
+      `VSLV.wready      <= 0;
+      `VSLV.bvalid      <= 0;
+      `VSLV.rvalid      <= 0;
       q_awaddr.delete();
       q_araddr.delete();
     end
@@ -125,13 +123,13 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_address_run();
      // write_addr2data.get(1);
     forever begin
-      `VSLV.awready    <= 1;
+      `VSLV.awready           <= 1;
       @(`VSLV iff(`VSLV.awvalid == 1));
        // write_tr         =   new();
-       write_tr.addr    =  `VSLV.awaddr;
-       write_tr.burst   =  `VSLV.awburst;
-       write_tr.len     =  `VSLV.awlen;
-       write_tr.size    =  `VSLV.awsize;
+       write_tr.addr           =  `VSLV.awaddr;
+       write_tr.burst          =  `VSLV.awburst;
+       write_tr.len            =  `VSLV.awlen;
+       write_tr.size           =  `VSLV.awsize;
        calculate_write();
        @(`VSLV) `VSLV.awready <= 0;
        // write_addr2data.put(1);     //semaphore
@@ -150,12 +148,12 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      int ubl;
      int lower_wb,upper_wb;
 
-     start_addr = write_tr.addr;
-     number_bytes = 2**write_tr.size;
-     burst_len = write_tr.len + 1; //
-     burst = write_tr.burst;
-     address_n = start_addr;
-     aligned_address = ((start_addr/number_bytes))* number_bytes;
+     start_addr         = write_tr.addr;
+     number_bytes       = 2**write_tr.size;
+     burst_len          = write_tr.len + 1; //
+     burst              = write_tr.burst;
+     address_n          = start_addr;
+     aligned_address    = ((start_addr/number_bytes))* number_bytes;
 
      if(burst == INCR) begin 
       for(int count = 1; count <= burst_len; count++) begin
@@ -170,16 +168,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      end
   
     if(burst == WRAP) begin 
-      lower_wb = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
-      upper_wb = lower_wb + (number_bytes*burst_len);
-      aligned_address = start_addr;
+      lower_wb          = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
+      upper_wb          = lower_wb + (number_bytes*burst_len);
+      aligned_address   = start_addr;
       q_awaddr.push_back(start_addr);
-      aligned_address = ((start_addr/number_bytes))* number_bytes;
+      aligned_address   = ((start_addr/number_bytes))* number_bytes;
       
       for(int i=1; i< burst_len; i++) begin 
-        address_n = address_n + number_bytes;
+        address_n       = address_n + number_bytes;
         if(upper_wb == address_n) begin
-          address_n = lower_wb;
+          address_n     = lower_wb;
           q_awaddr.push_back(address_n);
         end
         else begin
@@ -220,14 +218,14 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task fixed_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-    `VSLV.wready    <= 1;  
-    mem_addr        = (q_awaddr[0])/ 8;
+    `VSLV.wready        <= 1;  
+    mem_addr            = (q_awaddr[0])/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
-      write_tr.wstrb   =   new[1];
-      write_tr.data    =   new[1];
-      write_tr.wstrb[0]=   `VSLV.wstrb;
-      write_tr.data[0] =   `VSLV.wdata; 
+      write_tr.wstrb    =   new[1];
+      write_tr.data     =   new[1];
+      write_tr.wstrb[0] =   `VSLV.wstrb;
+      write_tr.data[0]  =   `VSLV.wdata; 
 
       if(write_tr.wstrb[0][i] == 1 ) begin
         // if strobe is 1 then data is valid and store to memory
@@ -247,15 +245,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task incr_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-    `VSLV.wready    <= 1;  
-    mem_addr        = q_awaddr.pop_front();
-    mem_addr        = (q_awaddr.pop_front()) / 8;
+    `VSLV.wready        <= 1;  
+    mem_addr            = q_awaddr.pop_front();
+    mem_addr            = (q_awaddr.pop_front()) / 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
-      write_tr.wstrb   =   new[1];
-      write_tr.data    =   new[1];
-      write_tr.wstrb[0]   =   `VSLV.wstrb;
-      write_tr.data[0]    =   `VSLV.wdata; 
+      write_tr.wstrb    =   new[1];
+      write_tr.data     =   new[1];
+      write_tr.wstrb[0] =   `VSLV.wstrb;
+      write_tr.data[0]  =   `VSLV.wdata; 
 
       if(write_tr.wstrb[0][i]==1) begin
         // if strobe is 1 then data is valid and store to memory
@@ -277,14 +275,14 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task wrap_write();
    
      bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-    `VSLV.wready    <= 1;  
-    mem_addr        = (q_awaddr.pop_front() )/ 8;
+    `VSLV.wready      <= 1;  
+    mem_addr          = (q_awaddr.pop_front() )/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb   =   new[1];
       write_tr.data    =   new[1];
-      write_tr.wstrb[0]   =   `VSLV.wstrb;
-      write_tr.data[0]    =   `VSLV.wdata; 
+      write_tr.wstrb[0]=   `VSLV.wstrb;
+      write_tr.data[0] =   `VSLV.wdata; 
 
       if(write_tr.wstrb[0][i]==1) begin
         // if strobe is 1 then data is valid and store to memory
@@ -313,7 +311,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      write_tr.bresp = OKAY; 
     `VSLV.bresp        <= write_tr.bresp;
     @(`VSLV iff(`VSLV.bready == 1));
-    @(`VSLV)`VSLV.bresp       <= 'bz ;
+    @(`VSLV)`VSLV.bresp <= 'bz ;
   endtask
 
 
@@ -328,10 +326,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task read_address_run();
     forever begin
-      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t ARREADY made 1 ",$time);
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ................ --> @%0t ARREADY made 1 ",$time);
       `VSLV.arready    <= 1;
       @(`VSLV iff(`VSLV.arvalid == 1));
-      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t Handshaking done ",$time);
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ................ --> @%0t Handshaking done ",$time);
       read_tr.addr    =  `VSLV.araddr;
       read_tr.burst   =  `VSLV.arburst;
       read_tr.len     =  `VSLV.arlen + 1;
@@ -354,33 +352,28 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task read_data_run();
     forever begin
       @(`VSLV iff(q_araddr.size() != 0));
-      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+      $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
       for(int i = 0; i < read_tr.len; i++) begin
         if(vif.aresetn == 0) begin
            break;
         end
         else begin 
-          `VSLV.rvalid <= 1;
-          $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RVALID Handshaking done ",$time);
-          `VSLV.rdata <= rdata(i);
-          //@(`VSLV iff(`VSLV.rready));
-           `VSLV.rresp <= 0;
-          //@(`VSLV iff(`VSLV.rready));
+          `VSLV.rvalid    <= 1;
+          $display("[SLV_DRV.READ_DATA_CHANNEL]................ --> @%0t RVALID Handshaking done ",$time);
+          `VSLV.rdata     <= rdata(i);
+           `VSLV.rresp    <= 0;
           if(i == read_tr.len - 1) begin
               `VSLV.rlast <= 1'b1;
-                $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Asserted ",$time);
+                $display("[SLV_DRV.READ_DATA_CHANNEL] ................ --> @%0t RLAST Asserted ",$time);
           end
-          /*else begin
-            `VSLV.rlast <= 0; 
-          end*/
           @(`VSLV iff(`VSLV.rready));
         end
       end
-      `VSLV.rvalid <= 0;
-      `VSLV.rlast  <= 0;
+      `VSLV.rvalid      <= 0;
+      `VSLV.rlast       <= 0;
 
-      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Deasserted ",$time);
-      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size remains = %0d",$time,q_araddr[0],q_araddr.size());
+      $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t RLAST Deasserted ",$time);
+      $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t q_araddr = %0d and size remains = %0d",$time,q_araddr[0],q_araddr.size());
     end
   endtask
 
@@ -428,17 +421,17 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      end
   
     if(burst == WRAP) begin 
-      lower_wb = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
-      upper_wb = lower_wb + (number_bytes*burst_len);
-      aligned_address = start_addr;
+      lower_wb          = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
+      upper_wb          = lower_wb + (number_bytes*burst_len);
+      aligned_address   = start_addr;
       q_araddr.push_back(start_addr);
-      aligned_address = ((start_addr/number_bytes))* number_bytes;
+      aligned_address   = ((start_addr/number_bytes))* number_bytes;
      
       for(int i=1; i< burst_len; i++) begin
       
         address_n = address_n + number_bytes;
         if(upper_wb == address_n) begin
-          address_n = lower_wb;
+          address_n     = lower_wb;
           q_araddr.push_back(address_n);
         end
         else begin
