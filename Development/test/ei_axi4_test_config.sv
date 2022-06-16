@@ -1,5 +1,4 @@
-
-/*--------------------------------------------------------------------------------
+/**--------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 File name 		: ei_axi4_test_config.sv
 Title 			: Configuration file for VIP testcases
@@ -86,7 +85,7 @@ class ei_axi4_test_config_c ;
 	//   Description          : take command line argument                        //
 	////////////////////////////////////////////////////////////////////////////////
 	function new();
-		if($value$plusargs("num_of_trans=%0d", total_num_trans)) begin
+		if($value$plusargs("total_num_trans=%0d", total_num_trans)) begin
 			total_num_trans.rand_mode(0);
 		end
 		else begin
