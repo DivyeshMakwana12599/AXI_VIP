@@ -359,8 +359,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         if(vif.aresetn == 0) begin
            break;
         end
-        else begin
-          $display("[slv] : >>>>>>>>>>>>>>");
+        else begin 
           `VSLV.rvalid <= 1;
           $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RVALID Handshaking done ",$time);
           `VSLV.rdata <= rdata(i);
@@ -379,7 +378,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       end
       `VSLV.rvalid <= 0;
       `VSLV.rlast  <= 0;
-      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+
+      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t RLAST Deasserted ",$time);
+      $display("[SLV_DRV.READ_DATA_CHANNEL] --> @%0t q_araddr = %0d and size remains = %0d",$time,q_araddr[0],q_araddr.size());
     end
   endtask
 
