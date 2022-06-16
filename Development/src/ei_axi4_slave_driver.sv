@@ -126,7 +126,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      // write_addr2data.get(1);
     forever begin
       `VSLV.awready    <= 1;
-      @(`VSLV iff(`VSLV.awvalid == 1);
+      @(`VSLV iff(`VSLV.awvalid == 1));
        // write_tr         =   new();
        write_tr.addr    =  `VSLV.awaddr;
        write_tr.burst   =  `VSLV.awburst;
@@ -334,7 +334,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       $display("[SLV_DRV.READ_ADDRESS_CHANNEL] --> @%0t Handshaking done ",$time);
       read_tr.addr    =  `VSLV.araddr;
       read_tr.burst   =  `VSLV.arburst;
-      read_tr.len     =  `VSLV.arlen;
+      read_tr.len     =  `VSLV.arlen + 1;
       read_tr.size    =  `VSLV.arsize;
       calculate_read_address();
       `VSLV.arready <= 0;
