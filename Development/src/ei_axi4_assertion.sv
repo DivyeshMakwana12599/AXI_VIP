@@ -161,9 +161,7 @@ module assertion(
 	*/
     property assertion_wr_last();
         int count, len;
-        @(posedge aclk) (awvalid ##0 awready, count = 0, len = awlen + 1) |-> 
-        @(posedge aclk iff(wready && wvalid)) ##0 (1'b1, count = count + 1)[*0:$] 
-        ##0 wlast ##0 (count == len);
+        @(posedge ACLK) (AWVALID & AWREADY,count=0,len = AWLEN+1) ##[0:$] (WVALID & WREADY,count++) [*0:$] ##0 (WLAST) |-> (count == len);
     endproperty 
 
 	// ASSERT PROPERTY FOR AWVALID IF RESET IS ASSERTED
