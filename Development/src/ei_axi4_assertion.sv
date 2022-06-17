@@ -159,10 +159,7 @@ module assertion(
 	\*   Returned parameters     : None
     \*   Description             : wlast and rlast should be come at last
 	*/
-    property assertion_wr_last();
-        int count, len;
-        @(posedge ACLK) (AWVALID & AWREADY,count=0,len = AWLEN+1) ##[0:$] (WVALID & WREADY,count++) [*0:$] ##0 (WLAST) |-> (count == len);
-    endproperty 
+ 
 
 	// ASSERT PROPERTY FOR AWVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_002 : 
