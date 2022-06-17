@@ -120,9 +120,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_address_run();
      // write_addr2data.get(1);
     forever begin
-      vif.awready           <= 1;
+      `VSLV.awready           <= 1;
       $display("[Write Address Channel] .... --> @%0t AWREADY ASSERTED",$time);
-      @(posedge (vif.awvalid)); 
+      @(`VSLV iff(`VSLV.awvalid == 1)); 
       $display("[Write Address Channel] .... --> @%0t AWVALID & AWREADY Handshaked ",$time);
        write_tr.addr           =  `VSLV.awaddr;
        write_tr.burst          =  `VSLV.awburst;

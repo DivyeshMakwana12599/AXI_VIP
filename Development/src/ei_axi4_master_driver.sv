@@ -48,7 +48,7 @@ class ei_axi4_master_driver_c;
                             write_address_task();
                          fork//2
                             write_data_task();
-                            write_response_task();
+                            // write_response_task();
                          join_none//2 
                         end 
                 end //1
@@ -100,7 +100,7 @@ class ei_axi4_master_driver_c;
 
         @(`VMST iff(`VMST.awready <= 1'b1)) 
         `VMST.awvalid <= 1'b0;
-        `VMST.wlast <= 1'b0;
+       // `VMST.wlast <= 1'b0;
         
 
     endtask : write_address_task 
@@ -109,15 +109,17 @@ class ei_axi4_master_driver_c;
         
         sema0.get(1);   
 
-        //@(`VMST iff(`VMST.awready));
+        @(`VMST iff(`VMST.awready));
         `VMST.wvalid <= 1'b1;
 
+        #0;
         for(int i = 0; i <= write_queue[0].len ; i++)begin 
             `VMST.wdata <= write_queue[0].data[i];
             `VMST.wstrb <= write_queue[0].wstrb[i];
 
             if(i == write_queue[0].len)begin 
                 `VMST.wlast <= 1'b1;
+                $display("[MST DRV] --> .... @%0t WLAST Asserted",$time);
             end
 
             @(`VMST iff(`VMST.wready));
@@ -128,15 +130,17 @@ class ei_axi4_master_driver_c;
        // @(`VMST iff(`VMST.wlast == 1'b1))
             `VMST.wvalid <= 1'b0;
             `VMST.wlast <= 1'b0;
+             $display("[MST DRV] --> .... @%0t WLAST Deasserted",$time);
             `VMST.wdata <= 'bx;
             `VMST.wstrb <= 'bx;
+            write_response_task();
 
     endtask : write_data_task
 
     task write_response_task();
     
       //  @(`VMST iff(vif.wlast == 1))begin 
-            @(`VMST iff(vif.bvalid <= 1))
+            @(`VMST iff(vif.bvalid == 1))
                 `VMST.bready <= 1;
                 @(`VMST);
                 `VMST.bready <= 1'b0;
@@ -148,6 +152,7 @@ class ei_axi4_master_driver_c;
             //`VMST.bready <= 1'b0;
 
             write_queue.pop_front();
+            $display(write_queue.size,$time);
             write_running_index--;
     
             sema0.put(1);

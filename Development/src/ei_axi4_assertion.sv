@@ -132,27 +132,32 @@ module assertion(
 	endproperty
 	
 	/**
-	\*   property name           : assertion_signal_dependency()
+	\*   property name           : assertion_addr_channel_dependency()
 	\*   Parameters passed       : None
 	\*   Returned parameters     : None
-	\*   Description             : The slave must wait for both AWVALID and AWREADY to be asserted before asserting BVALID
+	\*   Description             : The slave must wait for both AWVALID and AWREADY
+    \*                             to be asserted before asserting BVALID
 	*/
-
+   property assertion_addr_channel_dependency;
+       @(posedge aclk) (awvalid && awready) |-> ##[1:$]bvalid;
+   endproperty 
 	
-
 	/**
-	\*   property name           : assertion_signal_dependency()
+	\*   property name           : assertion_data_channel_dependency()
 	\*   Parameters passed       : None
 	\*   Returned parameters     : None
 	\*   Description             : The slave must wait for WVALID, WREADY, and 
     \*                             WLAST to be asserted before asserting BVALID
 	*/
+   property assertion_data_channel_dependency;
+       @(posedge aclk) (wvalid && wready && wlast) |-> ##[1:$]bvalid;
+   endproperty
 
     /**
 	\*   property name           : assertion_wr_last()
 	\*   Parameters passed       : None
 	\*   Returned parameters     : None
-	\*   Description             : wlast and rlast should be come at last
+    \*   Description             : wlast and rlast should be come at last
 	*/
     property assertion_wr_last();
         int count, len;
@@ -473,6 +478,22 @@ module assertion(
             $display("VALUE X/Z ON BRESP IS NOT ALLOWED WHEN BVALID IS HIGH");
             fail_print_f();
         end
+
+
+    AXI_ASSERTION_043 : 
+        assert property (assertion_addr_channel_dependency) pass_print_f();
+        else begin
+            $display("BVALID SHOULD BE ASSERTED AFTER ADDRESS CHANNEL HANDSHAKING DONE");
+            fail_print_f();
+        end
+
+    AXI_ASSERTION_044 :
+        assert property (assertion_data_channel_dependency) pass_print_f();
+        else begin
+            $display("BVALID SHOULD BE ASSERTED AFTER DATA CHANNEL HANDSHAKING IS DONE AND WLAST IS ASSERTED");
+            fail_print_f();
+        end
+
 endmodule :assertion
 
 

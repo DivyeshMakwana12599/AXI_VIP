@@ -38,5 +38,4 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
 		end
 		super.run();
 	endtask
-	
 endclass
