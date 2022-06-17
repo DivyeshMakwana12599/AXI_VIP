@@ -478,6 +478,22 @@ module assertion(
             $display("VALUE X/Z ON BRESP IS NOT ALLOWED WHEN BVALID IS HIGH");
             fail_print_f();
         end
+
+
+    AXI_ASSERTION_043 : 
+        assert property (assertion_addr_channel_dependency) pass_print_f();
+        else begin
+            $display("BVALID SHOULD BE ASSERTED AFTER ADDRESS CHANNEL HANDSHAKING DONE");
+            fail_print_f();
+        end
+
+    AXI_ASSERTION_044 :
+        assert property (assertion_data_channel_dependency) pass_print_f();
+        else begin
+            $display("BVALID SHOULD BE ASSERTED AFTER DATA CHANNEL HANDSHAKING IS DONE AND WLAST IS ASSERTED");
+            fail_print_f();
+        end
+
 endmodule :assertion
 
 
