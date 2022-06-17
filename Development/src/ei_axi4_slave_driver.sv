@@ -37,8 +37,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
                                ADDR_WIDTH = `ADDR_WIDTH);
   localparam BUS_BYTE_LANES = DATA_WIDTH / 8;
   bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1 : 0]];
-  //bit unsigned [ DATA_WIDTH : 0 ] q_wdata[$];
-  //bit unsigned [ DATA_WIDTH : 0 ] q_rdata[$];
   bit [31 : 0] q_awaddr[$];
   bit [31 : 0] q_araddr[$]; 
 
@@ -91,9 +89,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : reset_run()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
+*\   Description          : reset_run task make sures that all the slave hand -
+*\                          shake signals gets deasserted when reset assertion
+*\                          is detected.
 *\                         
 **/
 
@@ -109,7 +107,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     end
   endtask : reset_run
 
-
 /**
 *\   Method name          : write_address_run()
 *\   parameters passed    : None                      
@@ -123,17 +120,17 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_address_run();
      // write_addr2data.get(1);
     forever begin
-      `VSLV.awready           <= 1;
-      $display("[Write Address Channel] ........... --> @%0t AWREADY ASSERTED",$time);
-      @(`VSLV iff(`VSLV.awvalid == 1)); 
-      $display("[Write Address Channel] ........... --> @%0t AWVALID & AWREADY Handshaked ",$time);
+      vif.awready           <= 1;
+      $display("[Write Address Channel] .... --> @%0t AWREADY ASSERTED",$time);
+      @(posedge (vif.awvalid)); 
+      $display("[Write Address Channel] .... --> @%0t AWVALID & AWREADY Handshaked ",$time);
        write_tr.addr           =  `VSLV.awaddr;
        write_tr.burst          =  `VSLV.awburst;
        write_tr.len            =  `VSLV.awlen;
        write_tr.size           =  `VSLV.awsize;
        calculate_write();
        @(`VSLV) `VSLV.awready <= 0;
-      $display("[Write Address Channel] ........... --> @%0t AWREADY Deasserted",$time);
+      $display("[Write Address Channel] .... --> @%0t AWREADY Deasserted",$time);
      end
    endtask : write_address_run
 
@@ -252,12 +249,12 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
     int count;
     `VSLV.wready        <= 1;
-    $display("[WRITE DATA CHANNEL] ........... --> @%0t WREADY Asserted",$time);
-    mem_addr            = q_awaddr.pop_front();
-    mem_addr            = (q_awaddr.pop_front()) / 8;
+    $display("[WRITE DATA CHANNEL] .... --> @%0t WREADY Asserted",$time);
+    mem_addr            = (q_awaddr.pop_front())/8;
+   // mem_addr            = (q_awaddr.pop_front()) / 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
-      $display("[WRITE DATA CHANNEL] ............ --> @%0t WVALID and WREADY Handshaked",$time);
+      $display("[WRITE DATA CHANNEL] ..... --> @%0t WVALID and WREADY Handshaked",$time);
       write_tr.wstrb    =   new[1];
       write_tr.data     =   new[1];
       write_tr.wstrb[0] =   `VSLV.wstrb;
@@ -331,7 +328,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     $display("[Write Response Run] .......... --> @%0t  BRESP with OKAY is asserted",$time);
     `VSLV.bresp        <= write_tr.bresp;
     @(`VSLV iff(`VSLV.bready == 1));
-    @(`VSLV)`VSLV.bresp <= 'bz ;
+    `VSLV.bresp <= 'bz ;
+    `VSLV.bvalid  <= 1'b0;
   end
   endtask
 

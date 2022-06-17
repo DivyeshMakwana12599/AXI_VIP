@@ -109,7 +109,7 @@ class ei_axi4_master_driver_c;
         
         sema0.get(1);   
 
-        @(`VMST iff(`VMST.awready));
+        //@(`VMST iff(`VMST.awready));
         `VMST.wvalid <= 1'b1;
 
         for(int i = 0; i <= write_queue[0].len ; i++)begin 
@@ -137,15 +137,15 @@ class ei_axi4_master_driver_c;
     
       //  @(`VMST iff(vif.wlast == 1))begin 
             @(`VMST iff(vif.bvalid <= 1))
-                //vif.bready <= 1;
+                `VMST.bready <= 1;
                 @(`VMST);
-                vif.bready <= 1'b0;
+                `VMST.bready <= 1'b0;
       //  @(`VMST iff(`VMST.wlast == 1)) 
-            @(`VMST iff(`VMST.wready && `VMST.wlast)) //FIXME : here removed wvalid check is ot okay or not ? 
-            `VMST.bready <= 1'b1;
+            //@(`VMST iff(`VMST.wready && `VMST.wlast)) //FIXME : here removed wvalid check is ot okay or not ? 
+            //`VMST.bready <= 1'b1;
                
-            @(`VMST);
-            `VMST.bready <= 1'b0;
+            //@(`VMST);
+            //`VMST.bready <= 1'b0;
 
             write_queue.pop_front();
             write_running_index--;
