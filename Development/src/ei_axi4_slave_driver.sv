@@ -327,9 +327,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
       end
     end
-    foreach(slv_drv_mem[i]) begin
-      $display("Slave Memory: Row[i]    = %0d",slv_drv_mem[i]);
-    end
   endtask : wrap_write
 
 
@@ -346,6 +343,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_response_run();
     forever begin
     `VSLV.wready       <= 1;
+    `VSLV.bresp        <= 'bz ;
     @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast));
     $display("[Write Response Run] \t\t@%0t  WLAST detected",$time);
     @(`VSLV);
@@ -357,6 +355,11 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     @(`VSLV iff(`VSLV.bready == 1));
     `VSLV.bresp <= 'bz ;
     `VSLV.bvalid  <= 1'b0;
+
+    foreach(slv_drv_mem[i]) begin
+      $display("#############################################");
+      $display("Slave Memory: Row[%0d]    = %0d",i,slv_drv_mem[i]);
+    end
   end
   endtask
 
@@ -381,9 +384,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       read_tr.burst   =  `VSLV.arburst;
       read_tr.len     =  `VSLV.arlen + 1;
       read_tr.size    =  `VSLV.arsize;
-      $display("_______________________________________________________________");
+   
       $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t Address[%0d] = %0d ",$time,cnt,`VSLV.araddr);
-      $display("_______________________________________________________________");
+   
       calculate_read_address();
       `VSLV.arready <= 0;
       cnt++;
@@ -456,13 +459,13 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      
      if(burst == FIXED) begin
 
-      $display("[burst type] \t\t\tFIXED");
+      $display("[burst type] \t\t\t\tFIXED");
        for(int count = 1;count <= burst_len; count++) begin
          q_araddr.push_back(address_n);
        end
      end
      if(burst == INCR) begin 
-      $display("[burst type] \t\t\tINCR");
+      $display("[burst type] \t\t\t\tINCR");
        for(int count = 1; count <= burst_len; count++) begin
          if(count==1) begin
            q_araddr.push_back(address_n);
@@ -485,7 +488,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       end
       q_araddr.push_back(start_addr);
       aligned_address   = ((start_addr/number_bytes))* number_bytes;    
-      $display("[burst type] \t\t\tWRAP");
+      $display("[burst type] \t\t\t\tWRAP");
       for(int i=1; i< burst_len; i++) begin
       
         address_n = address_n + number_bytes;

@@ -155,7 +155,7 @@ class ei_axi4_master_driver_c;
         read_running_index ++;
         
         @(`VMST iff(`VMST.arready));
-      $display("Hello");
+     // $display("Hello");
         `VMST.arvalid <= 1'b0;
        // `VMST.rlast <= 1'b0;
     endtask : read_address_task
