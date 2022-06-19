@@ -344,17 +344,22 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                         
 **/
   task read_address_run();
+    int cnt = 1 ;
     forever begin
-      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ................ --> @%0t ARREADY made 1 ",$time);
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ...... --> @%0t ARREADY made 1 ",$time);
       `VSLV.arready    <= 1;
       @(`VSLV iff(`VSLV.arvalid == 1));
-      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ................ --> @%0t Handshaking done ",$time);
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ...... --> @%0t ARVALID & ARREADY Handshaking done ",$time);
       read_tr.addr    =  `VSLV.araddr;
       read_tr.burst   =  `VSLV.arburst;
       read_tr.len     =  `VSLV.arlen + 1;
       read_tr.size    =  `VSLV.arsize;
+      $display("_______________________________________________________________");
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] ...... --> @%0t Address[%0d] = %0d ",$time,cnt,`VSLV.araddr);
+      $display("_______________________________________________________________");
       calculate_read_address();
       `VSLV.arready <= 0;
+      cnt++;
     end
   endtask
 
@@ -373,11 +378,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       
       @(`VSLV iff(q_araddr.size() != 0));
       $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
-      for(int i = 0; i < read_tr.len; i++) begin
-        if(vif.aresetn == 0) begin
-           break;
-        end
-        else begin 
+      for(int i = 0; i < read_tr.len; i++) begin 
           `VSLV.rvalid    <= 1;
           $display("[SLV_DRV.READ_DATA_CHANNEL]................ --> @%0t RVALID Handshaking done ",$time);
           `VSLV.rdata     <= rdata(i);
@@ -387,7 +388,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
                 $display("[SLV_DRV.READ_DATA_CHANNEL] ................ --> @%0t RLAST Asserted ",$time);
           end
           @(`VSLV iff(`VSLV.rready));
-        end
       end
       `VSLV.rvalid      <= 0;
       `VSLV.rlast       <= 0;
@@ -422,16 +422,21 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
      start_addr = read_tr.addr;
      number_bytes = 2**read_tr.size;
-     burst_len = read_tr.len + 1; 
+     burst_len = read_tr.len; 
      burst = read_tr.burst;
      address_n = start_addr;
      aligned_address = ((start_addr/number_bytes))* number_bytes;
      
      if(burst == FIXED) begin
-        q_araddr.push
+
+      $display("[burst type]------> FIXED");
+       for(int count = 1;count <= burst_len; count++) begin
+         q_araddr.push_back(address_n);
+       end
      end
      if(burst == INCR) begin 
-       for(int count = 1; count < burst_len; count++) begin
+      $display("[burst type]------> INCR");
+       for(int count = 1; count <= burst_len; count++) begin
          if(count==1) begin
            q_araddr.push_back(address_n);
        //  $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
@@ -448,9 +453,12 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       lower_wb          = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
       upper_wb          = lower_wb + (number_bytes*burst_len);
       aligned_address   = start_addr;
+      if(start_addr != ((start_addr/number_bytes))* number_bytes ) begin
+        $error("[Read Address Channel] .... --> @%0t Starting address is not alligned in WRAP BURST !!!",$time);
+      end
       q_araddr.push_back(start_addr);
-      aligned_address   = ((start_addr/number_bytes))* number_bytes;
-     
+      aligned_address   = ((start_addr/number_bytes))* number_bytes;    
+      $display("[burst type]------> WRAP");
       for(int i=1; i< burst_len; i++) begin
       
         address_n = address_n + number_bytes;
