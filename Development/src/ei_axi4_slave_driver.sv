@@ -370,6 +370,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task read_data_run();
     forever begin
+      
       @(`VSLV iff(q_araddr.size() != 0));
       $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
       for(int i = 0; i < read_tr.len; i++) begin
@@ -380,7 +381,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           `VSLV.rvalid    <= 1;
           $display("[SLV_DRV.READ_DATA_CHANNEL]................ --> @%0t RVALID Handshaking done ",$time);
           `VSLV.rdata     <= rdata(i);
-           `VSLV.rresp    <= 0;
+           `VSLV.rresp    <= 2'b0;
           if(i == read_tr.len - 1) begin
               `VSLV.rlast <= 1'b1;
                 $display("[SLV_DRV.READ_DATA_CHANNEL] ................ --> @%0t RLAST Asserted ",$time);
@@ -390,8 +391,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       end
       `VSLV.rvalid      <= 0;
       `VSLV.rlast       <= 0;
-
+      `VSLV.rresp       <= 'bz;
       $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t RLAST Deasserted ",$time);
+      $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t RRESEP gone High Impedance",$time);
       $display("[SLV_DRV.READ_DATA_CHANNEL] ................  --> @%0t q_araddr = %0d and size remains = %0d",$time,q_araddr[0],q_araddr.size());
     end
   endtask
@@ -424,20 +426,23 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      burst = read_tr.burst;
      address_n = start_addr;
      aligned_address = ((start_addr/number_bytes))* number_bytes;
-
-     if(burst == INCR) begin 
-      for(int count = 1; count < burst_len; count++) begin
-        if(count==1) begin
-         q_araddr.push_back(address_n);
-       //  $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
-        end
-        else begin
-         address_n = aligned_address + ((count-1) * number_bytes); 
-         q_araddr.push_back(address_n);
-       //  $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
-        end
-      end
+     
+     if(burst == FIXED) begin
+        q_araddr.push
      end
+     if(burst == INCR) begin 
+       for(int count = 1; count < burst_len; count++) begin
+         if(count==1) begin
+           q_araddr.push_back(address_n);
+       //  $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
+         end
+         else begin
+           address_n = aligned_address + ((count-1) * number_bytes); 
+           q_araddr.push_back(address_n);
+       //  $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
+         end
+       end
+    end
   
     if(burst == WRAP) begin 
       lower_wb          = (start_addr/(number_bytes*burst_len))*(number_bytes*burst_len);
@@ -469,7 +474,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                        
 *\                         
 **/  
-function bit [63 : 0] rdata(int i);
+function bit [`DATA_WIDTH : 0] rdata(int i);
     
     bit [31 : 0] addr; // Start addres
     bit [ 3 : 0] data_bus_bytes = 8;
