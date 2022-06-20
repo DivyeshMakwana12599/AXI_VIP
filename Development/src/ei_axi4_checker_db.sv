@@ -39,8 +39,33 @@ class ei_axi4_checker_db_c;
     if(check_cfg.exists(checker_id)) begin
       if(check_cfg[checker_id].disable_checker == ei_axi4_checker_cfg_c::ON) begin
         check_cfg[checker_id].fail_cnt++;
-        $error(checker_id,, check_cfg[checker_id].checker_description);
+        if(
+          check_cfg[checker_id].checker_mode == ei_axi4_checker_cfg_c::ELEVATED
+        ) begin
+          $error(checker_id,, check_cfg[checker_id].checker_description);
+        end
+        else begin
+          $info(checker_id,, check_cfg[checker_id].checker_description);
+        end
       end
+    end
+    else begin
+      $display("Checker Not Regestered! i.e., %s", checker_id);
+    end
+  endfunction
+
+  function void demote_checker(string checker_id);
+    if(check_cfg.exists(checker_id)) begin
+      check_cfg[checker_id].checker_mode = ei_axi4_checker_cfg_c::DEMOTED;
+    end
+    else begin
+      $display("Checker Not Regestered! i.e., %s", checker_id);
+    end
+  endfunction
+
+  function void elevate_checker(string checker_id);
+    if(check_cfg.exists(checker_id)) begin
+      check_cfg[checker_id].checker_mode = ei_axi4_checker_cfg_c::ELEVATED;
     end
     else begin
       $display("Checker Not Regestered! i.e., %s", checker_id);

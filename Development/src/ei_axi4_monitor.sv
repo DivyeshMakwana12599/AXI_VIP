@@ -24,10 +24,16 @@ class ei_axi4_monitor_c;
     virtual ei_axi4_interface.MON vif
   );
     this.tx_rx_monitor_cfg = tx_rx_monitor_cfg;  
-    if(mon2ref != null) begin
+    if(mon2ref == null && tx_rx_monitor_cfg == 1'b0) begin
+      $fatal("Connect Master Monitor to Reference Model");
+    end
+    else begin
       this.mon2ref = mon2ref;
     end
-    if(mon2scb != null) begin
+    if(mon2scb == null && tx_rx_monitor_cfg == 1'b1) begin
+      $fatal("Connect Slave Monitor to Scoreboard");
+    end
+    else begin
       this.mon2scb = mon2scb;
     end
     this.vif = vif;
@@ -109,6 +115,7 @@ class ei_axi4_monitor_c;
 
       if(mon2scb != null) begin
         mon2scb.put(wr_trans);
+        wr_trans.print();
       end
     end
 
@@ -125,9 +132,6 @@ class ei_axi4_monitor_c;
       rd_trans.len = `MON_CB.arlen;
       rd_trans.size = `MON_CB.arsize;
       read_data_queue.push_back(rd_trans);
-      if(mon2ref != null) begin
-        mon2ref.put(rd_trans);
-      end
     end
   endtask
 
@@ -138,7 +142,7 @@ class ei_axi4_monitor_c;
 
       wait_read_data_channel_handshake();
 
-      rd_trans = write_data_queue.pop_front();
+      rd_trans = read_data_queue.pop_front();
       rd_trans.data = new[rd_trans.len + 1];
       rd_trans.wstrb = new[rd_trans.len + 1];
 
@@ -157,6 +161,12 @@ class ei_axi4_monitor_c;
 
       if(mon2scb != null) begin
         mon2scb.put(rd_trans);
+        rd_trans.print();
+      end
+
+      if(mon2ref != null) begin
+        mon2ref.put(rd_trans);
+        rd_trans.print();
       end
 
     end
