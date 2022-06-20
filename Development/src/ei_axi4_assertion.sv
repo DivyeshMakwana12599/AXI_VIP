@@ -114,7 +114,8 @@ module assertion(
 	\*   Parameters passed       : vaid_signal[asresetn,awvalid,arvalid,bvlid,rvalid,wvalid],
 	\*			       un_signal [awvalid, arvalid, wvalid, bvalid, rvalid,]
 	\*   Returned parameters     : None
-	\*   Description             : property if reset and valid signal is there then signal can not be x or z
+	\*   Description             : property if reset and valid signal is there 
+    \*                             then signal can not be x or z
 	*/
 	property assertion_invalid_signal(valid_signal,un_signal);
 	  @(posedge aclk) valid_signal |-> !($isunknown(un_signal));
@@ -123,7 +124,8 @@ module assertion(
 
 	/**
 	\*   property name           : assertion_for_stable_signal()
-	\*   Parameters passed       : valid_signal[valid signals], ready_signal[ready signals], st_signal[control signals]
+	\*   Parameters passed       : valid_signal[valid signals], ready_signal
+    \*                          [ready signals], st_signal[control signals]
 	\*   Returned parameters     : None
 	\*   Description             : property for signal should stable till handshaking
 	*/
@@ -159,7 +161,21 @@ module assertion(
 	\*   Returned parameters     : None
     \*   Description             : wlast and rlast should be come at last
 	*/
+   sequence valid_ready(valid,ready);
+       ##[0:$] (valid & ready);
+   endsequence
+
+   sequence dynamic_repeat(handshake,len);
+       int count;
+       (1'b1,count = len) ##0 first_match((handshake,count = count-1'b1) 
+       [*1:$] ##0 wlast) ##0 count==0;
+   endsequence
  
+   property assertion_w_r_last(avalid,aready,length,valid,ready,last);
+       int len;
+       @(posedge aclk) (avalid & aready,len = length + 1) |-> 
+       dynamic_repeat(valid_ready(valid,ready),len);
+   endproperty 
 
 	// ASSERT PROPERTY FOR AWVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_002 : 
@@ -474,7 +490,7 @@ module assertion(
             fail_print_f();
         end
 
-
+    // The slave must wait for both AWVALID and AWREADY to be asserted before asserting BVALID
     AXI_ASSERTION_043 : 
         assert property (assertion_addr_channel_dependency) pass_print_f();
         else begin
@@ -482,10 +498,27 @@ module assertion(
             fail_print_f();
         end
 
+    // "The slave must wait for WVALID, WREADY, and WLAST to be asserted before asserting BVALID"
     AXI_ASSERTION_044 :
         assert property (assertion_data_channel_dependency) pass_print_f();
         else begin
             $display("BVALID SHOULD BE ASSERTED AFTER DATA CHANNEL HANDSHAKING IS DONE AND WLAST IS ASSERTED");
+            fail_print_f();
+        end
+
+    // RLAST must come only afterwards of  the last read data transfer.
+    AXI_ASSERTION_040 :
+        assert property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast)) pass_print_f();
+        else begin
+            $display("WLAST MUST COME ONLY AFTERWARDS OF THE LAST WRITE DATA TRANSFER");
+            fail_print_f();
+        end
+
+    // BLAST must come only afterwards of  the last read data transfer.
+    AXI_ASSERTION_034 :
+        assert property (assertion_w_r_last(arvalid,arready,arlen,rvalid,rready,rlast)) pass_print_f();
+        else begin
+            $display("RLAST MUST COME AFTERWARDS OF THE LAST READ DATA TRANSFER");
             fail_print_f();
         end
 
