@@ -507,18 +507,18 @@ module assertion(
         end
 
     // RLAST must come only afterwards of  the last read data transfer.
-    AXI_ASSERTION_034 :
+    AXI_ASSERTION_040 :
         assert property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast)) pass_print_f();
         else begin
-            $display("RLAST must come only afterwards of  the last read data transfer");
+            $display("WLAST MUST COME ONLY AFTERWARDS OF THE LAST WRITE DATA TRANSFER");
             fail_print_f();
         end
 
     // BLAST must come only afterwards of  the last read data transfer.
-    AXI_ASSERTION_040 :
+    AXI_ASSERTION_034 :
         assert property (assertion_w_r_last(arvalid,arready,arlen,rvalid,rready,rlast)) pass_print_f();
         else begin
-            $display("BLAST must come only afterwards of  the last read data transfer");
+            $display("RLAST MUST COME AFTERWARDS OF THE LAST READ DATA TRANSFER");
             fail_print_f();
         end
 
