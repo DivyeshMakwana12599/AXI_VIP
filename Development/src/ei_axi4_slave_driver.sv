@@ -143,10 +143,12 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     $display("\tName \t\t\t\tMessage/Value");
     $display("---------------------------------------------------------------");
   endfunction : print_log
+
+
   task write_address_run();
      // write_addr2data.get(1);
-    forever begin
       print_log;
+    forever begin
       `VSLV.awready           <= 1;
       $display("[Write Address Channel] \t\t@%0t AWREADY ASSERTED",$time);
       @(`VSLV iff(`VSLV.awvalid == 1)); 
@@ -179,7 +181,11 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      burst              = write_tr.burst;
      address_n          = start_addr;
      aligned_address    = ((start_addr/number_bytes))* number_bytes;
-
+     if(burst == FIXED) begin
+       for(int count = 1; count <= burst_len; count++) begin
+         q_awaddr.push_back(address_n);
+       end
+     end
      if(burst == INCR) begin 
       for(int count = 1; count <= burst_len; count++) begin
         if(count==1) begin
@@ -224,6 +230,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_data_run();
     forever begin
       @(`VSLV iff(q_awaddr.size != 0));
+
+    $display("[Fixed Write] \t\twrite_tr.burst = %0d",write_tr.burst);
       case (write_tr.burst)
         FIXED  : fixed_write();
         INCR   : incr_write();
@@ -243,22 +251,24 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task fixed_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
+    $display("[Fixed Write] \t\t Inside the fixed write");
     `VSLV.wready        <= 1;  
-    mem_addr            = (q_awaddr[0])/ 8;
+    mem_addr            = (q_awaddr.pop_front())/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
       write_tr.wstrb    =   new[1];
       write_tr.data     =   new[1];
       write_tr.wstrb[0] =   `VSLV.wstrb;
-      write_tr.data[0]  =   `VSLV.wdata; 
-
+      write_tr.data[0]  =   `VSLV.wdata;
+      $display("[FIXED WRITE] \t\t wstrb = %0p",write_tr.wstrb);
       if(write_tr.wstrb[0][i] == 1 ) begin
         // if strobe is 1 then data is valid and store to memory
+        $display("[FIXED WRITE] \t\t\t Stroing in memory");
         slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
       end
     end
     foreach(slv_drv_mem[k]) begin
-      $display("Slave Memory: Row[i]    = %0d",slv_drv_mem[k]);
+      $display("Slave Memory: Row[%0d]    = %0d",k,slv_drv_mem[k]);
     end
 
   endtask : fixed_write
