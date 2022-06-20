@@ -8,47 +8,29 @@ class ei_axi4_master_driver_c;
     mailbox #(ei_axi4_transaction_c) gen2drv;
     int write_running_index, read_running_index;
     virtual ei_axi4_interface vif;
-    semaphore sema0,sema1;
+    semaphore sema_write,sema_read,sema_response;
 
     function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual ei_axi4_interface vif);
         this.gen2drv = gen2drv;
         this.vif = vif;
-        sema0 = new(1);
-        sema1 = new(1);
+        sema_write = new(1);
+        sema_read = new(1);
+        sema_response = new(1);
 
     endfunction : new
-/**
-    task run();
-        forever begin 
-            tr = new();
-            gen2drv.get(tr);
-            $display("[interface] transaction = %0p",tr);
-
-            if(tr.transaction_type == READ)begin 
-                `VMST.arvalid <= 1'b1;
-                $display("[interface] arvalid = %0p",vif.arvalid);
-                `VMST.araddr <= tr.addr;
-                $display("[interface] araddr = %0p", vif.araddr);
-            end 
-        end 
-    endtask : run**/
-    
 
     task run();
-        //$display("......................hello"); 
         forever begin
-         //   $display("??????????????????hkkkkkkkello");
             gen2drv.get(tr);
-            // $display(tr);
             fork//1
-            // check logic in fork join_any
                 begin //1
                         if(tr.transaction_type == WRITE)begin
                             write_queue.push_back(tr);
+                                $display("write_queue = %0p",tr.data);
                             write_address_task();
                          fork//2
                             write_data_task();
-                            // write_response_task();
+                            write_response_task();
                          join_none//2 
                         end 
                 end //1
@@ -107,12 +89,11 @@ class ei_axi4_master_driver_c;
 
     task write_data_task();
         
-        sema0.get(1);   
+        sema_write.get(1);   
 
         @(`VMST iff(`VMST.awready));
         `VMST.wvalid <= 1'b1;
 
-        #0;
         for(int i = 0; i <= write_queue[0].len ; i++)begin 
             `VMST.wdata <= write_queue[0].data[i];
             `VMST.wstrb <= write_queue[0].wstrb[i];
@@ -133,12 +114,16 @@ class ei_axi4_master_driver_c;
              $display("[MST DRV] --> .... @%0t WLAST Deasserted",$time);
             `VMST.wdata <= 'bx;
             `VMST.wstrb <= 'bx;
-            write_response_task();
 
+            write_queue.pop_front();
+            $display(write_queue.size,$time);
+            write_running_index--;
+    
+            sema_write.put(1);
     endtask : write_data_task
 
     task write_response_task();
-    
+            sema_response.get(1);
       //  @(`VMST iff(vif.wlast == 1))begin 
             @(`VMST iff(vif.bvalid == 1))
                 `VMST.bready <= 1;
@@ -151,11 +136,11 @@ class ei_axi4_master_driver_c;
             //@(`VMST);
             //`VMST.bready <= 1'b0;
 
-            write_queue.pop_front();
-            $display(write_queue.size,$time);
-            write_running_index--;
+        //    write_queue.pop_front();
+          //  $display(write_queue.size,$time);
+            //write_running_index--;
     
-            sema0.put(1);
+            sema_response.put(1);
     endtask : write_response_task 
 
 
@@ -170,14 +155,14 @@ class ei_axi4_master_driver_c;
         read_running_index ++;
         
         @(`VMST iff(`VMST.arready));
-      $display("Hello");
+     // $display("Hello");
         `VMST.arvalid <= 1'b0;
        // `VMST.rlast <= 1'b0;
     endtask : read_address_task
         
     task read_data_task();
         
-        sema1.get(1);
+        sema_read.get(1);
 
         `VMST.rready <= 1'b1;
         @(`VMST iff(`VMST.arready));
@@ -194,7 +179,7 @@ class ei_axi4_master_driver_c;
 
         read_queue.pop_front();
         read_running_index --;
-        sema1.put(1);
+        sema_read.put(1);
         
     endtask : read_data_task
 
