@@ -11,7 +11,7 @@ class ei_axi4_base_test_c;
 	
 	task run();
 		fork
-		env.run();
+      env.run();
 		join_none
 	endtask 
 	

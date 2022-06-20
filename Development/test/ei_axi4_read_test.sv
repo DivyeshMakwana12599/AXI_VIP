@@ -14,7 +14,7 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
 	endtask
 	
 	task start();
-        super.run();
+    super.run();
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
 			rd_trans = new();
 			env.mst_agt.mst_gen.start(rd_trans);
