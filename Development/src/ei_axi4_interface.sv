@@ -32,6 +32,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
 	
     localparam BUS_BYTE_LANES = DATA_WIDTH/8;
 
+
     logic [ADDR_WIDTH - 1:0] awaddr;
     logic [7:0] awlen;
     logic [2:0] awsize;
