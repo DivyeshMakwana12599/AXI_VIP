@@ -39,7 +39,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
 			env.mst_agt.mst_gen.start(rd_trans);
 		end
 		end
-		endtask
+	endtask
     
     //wrap up phase    
     task wrap_up();

@@ -1,5 +1,5 @@
-//======== testcase: 04 =========================== RANDOM TEST i.e [random write read] ==============================================//
-class ei_axi4_random_test_c extends ei_axi4_base_test_c;
+//======== testcase: 06 =========================== 4KB BOUNDARY TEST i.e [4kb boundary] ====================//
+class ei_axi4_4kb_boundary_test_c extends ei_axi4_base_test_c;
 
 	ei_axi4_read_transaction_c rd_trans;
 	ei_axi4_write_transaction_c wr_trans;
@@ -22,7 +22,14 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
 		for(int i = 0; i < rand_int; i++) begin
 			wr_trans = new();
 			rd_trans = new();
-			
+
+			wr_trans.addr.rand_mode(0);
+            wr_trans.size.rand_mode(0);
+            wr_trans.len.rand_mode(0);
+            wr_trans.addr = 4085;
+            wr_trans.size = 3;
+            wr_trans.len  = 3;
+
 			randsequence(main)
 			main  : write | read;
 			write : {env.mst_agt.mst_gen.start(wr_trans);};
@@ -32,7 +39,7 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
 	endtask
 
     task wrap_up();
-         $display("RANDOM TESTCASE SELECTED");
+         $display("4KB BOUNDARY TESTCASE SELECTED");
     endtask
 	
 endclass :ei_axi4_random_test_c
