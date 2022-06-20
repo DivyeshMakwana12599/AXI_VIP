@@ -14,15 +14,16 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
 	endtask
 	
 	task start();
-
+        super.run();
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
 			rd_trans = new();
-			$display("inside task start");
 			env.mst_agt.mst_gen.start(rd_trans);
-
 		end
-$display("READ TESTCASE = %p",rd_trans);
-		super.run();
 	endtask
+
+    task wrap_up();
+         $display("READ TESTCASE SELECTED");
+    endtask
+
 	
 endclass

@@ -14,11 +14,16 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
 	endtask
 	
 	task start();
+        super.run();
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
 			wr_trans = new();
 			env.mst_agt.mst_gen.start(wr_trans);
 		end
-		super.run();
 	endtask
+
+    task wrap_up();
+         $display("READ TESTCASE SELECTED");
+    endtask
+
 	
 endclass
