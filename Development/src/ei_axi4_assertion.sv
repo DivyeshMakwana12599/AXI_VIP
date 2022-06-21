@@ -156,7 +156,7 @@ module assertion(
    endproperty
 
     /**
-	\*   property name           : assertion_wr_last()
+	\*   property name           : assertion_w_r_last()
 	\*   Parameters passed       : None
 	\*   Returned parameters     : None
     \*   Description             : wlast and rlast should be come at last
@@ -487,6 +487,22 @@ module assertion(
         assert property (assertion_invalid_signal(bvalid,bresp)) pass_print_f();
         else begin
             $display("VALUE X/Z ON BRESP IS NOT ALLOWED WHEN BVALID IS HIGH");
+            fail_print_f();
+        end
+
+    //A value of "X" (undefined) or "Z" (high-impedence) on WDATA valid byte lanes is not allowed when WVALID is HIGH
+    AXI_ASSERTION_036 :
+        assert property (assertion_invalid_signal(wvalid,wdata)) pass_print_f();
+        else begin
+            $display("VALUE X/Z ON WDATA IS NOT ALLOWED WHEN WVALID IS HIGH");
+           fail_print_f();
+        end
+
+    //A value of "X" (undefined) or "Z" (high-impedence) on RDATA valid byte lanes is not allowed when RVALID is HIGH
+    AXI_ASSERTION_029 :
+        assert property (assertion_invalid_signal(rvalid,rdata)) pass_print_f();
+        else begin
+            $display("VALUE X/Z PN RDATA IS NOT ALLOWED WHEN RVALID IS HIGH");
             fail_print_f();
         end
 

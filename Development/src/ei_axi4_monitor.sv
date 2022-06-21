@@ -1,7 +1,6 @@
 `define MON_CB vif.monitor_cb
 
 class ei_axi4_monitor_c;
-
   bit tx_rx_monitor_cfg;
 
   virtual ei_axi4_interface.MON vif;
@@ -14,6 +13,10 @@ class ei_axi4_monitor_c;
   semaphore read_data_channel;
   semaphore write_data_channel;
 
+  ei_axi4_transaction_c write_data_queue[$];
+  ei_axi4_transaction_c write_response_queue[$];
+  ei_axi4_transaction_c read_data_queue[$];
+
   function new(
     bit tx_rx_monitor_cfg,
     mailbox#(ei_axi4_transaction_c) mon2ref = null,
@@ -21,84 +24,44 @@ class ei_axi4_monitor_c;
     virtual ei_axi4_interface.MON vif
   );
     this.tx_rx_monitor_cfg = tx_rx_monitor_cfg;  
-    if(mon2ref != null) begin
+    if(mon2ref == null && tx_rx_monitor_cfg == 1'b0) begin
+      $fatal("Connect Master Monitor to Reference Model");
+    end
+    else begin
       this.mon2ref = mon2ref;
     end
-    if(mon2scb != null) begin
+    if(mon2scb == null && tx_rx_monitor_cfg == 1'b1) begin
+      $fatal("Connect Slave Monitor to Scoreboard");
+    end
+    else begin
       this.mon2scb = mon2scb;
     end
     this.vif = vif;
     axi4_checker = new();
   endfunction
 
+
   task run();
     forever begin
-      read_data_channel = new(1);
-      write_data_channel = new(1);
       fork
-        begin : read_channel
-          monitor_read_channel();
+        begin : monitor_channels
+          fork
+            monitor_write_address_channel();
+            monitor_write_data_channel();
+            monitor_write_response_channel();
+            monitor_read_address_channel();
+            monitor_read_data_channel();
+          join
         end
-        begin : write_channel
-          monitor_write_channel();
-        end
-        begin : reset
+        begin : monitor_reset
           @(`MON_CB iff(!vif.aresetn));
         end
       join_any
-      disable read_channel;
-      disable write_channel;
+      disable monitor_channels;
     end
   endtask
 
-  task monitor_read_channel();
-    ei_axi4_transaction_c rd_trans;
-    forever begin
-      @(`MON_CB iff(`MON_CB.arvalid && `MON_CB.arready));
-      rd_trans = new();
-      rd_trans.transaction_type = READ;
-      rd_trans.addr = `MON_CB.araddr;
-      rd_trans.burst = `MON_CB.arburst;
-      rd_trans.len = `MON_CB.arlen;
-      rd_trans.size = `MON_CB.arsize;
-      fork
-        monitor_read_data_channel(rd_trans);
-      join_none
-    end
-  endtask
-
-  task monitor_read_data_channel(ei_axi4_transaction_c rd_trans);
-
-    rd_trans.rresp = new[rd_trans.len + 1];
-    rd_trans.data = new[rd_trans.len + 1];
-
-    read_data_channel.get(1);
-
-    for(int i = 0; i <= rd_trans.len; i++) begin
-      @(`MON_CB iff(`MON_CB.rvalid && `MON_CB.rready));
-      rd_trans.rresp[i] = `MON_CB.rresp;
-      rd_trans.data[i] = `MON_CB.rdata;
-    end
-
-    read_data_channel.put(1);
-
-    if(axi4_checker.check(rd_trans) == FAIL) begin
-      return;
-    end
-    for(int i = 0; i <= rd_trans.len; i++) begin
-      if(rd_trans.rresp[i] != OKAY) begin
-        return;
-      end
-    end
-    if(mon2ref != null) begin
-      mon2ref.put(rd_trans);
-    end
-    if(mon2scb != null) begin
-      mon2scb.put(rd_trans);
-    end
-  endtask
-
-  task monitor_write_channel();
+  task monitor_write_address_channel();
     ei_axi4_transaction_c wr_trans;
     forever begin
       @(`MON_CB iff(`MON_CB.awvalid && `MON_CB.awready));
@@ -108,41 +71,144 @@ class ei_axi4_monitor_c;
       wr_trans.burst = `MON_CB.awburst;
       wr_trans.len = `MON_CB.awlen;
       wr_trans.size = `MON_CB.awsize;
-      fork
-        monitor_write_data_channel(wr_trans);
-      join_none
+      write_data_queue.push_back(wr_trans);
     end
   endtask
 
-  task monitor_write_data_channel(ei_axi4_transaction_c wr_trans);
+  task monitor_write_data_channel();
+    ei_axi4_transaction_c wr_trans;
 
-    wr_trans.data = new[wr_trans.len + 1];
-    wr_trans.wstrb = new[wr_trans.len + 1];
+    forever begin
 
-    write_data_channel.get(1);
+      wait_write_data_channel_handshake();
 
-    for(int i = 0; i <= wr_trans.len; i++) begin
-      @(`MON_CB iff(`MON_CB.wvalid && `MON_CB.wready));
-      wr_trans.data[i] = `MON_CB.wdata;
-      wr_trans.wstrb[i] = `MON_CB.wstrb;
+      wr_trans = write_data_queue.pop_front();
+      wr_trans.data = new[wr_trans.len + 1];
+      wr_trans.wstrb = new[wr_trans.len + 1];
+
+      wr_trans.data[0] = `MON_CB.wdata;
+      wr_trans.wstrb[0] = `MON_CB.wstrb;
+
+      for(int i = 1; i <= wr_trans.len; i++) begin
+        @(`MON_CB iff(`MON_CB.wready && `MON_CB.wvalid));
+        wr_trans.data[i] = `MON_CB.wdata;
+        wr_trans.wstrb[i] = `MON_CB.wstrb;
+      end
+
+      write_response_queue.push_back(wr_trans);
+
     end
+  endtask
 
-    write_data_channel.put(1);
+  task monitor_write_response_channel();
+    ei_axi4_transaction_c wr_trans;
+    forever begin
 
-    @(`MON_CB iff(`MON_CB.bvalid && `MON_CB.bready));
-    wr_trans.bresp = `MON_CB.bresp;
+      wait_write_response_channel_handshake();
 
-    if(wr_trans.bresp != OKAY) begin
-      return;
-    end
+      wr_trans = write_response_queue.pop_front();
+      wr_trans.bresp = `MON_CB.bresp;
 
-    if(mon2ref != null) begin
-      mon2ref.put(wr_trans);
-    end
-    if(mon2scb != null) begin
-      mon2scb.put(wr_trans);
+      if(tx_rx_monitor_cfg == 1'b0) begin
+        axi4_checker.check(wr_trans);
+      end
+
+      if(mon2scb != null) begin
+        mon2scb.put(wr_trans);
+        wr_trans.print();
+      end
     end
 
   endtask
 
-endclass : ei_axi4_monitor_c
+  task monitor_read_address_channel();
+    ei_axi4_transaction_c rd_trans;
+    forever begin
+      @(`MON_CB iff(`MON_CB.arvalid && `MON_CB.arready));
+      rd_trans = new();
+      rd_trans.transaction_type = READ;
+      rd_trans.addr = `MON_CB.araddr;
+      rd_trans.burst = `MON_CB.arburst;
+      rd_trans.len = `MON_CB.arlen;
+      rd_trans.size = `MON_CB.arsize;
+      read_data_queue.push_back(rd_trans);
+    end
+  endtask
+
+  task monitor_read_data_channel();
+    ei_axi4_transaction_c rd_trans;
+
+    forever begin
+
+      wait_read_data_channel_handshake();
+
+      rd_trans = read_data_queue.pop_front();
+      rd_trans.data = new[rd_trans.len + 1];
+      rd_trans.wstrb = new[rd_trans.len + 1];
+
+      rd_trans.data[0] = `MON_CB.wdata;
+      rd_trans.rresp[0] = `MON_CB.rresp;
+
+      for(int i = 1; i <= rd_trans.len; i++) begin
+        @(`MON_CB iff(`MON_CB.wready && `MON_CB.wvalid));
+        rd_trans.data[i] = `MON_CB.rdata;
+        rd_trans.rresp[i] = `MON_CB.rresp;
+      end
+
+      if(tx_rx_monitor_cfg == 1'b1) begin
+        axi4_checker.check(rd_trans);
+      end
+
+      if(mon2scb != null) begin
+        mon2scb.put(rd_trans);
+        rd_trans.print();
+      end
+
+      if(mon2ref != null) begin
+        mon2ref.put(rd_trans);
+        rd_trans.print();
+      end
+
+    end
+  endtask
+  
+  task wait_write_data_channel_handshake();
+      forever begin
+        @(`MON_CB iff(`MON_CB.wvalid && `MON_CB.wready));
+        if(write_data_queue.size() == 0 && tx_rx_monitor_cfg == 1'b0) begin
+          $warning("[MONITOR] Write Data  Channel Handshake occured before \
+Write Address channel handshake");
+        end
+        else begin
+          break;
+        end
+      end
+  endtask
+
+  task wait_write_response_channel_handshake();
+    forever begin
+      @(`MON_CB iff(`MON_CB.bvalid && `MON_CB.bready));
+      if(write_response_queue.size() == 0 && tx_rx_monitor_cfg == 1'b0) begin
+        $warning("[MONITOR] Write Response occured before Write Data channel\
+ handshake");
+      end
+      else begin
+        break;
+      end
+    end
+  endtask
+
+  task wait_read_data_channel_handshake();
+      forever begin
+        @(`MON_CB iff(`MON_CB.rvalid && `MON_CB.rready));
+        if(read_data_queue.size() == 0 && tx_rx_monitor_cfg == 1'b1) begin
+          $warning("[MONITOR] Read Data Channel Handshake occured before Read \
+Address channel handshake");
+        end
+        else begin
+          break;
+        end
+      end
+  endtask
+
+endclass

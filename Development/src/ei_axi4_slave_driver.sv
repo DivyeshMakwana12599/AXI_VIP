@@ -369,7 +369,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     `VSLV.bvalid       <= 1;
      write_tr.bresp = OKAY; 
     $display("[Write Response Run] \t\t@%0t  BRESP with OKAY is asserted",$time);
-    `VSLV.bresp        <= write_tr.bresp;
+    `VSLV.bresp <= write_tr.bresp;
     @(`VSLV iff(`VSLV.bready == 1));
     `VSLV.bresp <= 'bz ;
     `VSLV.bvalid  <= 1'b0;

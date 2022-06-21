@@ -26,9 +26,10 @@ Revision		: 0.1
 ------------------------------------------------------------------------------*/
  
  class ei_axi4_test_c;
-        virtual ei_axi4_interface vif;
+
+     virtual ei_axi4_interface vif;
      function new(virtual ei_axi4_interface vif);
-         this.vif = vif;
+        this.vif = vif;
      endfunction
 
      task run();
@@ -38,37 +39,56 @@ Revision		: 0.1
          read_test = new(vif);
          read_test.build();
          read_test.start();
-	 $display("READ TESTCASE SELECTED");
+	     read_test.wrap_up();
        end
 
 	//testcase-02
        else if($test$plusargs("ei_axi4_WRITE_TEST")) begin
-	 ei_axi4_wr_test_c write_test;
+	     ei_axi4_wr_test_c write_test;
          write_test = new(vif);
-	 write_test.build();
-	 write_test.start();
-	 $display("WRITE TESTCASE SELECTED");
+	     write_test.build();
+	     write_test.start();
+	     write_test.wrap_up();
        end
 	   
 	//testcase-03
        else if($test$plusargs("ei_axi4_SANITY_TEST")) begin
-	 ei_axi4_sanity_test_c sanity_test;
+	     ei_axi4_sanity_test_c sanity_test;
          sanity_test = new(vif);
-	 sanity_test.build();
-	 sanity_test.start();
-	 $display("SANITY TESTCASE SELECTED");
+	     sanity_test.build();
+	     sanity_test.start();
+	     sanity_test.wrap_up();
        end      
 	   
 	//testcase-04
-       else if($test$plusargs("ei_axi4_RRANDOM_TEST")) begin
-	 ei_axi4_random_test_c random_test;
+       else if($test$plusargs("ei_axi4_RANDOM_TEST")) begin
+	     ei_axi4_random_test_c random_test;
          random_test = new(vif);
-	 random_test.build();
-	 random_test.start();
-	 $display("RANDOM WR_RD TESTCASE SELECTED");
+	     random_test.build();
+	     random_test.start();
+	     random_test.wrap_up();
        end
-	   
-     
+
+    //testcase-05
+       else if($test$plusargs("ei_axi4_SEQ_WR_RD_TEST")) begin
+	     ei_axi4_seq_wr_rd_test_c seq_wr_rd_test;
+         seq_wr_rd_test = new(vif);
+	     seq_wr_rd_test.build();
+	     seq_wr_rd_test.start();
+	     seq_wr_rd_test.wrap_up();
+       end
+
+    //testcase-05
+       else if($test$plusargs("ei_axi4_4KB_BOUNDARY_TEST")) begin
+	     ei_axi4_4kb_boundary_test_c 4kb_bndry_test;
+         4kb_bndry_test = new(vif);
+	     4kb_bndry_test.build();
+	     4kb_bndry_test.start();
+	     4kb_bndry_test.wrap_up();
+       end
+
+
+	
        else begin
          $display("\n----------PLEASE ENTER A TESTNAME TO PROCEED------------");
        end
