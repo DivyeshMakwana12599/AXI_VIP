@@ -1,5 +1,5 @@
 $date
-	Mon Jun 20 13:00:15 2022
+	Mon Jun 20 16:27:48 2022
 $end
 
 $version
@@ -10,7 +10,7 @@ $timescale
 	1s
 $end
 
-$comment Csum: 1 3bb4ef50597fc3a2 $end
+$comment Csum: 1 9d0f768b5648a87f $end
 
 
 $scope module $unit $end
@@ -480,6 +480,22 @@ $upscope $end
 
 
 $scope task _$$txp_fail_action_AXI_ASSERTION_044 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI_ASSERTION_040 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI_ASSERTION_040 $end
+$upscope $end
+
+
+$scope task _$$txp_pass_action_AXI_ASSERTION_034 $end
+$upscope $end
+
+
+$scope task _$$txp_fail_action_AXI_ASSERTION_034 $end
 $upscope $end
 
 $upscope $end

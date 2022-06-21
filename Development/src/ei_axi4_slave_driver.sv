@@ -263,19 +263,19 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       write_tr.data     =   new[1];
       write_tr.wstrb[0] =   `VSLV.wstrb;
       write_tr.data[0]  =   `VSLV.wdata;
-      $display("[FIXED WRITE] \t\t\t\t wstrb = %0p",write_tr.wstrb);
-      $display("[FIXED WRITE] \t\t\t\t wdata = %0p",write_tr.data);
+     // $display("[FIXED WRITE] \t\t\t\t wstrb = %0p",write_tr.wstrb);
+     // $display("[FIXED WRITE] \t\t\t\t wdata = %0p",write_tr.data);
       for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
       if(write_tr.wstrb[0][j] == 1 ) begin
         // if strobe is 1 then data is valid and store to memory
-        $display("[FIXED WRITE] \t\t\t\t Stroing in memory");
+      //  $display("[FIXED WRITE] \t\t\t\t Stroing in memory");
         slv_drv_mem[mem_addr][(8*j) + 7-:8] = write_tr.data[0][(8*j)+7 -: 8];
       end
     end
     end
     foreach(slv_drv_mem[k]) begin
-      $display("################################################");
-      $display("Slave Memory: Row[%0d]    = %0d",k,slv_drv_mem[k]);
+    //  $display("################################################");
+     // $display("Slave Memory: Row[%0d]    = %0d",k,slv_drv_mem[k]);
     end
 
   endtask : fixed_write
@@ -291,24 +291,24 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
   task incr_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
-    int count;
+    int count,len;
+    len                 =  write_tr.len; 
     `VSLV.wready        <= 1;
     $display("[WRITE DATA CHANNEL] \t\t@%0t WREADY Asserted",$time);
-    mem_addr            = (q_awaddr.pop_front())/8;
    // mem_addr            = (q_awaddr.pop_front()) / 8;
-    for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
+    for(int i = 0; i < len; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
+      mem_addr            = (q_awaddr.pop_front())/8;
       $display("[WRITE DATA CHANNEL] \t\t@%0t WVALID and WREADY Handshaked",$time);
       write_tr.wstrb    =   new[1];
       write_tr.data     =   new[1];
       write_tr.wstrb[0] =   `VSLV.wstrb;
       write_tr.data[0]  =   `VSLV.wdata; 
-
-      if(write_tr.wstrb[0][i]==1) begin
-        // if strobe is 1 then data is valid and store to memory
-        slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8]; 
-        $display("[WRITE DATA CHANNEL] \t\t @%0t transfer no. %0d",$time,count+1);
-        count++;
+      for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
+        if(write_tr.wstrb[0][j]==1) begin
+          // if strobe is 1 then data is valid and store to memory
+          slv_drv_mem[mem_addr][(8*j) + 7-:8] = write_tr.data[0][(8*j)+7 -: 8];  
+        end
       end
     end
     foreach(slv_drv_mem[k]) begin
@@ -331,17 +331,18 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
    
      bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
     `VSLV.wready      <= 1;  
-    mem_addr          = (q_awaddr.pop_front() )/ 8;
     for(int i = 0; i < `BUS_BYTE_LANES; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
+      mem_addr          = (q_awaddr.pop_front() )/ 8;
       write_tr.wstrb   =   new[1];
       write_tr.data    =   new[1];
       write_tr.wstrb[0]=   `VSLV.wstrb;
       write_tr.data[0] =   `VSLV.wdata; 
-
-      if(write_tr.wstrb[0][i]==1) begin
-        // if strobe is 1 then data is valid and store to memory
-        slv_drv_mem[mem_addr][(8*i) + 7-:8] = write_tr.data[0][(8*i)+7 -: 8];
+      for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
+        if(write_tr.wstrb[0][j]==1) begin
+          // if strobe is 1 then data is valid and store to memory
+          slv_drv_mem[mem_addr][(8*j) + 7-:8] = write_tr.data[0][(8*j)+7 -: 8];
+        end
       end
     end
   endtask : wrap_write
