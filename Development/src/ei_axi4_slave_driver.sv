@@ -133,21 +133,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : write_address_run()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : This task acts as axi write address channel. it 
+*\                          asserts awready and waits for awvalid to be asserted
+*\                          once this handshaking is done then it immediately 
+*\                          scans for all the control signals on same clock tick
+*\                          and store them in transaction write (write_tr)packet
+*\                          Also it calls one function which calculates all the
+*\                          next address and address byte lanes/boundary
 **/
-  function print_log;
-    $display("---------------------------------------------------------------");
-    $display("\tName \t\t\t\tMessage/Value");
-    $display("---------------------------------------------------------------");
-  endfunction : print_log
-
 
   task write_address_run();
-     // write_addr2data.get(1);
-      print_log;
     forever begin
       `VSLV.awready           <= 1;
       $display("[Write Address Channel] \t\t@%0t AWREADY ASSERTED",$time);
@@ -163,7 +158,29 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      end
    endtask : write_address_run
 
-   function void calculate_write();
+/**
+*\   Method name          : calculate_write_address()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          : This function is called by write_address_run task. 
+*\                          Here calculation of next address happens with  
+*\                          accordance to burst type.  see following detals,
+*\                            i. FIXED type Burst:  
+*\                               Calculate Next write address as per length  
+*\                               given by master and push these addresses into 
+*\                               queue.
+*\                           ii. INCR type Burst:
+*\                               Calculate Next write address as per length 
+*\                               given by master, calculate lower and uper byte
+*\                               lane and push these calculated addresses into
+*\                               queue.
+*\                           ii. WRAP type Burst:
+*\                               Calculate Next write address as per length 
+*\                               given by master, calculate lower and uper wrap
+*\                               boundary and push these calculated addresses 
+*\                               into queue.
+**/
+   function void calculate_write_address();
      bit [31 : 0] start_addr;
      bit [31 : 0] aligned_address;
      bit [31 : 0] address_n;
@@ -216,7 +233,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         end     
        end
       end 
-   endfunction : calculate_write
+   endfunction : calculate_write_address
 
 /**
 *\   Method name          : write_data_run()
@@ -447,14 +464,27 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   endtask
 
 
-/*
+/**
 *\   Method name          : calculate_read_address()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : This function is called by read_address_run task. 
+*\                          Here calculation of next address happens with  
+*\                          accordance to burst type.  see following detals,
+*\                            i. FIXED type Burst:  
+*\                               Calculate Next read address as per length  
+*\                               given by master and push these addresses into 
+*\                               queue.
+*\                           ii. INCR type Burst:
+*\                               Calculate Next read address as per length 
+*\                               given by master, calculate lower and uper byte
+*\                               lane and push these calculated addresses into
+*\                               queue.
+*\                           ii. WRAP type Burst:
+*\                               Calculate Next read address as per length 
+*\                               given by master, calculate lower and uper wrap
+*\                               boundary and push these calculated addresses 
+*\                               into queue.
 **/
  function void calculate_read_address();
      bit [31 : 0] start_addr;
