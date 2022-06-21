@@ -239,11 +239,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : write_data_run()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : This task acts as AXI write Data Channel. For Very
+*\                          first transaction, task waits for to awaddr queue to
+*\                          be filled with address then it calls three task 
+*\                          (fixed_write, incr_write and wrap_type) based on 
+*\                          first/current burst type. So respective task samples
+*\                          the wdata from interface and stores them in memory
+*\                          with respective burst type.
 **/
+
   task write_data_run();
     forever begin
       @(`VSLV iff(q_awaddr.size != 0));
@@ -262,13 +266,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : fixed_write()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : This task is called from write_data_run task.
+*\                          when transaction's burst type is fixed this task 
+*\                          gets executed. First,it asserted wready and waits 
+*\                          for handshaking. Once handshaking is done,
+*\                          it samples wstrb and wdata from interface and then
+*\                          it writes into memory according to provided strobe 
+*\                          and address.
 **/
   task fixed_write();
-    bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
+    bit [`DATA_WIDTH :  0] mem_addr; // dummy memory 
     int unsigned len = write_tr.len;
     $display("[Fixed Write] \t\t\t\t Inside the fixed write");
     `VSLV.wready        <= 1;  
@@ -301,10 +308,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : incr_write()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : This task is called from write_data_run task.
+*\                          when transaction's burst type is increment this task 
+*\                          gets executed. First,it asserted wready and waits 
+*\                          for handshaking. Once handshaking is done,
+*\                          it samples wstrb and wdata from interface and then
+*\                          it writes into memory according to provided strobe 
+*\                          and address. Note that we have calculated the all
+*\                          next address for all the transfer in function
+*\                          "calculate_write_address" and stored them in queue.
 **/
   task incr_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
@@ -339,10 +351,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : incr_write()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : This task is called from write_data_run task.
+*\                          when transaction's burst type is wrap,then this task 
+*\                          gets executed. First,it asserted wready and waits 
+*\                          for handshaking. Once handshaking is done,
+*\                          it samples wstrb and wdata from interface and then
+*\                          it writes into memory according to provided strobe 
+*\                          and address. Note that we have calculated the all
+*\                          next address for all the transfer in function
+*\                          "calculate_write_address" and stored them in queue.                    
 **/
   task wrap_write();
    
@@ -370,10 +387,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : write_response_run()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
+*\   Description          : this task gives write response for every transaction
+*\                          if successful transaction has occured then slave  
+*\                          will send response as "OKAY". Also if there is any
+*\                          successful/unsuccessful transaction with any
+*\                          protocol violation (i.e crossing 4KB Boundary,
+*\                          invalid size of transfer) then slave will respond
+*\                          with "SLVERR". Note that, we are asserting bvalid 
+*\                          signal while asserting write response (bresp) and 
+*\                          keeping these signal asserted until master sends 
+*\                          bready signal.
 **/
   task write_response_run();
     forever begin
@@ -403,11 +426,14 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : read_address_run()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
-*\                         
-**/
+*\   Description          : This task acts as axi read address channel. it 
+*\                          asserts arready and waits for arvalid to be asserted
+*\                          once this handshaking is done then it immediately 
+*\                          scans for all the control signals on same clock tick
+*\                          and store them in transaction read (read_tr)packet
+*\                          Also it calls one function which calculates all the
+*\                          next address and address byte lanes/boundary
+**/                        
   task read_address_run();
     int cnt = 1 ;
     forever begin
@@ -431,9 +457,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : read_data_run()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          :
-*\                         
-*\                        
+*\   Description          : this task is acting as AXI read data channel. After
+*\                          succesful handshaking of rvalid and rready, as per
+*\                          control signal and b
 *\                         
 **/
   task read_data_run();
