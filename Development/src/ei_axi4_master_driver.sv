@@ -17,19 +17,19 @@ class ei_axi4_master_driver_c;
         sema_read = new(1);
         sema_response = new(1);
 
-        vif.awaddr <= 0;
-        vif.awvalid <= 0;
-        vif.awburst <= 0;
-        vif.awlen <= 0;
-        vif.awsize <= 0;
-        vif.wvalid <= 0;
-        vif.wdata <= 0;
-        vif.wstrb <= 0;
-        vif.wlast <= 0;
-        vif.arvalid <= 0;
-        vif.araddr <= 0;
-        vif.rready <= 0;
-        vif.rdata <= 0;
+        vif.awaddr = 0;
+        vif.awvalid = 0;
+        vif.awburst = 0;
+        vif.awlen = 0;
+        vif.awsize = 0;
+        vif.wvalid = 0;
+        vif.wdata = 0;
+        vif.wstrb = 0;
+        vif.wlast = 0;
+        vif.arvalid = 0;
+        vif.araddr = 0;
+        vif.rready = 0;
+        vif.rdata = 0;
          
     endfunction : new
 
