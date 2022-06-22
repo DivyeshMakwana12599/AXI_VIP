@@ -200,7 +200,7 @@ interface assertion(
     assert property (assertion_at_rst_asserted(bvalid))
         pass_print_f();
         else begin
-            $display("ASSERT PROPERTY KFOR BVALID IF RESET IS ASSERTED");
+            $display("ASSERT PROPERTY FOR BVALID IF RESET IS ASSERTED");
             fail_print_f();
         end
 
@@ -209,7 +209,7 @@ interface assertion(
     assert property (assertion_at_rst_asserted(arvalid))
         pass_print_f();
         else begin
-            $display("ASSERT PROPERTY FOR AEVALID IF RESET IS ASSERTED");
+            $display("ASSERT PROPERTY FOR ARVALID IF RESET IS ASSERTED");
             fail_print_f();
         end
 
@@ -254,7 +254,7 @@ interface assertion(
     assert property (assertion_invalid_signal(aresetn,awvalid)) 
         pass_print_f();
         else begin
-            $display("ASSERT PROPERTY IF REST IS THERE THEN AWVALID CAN NOT DRIVE X/Z");
+            $display("ASSERT PROPERTY IF RESET IS THERE THEN AWVALID CAN NOT DRIVE X/Z");
          fail_print_f();
         end
 
