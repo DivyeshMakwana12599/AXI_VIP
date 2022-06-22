@@ -67,7 +67,7 @@ interface assertion(
 	*/
 	function void pass_print_f();
 	  $display("*************************************************************************");
-	  $display("*\t @%0t >>>> %m >>>> ASSETION PASSED \t        *",$time);
+	  $display("*\t @%0t >>>> %m >>>> ASSERTION PASSED         *",$time);
 	  $display("*************************************************************************");
 	endfunction :pass_print_f
 
@@ -79,7 +79,7 @@ interface assertion(
 	*/
 	function void fail_print_f();
 	  $display("*************************************************************************");
-	  $display("*\t @%0t >>>> %m >>>> ASSERTION FAILED \t        *",$time);
+	  $display("*\t @%0t >>>> %m >>>> ASSERTION FAILED         *",$time);
 	  $display("*************************************************************************");
 	endfunction :fail_print_f
 
