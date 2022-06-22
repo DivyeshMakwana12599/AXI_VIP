@@ -66,9 +66,9 @@ interface assertion(
 	\*   Description             : printing statement pass for assertion 
 	*/
 	function void pass_print_f();
-	  $display("*************************************************************************");
-	  $display("*\t @%0t >>>> %m >>>> ASSERTION PASSED         *",$time);
-	  $display("*************************************************************************");
+	 // $display("*************************************************************************");
+	 // $display("*\t @%0t >>>> %m >>>> ASSERTION PASSED         *",$time);
+	 // $display("*************************************************************************");
 	endfunction :pass_print_f
 
 	/**

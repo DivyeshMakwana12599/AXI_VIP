@@ -108,67 +108,34 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 		end
 	endfunction
 
-    function void print();
-
-
-
-        $display("----------------------------------------");
-        $display("             TRANSACTION_TYPE           ");
-        $display("----------------------------------------");
-
-        $write("Transaction_type = %0s",transaction_type.name);
-
-
-
-        $display("----------------------------------------");
-        $display("             ERROR_TYPE                 ");
-        $display("----------------------------------------");
-      
-        $display("errors = %0s", errors.name);
-
-
-
-        $display("----------------------------------------");
-        $display("             ADDRESS SIGNALS            ");
-        $display("----------------------------------------");
-
-        $display("addr = %0h", addr);
-        $display("len = %0d", len);
-        $display("size = %0d", size);
-        $display("burst = %0s", burst.name);
-
-
-
-        $display("----------------------------------------"); 
-        $display("               DATA SIGNALS             ");
-        $display("----------------------------------------");
-        
-        foreach(data[i]) begin
-            $display("data[%0d] = %h", i, data[i]);
-        end
-
-        if(transaction_type inside {WRITE, READ_WRITE}) begin
-        	foreach(wstrb[i]) begin
-            		$display("wstrb[%0d] = \t %b",i, wstrb[i]);
-        	end
-      end 
-
-
-        $display("----------------------------------------"); 
-        $display("           RESPONSE SIGNALS             ");
-        $display("----------------------------------------");
- 
-        if(transaction_type inside {READ, READ_WRITE}) begin
-            foreach(rresp[i]) begin
-                $display("rresp[%0d] = %0s", i,  rresp[i].name);
-            end
-        end
-        if(transaction_type inside {WRITE, READ_WRITE}) begin
-            $display("bresp = %0s", bresp.name);
-        end
-
-
-    endfunction : print
+  function void print(string component = "");
+    ei_axi4_print_c::print_header(transaction_type, component);
+    ei_axi4_print_c#(bit [ADDR_WIDTH - 1:0])::print_item(1, "addr", addr);
+    ei_axi4_print_c#(burst_type_e)::print_item(2, "burst", burst);
+    ei_axi4_print_c#(bit [7:0])::print_item(3, "len", len);
+    ei_axi4_print_c#(bit [2:0])::print_item(4, "size", size);
+    ei_axi4_print_c#(bit [DATA_WIDTH - 1:0])::print_array(5, "data", data);
+    if(transaction_type == WRITE) begin
+      ei_axi4_print_c#(bit [DATA_BUS_BYTES - 1:0])::print_array(
+        6, 
+        "wstrb", 
+        wstrb
+      );
+      ei_axi4_print_c#(response_e)::print_last_item(7, "bresp", bresp);
+    end
+    else if(transaction_type == READ) begin
+      ei_axi4_print_c#(response_e)::print_array_last(6, "rresp", rresp);
+    end
+    else if(transaction_type == READ_WRITE) begin
+      ei_axi4_print_c#(bit [DATA_BUS_BYTES - 1:0])::print_array(
+        6, 
+        "wstrb", 
+        wstrb
+      );
+      ei_axi4_print_c#(response_e)::print_item(7, "bresp", bresp);
+      ei_axi4_print_c#(response_e)::print_array_last(8, "rresp", rresp);
+    end
+  endfunction : print
 
 	function ei_axi4_transaction_c copy(ei_axi4_transaction_c trans = null);
     if(trans == null) begin

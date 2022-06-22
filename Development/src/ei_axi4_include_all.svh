@@ -1,6 +1,7 @@
+`include "../src/ei_axi4_macros.sv"
+
 `include "../src/ei_axi4_print.sv"
 
-`include "../src/ei_axi4_macros.sv"
 
 `include "../src/ei_axi4_helper_functions.sv"
 
