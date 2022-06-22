@@ -53,7 +53,7 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 	//-------Write Response Channel-------
 	response_e                      bresp;
 
-    rand possible_errors_e errors;
+  rand possible_errors_e errors;
 
 
 	constraint error_ct {
@@ -151,7 +151,7 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
         	foreach(wstrb[i]) begin
             		$display("wstrb[%0d] = \t %b",i, wstrb[i]);
         	end
-	end 
+      end 
 
 
         $display("----------------------------------------"); 
@@ -183,12 +183,23 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
   function bit compare(ei_axi4_transaction_c trans);
     if(burst == FIXED) begin
       return(
-        1'b1
+        this.data[$size(data) - 1] == trans.data[$size(trans.data) - 1] && 
+        this.data.size() == trans.data.size() &&
+        this.len == trans.len &&
+        this.addr == trans.addr &&
+        this.burst == trans.burst &&
+        this.size == trans.size &&
+        this.rresp == trans.rresp
       );
     end
     else begin
       return(
-        1'b1
+        this.data == trans.data &&
+        this.len == trans.len &&
+        this.addr == trans.addr &&
+        this.burst == trans.burst &&
+        this.size == trans.size &&
+        this.rresp == trans.rresp
       );
     end
   endfunction

@@ -17,6 +17,20 @@ class ei_axi4_master_driver_c;
         sema_read = new(1);
         sema_response = new(1);
 
+        vif.awaddr <= 0;
+        vif.awvalid <= 0;
+        vif.awburst <= 0;
+        vif.awlen <= 0;
+        vif.awsize <= 0;
+        vif.wvalid <= 0;
+        vif.wdata <= 0;
+        vif.wstrb <= 0;
+        vif.wlast <= 0;
+        vif.arvalid <= 0;
+        vif.araddr <= 0;
+        vif.rready <= 0;
+        vif.rdata <= 0;
+         
     endfunction : new
 
     task run();
@@ -82,7 +96,7 @@ class ei_axi4_master_driver_c;
 
         @(`VMST iff(`VMST.awready <= 1'b1)) 
         `VMST.awvalid <= 1'b0;
-        `VMST.awaddr <= 'bx;
+//        `VMST.awaddr <= 'bx;
         
 
     endtask : write_address_task 
@@ -112,8 +126,8 @@ class ei_axi4_master_driver_c;
             `VMST.wvalid <= 1'b0;
             `VMST.wlast <= 1'b0;
              $display("[MST DRV] --> .... @%0t WLAST Deasserted",$time);
-            `VMST.wdata <= 'bx;
-            `VMST.wstrb <= 'bx;
+ //           `VMST.wdata <= 'bx;
+  //          `VMST.wstrb <= 'bx;
 
             write_queue.pop_front();
             $display(write_queue.size,$time);
@@ -157,7 +171,7 @@ class ei_axi4_master_driver_c;
         @(`VMST iff(`VMST.arready));
      // $display("Hello");
         `VMST.arvalid <= 1'b0;
-        `VMST.araddr <= 'bx;
+   //     `VMST.araddr <= 'bx;
        // `VMST.rlast <= 1'b0;
     endtask : read_address_task
         
