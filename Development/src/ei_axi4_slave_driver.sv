@@ -143,6 +143,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_address_run();
+    vif.awready            <= 0;
     forever begin
       `VSLV.awready           <= 1;
       $display("[Write Address Channel] \t\t@%0t AWREADY ASSERTED",$time);
@@ -249,6 +250,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_data_run();
+    vif.wready    <= 0;
     forever begin
       @(`VSLV iff(q_awaddr.size != 0));
       $display("[WRITE DATA CHANNEL] \t\t\t @%0t=====write queue = %0p",$time,q_awaddr);
@@ -399,6 +401,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                          bready signal.
 **/
   task write_response_run();
+    vif.bvalid        <= 0;
+    vif.bresp         <= 'bz;
     forever begin
     `VSLV.wready       <= 1;
     `VSLV.bresp        <= 'bz ;
@@ -436,6 +440,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/                        
   task read_address_run();
     int cnt = 1 ;
+    vif.arready      <= 0;
     forever begin
       $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t ARREADY made 1 ",$time);
       `VSLV.arready    <= 1;
@@ -463,6 +468,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                         
 **/
   task read_data_run();
+    vif.rvalid        <= 0;
+    vif.rlast         <= 0;
+    vif.rresp         <= 'bz;
     forever begin
       
       @(`VSLV iff(q_araddr.size() != 0));
@@ -482,7 +490,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       `VSLV.rvalid      <= 0;
       `VSLV.rlast       <= 0;
       `VSLV.rresp       <= 'bz;
-      `VSLV.rdata       <= 'bx;
+     // `VSLV.rdata       <= 'bx;
       $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RLAST Deasserted ",$time);
       $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RRESEP gone High Impedance",$time);
       $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t q_araddr = %0d and size remains = %0d",$time,q_araddr[0],q_araddr.size());
