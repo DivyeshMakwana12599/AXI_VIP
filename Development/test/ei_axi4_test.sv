@@ -80,11 +80,11 @@ Revision		: 0.1
 
     //testcase-05
        else if($test$plusargs("ei_axi4_4KB_BOUNDARY_TEST")) begin
-	     ei_axi4_4kb_boundary_test_c 4kb_bndry_test;
-         4kb_bndry_test = new(vif);
-	     4kb_bndry_test.build();
-	     4kb_bndry_test.start();
-	     4kb_bndry_test.wrap_up();
+	     // ei_axi4_4kb_boundary_test_c 4kb_bndry_test;
+         // 4kb_bndry_test = new(vif);
+	     // 4kb_bndry_test.build();
+	     // 4kb_bndry_test.start();
+	     // 4kb_bndry_test.wrap_up();
        end
 
 

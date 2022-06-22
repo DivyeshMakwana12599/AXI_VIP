@@ -152,7 +152,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
        write_tr.burst          =  `VSLV.awburst;
        write_tr.len            =  `VSLV.awlen + 1;
        write_tr.size           =  `VSLV.awsize;
-       calculate_write();
+       calculate_write_address();
        @(`VSLV) `VSLV.awready <= 0;
       $display("[Write Address Channel] \t\t@%0t AWREADY Deasserted",$time);
      end

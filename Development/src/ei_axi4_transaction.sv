@@ -179,6 +179,19 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
     end
     copy = new this;
 	endfunction : copy
+
+  function bit compare(ei_axi4_transaction_c trans);
+    if(burst == FIXED) begin
+      return(
+        1'b1
+      );
+    end
+    else begin
+      return(
+        1'b1
+      );
+    end
+  endfunction
     
 
 endclass : ei_axi4_transaction_c

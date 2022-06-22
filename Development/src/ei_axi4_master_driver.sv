@@ -82,7 +82,7 @@ class ei_axi4_master_driver_c;
 
         @(`VMST iff(`VMST.awready <= 1'b1)) 
         `VMST.awvalid <= 1'b0;
-       // `VMST.wlast <= 1'b0;
+        `VMST.awaddr <= 'bx;
         
 
     endtask : write_address_task 
@@ -157,6 +157,7 @@ class ei_axi4_master_driver_c;
         @(`VMST iff(`VMST.arready));
      // $display("Hello");
         `VMST.arvalid <= 1'b0;
+        `VMST.araddr <= 'bx;
        // `VMST.rlast <= 1'b0;
     endtask : read_address_task
         
