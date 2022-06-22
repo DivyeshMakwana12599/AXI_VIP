@@ -206,4 +206,6 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
       input aresetn
     );
 
+
+assertion axi_assertion(aclk,aresetn,awaddr,awlen,awsize,awburst,awvalid,awready,wdata,wstrb,wlast,wvalid,wready,bresp,bvalid,bready,araddr,arburst,arlen,arsize,arvalid,arready,rdata,rresp,rlast,rvalid,rready);
 endinterface : ei_axi4_interface
