@@ -108,31 +108,14 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 		end
 	endfunction
 
-	// randc bit [ADDR_WIDTH - 1:0]    addr;
-	// randc burst_type_e	            burst;
-	// randc bit [7:0]  		        len;
-	// randc bit [2:0]  		        size;
-// 
-	// 
-	// //-------Read Data Channel-------
-	// rand bit [DATA_WIDTH-1:0]       data[];
-	// response_e                      rresp[];
-	// bit [DATA_BUS_BYTES - 1:0]      wstrb[];
-// 
-// 
-	// //-------Write Response Channel-------
-	// response_e                      bresp;
-// 
-  // rand possible_errors_e errors;
-
   function void print(string component = "");
     ei_axi4_print_c::print_header(transaction_type, component);
     ei_axi4_print_c#(bit [ADDR_WIDTH - 1:0])::print_item(1, "addr", addr);
     ei_axi4_print_c#(burst_type_e)::print_item(2, "burst", burst);
     ei_axi4_print_c#(bit [7:0])::print_item(3, "len", len);
     ei_axi4_print_c#(bit [2:0])::print_item(4, "size", size);
+    ei_axi4_print_c#(bit [DATA_WIDTH - 1:0])::print_array(5, "data", data);
     if(transaction_type == WRITE) begin
-      ei_axi4_print_c#(bit [DATA_WIDTH - 1:0])::print_array(5, "data", data);
       ei_axi4_print_c#(bit [DATA_BUS_BYTES - 1:0])::print_array(
         6, 
         "wstrb", 
@@ -141,16 +124,16 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
       ei_axi4_print_c#(response_e)::print_last_item(7, "bresp", bresp);
     end
     else if(transaction_type == READ) begin
-      ei_axi4_print_c#(response_e)::print_array_last(5, "rresp", rresp);
+      ei_axi4_print_c#(response_e)::print_array_last(6, "rresp", rresp);
     end
     else if(transaction_type == READ_WRITE) begin
-      ei_axi4_print_c#(bit [DATA_WIDTH - 1:0])::print_array(5, "data", data);
       ei_axi4_print_c#(bit [DATA_BUS_BYTES - 1:0])::print_array(
         6, 
         "wstrb", 
         wstrb
       );
-      ei_axi4_print_c#(response_e)::print_last_item(7, "bresp", bresp);
+      ei_axi4_print_c#(response_e)::print_item(7, "bresp", bresp);
+      ei_axi4_print_c#(response_e)::print_array_last(8, "rresp", rresp);
     end
   endfunction : print
 

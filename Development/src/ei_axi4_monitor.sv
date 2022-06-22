@@ -161,12 +161,12 @@ class ei_axi4_monitor_c;
 
       if(mon2scb != null) begin
         mon2scb.put(rd_trans);
-        rd_trans.print();
+        rd_trans.print("MONITOR");
       end
 
       if(mon2ref != null) begin
         mon2ref.put(rd_trans);
-        rd_trans.print();
+        rd_trans.print("MONITOR");
       end
 
     end

@@ -6,8 +6,8 @@ virtual class ei_axi4_print_c#(type T = bit);
   );
     $display("+=============================================================\
 ============================+");
-    $display("| Transaction Type : %10s %12s %44s |", tran_type.name(), 
-             (component.len() ? $sformatf("[%0s]", component) : ""), "");
+    $display("| Transaction Type : %10s %12s @%5t %37s |", tran_type.name(), 
+             (component.len() ? $sformatf("[%0s]", component) : ""), $time, "");
     $display("+=============================================================\
 ============================+");
     $display("| %6s | %15s | %30s | %4s | %20s |", 
@@ -71,7 +71,9 @@ virtual class ei_axi4_print_c#(type T = bit);
       end
     end
     $sformat(str, {identifier, "[%0d]"}, $size(data) - 1);
-    print_empty_last_item(str, data[$size(data) - 1]);
+    if($size(data) > 0) begin
+      print_empty_last_item(str, data[$size(data) - 1]);
+    end
   endfunction
 
 endclass
