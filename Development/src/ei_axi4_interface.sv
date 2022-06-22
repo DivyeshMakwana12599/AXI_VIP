@@ -36,7 +36,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
     logic [ADDR_WIDTH - 1:0] awaddr;
     logic [7:0] awlen;
     logic [2:0] awsize;
-    logic [1:0] awburst;
+    burst_type_e awburst;
     logic awvalid;
     logic awready;
 	
@@ -46,13 +46,13 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
     logic wvalid;
     logic wready;
 
-    logic [1:0] bresp;
+    response_e bresp;
     logic bvalid;	
     logic bready;
 	
     // read address channel 		
     logic [31:0] araddr;
-    logic [1:0] arburst;
+    burst_type_e arburst;
     logic [7:0] arlen;
     logic [2:0] arsize; 
     logic arvalid;
@@ -60,7 +60,7 @@ interface ei_axi4_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH = `ADD
 	
     // read data channel
     logic [DATA_WIDTH - 1:0] rdata;
-    logic [1:0] rresp;
+    response_e rresp;
     logic rlast;
     logic rvalid;
     logic rready; 
