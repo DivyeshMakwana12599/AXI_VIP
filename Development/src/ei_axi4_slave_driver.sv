@@ -143,6 +143,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_address_run();
+    vif.awready            <= 0;
     forever begin
       `VSLV.awready           <= 1;
       $display("[Write Address Channel] \t\t@%0t AWREADY ASSERTED",$time);
@@ -399,6 +400,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                          bready signal.
 **/
   task write_response_run();
+    vif.bvalid        <= 0;
     forever begin
     `VSLV.wready       <= 1;
     `VSLV.bresp        <= 'bz ;
@@ -463,6 +465,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                         
 **/
   task read_data_run();
+    vif.rvalid        <= 0;
+    vif.rlast         <= 0;
     forever begin
       
       @(`VSLV iff(q_araddr.size() != 0));
