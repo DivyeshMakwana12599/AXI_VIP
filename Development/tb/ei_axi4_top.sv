@@ -50,7 +50,7 @@ module ei_axi4_top;
   //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
     test  =  new(pif);
     test.run();
-    $finish;
+    #0 $finish;
    end
    initial begin
      if($test$plusargs("RESET")) begin
