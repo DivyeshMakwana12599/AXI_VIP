@@ -52,7 +52,7 @@ module ei_axi4_top;
     test.run();
    end
    initial begin
-     if($test$plusargs == "RESET") begin
+     if($test$plusargs("RESET")) begin
         dummy_time = $urandom_range(0,200);
         #(dummy_time) aresetn = 0;
         @(posedge aclk);
