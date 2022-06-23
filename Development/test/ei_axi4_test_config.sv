@@ -106,14 +106,14 @@ class ei_axi4_test_config_c ;
 			transaction_length.rand_mode(1);
 		end
 	    
-		if($value$plusargs("burst_type=%0s", burst_type)) begin
+		if($value$plusargs("burst_type=%0d", burst_type)) begin
 			burst_type.rand_mode(0);
 		end
 		else begin
 			burst_type.rand_mode(1);
 		end
 	    
-		if($value$plusargs("addr_type=%0s", addr_type)) begin
+		if($value$plusargs("addr_type=%0d", addr_type)) begin
 			addr_type.rand_mode(0);
 		end
 		else begin

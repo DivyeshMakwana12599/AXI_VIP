@@ -45,7 +45,7 @@ class ei_axi4_env_config_c;
     checker_on_off_switch = ON;
 
     slave_address_range[0] = 32'h0;
-    slave_address_range[1] = 32'hffff_ffff_ffff_ffff;
+    slave_address_range[1] = 32'hffff_ffff;
   endfunction
 
 endclass : ei_axi4_env_config_c

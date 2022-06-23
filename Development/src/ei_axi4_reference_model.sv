@@ -22,13 +22,16 @@ class ei_axi4_reference_model_c;
     task run();
         
         forever begin
-                  mst_mon2ref.get(tr);
-
-                  if(tr.transaction_type == WRITE) begin 
-                              write_to_memory();
-                              read_from_memory();
-                            end 
-                end
+            mst_mon2ref.get(tr);
+            no_of_bytes = 2 ** tr.size;
+            $display("[reference_model] = %0p",tr);
+            if(tr.transaction_type == WRITE) begin 
+              write_to_memory();
+            end 
+            if(tr.transaction_type == READ) begin
+              read_from_memory();
+            end
+          end
       endtask
 
     function write_to_memory();
@@ -67,15 +70,21 @@ class ei_axi4_reference_model_c;
                 function fixed_burst_write();
 
                     aligned_address = tr.addr;
+                    $display("addr = ", tr.addr);
+                    $display("len = ", tr.len);
+                    $display("size = ", tr.size);
+                    $display("nsize = ", no_of_bytes);
+                    $display("burst = ", tr.burst);
 
                     for(int i = 0 ; i <= tr.len ; i++) begin 
-                        memory_address = (aligned_address) / (no_of_bytes);
+                        memory_address = (aligned_address) / (8);
                         for(int j = 0 ; j <= `BUS_BYTE_LANES ; j++) begin
                             if(tr.wstrb[i][j] == 1'b1) begin 
                                 reference_memory [memory_address] [(8 * j) + 7 -: 8] = tr.data[i][(8*j) + 7 -: 8];
                             end 
                         end 
                     end 
+                  $display(reference_memory);
 
                 endfunction : fixed_burst_write   
                 
@@ -122,19 +131,22 @@ class ei_axi4_reference_model_c;
                 function fixed_burst_read();
 
                     read_trans = new();
-                    read_trans.data = new[tr.len];
+                    read_trans.data = new[tr.len+1];
                     
-                    aligned_address = tr.addr;
+                    aligned_address = tr.addr - (tr.addr % no_of_bytes);
 
                     for(int i = 0 ; i <= tr.len ; i++) begin 
                         memory_address = aligned_address / 8;
 
-                        for(int j = aligned_address ; j <= aligned_address + no_of_bytes ; j++) begin 
+                        for(int j = tr.addr; j <= aligned_address + no_of_bytes ; j++) begin 
                             read_trans.data [i][(8 * (j % 8)) + 7 -: 8] = reference_memory [memory_address] [(8 * (j % 8)) + 7 -: 8] ; 
                         end 
                     end 
+                  read_trans.print("REF");
+                  ref2scb.try_put(read_trans);
 
                 endfunction : fixed_burst_read
+
 
                 function incr_burst_read();
 
@@ -153,6 +165,7 @@ class ei_axi4_reference_model_c;
                         aligned_address = ((aligned_address % no_of_bytes) / (no_of_bytes));
                         aligned_address = aligned_address + no_of_bytes;
                     end 
+                  ref2scb.try_put(read_trans);
 
                 endfunction : incr_burst_read
 
@@ -181,6 +194,7 @@ class ei_axi4_reference_model_c;
                             aligned_address = lower_wrap_boundary; 
                         end 
                     end 
+                  ref2scb.try_put(read_trans);
 
                 endfunction : wrap_burst_read
 
