@@ -4,7 +4,7 @@
 `define COVERAGE ON
 `define DATA_WIDTH 64
 `define ADDR_WIDTH 32
-`define BUS_BYTE_LANES `DATA_WIDTH/8
+`define BUS_BYTE_LANES (`DATA_WIDTH)/8
 `define AXI_VERSION AXI4
 `define VMST vif.MST.master_driver_cb
 `define VSLV vif.SLV.slave_driver_cb

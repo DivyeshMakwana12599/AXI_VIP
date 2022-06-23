@@ -50,6 +50,7 @@ module ei_axi4_top;
   //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
     test  =  new(pif);
     test.run();
+    $finish;
    end
 
   initial begin
@@ -57,7 +58,4 @@ module ei_axi4_top;
     $dumpvars;
   end
 
-  initial begin
-    #1000 $finish;
-  end
 endmodule : ei_axi4_top
