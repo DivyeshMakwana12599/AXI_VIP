@@ -15,14 +15,18 @@ class ei_axi4_scoreboard_c;
     ei_axi4_transaction_c golden_trans;
     ei_axi4_transaction_c trans;
     forever begin
-      ref2scb.get(golden_trans);
       slv_mon2scb.get(trans);
+      $display("got from monitor");
+      trans.print("TRAN");
+      ref2scb.get(golden_trans);
+      $display("got from reference");
+      golden_trans.print("GOLDEN");
       if(trans.compare(golden_trans)) begin
-        $display("Transaction Passed!");
+        $display("@%0t Transaction Passed!", $time);
         passed_transaction++;
       end
       else begin
-        $display("Transaction Failed!");
+        $display("@%0t Transaction Failed!", $time);
         failed_transaction++;
       end
     end

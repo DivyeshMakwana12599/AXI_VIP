@@ -114,16 +114,6 @@ class ei_axi4_checker_c;
         return FAIL;
       end
     end
-    else if(tr.transaction_type == READ_WRITE) begin
-      tr.transaction_type = WRITE;
-      if(!check_write_signals(tr)) begin
-        return FAIL;
-      end
-      if(!check_read_signals(tr)) begin
-        return FAIL;
-      end
-    end
-    tr.transaction_type = READ_WRITE;
     return PASS;
   endfunction
 

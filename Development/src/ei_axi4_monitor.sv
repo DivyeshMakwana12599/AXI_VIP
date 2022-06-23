@@ -65,6 +65,7 @@ class ei_axi4_monitor_c;
     ei_axi4_transaction_c wr_trans;
     forever begin
       @(`MON_CB iff(`MON_CB.awvalid && `MON_CB.awready));
+      $display("@%0t write handshake occured -> %0d", $time, `MON_CB.awaddr );
       wr_trans = new();
       wr_trans.transaction_type = WRITE;
       wr_trans.addr = `MON_CB.awaddr;
@@ -113,9 +114,10 @@ class ei_axi4_monitor_c;
         axi4_checker.check(wr_trans);
       end
 
-      if(mon2scb != null) begin
-        mon2scb.put(wr_trans);
-        wr_trans.print();
+      if(mon2ref != null) begin
+        mon2ref.put(wr_trans);
+        $display(wr_trans);
+        wr_trans.print("MONITOR FOR WRITE");
       end
     end
 
@@ -125,6 +127,7 @@ class ei_axi4_monitor_c;
     ei_axi4_transaction_c rd_trans;
     forever begin
       @(`MON_CB iff(`MON_CB.arvalid && `MON_CB.arready));
+      $display("@%0t read handshake occured -> %0d", $time, `MON_CB.araddr );
       rd_trans = new();
       rd_trans.transaction_type = READ;
       rd_trans.addr = `MON_CB.araddr;
@@ -144,29 +147,35 @@ class ei_axi4_monitor_c;
 
       rd_trans = read_data_queue.pop_front();
       rd_trans.data = new[rd_trans.len + 1];
-      rd_trans.wstrb = new[rd_trans.len + 1];
+      rd_trans.rresp = new[rd_trans.len + 1];
 
-      rd_trans.data[0] = `MON_CB.wdata;
+      rd_trans.data[0] = `MON_CB.rdata;
       rd_trans.rresp[0] = `MON_CB.rresp;
 
       for(int i = 1; i <= rd_trans.len; i++) begin
-        @(`MON_CB iff(`MON_CB.wready && `MON_CB.wvalid));
+        @(`MON_CB iff(`MON_CB.rready && `MON_CB.rvalid));
         rd_trans.data[i] = `MON_CB.rdata;
         rd_trans.rresp[i] = `MON_CB.rresp;
       end
 
-      if(tx_rx_monitor_cfg == 1'b1) begin
+      if(tx_rx_monitor_cfg == 1'b0) begin
         axi4_checker.check(rd_trans);
       end
 
       if(mon2scb != null) begin
         mon2scb.put(rd_trans);
-        rd_trans.print("MONITOR");
+        $display(rd_trans);
+        rd_trans.print("MONITOR FOR SCB");
       end
 
+
       if(mon2ref != null) begin
+        repeat(5) begin
+          @(`MON_CB);
+        end
         mon2ref.put(rd_trans);
-        rd_trans.print("MONITOR");
+        $display(rd_trans);
+        rd_trans.print("MONITOR FOR REF");
       end
 
     end

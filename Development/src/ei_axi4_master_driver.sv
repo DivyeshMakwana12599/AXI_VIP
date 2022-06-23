@@ -19,17 +19,21 @@ class ei_axi4_master_driver_c;
 
         vif.awaddr = 0;
         vif.awvalid = 0;
-        vif.awburst = 0;
+        vif.awburst = FIXED;
         vif.awlen = 0;
         vif.awsize = 0;
         vif.wvalid = 0;
         vif.wdata = 0;
         vif.wstrb = 0;
         vif.wlast = 0;
+
         vif.arvalid = 0;
+        vif.arburst = FIXED;
+        vif.arlen = 0;
+        vif.arsize = 0;
         vif.araddr = 0;
         vif.rready = 0;
-        vif.rdata = 0;
+        vif.bready = 0;
          
     endfunction : new
 

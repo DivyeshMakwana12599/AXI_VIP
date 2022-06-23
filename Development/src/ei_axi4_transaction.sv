@@ -109,7 +109,7 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 	endfunction
 
   function void print(string component = "");
-    ei_axi4_print_c::print_header(transaction_type, component);
+    ei_axi4_print_c#()::print_header(transaction_type, component);
     ei_axi4_print_c#(bit [ADDR_WIDTH - 1:0])::print_item(1, "addr", addr);
     ei_axi4_print_c#(burst_type_e)::print_item(2, "burst", burst);
     ei_axi4_print_c#(bit [7:0])::print_item(3, "len", len);
@@ -149,6 +149,9 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 
   function bit compare(ei_axi4_transaction_c trans);
     if(burst == FIXED) begin
+      $display("Hello");
+      $display(trans);
+      $display(this);
       return(
         this.data[$size(data) - 1] == trans.data[$size(trans.data) - 1] && 
         this.data.size() == trans.data.size() &&

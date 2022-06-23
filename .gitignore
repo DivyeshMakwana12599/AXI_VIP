@@ -4,6 +4,8 @@
 /Development/tb/.*
 /Development/test/.*
 /**/**/csrc/*
+/**/**/*.vcd
+/**/**/**/*.vcd
 /**/**/simv.daidir/*
 /**/**/csrc
 /**/**/simv.daidir
