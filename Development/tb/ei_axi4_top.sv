@@ -32,7 +32,7 @@ module ei_axi4_top;
 
   bit aclk;
   bit aresetn;
-  bit dummy;
+  time dummy_time;
   
   ei_axi4_interface pif(.aclk(aclk),.aresetn(aresetn));
   ei_axi4_test_c test;
@@ -51,7 +51,14 @@ module ei_axi4_top;
     test  =  new(pif);
     test.run();
    end
-
+   initial begin
+     if($test$plusargs == "RESET") begin
+        dummy_time = $urandom_range(0,200);
+        #(dummy_time) aresetn = 0;
+        @(posedge aclk);
+        aresetn      = 1;
+     end
+   end
   initial begin
     $dumpfile("dumpfile.vcd");
     $dumpvars;
