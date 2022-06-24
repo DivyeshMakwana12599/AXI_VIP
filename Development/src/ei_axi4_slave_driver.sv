@@ -54,7 +54,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                          write transaction
 **/
 
-  function new(virtual ei_axi4_interface vif);
+function new(virtual ei_axi4_interface vif);
     this.vif    = vif;
     read_tr     = new();
     write_tr    = new();
@@ -146,16 +146,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     vif.awready            <= 0;
     forever begin
       `VSLV.awready           <= 1;
-     // $display("[Write Address Channel] \t\t@%0t AWREADY ASSERTED",$time);
-      @(`VSLV iff(`VSLV.awvalid == 1)); 
-      //$display("[Write Address Channel] \t\t@%0t AWVALID & AWREADY Handshaked ",$time);
+       $display("[Write Address Channel] \t\t@%0t AWREADY ASSERTED",$time);
+       @(`VSLV iff(`VSLV.awvalid == 1)); 
+       $display("[Write Address Channel] \t\t@%0t AWVALID & AWREADY Handshaked ",$time);
        write_tr.addr           =  `VSLV.awaddr;
        write_tr.burst          =  `VSLV.awburst;
        write_tr.len            =  `VSLV.awlen + 1;
        write_tr.size           =  `VSLV.awsize;
        calculate_write_address();
        @(`VSLV) `VSLV.awready <= 0;
-      //$display("[Write Address Channel] \t\t@%0t AWREADY Deasserted",$time);
+     $display("[Write Address Channel] \t\t@%0t AWREADY Deasserted",$time);
      end
    endtask : write_address_run
 
@@ -255,7 +255,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       @(`VSLV iff(q_awaddr.size != 0));
      // $display("[WRITE DATA CHANNEL] \t\t\t @%0t=====write queue = %0p",$time,q_awaddr);
 
-      //$display("[Fixed Write] \t\tburst type = %0d",write_tr.burst);
+      $display("[Fixed Write] \t\tburst type = %0d",write_tr.burst);
       case (write_tr.burst)
         FIXED  : fixed_write();
         INCR   : incr_write();
@@ -279,7 +279,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task fixed_write();
     bit [`DATA_WIDTH :  0] mem_addr; // dummy memory 
     int unsigned len = write_tr.len;
-   // $display("[Fixed Write] \t\t\t\t Inside the fixed write");
+    //$display("[Fixed Write] \t\t\t\t Inside the fixed write");
     `VSLV.wready        <= 1;  
   
     for(int i = 0; i < len; i++) begin
@@ -290,19 +290,20 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       write_tr.wstrb[0] =   `VSLV.wstrb;
       write_tr.data[0]  =   `VSLV.wdata;
      // $display("[FIXED WRITE] \t\t\t\t wstrb = %0p",write_tr.wstrb);
-     // $display("[FIXED WRITE] \t\t\t\t wdata = %0p",write_tr.data);
+      //$display("[FIXED WRITE] \t\t\t\t wdata = %0p",write_tr.data);
       for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
       if(write_tr.wstrb[0][j] == 1 ) begin
         // if strobe is 1 then data is valid and store to memory
-      //  $display("[FIXED WRITE] \t\t\t\t Stroing in memory");
+       // $display("[FIXED WRITE] \t\t\t\t Stroing in memory");
         slv_drv_mem[mem_addr][(8*j) + 7-:8] = write_tr.data[0][(8*j)+7 -: 8];
       end
     end
     end
-    foreach(slv_drv_mem[k]) begin
-    //  $display("################################################");
-     // $display("Slave Memory: Row[%0d]    = %0d",k,slv_drv_mem[k]);
+   /* foreach(slv_drv_mem[k]) begin
+      $display("################################################");
+      $display("Slave Memory: Row[%0d]    = %0d",k,slv_drv_mem[k]);
     end
+    */
 
   endtask : fixed_write
 
@@ -412,7 +413,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       `VSLV.wready          <= 1;
       `VSLV.bresp           <= 'bz ;
       @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast));
-      //$display("[Write Response Run] \t\t@%0t  WLAST detected",$time);
+    $display("[Write Response Run] \t\t@%0t  WLAST detected",$time);
       @(`VSLV);
       // `VSLV.wready       <= 0;
       if((((addr - (addr % transfer_size)) % 4096) + ((len) * transfer_size)) > 4096) begin
@@ -422,7 +423,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       else begin
         `VSLV.bvalid      <= 1;
         write_tr.bresp    = OKAY; 
-        //$display("[Write Response Run] \t\t@%0t  BRESP with OKAY is asserted",$time);
+       // $display("[Write Response Run] \t\t@%0t  BRESP with OKAY is asserted",$time);
         `VSLV.bresp       <= write_tr.bresp;
       end
       @(`VSLV iff(`VSLV.bready == 1));
@@ -451,21 +452,21 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                          next address and address byte lanes/boundary
 **/                        
   task read_address_run();
-   // int cnt = 1 ;
+    int cnt = 1 ;
     vif.arready      <= 0;
     forever begin
-      //$display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t ARREADY made 1 ",$time);
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t ARREADY made 1 ",$time);
       `VSLV.arready    <= 1;
       @(`VSLV iff(`VSLV.arvalid == 1));
-      //$display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t ARVALID & ARREADY Handshaking done ",$time);
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t ARVALID & ARREADY Handshaking done ",$time);
       read_tr.addr    =  `VSLV.araddr;
       read_tr.burst   =  `VSLV.arburst;
       read_tr.len     =  `VSLV.arlen + 1;
       read_tr.size    =  `VSLV.arsize;
-     // $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t Address[%0d] = %0d ",$time,cnt,`VSLV.araddr); 
+      $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t Address[%0d] = %0d ",$time,cnt,`VSLV.araddr); 
       calculate_read_address();
       `VSLV.arready <= 0;
-    //  cnt++;
+      cnt++;
     end
   endtask
 
@@ -488,12 +489,13 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     vif.rresp             <= 'bz;
     forever begin
       @(`VSLV iff(q_araddr.size() != 0));
-    //  $display("[READ DATA CHANNEL] \t\t\t @%0t=====read queue = %0p",$time,q_araddr);
-    //  $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
+      //$display("[READ DATA CHANNEL] \t\t\t @%0t=====read queue = %0p",$time,q_araddr);
+     // $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
       for(int i = 0; i < read_tr.len; i++) begin 
           `VSLV.rvalid    <= 1;
-        //  $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RVALID & RREADY Handshaking done ",$time);
+          $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RVALID & RREADY Handshaking done ",$time);
           #0 `VSLV.rdata     <= rdata(i);
+          //$display("READ DATA ===================== %0d = %0d ",i,rdata(i));
           if((((addr - (addr % transfer_size)) % 4096) + ((len) * transfer_size)) > 4096) begin
             `VSLV.rresp    <= SLVERR; 
           end
@@ -503,7 +505,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
        
           if(i == read_tr.len - 1) begin
               `VSLV.rlast <= 1'b1;
-               // $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RLAST Asserted ",$time);
+                $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RLAST Asserted ",$time);
           end
           @(`VSLV iff(`VSLV.rready));
       end
@@ -511,8 +513,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       `VSLV.rlast       <= 0;
       `VSLV.rresp       <= 'bz;
      // `VSLV.rdata       <= 'bx;
-     // $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RLAST Deasserted ",$time);
-     // $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RRESEP gone High Impedance",$time);
+      $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RLAST Deasserted ",$time);
+      //$display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RRESEP gone High Impedance",$time);
      // $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t q_araddr = %0d and size remains = %0d",$time,q_araddr[0],q_araddr.size());
     end
   endtask
@@ -561,7 +563,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      
      if(burst == FIXED) begin
 
-     // $display("[burst type] \t\t\t\tFIXED");
+      $display("[burst type] \t\t\t\tFIXED");
        for(int count = 1;count <= burst_len; count++) begin
          q_araddr.push_back(address_n);
        end
@@ -617,8 +619,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 function bit [`DATA_WIDTH : 0] rdata(int i);
     
     bit [31 : 0] addr; // Start addres
-    bit [ 3 : 0] data_bus_bytes = 8;
-    bit [ 2 : 0] lbl, ubl;
+    bit [ 3 : 0] data_bus_bytes = `BUS_BYTE_LANES;
+    bit [ 3 : 0] lbl, ubl;
     bit [31 : 0] aligned_address;
     int          number_bytes;
     bit [63 : 0] len_sel_r;
@@ -626,7 +628,7 @@ function bit [`DATA_WIDTH : 0] rdata(int i);
     
     len_sel_r         = {8{8'hff}};
     number_bytes      = 2 ** read_tr.size;
-       
+      
     if(i == 0) begin
       addr            = q_araddr.pop_front();
       mem_addr_r      = addr / data_bus_bytes;
@@ -635,19 +637,33 @@ function bit [`DATA_WIDTH : 0] rdata(int i);
       ubl             = aligned_address + (number_bytes - 1'b1) -
                                     ((addr / data_bus_bytes)) * data_bus_bytes;
       
+
       len_sel_r       = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
+     // $display("@%0t....1------------------------------->",$time,len_sel_r);
+     // $display(lbl,,,ubl);
       len_sel_r       = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
+     // $display("@%0t....2------------------------------->",$time,len_sel_r);
       rdata           = slv_drv_mem[mem_addr_r] & len_sel_r;
     
     end
     else begin
       addr            = q_araddr.pop_front();
-      lbl             = addr - ((addr / data_bus_bytes))* data_bus_bytes;
+      // addr    = addr/8)*8
+     // lbl             = addr - ((addr / data_bus_bytes))* data_bus_bytes;
+       lbl            = addr % data_bus_bytes;
       ubl             = lbl + number_bytes-1'b1;
+      if(ubl > 7) begin
+        ubl = 7;
+      end
+     // $display("no of bytes = ",number_bytes);
       
       mem_addr_r      = addr / data_bus_bytes;
-      len_sel_r       = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
-      len_sel_r       = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
+      len_sel_r       = len_sel_r << (data_bus_bytes - 1 - ubl + lbl) * 8;             // len_sel mask creation 
+      //$display("@%0t....3------------------------------->",$time,len_sel_r);
+      //$display(lbl,,,ubl);
+      //$display(len_sel_r << ((data_bus_bytes - 1 - ubl + lbl) * 8));
+      len_sel_r       = len_sel_r >> (data_bus_bytes - 1 - ubl) * 8;
+      //$display("@%0t....4------------------------------->",$time,len_sel_r);
       rdata           = slv_drv_mem[mem_addr_r] & len_sel_r;      
     end
   endfunction :rdata
