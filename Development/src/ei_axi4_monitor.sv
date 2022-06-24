@@ -17,6 +17,8 @@ class ei_axi4_monitor_c;
   ei_axi4_transaction_c write_response_queue[$];
   ei_axi4_transaction_c read_data_queue[$];
 
+  int unsigned no_of_trans_monitored;
+
   function new(
     bit tx_rx_monitor_cfg,
     mailbox#(ei_axi4_transaction_c) mon2ref = null,
@@ -118,6 +120,8 @@ class ei_axi4_monitor_c;
         mon2ref.put(wr_trans);
         $display(wr_trans);
         wr_trans.print("MONITOR FOR WRITE");
+        no_of_trans_monitored++;
+        $display("no_of_trans_monitored = %0d", no_of_trans_monitored);
       end
     end
 
@@ -141,44 +145,49 @@ class ei_axi4_monitor_c;
   task monitor_read_data_channel();
     ei_axi4_transaction_c rd_trans;
 
-    forever begin
 
-      wait_read_data_channel_handshake();
+    wait_read_data_channel_handshake();
 
-      rd_trans = read_data_queue.pop_front();
-      rd_trans.data = new[rd_trans.len + 1];
-      rd_trans.rresp = new[rd_trans.len + 1];
+    rd_trans = read_data_queue.pop_front();
+    rd_trans.data = new[rd_trans.len + 1];
+    rd_trans.rresp = new[rd_trans.len + 1];
 
-      rd_trans.data[0] = `MON_CB.rdata;
-      rd_trans.rresp[0] = `MON_CB.rresp;
+    rd_trans.data[0] = `MON_CB.rdata;
+    rd_trans.rresp[0] = `MON_CB.rresp;
 
-      for(int i = 1; i <= rd_trans.len; i++) begin
-        @(`MON_CB iff(`MON_CB.rready && `MON_CB.rvalid));
-        rd_trans.data[i] = `MON_CB.rdata;
-        rd_trans.rresp[i] = `MON_CB.rresp;
-      end
-
-      if(tx_rx_monitor_cfg == 1'b0) begin
-        axi4_checker.check(rd_trans);
-      end
-
-      if(mon2scb != null) begin
-        mon2scb.put(rd_trans);
-        $display(rd_trans);
-        rd_trans.print("MONITOR FOR SCB");
-      end
-
-
-      if(mon2ref != null) begin
-        repeat(5) begin
-          @(`MON_CB);
-        end
-        mon2ref.put(rd_trans);
-        $display(rd_trans);
-        rd_trans.print("MONITOR FOR REF");
-      end
-
+    for(int i = 1; i <= rd_trans.len; i++) begin
+      @(`MON_CB iff(`MON_CB.rready && `MON_CB.rvalid));
+      rd_trans.data[i] = `MON_CB.rdata;
+      rd_trans.rresp[i] = `MON_CB.rresp;
     end
+
+    if(tx_rx_monitor_cfg == 1'b0) begin
+      axi4_checker.check(rd_trans);
+    end
+
+    if(mon2scb != null) begin
+      fork
+        monitor_read_data_channel();
+      join_none
+      mon2scb.put(rd_trans);
+      $display(rd_trans);
+    end
+
+
+    if(mon2ref != null) begin
+      rd_trans.data.delete();
+      rd_trans.rresp.delete();
+      fork
+        monitor_read_data_channel();
+      join_none
+      repeat(5) begin
+        @(`MON_CB);
+      end
+      mon2ref.put(rd_trans);
+      no_of_trans_monitored++;
+      $display("no_of_trans_monitored = %0d", no_of_trans_monitored);
+    end
+
   endtask
   
   task wait_write_data_channel_handshake();

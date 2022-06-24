@@ -1,16 +1,16 @@
 /*--------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-File name 		: ei_axi4_test_c.sv
-Title 			: test file for VIP
-Project 		: AMBA AXI-4 SV VIP
-Created On  	: 10-June-22
-Developers  	: Jaspal Singh
+File name     : ei_axi4_test_c.sv
+Title       : test file for VIP
+Project     : AMBA AXI-4 SV VIP
+Created On    : 10-June-22
+Developers    : Jaspal Singh
 E-mail          : Jaspal.Singh@einfochips.com
-Purpose 		: To build environment and take testname as command line argument
-				  
-Assumptions 	: As per the Feature plan All the pins are not declared here
-Limitations 	: 
-Known Errors	: 
+Purpose     : To build environment and take testname as command line argument
+          
+Assumptions   : As per the Feature plan All the pins are not declared here
+Limitations   : 
+Known Errors  : 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Copyright (c) 2000-2022 eInfochips - All rights reserved
@@ -22,7 +22,7 @@ This file may not be distributed, copied, or reproduced in any manner,
 electronic or otherwise, without the express written consent of
 eInfochips 
 --------------------------------------------------------------------------------
-Revision		: 0.1
+Revision    : 0.1
 ------------------------------------------------------------------------------*/
  
  class ei_axi4_test_c;
@@ -39,59 +39,58 @@ Revision		: 0.1
          read_test = new(vif);
          read_test.build();
          read_test.start();
-	     read_test.wrap_up();
+       read_test.wrap_up();
        end
 
-	//testcase-02
+  //testcase-02
        else if($test$plusargs("ei_axi4_WRITE_TEST")) begin
-	     ei_axi4_wr_test_c write_test;
+       ei_axi4_wr_test_c write_test;
          write_test = new(vif);
-	     write_test.build();
-	     write_test.start();
-	     write_test.wrap_up();
+       write_test.build();
+       write_test.start();
+       write_test.wrap_up();
        end
-	   
-	//testcase-03
+     
+  //testcase-03
        else if($test$plusargs("ei_axi4_SANITY_TEST")) begin
-	     ei_axi4_sanity_test_c sanity_test;
+       ei_axi4_sanity_test_c sanity_test;
          sanity_test = new(vif);
-	     sanity_test.build();
-	     sanity_test.start();
-	     sanity_test.wrap_up();
+       sanity_test.build();
+       sanity_test.start();
+       sanity_test.wrap_up();
        end      
-	   
-	//testcase-04
+     
+  //testcase-04
        else if($test$plusargs("ei_axi4_RANDOM_TEST")) begin
-	     ei_axi4_random_test_c random_test;
+       ei_axi4_random_test_c random_test;
          random_test = new(vif);
-	     random_test.build();
-	     random_test.start();
-	     random_test.wrap_up();
+       random_test.build();
+       random_test.start();
+       random_test.wrap_up();
        end
 
     //testcase-05
        else if($test$plusargs("ei_axi4_SEQ_WR_RD_TEST")) begin
-	     ei_axi4_seq_wr_rd_test_c seq_wr_rd_test;
+       ei_axi4_seq_wr_rd_test_c seq_wr_rd_test;
          seq_wr_rd_test = new(vif);
-	     seq_wr_rd_test.build();
-	     seq_wr_rd_test.start();
-	     seq_wr_rd_test.wrap_up();
+       seq_wr_rd_test.build();
+       seq_wr_rd_test.start();
+       seq_wr_rd_test.wrap_up();
        end
 
-    //testcase-05
+    //testcase-06
        else if($test$plusargs("ei_axi4_4KB_BOUNDARY_TEST")) begin
-	     // ei_axi4_4kb_boundary_test_c 4kb_bndry_test;
-         // 4kb_bndry_test = new(vif);
-	     // 4kb_bndry_test.build();
-	     // 4kb_bndry_test.start();
-	     // 4kb_bndry_test.wrap_up();
+       ei_axi4_4k_boundary_test_c bndry_4k_test;
+         bndry_4k_test = new(vif);
+       bndry_4k_test.build();
+       bndry_4k_test.start();
+       bndry_4k_test.wrap_up();
        end
-
-
-	
+       
        else begin
          $display("\n----------PLEASE ENTER A TESTNAME TO PROCEED------------");
        end
      endtask
 
  endclass
+

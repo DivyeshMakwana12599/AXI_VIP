@@ -92,19 +92,26 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 	}
 
 	constraint data_arr_size_ct {
-		data.size() == len + 1;
+    if(transaction_type == READ) {
+      data.size() == 0;
+    }
+    else {
+      data.size() == len + 1;
+    }
 	}
 
 	function void post_randomize();
-		wstrb = new[len + 1];
-		for(int i = 0; i <= len; i++) begin
-			wstrb[i] = get_wstrb(
-				.awaddr(addr), 
-				.awburst(burst), 
-				.awsize(size), 
-				.awlen(len), 
-				.beat_no(i)
-			);
+    if(transaction_type != READ) begin
+      wstrb = new[len + 1];
+      for(int i = 0; i <= len; i++) begin
+        wstrb[i] = get_wstrb(
+          .awaddr(addr), 
+          .awburst(burst), 
+          .awsize(size), 
+          .awlen(len), 
+          .beat_no(i)
+        );
+      end
 		end
 	endfunction
 
