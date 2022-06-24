@@ -22,9 +22,10 @@ typedef enum bit {PASSIVE, ACTIVE} AGENT_TYPE_e;
 
 `define SV_RAND_CHECK(r) \
 \
-	do begin \
-		if ((r)) begin \
-			$display("%s:%0d: Randomization passed %b", \
-			`__FILE__, `__LINE__, r); \
-		end \
+  do begin \
+      if ((!r)) begin \
+        $fatal("%s:%0d: Randomization Failed", \
+      `__FILE__, `__LINE__); \
+    end \
 end while (0)
+
