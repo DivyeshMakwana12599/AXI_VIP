@@ -21,8 +21,7 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
 
     for(int i = 0; i < rand_int; i++) begin
       wr_trans = new();
-      rd_trans = new();
-      
+      rd_trans = new(); 
           
       randsequence(main)
       main  : write | read;
@@ -30,7 +29,8 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
       read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
     end
-      $finish;
+      wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
+      //$finish;
   endtask
 
     task wrap_up();
