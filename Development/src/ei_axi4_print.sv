@@ -48,7 +48,12 @@ virtual class ei_axi4_print_c#(type T = bit);
   static function void print_array(int sr_no, string identifier, T data[]);
     string str;
     str = {identifier, "[0]"};
-    print_item(sr_no, str, data[0]);
+    if(data.size() == 0) begin
+      print_last_item(sr_no, str, data[0]);
+    end
+    else begin
+      print_item(sr_no, str, data[0]);
+    end
     
     foreach(data[i]) begin
       if(i > 0) begin
@@ -62,7 +67,12 @@ virtual class ei_axi4_print_c#(type T = bit);
   static function void print_array_last(int sr_no, string identifier, T data[]);
     string str;
     str = {identifier, "[0]"};
-    print_item(sr_no, str, data[0]);
+    if(data.size() == 0) begin
+      print_last_item(sr_no, str, data[0]);
+    end
+    else begin
+      print_item(sr_no, str, data[0]);
+    end
     
     foreach(data[i]) begin
       if(i > 0 && i != ($size(data) - 1)) begin
