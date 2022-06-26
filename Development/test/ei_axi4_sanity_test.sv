@@ -17,11 +17,11 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
   
   //run phase
   task start();
-      super.run();
+    super.run();
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
     if(i%2 == 0)begin
       wr_trans = new();
-            env.mst_agt.mst_gen.start(wr_trans); 
+      env.mst_agt.mst_gen.start(wr_trans); 
     end
     else begin
       rd_trans = new();
@@ -41,7 +41,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
       env.mst_agt.mst_gen.start(rd_trans);
     end
     end
-    //wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
+    wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
     //  $finish;
   endtask
     
