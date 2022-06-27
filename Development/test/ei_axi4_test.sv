@@ -79,7 +79,7 @@ Revision    : 0.1
        end
 
     //testcase-06
-       else if($test$plusargs("ei_axi4_4KB_BOUNDARY_TEST")) begin
+       else if($test$plusargs("ei_axi4_4K_BOUNDARY_TEST")) begin
        ei_axi4_4k_boundary_test_c bndry_4k_test;
          bndry_4k_test = new(vif);
        bndry_4k_test.build();

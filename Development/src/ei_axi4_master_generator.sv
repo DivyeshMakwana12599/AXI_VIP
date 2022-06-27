@@ -45,6 +45,7 @@ class ei_axi4_master_generator_c;
   task start(ei_axi4_transaction_c trans);
      $display("[GEN] ==================== Randomizing ========================");
     `SV_RAND_CHECK(trans.randomize());
+    trans.print();
     gen2drv.put(trans.copy());
   endtask
 

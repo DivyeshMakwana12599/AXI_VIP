@@ -19,10 +19,14 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
 			wr_trans = new();
 			env.mst_agt.mst_gen.start(wr_trans);
 		end
+    $display(test_cfg.total_num_trans);
+    $display(env.mst_agt.mst_mon.no_of_trans_monitored);
+    //wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
+    //$finish;
 	endtask
 
     task wrap_up();
-         $display("READ TESTCASE SELECTED");
+         $display("WRITE TESTCASE SELECTED");
     endtask
 
 	

@@ -20,19 +20,30 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
   
   
   task start();
+       int count_len;
+        int j;
     super.run();
-    //write operation, if num of trans odd then it write ((num/2)+1) and remaining for read
+       //write operation, if num of trans odd then it write ((num/2)+1) and remaining for read
     for(int i = test_cfg.total_num_trans/2; i < test_cfg.total_num_trans; i++) begin
+        $display("-----------------------------> i = %0d ",i);
         wr_trans = new();
+
         env.mst_agt.mst_gen.start(wr_trans);
         tmp_addr_arr.push_front(wr_trans.addr);      //to store addresses
         tmp_burst_arr.push_front(wr_trans.burst);
         tmp_len_arr.push_front(wr_trans.len);
         tmp_size_arr.push_front(wr_trans.size);
-        $display("[SEQ_WR_RD] : ",wr_trans);
+        //env.mst_agt.mst_gen.start(wr_trans);
+        count_len = count_len + wr_trans.len;
+        j++;
+        //$display("[SEQ_WR] : ",wr_trans);
         //$display("[SEQ_WR_RD] : ",tmp_addr_arr);
     end
     
+    #((count_len+4+j)*10);
+    j =0;
+   //while(count_len >=0) 
+
     for(int i = 0; i < test_cfg.total_num_trans/2; i++) begin
         rd_trans = new();
         rd_trans.addr.rand_mode(0);
@@ -50,9 +61,9 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
         rd_trans.len    = tmp_len_arr.pop_back();
         rd_trans.size   = tmp_size_arr.pop_back();
         env.mst_agt.mst_gen.start(rd_trans);
-        $display("[SEQ_WR_RD] : ",rd_trans);
+        //$display("[SEQ_RD] : ",rd_trans);
     end
-      wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
+      //wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
   endtask
 
     task wrap_up();

@@ -42,12 +42,12 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
     end
     end
     wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
-    //  $finish;
+      $finish;
   endtask
     
     //wrap up phase    
     task wrap_up();
-    
+        $display("SANITY TEST SELECTED");
     endtask
   
 endclass

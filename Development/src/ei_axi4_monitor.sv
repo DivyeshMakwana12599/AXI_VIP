@@ -145,7 +145,7 @@ class ei_axi4_monitor_c;
   task monitor_read_data_channel();
     ei_axi4_transaction_c rd_trans;
 
-
+    //rd_trans = new();//modification by jaspal
     wait_read_data_channel_handshake();
 
     rd_trans = read_data_queue.pop_front();
