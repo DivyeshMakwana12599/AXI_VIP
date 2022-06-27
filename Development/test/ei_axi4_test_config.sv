@@ -95,7 +95,7 @@ class ei_axi4_test_config_c ;
   }
   
   ////////////////////////////////////////////////////////////////////////////////
-  //   Method name          : post_randomize()                                  //  
+  //   Method name          : new()                                             //  
   //   Parameters passed    : none                                              //
   //   Returned parameters  : None                                              //
   //   Description          : take command line argument                        //

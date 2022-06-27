@@ -50,8 +50,8 @@ module ei_axi4_top;
   //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
     test  =  new(pif);
     test.run();
-    #0 $finish;
    end
+
    initial begin
      if($test$plusargs("RESET")) begin
         dummy_time = $urandom_range(0,200);
@@ -63,6 +63,7 @@ module ei_axi4_top;
   initial begin
     $dumpfile("dumpfile.vcd");
     $dumpvars;
+    #1000 $finish;
   end
 
 endmodule : ei_axi4_top

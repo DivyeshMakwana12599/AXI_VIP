@@ -19,6 +19,7 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
 			rd_trans = new();
 			env.mst_agt.mst_gen.start(rd_trans);
 		end
+        //wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
 	endtask
 
     task wrap_up();
