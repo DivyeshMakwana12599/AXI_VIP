@@ -63,7 +63,7 @@ class ei_axi4_4k_boundary_test_c extends ei_axi4_base_test_c;
       wr_trans.boundary_4kb_ct.constraint_mode(0);
       //wr_trans.addr_type_c.constraint_mode(0);
       //wr_trans.error_ct.constraint_mode(0);
-       wr_trans.addr = 4085;
+      wr_trans.addr = 4085;
       wr_trans.errors = ERROR_4K_BOUNDARY;
       rd_trans.errors = ERROR_4K_BOUNDARY;
 
