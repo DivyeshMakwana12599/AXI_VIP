@@ -8,17 +8,11 @@
 
 #system("vcs -sverilog -full64 -debug_access+r  +error+20 ei_axi4_top.sv && ./simv +ei_axi4_RANDOM_TEST");
 
-<<<<<<< HEAD
 #system("vcs -sverilog -full64 -debug_access+r ei_axi4_top.sv && ./simv -gui  +ei_axi4_SEQ_WR_RD_TEST +total_num_trans=6 +length=3 +size=2");
 system("vcs -sverilog -full64 -debug_access+r ei_axi4_top.sv && ./simv  +ei_axi4_4K_BOUNDARY_TEST +total_num_trans=1");
-=======
 #system("vcs -sverilog -full64 -debug_access+r  +error+20 ei_axi4_top.sv && ./simv +ei_axi4_4KB_BOUNDARY_TEST +total_num_trans=6 ");
-<<<<<<< HEAD
 #system("vcs -sverilog -full64 -debug_access+r ei_axi4_top.sv && ./simv -gui +ei_axi4_SANITY_TEST +total_num_trans=4 +length=7 +size=3 +addr_type=0 +burst_type=0");
 system("./simv -gui +ei_axi4_SEQ_WR_RD_TEST +total_num_trans=4 +length=4 +size=3 +addr_type=0 +burst_type=0");
 #system("vcs -sverilog -full64 -debug_access+r ei_axi4_top.sv && ./simv -gui +ei_axi4_READ_TEST +total_num_trans=4 +length=3 +size=2 +addr_type=0 +burst_type=1");
-=======
 system("vcs -sverilog -full64 -debug_access+r ei_axi4_top.sv && ./simv -gui  +ei_axi4_SEQ_WR_RD_TEST +total_num_trans=4 +length=3");
 #system("vcs -sverilog -full64 -debug_access+r ei_axi4_top.sv && ./simv  +ei_axi4_4K_BOUNDARY_TEST +total_num_trans=1");
->>>>>>> 40e9e88ca44819f799f561d4b0ff92cb2017e9fe
->>>>>>> 294ab4a1bdf6cee992c4c2d1a73da255cfd31ffa
