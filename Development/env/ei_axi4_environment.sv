@@ -74,6 +74,10 @@ class ei_axi4_environment_c;
 	  ref_model.run();
     join
   endtask : run
+  
+  task wrap_up();
+    scb.wrap_up();
+  endtask : wrap_up
 
 endclass :ei_axi4_environment_c
 

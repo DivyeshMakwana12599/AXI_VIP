@@ -48,6 +48,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
     //wrap up phase    
     task wrap_up();
         $display("SANITY TEST SELECTED");
+        super.wrap_up();
     endtask
   
 endclass

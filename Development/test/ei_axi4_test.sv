@@ -58,6 +58,7 @@ Revision    : 0.1
        sanity_test.build();
        sanity_test.start();
        sanity_test.wrap_up();
+
        end      
      
   //testcase-04
@@ -92,5 +93,8 @@ Revision    : 0.1
        end
      endtask
 
+     task wrap_up();
+        $display("test wrap up");
+     endtask : wrap_up
  endclass
 

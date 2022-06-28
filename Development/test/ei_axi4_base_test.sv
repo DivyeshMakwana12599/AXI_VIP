@@ -15,4 +15,8 @@ class ei_axi4_base_test_c;
 		join_none
 	endtask 
 	
+    task wrap_up();
+        env.wrap_up();
+    endtask :wrap_up
+
 endclass

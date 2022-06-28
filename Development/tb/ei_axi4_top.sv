@@ -66,4 +66,8 @@ module ei_axi4_top;
     #500 $finish;
   end
 
+  final begin
+      //test.wrap_up();
+  end
+
 endmodule : ei_axi4_top
