@@ -21,6 +21,8 @@
 /**/**/DVEfiles
 /**/**/inter.vpd
 
+/Development/tb/script.pl
+
 /Development/src/*.bak
 /Development/bin/*.bak
 /Development/env/*.bak
