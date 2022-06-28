@@ -30,7 +30,7 @@ Revision:0.1
 parameter BUS_WIDTH = 64;
 parameter BUS_BYTE_LANES = 8;
 
-interface assertion(
+module assertion(
   input logic aclk,
     	logic aresetn,
 	    logic [31:0] awaddr,
@@ -538,7 +538,7 @@ interface assertion(
             fail_print_f();
         end
 */
-    endinterface :assertion
+endmodule :assertion
 
 
 

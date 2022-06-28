@@ -34,9 +34,12 @@ module ei_axi4_top;
   bit aresetn;
   time dummy_time;
   
-  ei_axi4_interface pif(.aclk(aclk),.aresetn(aresetn));
+  ei_axi4_master_interface mst_pif(.aclk(aclk),.aresetn(aresetn));
+  ei_axi4_slave_interface slv_pif(.aclk(aclk),.aresetn(aresetn));
+ 
   ei_axi4_test_c test;
- // ei_axi4_test_config_c cfg_t;
+  
+  // ei_axi4_test_config_c cfg_t;
  
   always #(`PERIOD) aclk = ~aclk;
   
@@ -48,7 +51,7 @@ module ei_axi4_top;
    /* To build */
   initial begin
   //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
-    test  =  new(pif);
+    test  =  new(mst_pif,slv_pif);
     test.run();
    end
 

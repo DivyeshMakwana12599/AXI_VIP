@@ -11,8 +11,8 @@
 
 `include "../src/ei_axi4_coverage.sv"
 
-`include "../src/ei_axi4_interface.sv"
-
+`include "../src/ei_axi4_master_interface.sv"
+`include "../src/ei_axi4_slave_interface.sv"
 
 `include "../src/ei_axi4_checker_cfg.sv"
 `include "../src/ei_axi4_checker_db.sv"
