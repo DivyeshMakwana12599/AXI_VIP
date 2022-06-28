@@ -1,4 +1,4 @@
-module interconect(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_slave_interface slv_vif);
+module ei_axi4_interconnect(ei_axi4_master_interface mst_vif, ei_axi4_slave_interface slv_vif);
 
     // WRITE ADDRESS CHANNEL
     assign mst_vif.awaddr  = slv_vif.awaddr;
@@ -34,4 +34,4 @@ module interconect(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_sla
     assign mst_vif.rdata   = slv_vif.rdata;
     assign mst_vif.rlast   = slv_vif.rlast;
 
-endmodule :interconect
+endmodule : ei_axi4_interconnect

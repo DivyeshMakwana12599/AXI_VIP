@@ -25,12 +25,12 @@ eInfochips
 Revision    : 0.1
 ------------------------------------------------------------------------------*/
  
- class ei_axi4_test_c;
+ class ei_axi4_test_c#(type mst_intf = ei_axi4_master_interface, type slv_intf = ei_axi4_slave_interface);
 
-     virtual ei_axi4_master_interface mst_vif;
-     virtual ei_axi4_slave_interface slv_vif;
+     virtual mst_intf mst_vif;
+     virtual slv_intf slv_vif;
      
-     function new(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_slave_interface slv_vif);
+     function new(virtual mst_intf mst_vif, virtual slv_intf slv_vif);
         this.mst_vif = mst_vif;
         this.slv_vif = slv_vif;
      endfunction

@@ -26,7 +26,7 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-class ei_axi4_environment_c;
+class ei_axi4_environment_c#(type mst_intf = ei_axi4_master_interface, type slv_intf = ei_axi4_slave_interface);
 
   ei_axi4_master_agent_c mst_agt;
   ei_axi4_slave_agent_c slv_agt;
@@ -38,8 +38,8 @@ class ei_axi4_environment_c;
   mailbox#(ei_axi4_transaction_c) mst_mon2ref;
   mailbox#(ei_axi4_transaction_c) ref2scb;
 
-  virtual ei_axi4_slave_interface slv_vif;
-  virtual ei_axi4_master_interface mst_vif;
+  virtual mst_intf slv_vif;
+  virtual slv_intf mst_vif;
 
 
 /**
@@ -49,7 +49,7 @@ class ei_axi4_environment_c;
 *\   Description          : links virtual interface,mailboxs and builds slave agent
 *\                          components
 **/
-  function new(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_slave_interface slv_vif, ei_axi4_env_config_c env_cfg);
+  function new(virtual mst_intf mst_vif, virtual slv_intf slv_vif, ei_axi4_env_config_c env_cfg);
 	this.mst_vif = mst_vif;
     this.slv_vif = slv_vif;
 
