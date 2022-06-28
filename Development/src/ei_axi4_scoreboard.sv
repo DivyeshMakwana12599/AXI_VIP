@@ -33,6 +33,6 @@ class ei_axi4_scoreboard_c;
   endtask
 
   function void wrap_up();
-
+    $display("No. of transaction passed : %0d",passed_transaction);
   endfunction
 endclass
