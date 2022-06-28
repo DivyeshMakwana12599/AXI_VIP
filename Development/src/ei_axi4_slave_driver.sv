@@ -40,10 +40,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   bit [31 : 0] q_awaddr[$];
   bit [31 : 0] q_araddr[$]; 
   bit [ 1 : 0] q_awburst[$];
-
+  bit [ 2 : 0] q_arsize[$];
+  //bit [ 2 : 0] q_awsize[$];
+  bit [ 7 : 0] q_awlen[$];
+  bit [ 7 : 0] q_arlen[$];
   ei_axi4_transaction_c read_tr;
   ei_axi4_transaction_c write_tr;
   virtual ei_axi4_interface vif; 
+
+  int unsigned no_of_responce_channel;
 
 /**
 *\   Method name          : new()
@@ -54,7 +59,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                          write transaction
 **/
 
-function new(virtual ei_axi4_interface vif);
+  function new(virtual ei_axi4_interface vif);
     this.vif    = vif;
     read_tr     = new();
     write_tr    = new();
@@ -93,6 +98,7 @@ function new(virtual ei_axi4_interface vif);
         reset_run();
         write_address_run();
         write_data_run();
+        sample_response();
         write_response_run();
         read_address_run();
         read_data_run();
@@ -125,7 +131,11 @@ function new(virtual ei_axi4_interface vif);
       vif.rvalid      <= 0;
       q_awaddr.delete();
       q_araddr.delete();
-      q_awburst.delete(); 
+      q_awburst.delete();
+      //q_awsize.delete();
+      q_arsize.delete();
+      q_awlen.delete();
+      q_arlen.delete();
     end
   endtask : reset_run
 
@@ -196,19 +206,23 @@ function new(virtual ei_axi4_interface vif);
 
      start_addr         = write_tr.addr;
      number_bytes       = 2**write_tr.size;
-     burst_len          = write_tr.len; //
+     burst_len          = write_tr.len; 
      burst              = write_tr.burst;
      address_n          = start_addr;
      aligned_address    = ((start_addr/number_bytes))* number_bytes;
      if(burst == FIXED) begin
          q_awburst.push_back(burst);
+         q_awlen.push_back(burst_len);
        for(int count = 1; count <= burst_len; count++) begin
          q_awaddr.push_back(address_n);
+       //  q_awsize.push_back(number_bytes);
        end
      end
      if(burst == INCR) begin 
          q_awburst.push_back(burst);
+         q_awlen.push_back(burst_len);
       for(int count = 1; count <= burst_len; count++) begin
+         //q_awsize.push_back(number_bytes);
         if(count==1) begin
          q_awaddr.push_back(address_n); 
         end
@@ -226,8 +240,11 @@ function new(virtual ei_axi4_interface vif);
       q_awaddr.push_back(start_addr);
       aligned_address   = ((start_addr/number_bytes))* number_bytes;
       q_awburst.push_back(burst);
+      q_awlen.push_back(burst_len);
+      //q_awsize.push_back(number_bytes);
       
-      for(int i=1; i< burst_len; i++) begin 
+      for(int i = 1; i < burst_len; i++) begin 
+        //q_awsize.push_back(number_bytes);
         address_n       = address_n + number_bytes;
         if(upper_wb == address_n) begin
           address_n     = lower_wb;
@@ -283,7 +300,7 @@ function new(virtual ei_axi4_interface vif);
 **/
   task fixed_write();
     bit [`DATA_WIDTH :  0] mem_addr; // dummy memory 
-    int unsigned len = write_tr.len;
+    int unsigned len = q_awlen.pop_front();
     $display("[Fixed Write] \t\t\t\t Inside the fixed write");
     `VSLV.wready        <= 1;  
   
@@ -313,6 +330,7 @@ function new(virtual ei_axi4_interface vif);
 
   endtask : fixed_write
 
+
 /*
 *\   Method name          : incr_write()
 *\   parameters passed    : None                      
@@ -330,7 +348,7 @@ function new(virtual ei_axi4_interface vif);
   task incr_write();
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
     int count,len;
-    len                 =  write_tr.len; 
+    len                 =  q_awlen.pop_front(); 
     `VSLV.wready        <= 1;
     //$display("[WRITE DATA CHANNEL] \t\t@%0t WREADY Asserted",$time);
     for(int i = 0; i < len; i++) begin
@@ -374,7 +392,7 @@ function new(virtual ei_axi4_interface vif);
     int len;
     bit [`DATA_WIDTH :  0] mem_addr; // create memory for store data 
     `VSLV.wready      <= 1;  
-    len               = write_tr.len; 
+    len               = q_awlen.pop_front(); 
     for(int i = 0; i < len; i++) begin
       @(`VSLV iff(`VSLV.wvalid == 1));
       mem_addr         = (q_awaddr.pop_front() )/ 8;
@@ -416,33 +434,34 @@ function new(virtual ei_axi4_interface vif);
     vif.bresp               <= 'bz;
     forever begin
       `VSLV.wready          <= 1;
-      `VSLV.bresp           <= 'bz ;
-      @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast));
+      //`VSLV.bresp           <= 'bz ;
+      // @(`VSLV iff(`VSLV.wvalid && `VSLV.wlast));
+      wait(no_of_responce_channel != 0);
+
       $display("[Write Response Run] \t\t@%0t  WLAST detected",$time);
       @(`VSLV);
       // `VSLV.wready       <= 0;
       if((((addr - (addr % transfer_size)) % 4096) + ((len) * transfer_size)) > 4096) begin
         `VSLV.bvalid      <= 1;
-        write_tr.bresp    = SLVERR; 
+        `VSLV.bresp       <= SLVERR; 
       end
       else begin
         `VSLV.bvalid      <= 1;
-        write_tr.bresp    = OKAY; 
+        `VSLV.bresp       <= OKAY; 
         // $display("[Write Response Run] \t\t@%0t  BRESP with OKAY is asserted",$time);
       end
-      `VSLV.bresp       <= write_tr.bresp;
       @(`VSLV iff(`VSLV.bready == 1));
-      `VSLV.bresp         <= 'bz ;
       `VSLV.bvalid        <= 1'b0;
-
-     /* foreach(slv_drv_mem[i]) begin
-        $display("#############################################");
-        $display("Slave Memory: Row[%0d]    = %0d",i,slv_drv_mem[i]);
-      end
-      */
+      no_of_responce_channel--;
     end
   endtask
 
+  task sample_response();
+    forever begin
+      @(`VSLV iff(`VSLV.wlast && `VSLV.wvalid));
+      no_of_responce_channel++;
+    end
+  endtask
 
 /*
 *\   Method name          : read_address_run()
@@ -486,17 +505,18 @@ function new(virtual ei_axi4_interface vif);
 **/
   task read_data_run();
     int unsigned addr     = read_tr.addr;
-    int unsigned len      = read_tr.len ;
+    int unsigned len;
     bit [6:0] transfer_size = 2 ** read_tr.size;
     vif.rvalid            <= 0;
     vif.rlast             <= 0;
-    vif.rresp             <= 'bz;
+    //vif.rresp             <= 'bz;
     vif.rdata             <= 0;
     forever begin
       @(`VSLV iff(q_araddr.size() != 0));
+      len = q_arlen.pop_front();
       $display("[READ DATA CHANNEL] \t\t\t @%0t=====read queue = %0p",$time,q_araddr);
       $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t q_araddr = %0d and size = %0d",$time,q_araddr[0],q_araddr.size());
-      for(int i = 0; i < read_tr.len; i++) begin 
+      for(int i = 0; i < len; i++) begin 
           `VSLV.rvalid    <= 1;
           $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RVALID & RREADY Handshaking done ",$time);
           #0 `VSLV.rdata     <= rdata(i);
@@ -508,7 +528,7 @@ function new(virtual ei_axi4_interface vif);
             `VSLV.rresp    <= OKAY;
           end
        
-          if(i == read_tr.len - 1) begin
+          if(i == len - 1) begin
               `VSLV.rlast <= 1'b1;
                 $display("[SLV_DRV.READ_DATA_CHANNEL] \t\t@%0t RLAST Asserted ",$time);
           end
@@ -567,22 +587,26 @@ function new(virtual ei_axi4_interface vif);
      aligned_address = ((start_addr/number_bytes))* number_bytes;
      
      if(burst == FIXED) begin
-
       $display("[burst type] \t\t\t\tFIXED");
+         q_arlen.push_back(burst_len);
        for(int count = 1;count <= burst_len; count++) begin
+         q_arsize.push_back(number_bytes);
          q_araddr.push_back(address_n);
        end
      end
      if(burst == INCR) begin 
         //  $display("[burst type] \t\t\t\tINCR");
+         q_arlen.push_back(burst_len);
        for(int count = 1; count <= burst_len; count++) begin
          if(count==1) begin
            q_araddr.push_back(address_n);
+           q_arsize.push_back(number_bytes);
              $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
          end
          else begin
            address_n = aligned_address + ((count-1) * number_bytes); 
            q_araddr.push_back(address_n);
+           q_arsize.push_back(number_bytes);
            $display("[calculate_read_address] --> %0t q_araddr[%0d] = %0d",$time,count-1,q_araddr[count-1]);
          end
        end
@@ -596,10 +620,12 @@ function new(virtual ei_axi4_interface vif);
         $error("[Read Address Channel] \t\t@%0t Starting address is not alligned in WRAP BURST !!!",$time);
       end
       q_araddr.push_back(start_addr);
+      q_arsize.push_back(number_bytes);
+      q_arlen.push_back(burst_len);
       aligned_address   = ((start_addr/number_bytes))* number_bytes;    
      // $display("[burst type] \t\t\t\tWRAP");
       for(int i=1; i< burst_len; i++) begin
-      
+        q_arsize.push_back(number_bytes);
         address_n = address_n + number_bytes;
         if(upper_wb == address_n) begin
           address_n     = lower_wb;
@@ -632,8 +658,8 @@ function bit [`DATA_WIDTH : 0] rdata(int i);
     int          mem_addr_r;
     
     len_sel_r         = {8{8'hff}};
-    number_bytes      = 2 ** read_tr.size;
-      
+    //number_bytes      = 2 ** read_tr.size;
+    number_bytes      = q_arsize.pop_front();  
     if(i == 0) begin
       addr            = q_araddr.pop_front();
       mem_addr_r      = addr / data_bus_bytes;
