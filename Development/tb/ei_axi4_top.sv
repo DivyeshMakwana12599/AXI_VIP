@@ -63,7 +63,7 @@ module ei_axi4_top;
   initial begin
     $dumpfile("dumpfile.vcd");
     $dumpvars;
-    #1000 $finish;
+    #500 $finish;
   end
 
 endmodule : ei_axi4_top

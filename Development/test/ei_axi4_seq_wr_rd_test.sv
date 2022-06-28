@@ -35,13 +35,13 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
         tmp_size_arr.push_front(wr_trans.size);
         //env.mst_agt.mst_gen.start(wr_trans);
         count_len = count_len + wr_trans.len;
-        j++;
+      //  j++;
         //$display("[SEQ_WR] : ",wr_trans);
         //$display("[SEQ_WR_RD] : ",tmp_addr_arr);
     end
     
-    #((count_len+4+j)*10);
-    j =0;
+  //  #((count_len+4+j)*10);
+  //  j =0;
    //while(count_len >=0) 
 
     for(int i = 0; i < test_cfg.total_num_trans/2; i++) begin

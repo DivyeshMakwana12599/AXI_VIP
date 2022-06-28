@@ -521,7 +521,7 @@ interface assertion(
             $display("BVALID SHOULD BE ASSERTED AFTER DATA CHANNEL HANDSHAKING IS DONE AND WLAST IS ASSERTED");
             fail_print_f();
         end
-
+/*
     // RLAST must come only afterwards of  the last read data transfer.
     AXI_ASSERTION_040 :
         assert property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast)) pass_print_f();
@@ -537,7 +537,7 @@ interface assertion(
             $display("RLAST MUST COME AFTERWARDS OF THE LAST READ DATA TRANSFER");
             fail_print_f();
         end
-
+*/
     endinterface :assertion
 
 
