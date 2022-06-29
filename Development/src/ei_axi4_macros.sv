@@ -8,7 +8,8 @@
 `define AXI_VERSION AXI4
 `define VMST vif.MST.master_driver_cb
 `define VSLV vif.SLV.slave_driver_cb
-
+`define MST_INTF ei_axi4_master_interface
+`define SLV_INTF ei_axi4_slave_interface
 
 typedef enum bit [1:0] {FIXED, INCR, WRAP} burst_type_e;
 typedef enum bit [1:0] {OKAY, EXOKAY, SLVERR, DECERR} response_e;

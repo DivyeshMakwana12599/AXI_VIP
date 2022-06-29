@@ -25,13 +25,13 @@ eInfochips
 Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
-class ei_axi4_base_test_c #(mst_intf = ei_axi4_master_interface, slv_intf = ei_axi4_slave_interface);
+class ei_axi4_base_test_c;
 	
     ei_axi4_environment_c env;
 	ei_axi4_env_config_c env_cfg;
 
-	virtual mast_intf mst_vif;
-	virtual slv_intf slv_vif;
+	virtual `MST_INTF mst_vif;
+	virtual `SLV_INTF slv_vif;
 	
   /***
   //   Method name          : new()                 
@@ -68,4 +68,4 @@ class ei_axi4_base_test_c #(mst_intf = ei_axi4_master_interface, slv_intf = ei_a
         env.wrap_up();
     endtask :wrap_up
 
-endclass :ei_axi4_base_test
+endclass :ei_axi4_base_test_c

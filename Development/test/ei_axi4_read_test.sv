@@ -25,7 +25,7 @@ eInfochips
 Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
-class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
+class ei_axi4_read_test_c extends ei_axi4_base_test_c;
 
 	ei_axi4_read_transaction_c rd_trans;
 	ei_axi4_test_config_c test_cfg;
@@ -78,4 +78,4 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
          $display("READ TESTCASE SELECTED");
     endtask
 
-endclass :ei_axi4_read_test
+endclass :ei_axi4_read_test_c

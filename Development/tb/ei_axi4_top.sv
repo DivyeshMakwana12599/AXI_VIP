@@ -37,9 +37,9 @@ module ei_axi4_top;
   ei_axi4_master_interface mst_pif(.aclk(aclk),.aresetn(aresetn));
   ei_axi4_slave_interface slv_pif(.aclk(aclk),.aresetn(aresetn));
 
-  ei_axi4_interconnect interconnect(mst_pif, slv_pif)
+  ei_axi4_interconnect interconnect(mst_pif, slv_pif);
  
-  ei_axi4_test_c#(.mst_intf(ei_axi4_master_interface),.slv_intf(ei_axi4_slave_interface)) test;
+  ei_axi4_test_c test;
   
   // ei_axi4_test_config_c cfg_t;
  

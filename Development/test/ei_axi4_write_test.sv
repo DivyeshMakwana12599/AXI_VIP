@@ -26,7 +26,7 @@ Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
 //====== testcase: 02 ============================= WRITE TEST ====================================================================//
-class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
+class ei_axi4_write_test_c extends ei_axi4_base_test_c;
 
 	ei_axi4_write_transaction_c wr_trans;
 	ei_axi4_test_config_c test_cfg;
@@ -79,4 +79,4 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
       $display("WRITE TESTCASE SELECTED");
     endtask
 	
-endclass :ei_axi4_write_test
+endclass :ei_axi4_write_test_c

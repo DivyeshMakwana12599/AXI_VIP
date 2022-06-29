@@ -25,11 +25,11 @@ eInfochips
 Revision    : 0.1
 ------------------------------------------------------------------------------*/
  
- class ei_axi4_test_c #(mst_intf = ei_axi4_master_interface, slv_intf = ei_axi4_slave_interface);
+ class ei_axi4_test_c;
 
-     virtual mst_intf mst_vif;
-     virtual slv_intf slv_vif;
-     
+     virtual `MST_INTF mst_vif;
+     virtual `SLV_INTF slv_vif;
+    
   /***
   //   Method name          : new()                 
   //   Parameters passed    : master and slave virtual interface                
@@ -51,7 +51,7 @@ Revision    : 0.1
      task run();
        //testcase-01
        if($test$plusargs("ei_axi4_READ_TEST")) begin
-         ei_axi4_rd_test_c read_test;
+         ei_axi4_read_test_c read_test;
          read_test = new(mst_vif,slv_vif);
          read_test.build();
          read_test.start();
@@ -60,7 +60,7 @@ Revision    : 0.1
 
        //testcase-02
        else if($test$plusargs("ei_axi4_WRITE_TEST")) begin
-         ei_axi4_wr_test_c write_test;
+         ei_axi4_write_test_c write_test;
          write_test = new(mst_vif,slv_vif);
          write_test.build();
          write_test.start();
@@ -147,7 +147,7 @@ Revision    : 0.1
          err_early_termination_test = new(mst_vif,slv_vif);
          err_early_termination_test.build();
          err_early_termination_test.start();
-         err_early_termination_test.wrap_up()
+         err_early_termination_test.wrap_up();
        end
         
        else begin
