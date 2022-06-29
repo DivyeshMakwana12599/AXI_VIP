@@ -44,6 +44,8 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
   function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
     super.new(mst_vif, slv_vif);
     test_cfg = new();
+    mst_vif.awvalid = 1'b1;
+    slv_vif.awready = 1'b1;
   endfunction
   
   

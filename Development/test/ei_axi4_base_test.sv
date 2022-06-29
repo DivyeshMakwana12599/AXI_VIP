@@ -42,8 +42,10 @@ class ei_axi4_base_test_c;
 	function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
 		env_cfg      = new();
 		this.mst_vif = mst_vif;
-        this.slv_vif = slv.vif;
+    this.slv_vif = slv_vif;
 		env          = new(mst_vif, slv_vif, env_cfg);
+    mst_vif.awvalid = 1'b1;
+    slv_vif.awready = 1'b1;
 	endfunction
 	
   /***

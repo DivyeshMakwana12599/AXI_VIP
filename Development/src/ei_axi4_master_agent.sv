@@ -19,11 +19,12 @@ class ei_axi4_master_agent_c;
 	mst_gen2drv = new();
         mst_gen = new(mst_gen2drv);
         mst_drv = new(mst_gen2drv, vif);
-        mst_mon = new(0, mst_mon2ref, ,vif);
+        mst_mon = new(0, mst_mon2ref,,vif,);
     end
     else begin
-        mst_mon = new(0, mst_mon2ref, ,vif);
+        mst_mon = new(0, mst_mon2ref, ,vif,);
     end
+    vif.awvalid = 1'b1;
 
   endfunction
 

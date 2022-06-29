@@ -59,8 +59,10 @@ class ei_axi4_environment_c;
     ref2scb           = new();
     ref_model         = new(.ref2scb(ref2scb),.mst_mon2ref(mst_mon2ref));
     scb               = new(.ref2scb(ref2scb),.slv_mon2scb(slv_mon2scb));
-    mst_agt           = new(.mst_mon2ref(mst_mon2ref),.env_cfg(env_cfg),.vif(vif));
-    slv_agt           = new(.slv_mon2scb(slv_mon2scb),.env_cfg(env_cfg),.vif(vif));
+    mst_agt           = new(.mst_mon2ref(mst_mon2ref),.env_cfg(env_cfg),.vif(mst_vif));
+    slv_agt           = new(.slv_mon2scb(slv_mon2scb),.env_cfg(env_cfg),.slv_vif(slv_vif));
+    mst_vif.awvalid = 1'b1;
+    slv_vif.awready = 1'b1;
   endfunction
 
 /**

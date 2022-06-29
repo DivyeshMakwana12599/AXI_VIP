@@ -44,6 +44,11 @@ module ei_axi4_top;
   // ei_axi4_test_config_c cfg_t;
  
   always #(`PERIOD) aclk = ~aclk;
+
+  initial begin
+    // mst_pif.awvalid = 1'b1;
+    // slv_pif.awvalid = 1'b1;
+  end
   
   /* To initialize the variables */
   initial begin 

@@ -1,9 +1,8 @@
-`define MON_CB vif.monitor_cb
-
 class ei_axi4_monitor_c;
   bit tx_rx_monitor_cfg;
 
-  virtual ei_axi4_interface.MON vif;
+  virtual `MST_INTF.MON mst_vif;
+  virtual `SLV_INTF.MON slv_vif;
 
   mailbox#(ei_axi4_transaction_c) mon2ref; 
   mailbox#(ei_axi4_transaction_c) mon2scb;
@@ -23,7 +22,8 @@ class ei_axi4_monitor_c;
     bit tx_rx_monitor_cfg,
     mailbox#(ei_axi4_transaction_c) mon2ref = null,
     mailbox#(ei_axi4_transaction_c) mon2scb = null,
-    virtual ei_axi4_interface.MON vif
+    virtual `MST_INTF.MON mst_vif = null,
+    virtual `SLV_INTF.MON slv_vif = null
   );
     this.tx_rx_monitor_cfg = tx_rx_monitor_cfg;  
     if(mon2ref == null && tx_rx_monitor_cfg == 1'b0) begin
@@ -38,8 +38,27 @@ class ei_axi4_monitor_c;
     else begin
       this.mon2scb = mon2scb;
     end
-    this.vif = vif;
+    if(tx_rx_monitor_cfg) begin
+      this.slv_vif = slv_vif;
+    end
+    else begin
+      this.mst_vif = mst_vif;
+    end
     axi4_checker = new();
+
+    if(tx_rx_monitor_cfg) begin
+      `define VIF slv_vif
+      `define MON_CB slv_vif.monitor_cb
+      $display(`MON_CB.awready);
+      $display(`MON_CB.awvalid);
+    end
+    else begin
+      `define VIF mst_vif
+      `define MON_CB mst_vif.monitor_cb
+      $display(`MON_CB.awready);
+      $display(`MON_CB.awvalid);
+    end
+
   endfunction
 
 
@@ -56,7 +75,7 @@ class ei_axi4_monitor_c;
           join
         end
         begin : monitor_reset
-          @(`MON_CB iff(!vif.aresetn));
+          @(`MON_CB iff(!`VIF.aresetn));
         end
       join_any
       disable monitor_channels;

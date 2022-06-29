@@ -72,6 +72,8 @@ Revision    : 0.1
          ei_axi4_sanity_test_c sanity_test;
          sanity_test = new(mst_vif,slv_vif);
          sanity_test.build();
+          mst_vif.awvalid = 1'b1;
+          slv_vif.awready = 1'b1;
          sanity_test.start();
          sanity_test.wrap_up();
        end      
