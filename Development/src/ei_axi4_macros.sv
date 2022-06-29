@@ -10,6 +10,7 @@
 `define VSLV vif.SLV.slave_driver_cb
 `define MST_INTF ei_axi4_master_interface
 `define SLV_INTF ei_axi4_slave_interface
+`define VSLV slv_vif.SLV.slave_driver_cb
 
 typedef enum bit [1:0] {FIXED, INCR, WRAP} burst_type_e;
 typedef enum bit [1:0] {OKAY, EXOKAY, SLVERR, DECERR} response_e;
@@ -20,13 +21,10 @@ typedef enum bit [2:0] {NO_ERROR, ERROR_4K_BOUNDARY, ERROR_WRAP_UNALLIGNED,
 typedef enum bit {PASS, FAIL} RESULT_e; //used in checker
 typedef enum bit {ALIGNED, UNALIGNED} addr_type_e;
 typedef enum bit {PASSIVE, ACTIVE} AGENT_TYPE_e;
-
 `define SV_RAND_CHECK(r) \
-\
   do begin \
       if ((!r)) begin \
         $fatal("%s:%0d: Randomization Failed", \
       `__FILE__, `__LINE__); \
     end \
 end while (0)
-
