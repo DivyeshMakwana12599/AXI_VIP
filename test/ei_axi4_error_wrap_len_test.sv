@@ -1,9 +1,9 @@
 /*--------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-File name     : ei_axi4_4kb_boundary_test.sv
-Title         : testcase_06 for VIP testcases
+File name     : ei_axi4_error_wrap_len_test.sv
+Title         : testcase_07 for VIP testcases
 Project       : AMBA AXI-4 SV VIP
-Created On    : 19-June-22
+Created On    : 28-June-22
 Developers    : Jaspal Singh
 E-mail        : Jaspal.Singh@einfochips.com
 Purpose       : To test the design functionality
@@ -26,8 +26,8 @@ Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
 
-//======== testcase: 06 =========================== 4KB BOUNDARY TEST i.e [4kb boundary] ====================//
-class ei_axi4_4k_boundary_test_c extends ei_axi4_base_test_c;
+//======== testcase: 10 =========================== ERROR WRAP LEN TEST i.e [wrap len test] ====================//
+class ei_axi4_error_wrap_len_test_c extends ei_axi4_base_test_c;
 
   ei_axi4_read_transaction_c rd_trans;
   ei_axi4_write_transaction_c wr_trans;
@@ -59,28 +59,24 @@ class ei_axi4_4k_boundary_test_c extends ei_axi4_base_test_c;
       rd_trans.errors.rand_mode(0); 
       wr_trans.error_ct.constraint_mode(0);
       rd_trans.error_ct.constraint_mode(0);
-      wr_trans.errors = ERROR_4K_BOUNDARY;
-      rd_trans.errors = ERROR_4K_BOUNDARY;
+      wr_trans.errors = ERROR_WRAP_LEN;
+      rd_trans.errors = ERROR_WRAP_LEN;
     
 
       randsequence(main)
-        main  : write | read;
-        write : {env.mst_agt.mst_gen.start(wr_trans);};
-        read  : {env.mst_agt.mst_gen.start(rd_trans);};
+      main  : write | read;
+      write : {env.mst_agt.mst_gen.start(wr_trans);};
+      read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
 
      $display(wr_trans.errors.name);
     end
   endtask
 
-  /***
-  //   Method name          : start()                 
-  //   Parameters passed    : none                
-  //   Returned parameters  : None                        
-  //   Description          : random write read       
-  ***/
     task wrap_up();
-         $display("4KB BOUNDARY TESTCASE SELECTED");
+         $display("ERROR WRAP LEN TESTCASE SELECTED");
     endtask
   
-endclass :ei_axi4_4k_boundary_test_c 
+endclass :ei_axi4_error_wrap_len_test_c 
+
+
