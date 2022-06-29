@@ -36,7 +36,7 @@ Revision    : 0.1
   //   Returned parameters  : None                        
   //   Description          : constructor     
   ***/
-     function new(virtual mst_intf mst_vif, virtual slv_intf slv_vif);
+     function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
         this.mst_vif = mst_vif;
         this.slv_vif = slv_vif;
      endfunction

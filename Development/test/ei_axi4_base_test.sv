@@ -39,7 +39,7 @@ class ei_axi4_base_test_c;
   //   Returned parameters  : None                        
   //   Description          : constructor      
   ***/
-	function new(virtual mst_intf mst_vif, virtual slv_intf slv_vif);
+	function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
 		env_cfg      = new();
 		this.mst_vif = mst_vif;
         this.slv_vif = slv.vif;
