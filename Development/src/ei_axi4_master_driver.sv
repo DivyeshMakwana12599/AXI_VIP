@@ -7,10 +7,10 @@ class ei_axi4_master_driver_c;
 
     mailbox #(ei_axi4_transaction_c) gen2drv;
     int write_running_index, read_running_index;
-    virtual ei_axi4_interface vif;
+    virtual `MST_INTF vif;
     semaphore sema_write,sema_read,sema_response;
 
-    function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual ei_axi4_interface vif);
+    function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual `MST_INTF vif);
         this.gen2drv = gen2drv;
         this.vif = vif;
         sema_write = new(1);
