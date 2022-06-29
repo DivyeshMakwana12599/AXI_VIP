@@ -36,8 +36,9 @@ module ei_axi4_top;
   
   ei_axi4_master_interface mst_pif(.aclk(aclk),.aresetn(aresetn));
   ei_axi4_slave_interface slv_pif(.aclk(aclk),.aresetn(aresetn));
+  ei_axi4_monitor_interface mon_pif(.aclk(aclk),.aresetn(aresetn));
 
-  ei_axi4_interconnect interconnect(mst_pif, slv_pif);
+  ei_axi4_interconnect interconnect(mst_pif, slv_pif, mon_pif);
  
   ei_axi4_test_c test;
   
@@ -57,9 +58,10 @@ module ei_axi4_top;
   
    /* To build */
   initial begin
-  //  dummy    = $value$plusargs("testname=%s", cfg_t.testname);
-    test  =  new(mst_pif,slv_pif);
+   /* To build */
+    test  =  new(mst_pif,slv_pif, mon_pif);
     test.run();
+    $finish;
    end
 
    initial begin
@@ -73,11 +75,10 @@ module ei_axi4_top;
   initial begin
     $dumpfile("dumpfile.vcd");
     $dumpvars;
-    #500 $finish;
   end
 
   final begin
-      //test.wrap_up();
+    test.wrap_up();
   end
 
 endmodule : ei_axi4_top

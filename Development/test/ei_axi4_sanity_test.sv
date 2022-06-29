@@ -41,11 +41,13 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
   //   Returned parameters  : None                        
   //   Description          : constructor       
   ***/
-  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
-    super.new(mst_vif, slv_vif);
+  function new(
+    virtual `MST_INTF mst_vif, 
+    virtual `SLV_INTF slv_vif, 
+    virtual `MON_INTF mon_vif
+  );
+    super.new(mst_vif, slv_vif, mon_vif);
     test_cfg = new();
-    mst_vif.awvalid = 1'b1;
-    slv_vif.awready = 1'b1;
   endfunction
   
   
@@ -92,7 +94,6 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
       end
     end
     wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
-    $finish;
   endtask
     
     

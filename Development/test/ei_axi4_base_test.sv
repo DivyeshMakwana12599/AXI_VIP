@@ -32,6 +32,7 @@ class ei_axi4_base_test_c;
 
 	virtual `MST_INTF mst_vif;
 	virtual `SLV_INTF slv_vif;
+  virtual `MON_INTF mon_vif;
 	
   /***
   //   Method name          : new()                 
@@ -39,11 +40,15 @@ class ei_axi4_base_test_c;
   //   Returned parameters  : None                        
   //   Description          : constructor      
   ***/
-	function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
+	function new(
+    virtual `MST_INTF mst_vif, 
+    virtual `SLV_INTF slv_vif, 
+    virtual `MON_INTF mon_vif
+  );
 		env_cfg      = new();
 		this.mst_vif = mst_vif;
     this.slv_vif = slv_vif;
-		env          = new(mst_vif, slv_vif, env_cfg);
+		env          = new(mst_vif, slv_vif, mon_vif,env_cfg);
     mst_vif.awvalid = 1'b1;
     slv_vif.awready = 1'b1;
 	endfunction

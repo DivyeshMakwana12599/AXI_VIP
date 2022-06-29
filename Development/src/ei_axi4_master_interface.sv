@@ -105,57 +105,12 @@ interface ei_axi4_master_interface #(int DATA_WIDTH =`DATA_WIDTH, int ADDR_WIDTH
 	
     endclocking : master_driver_cb
 
-    clocking monitor_cb @(posedge aclk);       // clocking block for monitor  
-      default input #1 output #1; 
-		
-      // write address channel 
-      input awaddr;
-      input awlen;
-      input awsize;
-      input awburst;
-      input awvalid;
-      input awready;
-		
-      // write data channel 
-      input wdata;
-      input wstrb;
-      input wlast;
-      input wvalid;
-      input wready;
-
-      //write response channel
-      input bresp;
-      input bvalid;	
-      input bready;
-		
-      // read address channel 		
-      input araddr;
-      input arburst;
-      input arlen;
-      input arsize;
-      input arvalid;
-      input arready;
-	
-      // read data channel
-      input rdata;
-      input rresp;
-      input rlast;
-      input rvalid;
-      input rready;
-		
-    endclocking : monitor_cb
-
     modport MST (
       clocking master_driver_cb,
       input aresetn, 
       output arvalid,
       output awvalid,
       output wvalid
-    );
-  
-    modport MON (
-      clocking monitor_cb,
-      input aresetn
     );
 
 endinterface : ei_axi4_master_interface

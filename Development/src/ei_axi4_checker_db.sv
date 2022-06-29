@@ -1,4 +1,3 @@
-`include "./ei_axi4_checker_cfg.sv"
 class ei_axi4_checker_db_c;
 
   ei_axi4_checker_cfg_c check_cfg[string];

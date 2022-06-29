@@ -43,15 +43,19 @@ class ei_axi4_slave_agent_c;
 *\                          It also builds slave driver and slave monitor based
 *\                          on environment configuration.(Active/pasive agent)
 **/
-  function new( mailbox#(ei_axi4_transaction_c) slv_mon2scb, 
-                ei_axi4_env_config_c env_cfg, virtual ei_axi4_slave_interface slv_vif);
+  function new( 
+    mailbox#(ei_axi4_transaction_c) slv_mon2scb, 
+    ei_axi4_env_config_c env_cfg, 
+    virtual ei_axi4_slave_interface slv_vif,
+    virtual ei_axi4_monitor_interface mon_vif
+  );
     this.slv_mon2scb = slv_mon2scb;
     this.env_cfg = env_cfg;
     if(env_cfg.slave_agent_active_passive_switch == ACTIVE) begin
-      slv_drv = new(.slv_vif(slv_vif));
+      slv_drv = new(.vif(slv_vif));
     end
     this.slv_vif = slv_vif;
-    slv_mon = new(1, ,slv_mon2scb, ,slv_vif);
+    slv_mon = new(1, ,slv_mon2scb,mon_vif);
     slv_vif.awready = 1'b1;
   endfunction
  

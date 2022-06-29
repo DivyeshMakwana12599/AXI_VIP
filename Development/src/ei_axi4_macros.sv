@@ -10,7 +10,8 @@
 // `define VSLV vif.SLV.slave_driver_cb
 `define MST_INTF ei_axi4_master_interface
 `define SLV_INTF ei_axi4_slave_interface
-`define VSLV slv_vif.SLV.slave_driver_cb
+`define MON_INTF ei_axi4_monitor_interface
+`define VSLV vif.SLV.slave_driver_cb
 
 `define SEL_INTF(f) \
 if(f) `MST_INTF\

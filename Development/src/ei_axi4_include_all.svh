@@ -13,6 +13,7 @@
 
 `include "../src/ei_axi4_master_interface.sv"
 `include "../src/ei_axi4_slave_interface.sv"
+`include "../src/ei_axi4_monitor_interface.sv"
 
 `include "../src/ei_axi4_interconect.sv"
 

@@ -1,8 +1,9 @@
+`define MON_CB mon_vif.monitor_cb
+
 class ei_axi4_monitor_c;
   bit tx_rx_monitor_cfg;
 
-  virtual `MST_INTF.MON mst_vif;
-  virtual `SLV_INTF.MON slv_vif;
+  virtual `MON_INTF.MON mon_vif;
 
   mailbox#(ei_axi4_transaction_c) mon2ref; 
   mailbox#(ei_axi4_transaction_c) mon2scb;
@@ -22,8 +23,7 @@ class ei_axi4_monitor_c;
     bit tx_rx_monitor_cfg,
     mailbox#(ei_axi4_transaction_c) mon2ref = null,
     mailbox#(ei_axi4_transaction_c) mon2scb = null,
-    virtual `MST_INTF.MON mst_vif = null,
-    virtual `SLV_INTF.MON slv_vif = null
+    virtual `MON_INTF.MON mon_vif
   );
     this.tx_rx_monitor_cfg = tx_rx_monitor_cfg;  
     if(mon2ref == null && tx_rx_monitor_cfg == 1'b0) begin
@@ -38,26 +38,8 @@ class ei_axi4_monitor_c;
     else begin
       this.mon2scb = mon2scb;
     end
-    if(tx_rx_monitor_cfg) begin
-      this.slv_vif = slv_vif;
-    end
-    else begin
-      this.mst_vif = mst_vif;
-    end
+    this.mon_vif = mon_vif;
     axi4_checker = new();
-
-    if(tx_rx_monitor_cfg) begin
-      `define VIF slv_vif
-      `define MON_CB slv_vif.monitor_cb
-      $display(`MON_CB.awready);
-      $display(`MON_CB.awvalid);
-    end
-    else begin
-      `define VIF mst_vif
-      `define MON_CB mst_vif.monitor_cb
-      $display(`MON_CB.awready);
-      $display(`MON_CB.awvalid);
-    end
 
   endfunction
 
@@ -75,7 +57,7 @@ class ei_axi4_monitor_c;
           join
         end
         begin : monitor_reset
-          @(`MON_CB iff(!`VIF.aresetn));
+          @(`MON_CB iff(!mon_vif.aresetn));
         end
       join_any
       disable monitor_channels;
@@ -139,7 +121,7 @@ class ei_axi4_monitor_c;
         mon2ref.put(wr_trans);
         $display(wr_trans);
         wr_trans.print("MONITOR FOR WRITE");
-        no_of_trans_monitored++;
+        #0 no_of_trans_monitored++;
         $display("no_of_trans_monitored = %0d", no_of_trans_monitored);
       end
     end
@@ -203,7 +185,7 @@ class ei_axi4_monitor_c;
         @(`MON_CB);
       end
       mon2ref.put(rd_trans);
-      no_of_trans_monitored++;
+      #0 no_of_trans_monitored++;
       $display("no_of_trans_monitored = %0d", no_of_trans_monitored);
     end
 
@@ -212,7 +194,7 @@ class ei_axi4_monitor_c;
   task wait_write_data_channel_handshake();
       forever begin
         @(`MON_CB iff(`MON_CB.wvalid && `MON_CB.wready));
-        if(write_data_queue.size() == 0 && tx_rx_monitor_cfg == 1'b0) begin
+        if(write_data_queue.size() == 0) begin
           $warning("[MONITOR] Write Data  Channel Handshake occured before \
 Write Address channel handshake");
         end
@@ -225,7 +207,7 @@ Write Address channel handshake");
   task wait_write_response_channel_handshake();
     forever begin
       @(`MON_CB iff(`MON_CB.bvalid && `MON_CB.bready));
-      if(write_response_queue.size() == 0 && tx_rx_monitor_cfg == 1'b0) begin
+      if(write_response_queue.size() == 0) begin
         $warning("[MONITOR] Write Response occured before Write Data channel\
  handshake");
       end
@@ -238,7 +220,7 @@ Write Address channel handshake");
   task wait_read_data_channel_handshake();
       forever begin
         @(`MON_CB iff(`MON_CB.rvalid && `MON_CB.rready));
-        if(read_data_queue.size() == 0 && tx_rx_monitor_cfg == 1'b1) begin
+        if(read_data_queue.size() == 0) begin
           $warning("[MONITOR] Read Data Channel Handshake occured before Read \
 Address channel handshake");
         end
@@ -250,7 +232,7 @@ Address channel handshake");
 
   function void wrap_up();
     if(!tx_rx_monitor_cfg) begin
-      check.report();
+      axi4_checker.report();
     end
   endfunction
 

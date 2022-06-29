@@ -46,7 +46,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   bit [ 7 : 0] q_arlen[$];
   ei_axi4_transaction_c read_tr;
   ei_axi4_transaction_c write_tr;
-  virtual ei_axi4_slave_interface slv_vif; 
+  virtual `SLV_INTF vif; 
 
   int unsigned no_of_responce_channel;
 
@@ -59,8 +59,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                          write transaction
 **/
 
-  function new(virtual ei_axi4_slave_interface slv_vif);
-    this.slv_vif    = slv_vif;
+  function new(virtual `SLV_INTF vif);
+    this.vif    = vif;
     read_tr     = new();
     write_tr    = new();
     print_build;
@@ -119,16 +119,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task reset_run();
-    @(`VSLV iff (slv_vif.aresetn == 0)) begin
+    @(`VSLV iff (vif.aresetn == 0)) begin
     $display("---------------------------------------------------------------");
     $display("################# RESET HAS BEEN ASSERTED !! ##################");
     $display("################# SLAVE DRIVER HAS BEEN PAUSED !! #############");
     $display("---------------------------------------------------------------");
-      slv_vif.awready     <= 0;
-      slv_vif.arready     <= 0;
-      slv_vif.wready      <= 0;
-      slv_vif.bvalid      <= 0;
-      slv_vif.rvalid      <= 0;
+      vif.awready     <= 0;
+      vif.arready     <= 0;
+      vif.wready      <= 0;
+      vif.bvalid      <= 0;
+      vif.rvalid      <= 0;
       q_awaddr.delete();
       q_araddr.delete();
       q_awburst.delete();
@@ -153,7 +153,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_address_run();
-    slv_vif.awready            <= 0;
+    vif.awready            <= 0;
     forever begin
       `VSLV.awready           <= 1;
        $display("-------------------------------------------------------------");
@@ -271,7 +271,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_data_run();
-    slv_vif.wready    <= 0;
+    vif.wready    <= 0;
     forever begin
       @(`VSLV iff(q_awaddr.size != 0));
      $display("[WRITE DATA CHANNEL] \t\t\t @%0t=====write queue = %0p",$time,q_awaddr);
@@ -430,8 +430,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     int unsigned addr       = write_tr.addr;
     int unsigned len        = write_tr.len ; 
     bit [6:0] transfer_size = 2 ** write_tr.size;
-    slv_vif.bvalid              <= 0;
-    slv_vif.bresp               <= 'bz;
+    vif.bvalid              <= 0;
+    vif.bresp               <= 'bz;
     forever begin
       `VSLV.wready          <= 1;
       //`VSLV.bresp           <= 'bz ;
@@ -477,7 +477,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/                        
   task read_address_run();
     int cnt = 1 ;
-    slv_vif.arready      <= 0;
+    vif.arready      <= 0;
     forever begin
       $display("[SLV_DRV.READ_ADDRESS_CHANNEL] \t\t@%0t ARREADY made 1 ",$time);
       `VSLV.arready    <= 1;
@@ -507,10 +507,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     int unsigned addr     = read_tr.addr;
     int unsigned len;
     bit [6:0] transfer_size = 2 ** read_tr.size;
-    slv_vif.rvalid            <= 0;
-    slv_vif.rlast             <= 0;
-    //slv_vif.rresp             <= 'bz;
-    slv_vif.rdata             <= 0;
+    vif.rvalid            <= 0;
+    vif.rlast             <= 0;
+    //vif.rresp             <= 'bz;
+    vif.rdata             <= 0;
     forever begin
       @(`VSLV iff(q_araddr.size() != 0));
       len = q_arlen.pop_front();
