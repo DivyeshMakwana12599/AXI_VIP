@@ -248,4 +248,10 @@ Address channel handshake");
       end
   endtask
 
+  function void wrap_up();
+    if(!tx_rx_monitor_cfg) begin
+      check.report();
+    end
+  endfunction
+
 endclass

@@ -1,3 +1,4 @@
+`include "./ei_axi4_checker_cfg.sv"
 class ei_axi4_checker_db_c;
 
   ei_axi4_checker_cfg_c check_cfg[string];
@@ -72,4 +73,26 @@ class ei_axi4_checker_db_c;
     end
   endfunction
 
+  function void report();
+    if(check_cfg.size) begin
+      $display("+=================================================================================================+");
+      $display("| %-12s | %-50s | %-12s | %-12s |", "CHECKER ID", "DESCRIPTION", "FAIL COUNT", "PASS COUNT");
+      $display("+=================================================================================================+");
+      foreach(check_cfg[i]) begin
+        $display("| %-12s | %-50s | %-12d | %-12d |", i, check_cfg[i].checker_description, check_cfg[i].fail_cnt, check_cfg[i].eval_cnt);
+      end
+      $display("+=================================================================================================+");
+    end
+    else begin
+      $display("Nothing to report no checker registered.");
+    end
+  endfunction
 endclass
+
+// module test();
+  // ei_axi4_checker_db_c checker_db = new();
+// 
+  // initial begin
+    // checker_db.report();
+  // end
+// endmodule

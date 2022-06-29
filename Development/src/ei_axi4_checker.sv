@@ -286,4 +286,8 @@ class ei_axi4_checker_c;
     end
   endfunction
 
+  function void report();
+    checker_db.report();
+  endfunction
+
 endclass : ei_axi4_checker_c
