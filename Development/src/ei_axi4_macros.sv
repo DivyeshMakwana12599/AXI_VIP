@@ -7,7 +7,7 @@
 `define BUS_BYTE_LANES (`DATA_WIDTH)/8
 `define AXI_VERSION AXI4
 `define VMST vif.MST.master_driver_cb
-`define VSLV vif.SLV.slave_driver_cb
+`define VSLV slv_vif.SLV.slave_driver_cb
 
 
 typedef enum bit [1:0] {FIXED, INCR, WRAP} burst_type_e;
