@@ -1,0 +1,11 @@
+Chronologic VCS simulator copyright 1991-2020
+Contains Synopsys proprietary information.
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jun 29 19:49 2022
+
+----------PLEASE ENTER A TESTNAME TO PROCEED------------
+$finish called from file "../tb/ei_axi4_top.sv", line 76.
+$finish at simulation time                  500
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 500
+CPU Time:      0.430 seconds;       Data structure size:   0.1Mb
+Wed Jun 29 19:49:46 2022
