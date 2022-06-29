@@ -1,5 +1,5 @@
-
-class ei_axi4_random_test_c extends ei_axi4_base_test_c;
+//======== testcase: 07 =========================== PARALLEL_WR_RD_TEST i.e [parallel write read] ==============================================//
+class ei_axi4_parallel_test_c extends ei_axi4_base_test_c;
 
   ei_axi4_read_transaction_c rd_trans;
   ei_axi4_write_transaction_c wr_trans;
@@ -23,27 +23,19 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
       wr_trans = new();
       rd_trans = new(); 
           
-      randsequence(main)
-      main  : write | read;
-      write : {env.mst_agt.mst_gen.start(wr_trans);};
-      read  : {env.mst_agt.mst_gen.start(rd_trans);};
-      endsequence
+
+        env.mst_agt.mst_gen.start(wr_trans);
+        env.mst_agt.mst_gen.start(rd_trans);
+
     end
-    // $finish;
-    #4500;
     $display("-><", test_cfg.total_num_trans, env.mst_agt.mst_mon.no_of_trans_monitored);
     $finish;
-  wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
-    $display("-><", test_cfg.total_num_trans, env.mst_agt.mst_mon.no_of_trans_monitored);
-    $display("->", test_cfg.total_num_trans, env.mst_agt.mst_mon.no_of_trans_monitored);
-      //$finish;
   endtask
 
     task wrap_up();
-         $display("RANDOM TESTCASE SELECTED");
+         $display("PARALLEL TESTCASE SELECTED");
     endtask
   
-endclass :ei_axi4_random_test_c
-
+endclass :ei_axi4_parallel_test_c
 
 

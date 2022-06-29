@@ -26,7 +26,7 @@ Revision	:0.1
 -------------------------------------------------------------------------------
 */
 
-class ei_axi4_environment_c#(type mst_intf = ei_axi4_master_interface, type slv_intf = ei_axi4_slave_interface);
+class ei_axi4_environment_c #(parameter mst_intf = ei_axi4_slave_interface, parameter slv_intf = ei_axi4_slave_interface);
 
   ei_axi4_master_agent_c mst_agt;
   ei_axi4_slave_agent_c slv_agt;
