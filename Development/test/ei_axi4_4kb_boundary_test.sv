@@ -33,7 +33,7 @@ class ei_axi4_4k_boundary_test_c extends ei_axi4_base_test_c;
   ei_axi4_write_transaction_c wr_trans;
   ei_axi4_test_config_c test_cfg;
   
-  function new(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_slave_interface slv_vif);
+  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
     super.new(mst_vif, slv_vif);
     test_cfg = new();
   endfunction
