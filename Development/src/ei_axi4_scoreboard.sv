@@ -34,5 +34,6 @@ class ei_axi4_scoreboard_c;
 
   function void wrap_up();
     $display("No. of transaction passed : %0d",passed_transaction);
+    $display("No. of transaction failed : %0d",failed_transaction);
   endfunction
 endclass

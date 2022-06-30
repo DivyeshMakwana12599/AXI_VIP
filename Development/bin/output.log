@@ -1,11 +1,34 @@
 Chronologic VCS simulator copyright 1991-2020
 Contains Synopsys proprietary information.
-Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jun 29 19:49 2022
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jun 30 15:27 2022
 
 ----------PLEASE ENTER A TESTNAME TO PROCEED------------
-$finish called from file "../tb/ei_axi4_top.sv", line 76.
-$finish at simulation time                  500
+
+Error-[NOA] Null object access
+../test/ei_axi4_test.sv, 140
+  The object at dereference depth 1 is being used before it was 
+  constructed/allocated.
+  Please make sure that the object is allocated before using it. 
+  
+  #0 in \ei_axi4_test_c::run  at ../test/ei_axi4_test.sv:140
+  #1 in ei_axi4_top at ../tb/ei_axi4_top.sv:58
+  #2 in ei_axi4_top 
+  
+
+TEST WRAP UP
+
+Error-[NOA] Null object access
+../test/ei_axi4_test.sv, 153
+  The object at dereference depth 1 is being used before it was 
+  constructed/allocated.
+  Please make sure that the object is allocated before using it. 
+  
+  #0 in \ei_axi4_test_c::wrap_up  at ../test/ei_axi4_test.sv:153
+  #1 in ei_axi4_top at ../tb/ei_axi4_top.sv:76
+  #2 in ei_axi4_top 
+  
+
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 500
-CPU Time:      0.430 seconds;       Data structure size:   0.1Mb
-Wed Jun 29 19:49:46 2022
+Time: 0
+CPU Time:      0.480 seconds;       Data structure size:   0.1Mb
+Thu Jun 30 15:27:28 2022
