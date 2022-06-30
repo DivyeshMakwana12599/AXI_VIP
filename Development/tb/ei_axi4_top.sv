@@ -76,4 +76,33 @@ module ei_axi4_top;
     test.wrap_up();
   end
 
+  assertion axi_assertion(
+      aclk,
+      aresetn,
+      mon_pif.awaddr,
+      mon_pif.awlen,
+      mon_pif.awsize,
+      mon_pif.awburst,
+      mon_pif.awvalid,
+      mon_pif.awready,
+      mon_pif.wdata,
+      mon_pif.wstrb,
+      mon_pif.wlast,
+      mon_pif.wvalid,
+      mon_pif.wready,
+      mon_pif.bresp,
+      mon_pif.bvalid,
+      mon_pif.bready,
+      mon_pif.araddr,
+      mon_pif.arburst,
+      mon_pif.arlen,
+      mon_pif.arsize,
+      mon_pif.arvalid,
+      mon_pif.arready,
+      mon_pif.rdata,
+      mon_pif.rresp,
+      mon_pif.rlast,
+      mon_pif.rvalid,
+      mon_pif.rready);
+
 endmodule : ei_axi4_top
