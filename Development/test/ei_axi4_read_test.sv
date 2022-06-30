@@ -25,7 +25,7 @@ eInfochips
 Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
-class ei_axi4_read_test_c extends ei_axi4_base_test_c;
+class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
 
 	ei_axi4_read_transaction_c rd_trans;
 	ei_axi4_test_config_c test_cfg;
@@ -36,8 +36,8 @@ class ei_axi4_read_test_c extends ei_axi4_base_test_c;
   //   Returned parameters  : None                        
   //   Description          : constructor       
   ***/
-	function new(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_slave_interface slv_vif);
-      super.new(mst_vif, slv_vif);
+	function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
+      super.new(mst_vif, slv_vif, mon_vif);
 	  test_cfg = new();
 	endfunction
 	
@@ -78,4 +78,4 @@ class ei_axi4_read_test_c extends ei_axi4_base_test_c;
          $display("READ TESTCASE SELECTED");
     endtask
 
-endclass :ei_axi4_read_test_c
+endclass :ei_axi4_rd_test_c

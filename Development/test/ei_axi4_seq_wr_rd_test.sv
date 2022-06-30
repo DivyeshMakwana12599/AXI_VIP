@@ -9,8 +9,8 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
     bit [7:0] tmp_len_arr[$];
     bit [2:0] tmp_size_arr[$];
   
-  function new(virtual ei_axi4_master_interface mst_vif, virtual ei_axi4_slave_interface slv_vif);
-    super.new(mst_vif, slv_vif);
+  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
+    super.new(mst_vif, slv_vif, mon_vif);
     test_cfg = new();
   endfunction
   
@@ -60,10 +60,11 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
         env.mst_agt.mst_gen.start(rd_trans);
         //$display("[SEQ_RD] : ",rd_trans);
     end
-      //wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
+      wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
   endtask
 
     task wrap_up();
+        super.wrap_up();
         $display("SEQUENTIAL WRITE READ TASK SELECTED");
     endtask
   

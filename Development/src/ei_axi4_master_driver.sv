@@ -68,6 +68,9 @@ class ei_axi4_master_driver_c;
 
                         if(tr.transaction_type == READ_WRITE)begin
                             fork//4
+                            write_queue.push_back(tr);
+                            gen2drv.get(tr);
+                            read_queue.push_back(tr);
                                 write_address_task();
                                 read_address_task();
                             join//4
@@ -203,4 +206,4 @@ class ei_axi4_master_driver_c;
     endtask : read_data_task
 
     
-endclass : ei_axi4_master_driver_c 
+endclass : ei_axi4_master_driver_c

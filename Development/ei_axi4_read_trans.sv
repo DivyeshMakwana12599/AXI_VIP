@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-File name     : ei_axi4_base_test.sv
-Title         : base test for VIP testcases
+File name     : ei_axi4_read_trans.sv
+Title         : extended transaction class for write
 Project       : AMBA AXI-4 SV VIP
-Created On    : 15-June-22
+Created On    : 20-June-22
 Developers    : Jaspal Singh
 E-mail        : Jaspal.Singh@einfochips.com
-Purpose       : To build the environment and test functionality of design
+Purpose       : to seperate write and read related constraints or variables
           
 Assumptions   : As per the Feature plan All the pins are not declared here
 Limitations   : 
@@ -25,49 +25,56 @@ eInfochips
 Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
-virtual class ei_axi4_base_test_c;
-	
-    ei_axi4_environment_c env;
-	ei_axi4_env_config_c env_cfg;
 
+class ei_axi4_read_transaction_c extends ei_axi4_transaction_c;
+
+  ei_axi4_test_config_c test_cfg;
+  
   /***
   //   Method name          : new()                 
-  //   Parameters passed    : master and slave interface               
-  //   Returned parameters  : None                        
-  //   Description          : constructor      
-  ***/
-	function new(
-    virtual `MST_INTF mst_vif, 
-    virtual `SLV_INTF slv_vif, 
-    virtual `MON_INTF mon_vif
-  );
-		env_cfg      = new();
-		env          = new(mst_vif, slv_vif, mon_vif,env_cfg);
-	endfunction
-	
-  /***
-  //   Method name          : run()                 
   //   Parameters passed    : none                
   //   Returned parameters  : None                        
-  //   Description          : to run the environment in background, fork join_none     
+  //   Description          : constructor     
   ***/
-	virtual task run();
-		fork
-          env.run();
-		join_none
-	endtask
-
-    pure virtual task build();
-    pure virtual task start();
-	
+  function new();
+    test_cfg = new();
+  endfunction
+  
   /***
-  //   Method name          : start()                 
+  //   Method name          : pre_randomize()                 
   //   Parameters passed    : none                
   //   Returned parameters  : None                        
-  //   Description          : random write read       
+  //   Description          : randomize test_config   
   ***/
-    virtual task wrap_up();
-        env.wrap_up();
-    endtask :wrap_up
+  function void pre_randomize();
+    `SV_RAND_CHECK(test_cfg.randomize());
+  endfunction
+  
+  constraint addr_type_c {
+    (test_cfg.addr_type) == ALIGNED -> ((addr % (1<<size)) == 1'b0);
+    (test_cfg.addr_type) == UNALIGNED -> ((addr % (1<<size)) != 1'b0);
+  }
+  
+  constraint specific_burst_type {
+    (test_cfg.burst_type == burst); 
+  }
+  
+  constraint specific_transaction_length {
+    (test_cfg.transaction_length == len);
+  }
+  
+  constraint specific_transfer_size {
+    (test_cfg.transfer_size == size);
+  }
+  
+  constraint transaction_type_read {
+    transaction_type == READ;
+  }
+  
+  function void post_randomize();
+    super.post_randomize();
+  endfunction
+  
+endclass :ei_axi4_read_transaction_c
 
-endclass :ei_axi4_base_test_c
+

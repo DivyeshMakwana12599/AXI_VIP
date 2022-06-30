@@ -5,8 +5,8 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
   ei_axi4_write_transaction_c wr_trans;
   ei_axi4_test_config_c test_cfg;
   
-  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif);
-    super.new(mst_vif, slv_vif);
+  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
+    super.new(mst_vif, slv_vif, mon_vif);
     test_cfg = new();
   endfunction
   
@@ -29,17 +29,12 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
       read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
     end
-    // $finish;
-    #4500;
-    $display("-><", test_cfg.total_num_trans, env.mst_agt.mst_mon.no_of_trans_monitored);
-    $finish;
+    
   wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
-    $display("-><", test_cfg.total_num_trans, env.mst_agt.mst_mon.no_of_trans_monitored);
-    $display("->", test_cfg.total_num_trans, env.mst_agt.mst_mon.no_of_trans_monitored);
-      //$finish;
   endtask
 
     task wrap_up();
+        super.wrap_up();
          $display("RANDOM TESTCASE SELECTED");
     endtask
   
