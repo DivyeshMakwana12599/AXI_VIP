@@ -59,17 +59,6 @@ module assertion(
 	    logic rvalid,
 	    logic rready);
 
-	/**
-	\*   Method name             : pass_print_f()
-	\*   Parameters passed       : None
-	\*   Returned parameters     : None
-	\*   Description             : printing statement pass for assertion 
-	*/
-	function void pass_print_f();
-	 // $display("*************************************************************************");
-	 // $display("*\t @%0t >>>> %m >>>> ASSERTION PASSED                *",$time);
-	 // $display("*************************************************************************");
-	endfunction :pass_print_f
 
 	/**
 	\*   Method name             : fail_print_f()
@@ -83,9 +72,7 @@ module assertion(
 	  $display("*************************************************************************");
 	endfunction :fail_print_f
 
-	//logic Temp_ARESETn;
 	assign #1 temp_aresetn = aresetn;
-	//assign #1 temp_aclk = aclk;
 	
 	/**
 	\*   property name           : assertion_at_rst_asserted()
@@ -180,363 +167,491 @@ module assertion(
 	// ASSERT PROPERTY FOR AWVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_002 : 
     assert property (assertion_at_rst_asserted(awvalid)) 
-	    pass_print_f();
 	    else begin
             fail_print_f();
             $display(" ASSERT PROPERTY FOR AWVALID IF RESET IS ASSERTED");
 	    end
 
-	// ASSERT PROPERTY FOR WVALID IF RESET IS ASSERTED
+    // COVER PROPERTY FOR AWVALID IF RESET IS ASSERTED
+    cover property (assertion_at_rst_asserted(awvalid));
+	
+    // ASSERT PROPERTY FOR WVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_003 :
     assert property (assertion_at_rst_asserted(wvalid))
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR WVALID IF RESET IS ASSERTED");
             fail_print_f();
         end
 
-	// ASSERT PROPERTY FOR BVALID IF RESET IS ASSERTED
+    // COVER PROPERTY FOR WVALID IF RESET IS ASSERTED
+    cover property (assertion_at_rst_asserted(wvalid));
+	
+    // ASSERT PROPERTY FOR BVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_005 : 
     assert property (assertion_at_rst_asserted(bvalid))
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR BVALID IF RESET IS ASSERTED");
             fail_print_f();
         end
 
+    // COVER PROPERTY FOR BVALID IF RESET IS ASSERTED
+    cover property (assertion_at_rst_asserted(bvalid));
+
 	// ASSERT PROPERTY FOR ARVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_001 : 
     assert property (assertion_at_rst_asserted(arvalid))
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR ARVALID IF RESET IS ASSERTED");
             fail_print_f();
         end
 
+	// COVER PROPERTY FOR ARVALID IF RESET IS ASSERTED
+    cover property (assertion_at_rst_asserted(arvalid));
+
 	// ASSERT PROPERTY FOR RVALID IF RESET IS ASSERTED
 	AXI4_ASSERTION_004 : 
     assert property (assertion_at_rst_asserted(rvalid)) 
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR RVALID IS ASSERTED");
             fail_print_f();
         end
 
+	// COVER PROPERTY FOR RVALID IF RESET IS ASSERTED
+    cover property (assertion_at_rst_asserted(rvalid)); 
+
 	// ASSERT PROPERTY FOR AWVALID AFTER DEASSERTION OF RESET
 	AXI4_ASSERTION_007 : 
     assert property (assertion_after_rst_deassertion(awvalid))
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR AWVALID AFTER DEASSERTION OF RESET");
             fail_print_f();
         end
 
+
+	// COVER PROPERTY FOR AWVALID AFTER DEASSERTION OF RESET
+    cover property (assertion_after_rst_deassertion(awvalid));
+
 	// ASSERT PROPERTY FOR WVALID AFTER DEASSERTION OF RESET
 	AXI4_ASSERTION_008 : 
     assert property (assertion_after_rst_deassertion(wvalid)) 
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR WVALID AFTER DEASSERTION OF RESET");
             fail_print_f();
         end
 
+	// COVER PROPERTY FOR WVALID AFTER DEASSERTION OF RESET
+    cover property (assertion_after_rst_deassertion(wvalid));
+
 	// ASSERT PROPERTY FOR ARVALID AFTER DEASSERTION OF RESET
 	AXI4_ASSERTION_006 : 
     assert property (assertion_after_rst_deassertion(arvalid)) 
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY FOR ARVALID AFTER DEASSERTION OF RESET");
             fail_print_f();
         end
 
+	// COVER PROPERTY FOR ARVALID AFTER DEASSERTION OF RESET
+    cover property (assertion_after_rst_deassertion(arvalid)); 
+
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN AWVALID CAN NOT DRIVE X OR Z
 	AXI4_ASSERTION_010 : 
     assert property (assertion_invalid_signal(aresetn,awvalid)) 
-        pass_print_f();
         else begin
             $display("ASSERT PROPERTY IF RESET IS THERE THEN AWVALID CAN NOT DRIVE X/Z");
          fail_print_f();
         end
 
+	// COVER PROPERTY FOR IF RESET IS THERE THEN AWVALID CAN NOT DRIVE X OR Z
+    cover property (assertion_invalid_signal(aresetn,awvalid)); 
+
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN WVALID CAN NOT DRIVE X OR Z
 	AXI4_ASSERTION_011 : 
     assert property (assertion_invalid_signal(aresetn,wvalid)) 
-        pass_print_f();
         else begin 
             $display("ASSERT PROPERTY FOR IF RESET IS THERE AND THEN WVALID CAN NOT DRIVE X/Z");
             fail_print_f();
         end
-	
+
+	// COVER PROPERTY FOR IF RESET IS THERE THEN WVALID CAN NOT DRIVE X OR Z
+    cover property (assertion_invalid_signal(aresetn,wvalid)); 
+    
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN BVALID CAN NOT DRIVE X OR Z
 	AXI4_ASSERTION_013 : 
-    assert property (assertion_invalid_signal(aresetn,bvalid))pass_print_f();
+    assert property (assertion_invalid_signal(aresetn,bvalid))
     else begin
         $display("ASSERT PROPERTY FOR IF RESET IS THERE THEN BVALID CAN NOT DRIVE X/Z");
         fail_print_f();
     end
 
+
+	// COVER PROPERTY FOR IF RESET IS THERE THEN BVALID CAN NOT DRIVE X OR Z
+    cover property (assertion_invalid_signal(aresetn,bvalid));
+
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN ARVALID CAN NOT DRIVE X OR Z
 	AXI4_ASSERTION_009 : 
-        assert property (assertion_invalid_signal(aresetn,arvalid)) pass_print_f();
+        assert property (assertion_invalid_signal(aresetn,arvalid))
         else begin
             $display("ASSERT PROPERTY FOR IF RESET IS THERE THEN ARVALID CAN NOT DRIVE X/Z");
             fail_print_f();
         end
-	
+
+
+	// COVER PROPERTY FOR IF RESET IS THERE THEN ARVALID CAN NOT DRIVE X OR Z
+    cover property (assertion_invalid_signal(aresetn,arvalid));
+
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN RVALID CAN NOT DRIVE X OR Z
 	AXI4_ASSERTION_012 : 
-        assert property (assertion_invalid_signal(aresetn,rvalid)) pass_print_f();
+        assert property (assertion_invalid_signal(aresetn,rvalid))
         else begin
             $display("ASSERT PROPERTY FOR IF RESET IS THERE THEN RVALID CAN NOT DRIVE X/Z");
             fail_print_f();
         end
 
-	//"AWADDR remains stable when AWVALID is asserted and AWREADY is LOW"
+
+	// COVER PROPERTY FOR IF RESET IS THERE THEN RVALID CAN NOT DRIVE X OR Z
+    cover property (assertion_invalid_signal(aresetn,rvalid));
+
+	// ASSERT PROPERTY FOR "AWADDR remains stable when AWVALID is asserted and AWREADY is LOW"
 	AXI4_ASSERTION_014 :
-        assert property (assertion_for_stable_signal(awvalid,awready,awaddr)) pass_print_f();
+        assert property (assertion_for_stable_signal(awvalid,awready,awaddr))
         else begin
             $display("AWADDR REMAINS STABLE UNTILL WHEN AWVALID AND AWREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//AWLEN remains stable when AWVALID is asserted and AWREADY is LOW
+	// COVER PROPERTY FOR AWADDR REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
+    cover property (assertion_for_stable_signal(awvalid,awready,awaddr));
+
+	// ASSERT PROPERTY FOR AWLEN REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
 	AXI4_ASSERTION_016 : 
-        assert property (assertion_for_stable_signal(awvalid,awready,awlen)) pass_print_f();
+        assert property (assertion_for_stable_signal(awvalid,awready,awlen))
         else begin
              $display("AWLEN REMAINS STABLE UNTILL WHEN AWVALID AND AWREADY HANDSHAKING DONE");
              fail_print_f();
         end
-	//"AWSIZE must remains stable when AWVALID is asserted and AWREADY is LOW"
+
+	// COVER PROPERTY FOR AWLEN remains stable when AWVALID is asserted and AWREADY is LOW
+    cover property (assertion_for_stable_signal(awvalid,awready,awlen));
+        
+    // ASSERT PROPERTY FOR AWSIZE REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
 	AXI4_ASSERTION_018 : 
-        assert property (assertion_for_stable_signal(awvalid,awready,awsize)) pass_print_f();
+        assert property (assertion_for_stable_signal(awvalid,awready,awsize))
         else begin
              $display("AWSIZE REMAINS STABLE UNTILL WHEN AWVALID AND AWREADY HANDSHAKING DONE");
              fail_print_f();
          end
 
-	//"AWBURST remains stable when AWVALID is asserted and AWREADY is LOW"
+    // COVER PROPERTY FOR "AWSIZE must remains stable when AWVALID is asserted and AWREADY is LOW"
+    cover property (assertion_for_stable_signal(awvalid,awready,awsize));
+
+	// ASSERT PROPERTY FOR AWBURST REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
 	AXI4_ASSERTION_020 :
-        assert property (assertion_for_stable_signal(awvalid,awready,awburst)) pass_print_f();
+        assert property (assertion_for_stable_signal(awvalid,awready,awburst))
         else begin
              $display("AWBURST REMAINS STABLE UNTILL WHEN AWVALID AND AWREADY HANDSHAKING DONE");
              fail_print_f();
          end
 
-	//"ARADDR remains stable when ARVALID is asserted and ARREADY is LOW"
+	// COVER PROPERTY FOR "AWBURST remains stable when AWVALID is asserted and AWREADY is LOW"
+    cover property (assertion_for_stable_signal(awvalid,awready,awburst));
+
+	// ASSERT PROPERTY FOR ARADDR REMAINS STABLE WHEN ARVALID ASSERTED AND ARREADY IS LOW
 	AXI4_ASSERTION_021 : 
-        assert property (assertion_for_stable_signal(arvalid,arready,araddr)) pass_print_f();
+        assert property (assertion_for_stable_signal(arvalid,arready,araddr))
         else begin
              $display("ARADDR REMAINS STABLE UNTILL WHEN ARVALID AND ARREADY HANDSHAKING DONE");
              fail_print_f();
          end
 
-	//"ARLEN remains stable when ARVALID is asserted and ARREADY is LOW"
+	// COVER PROPERTY FOR "ARADDR remains stable when ARVALID is asserted and ARREADY is LOW"
+    cover property (assertion_for_stable_signal(arvalid,arready,araddr));
+
+	// ASSERT PROPERTY FOR ARLEN REMAINS STABLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
 	AXI4_ASSERTION_023 : 
-        assert property (assertion_for_stable_signal(arvalid,arready,arlen)) pass_print_f();
+        assert property (assertion_for_stable_signal(arvalid,arready,arlen))
         else begin
             $display("ARLEN REMAINS STABLE UNTILL WHEN ARVALID AND ARREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//"ARSIZE remains stable when ARVALID is asserted, and ARREADY is LOW"
+	// COVER PROPERTY FOR "ARLEN remains stable when ARVALID is asserted and ARREADY is LOW"
+    cover property (assertion_for_stable_signal(arvalid,arready,arlen));
+
+	// ASSERT PROPERTY FOR ARSIZE REMAINS SATBLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
 	AXI4_ASSERTION_025 : 
-        assert property (assertion_for_stable_signal(arvalid,arready,arsize)) pass_print_f();
+        assert property (assertion_for_stable_signal(arvalid,arready,arsize))
         else begin
             $display("ARSIZE REMAINS STABLE UNTILL WHEN ARVALID AND ARREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//ARBURST remains stable when ARVALID is asserted, and ARREADY is LOW
+	// COVER PROPERTY FOR "ARSIZE remains stable when ARVALID is asserted, and ARREADY is LOW"
+    cover property (assertion_for_stable_signal(arvalid,arready,arsize));
+
+	// ASSERT PROPERTY FOR ARBURST REMAINS STABLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
 	AXI4_ASSERTION_027 : 
-        assert property (assertion_for_stable_signal(arvalid,arready,arburst)) pass_print_f();
+        assert property (assertion_for_stable_signal(arvalid,arready,arburst))
         else begin
             $display("ARBURST REMAINS STABLE UNTILL WHEN ARVALID AND ARREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//RDATA REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE
+	// COVER PROPERTY FOR ARBURST remains stable when ARVALID is asserted, and ARREADY is LOW
+    cover property (assertion_for_stable_signal(arvalid,arready,arburst));
+
+	// ASSERT PROPERTY FOR RDATA REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE
 	AXI4_ASSERTION_028 : 
-        assert property (assertion_for_stable_signal(rvalid,rready,rdata)) pass_print_f();
+        assert property (assertion_for_stable_signal(rvalid,rready,rdata))
         else begin
             $display("RDATA REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//RRESP remains stable when RVALID is asserted, and RREADY is LOW
+	// COVER PROPERTY FOR RDATA REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE
+    cover property (assertion_for_stable_signal(rvalid,rready,rdata));
+
+	// ASSERT PROPERTY FOR RRESP REMAINS STALBE WHEN RVALID ASSERTED AND RREADY IS LOW
 	AXI4_ASSERTION_030 : 
-        assert property (assertion_for_stable_signal(rvalid,rready,rresp)) pass_print_f();
+        assert property (assertion_for_stable_signal(rvalid,rready,rresp))
         else begin
             $display("RRESP REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//RLAST remains stable when RVALID is asserted, and RREADY is LOW
+	// COVER PROPERTY FOR RRESP REMAINS STABLE WHEN RVALID IS ASSERTED AND RREADY IS LOW
+    cover property (assertion_for_stable_signal(rvalid,rready,rresp));
+
+	// ASSERT PROPERTY FOR RLAST REMAINS STABLE WHEN RVALID IS ASSERTED AND RREADY IS LOW
 	AXI4_ASSERTION_032 : 
-        assert property (assertion_for_stable_signal(rvalid,rready,rresp)) pass_print_f();
+        assert property (assertion_for_stable_signal(rvalid,rready,rresp))
         else begin
             $display("RLAST REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//WVALID and WDATA must remain stable until WREADY is asserted
+	// COVER PROPERTY FOR RLAST REMAINS STABLE WHEN RVALID IS ASSERTED AND RREADY IS LOW
+    cover property (assertion_for_stable_signal(rvalid,rready,rresp));
+
+	// ASSERT PROPERTY FOR WVALID AND WDATA REMAINS STABLE UNTILL WREADY IS ASSERTED
 	AXI4_ASSERTION_035 : 
-        assert property (assertion_for_stable_signal(wvalid,wready,wdata)) pass_print_f();
+        assert property (assertion_for_stable_signal(wvalid,wready,wdata)) 
         else begin
             $display("WDATA REMAINS STABLE UNTILL WHEN WVALID AND WREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//WSTRB remains stable when WVALID is asserted and WREADY is LOW.
+	// COVER PROPERTY FOR WVALID AND WDATA REMAINS STABLE UNTILL WREADY IS ASSERTED
+    cover property (assertion_for_stable_signal(wvalid,wready,wdata));
+
+	// ASSERT PROPERTY FOR WSTRB REMAINS STABLE WHEN WVALID ASSERTED and WREADY IS LOW.
 	AXI4_ASSERTION_037 : 
-        assert property (assertion_for_stable_signal(wvalid,wready,wstrb)) pass_print_f();
+        assert property (assertion_for_stable_signal(wvalid,wready,wstrb)) 
 	    else begin
             $display("WSTRB REMAINS STABLE UNTILL WHEN WVALID AND WREADY HANDSHAKING DONE");
             fail_print_f();
         end
+       
+	// COVER PROPERTY FOR WSTRB REMAINS STABLE WHEN WVALID ASSERTED and WREADY IS LOW.
+    cover property (assertion_for_stable_signal(wvalid,wready,wstrb));
 
-	//"WLAST remains stable when WVALID is asserted and WREADY is LOW"
+	// ASSERT PROPERTY FOR "WLAST REMAINS STABLE WHEN WVALID IS ASSERTED AND WREADY IS LOW
 	AXI4_ASSERTION_039 : 
-        assert property (assertion_for_stable_signal(wvalid,wready,wlast)) pass_print_f();
+        assert property (assertion_for_stable_signal(wvalid,wready,wlast))
         else begin
             $display("WLAST REMAINS STABLE UNTILL WHEN WVALID AND WREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//"BRESP remains stable when BVALID is asserted and BREADY is LOW"
+	// COVER PROPERTY FOR "WLAST REMAINS STABLE WHEN WVALID IS ASSERTED AND WREADY IS LOW
+    cover property (assertion_for_stable_signal(wvalid,wready,wlast));
+
+	// ASSERT PROPERTY FOR BRESP REMAINS STABLE WHEN BVALID ASSERTED AND BREADY IS LOW
 	AXI4_ASSERTION_041 : 
-        assert property (assertion_for_stable_signal(bvalid,bready,bresp)) pass_print_f();
+        assert property (assertion_for_stable_signal(bvalid,bready,bresp))
         else begin
             $display("BRESP REMAINS STABLE UNTILL WHEN BVALID AND BREADY HANDSHAKING DONE");
             fail_print_f();
         end
 
-	//A value "X" (undefined) or "Z" (high-impedence) on AWADDR is not allowed when AWVALID is HIGH
+	// COVER PROPERTY FOR BRESP REMAINS STABLE WHEN BVALID ASSERTED AND BREADY IS LOW
+    cover property (assertion_for_stable_signal(bvalid,bready,bresp));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON AWADDR IS NOT ALLOWED WHEN AWVALID IS HIGH
 	AXI4_ASSERTION_015 : 
-        assert property (assertion_invalid_signal(awvalid,awaddr)) pass_print_f();
+        assert property (assertion_invalid_signal(awvalid,awaddr))
         else begin
             $display("VALUE X/Z ON AWADDR IS NOT ALLOWED WHEN AWVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of "X" (undefined) or Z" (high-impedence) on AWLEN is not allowed when AWVALID is HIGH
+	// COVER PROPERTY FOR VALUE X/Z ON AWADDR IS NOT ALLOWED WHEN AWVALID IS HIGH
+    cover property (assertion_invalid_signal(awvalid,awaddr));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON AWLEN IS NOT ALLOWED WHEN AWVALID IS HIGH
 	AXI4_ASSERTION_017 : 
-        assert property (assertion_invalid_signal(awvalid,awlen)) pass_print_f();
+        assert property (assertion_invalid_signal(awvalid,awlen))
         else begin
             $display("VALUE X/Z ON AWLEN IS NOT ALLOWED WHEN AWVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of "X " (undefined) or "Z" (high-impedence)on AWSIZE is not permitted when AWVALID is HIGH
+	// COVER PROPERTY FOR VALUE X/Z ON AWLEN IS NOT ALLOWED WHEN AWVALID IS HIGH
+    cover property (assertion_invalid_signal(awvalid,awlen));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON AWSIZE IS NOT PERMITTED WHEN AWVALID IS HIGH
 	AXI4_ASSERTION_019 : 
-        assert property (assertion_invalid_signal(awvalid,awsize)) pass_print_f();
+        assert property (assertion_invalid_signal(awvalid,awsize)) 
         else begin
             $display("VALUE X/Z ON AWSIZE IS NOT ALLOWED WHEN AWVALID IS HIGH");
             fail_print_f();  
         end
 
-	//A value "X" (undefined) or "Z" (high-impedence) on ARADDR is not allowed when ARVALID is HIGH
+	// COVER PROPERTY FOR VALUE X/Z ON AWSIZE IS NOT PERMITTED WHEN AWVALID IS HIGH
+    cover property (assertion_invalid_signal(awvalid,awsize));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON ARADDR IS NOT ALLOWED WHEN ARVALID IS HIGH
 	AXI4_ASSERTION_022 : 
-        assert property (assertion_invalid_signal(arvalid,araddr)) pass_print_f();
+        assert property (assertion_invalid_signal(arvalid,araddr))
         else begin
             $display("VALUE X/Z ON ARADDR IS NOT ALLOWED WHEN ARVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of "X" (undefined) or "Z" (high-impedence) on ARLEN is not allowed when ARVALID is HIGH
+	// COVER PROPERTY FOR VALUE X/Z ON ARADDR IS NOT ALLOWED WHEN ARVALID IS HIGH
+    cover property (assertion_invalid_signal(arvalid,araddr));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON ARLEN IS NOT ALLOWED WHEN ARVALID IS HIGH
 	AXI4_ASSERTION_024 : 
-        assert property (assertion_invalid_signal(arvalid,arlen)) pass_print_f();
+        assert property (assertion_invalid_signal(arvalid,arlen))
         else begin
             $display("VALUE X/Z ON ARLEN IS NOT ALLOWED WHEN ARVALID IS HIGH");
             fail_print_f();
         end
 
-	//"A value of ""X"" (undefined) or ""Z"" (high-impedence) on ARSIZE is not permitted when ARVALID is HIGH"
+	// COVER PROPERTY FOR VALUE X/Z ON ARLEN IS NOT ALLOWED WHEN ARVALID IS HIGH
+    cover property (assertion_invalid_signal(arvalid,arlen));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON ARSIZE IS NOT PERMITTED WHEN ARVALID IS HIGH
 	AXI4_ASSERTION_026 : 
-        assert property (assertion_invalid_signal(arvalid,arsize)) pass_print_f();
+        assert property (assertion_invalid_signal(arvalid,arsize))
         else begin
             $display("VALUE X/Z ON ARSIZE IS NOT ALLOWED WHEN ARVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of X or "Z" (high-impedence) on RRESP is not permitted when RVALID is HIGH.
+	// COVER PROPERTY FOR VALUE X/Z ON ARSIZE IS NOT PERMITTED WHEN ARVALID IS HIGH
+    cover property (assertion_invalid_signal(arvalid,arsize));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON RRESP IS NOT PERMITTED WHEN RVALID IS HIGH
 	AXI4_ASSERTION_031 : 
-        assert property (assertion_invalid_signal(rvalid,rresp)) pass_print_f();
+        assert property (assertion_invalid_signal(rvalid,rresp))
         else begin
             $display("VALUE X/Z ON RRESP IS NOT ALLOWED WHEN ARVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of X or "Z" (high-impedence) on RLAST is not permitted when RVALID is HIGH.
+	// COVER PROPERTY FOR VALUE X/Z ON RRESP IS NOT PERMITTED WHEN RVALID IS HIGH
+    cover property (assertion_invalid_signal(rvalid,rresp));
+
+	// ASSERT PROPERTY FOR VALUE OF X/Z ON RLAST IS NOT PERMITTED WHEN RVALID IS HIGH
 	AXI4_ASSERTION_033 : 
-        assert property (assertion_invalid_signal(rvalid,rlast)) pass_print_f();
+        assert property (assertion_invalid_signal(rvalid,rlast))
 	    else begin
             $display("VALUE X/Z ON RLAST IS NOT ALLOWED WHEN RVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of "X" or "Z" (high-impedence) on WSTRB is not permitted when WVALID is HIGH.
+	// COVER PROPERTY FOR VALUE OF X/Z ON RLAST IS NOT PERMITTED WHEN RVALID IS HIGH
+    cover property (assertion_invalid_signal(rvalid,rlast));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON WSTRB IS NOT PERMITTED WHEN WVALID IS HIGH.
 	AXI4_ASSERTION_038 : 
-        assert property (assertion_invalid_signal(wvalid,wstrb)) pass_print_f();
+        assert property (assertion_invalid_signal(wvalid,wstrb))
 	    else begin 
             $display("VALUE X/Z ON WSTRB IS NOT ALLOWED WHEN WVALID IS HIGH");
             fail_print_f();
         end
 
-	//A value of X or "Z" (high-impedence) on BRESP is not permitted when BVALID is HIGH
+	// COVER PROPERTY FOR VALUE X/Z ON WSTRB IS NOT PERMITTED WHEN WVALID IS HIGH.
+    cover property (assertion_invalid_signal(wvalid,wstrb));
+
+	// ASSERT PROPERTY FOR VALUE X/Z ON BRESP IS NOT PERMITTED WHEN BVALID IS HIGH
 	AXI4_ASSERTION_042 : 
-        assert property (assertion_invalid_signal(bvalid,bresp)) pass_print_f();
+        assert property (assertion_invalid_signal(bvalid,bresp))
         else begin
             $display("VALUE X/Z ON BRESP IS NOT ALLOWED WHEN BVALID IS HIGH");
             fail_print_f();
         end
 
-    //A value of "X" (undefined) or "Z" (high-impedence) on WDATA valid byte lanes is not allowed when WVALID is HIGH
+	// COVER PROPERTY FOR VALUE X/Z ON BRESP IS NOT PERMITTED WHEN BVALID IS HIGH
+    cover property (assertion_invalid_signal(bvalid,bresp));
+
+    // ASSERT PROPERTY FOR VALUE X/Z ON WDATA VALID BYTE LANES IS NOT ALLOWED WHEN WVALID IS HIGH
     AXI_ASSERTION_036 :
-        assert property (assertion_invalid_signal(wvalid,wdata)) pass_print_f();
+        assert property (assertion_invalid_signal(wvalid,wdata))
         else begin
             $display("VALUE X/Z ON WDATA IS NOT ALLOWED WHEN WVALID IS HIGH");
            fail_print_f();
         end
 
-    //A value of "X" (undefined) or "Z" (high-impedence) on RDATA valid byte lanes is not allowed when RVALID is HIGH
+    // COVER PROPERTY FOR VALUE X/Z ON WDATA VALID BYTE LANES IS NOT ALLOWED WHEN WVALID IS HIGH
+    cover property (assertion_invalid_signal(wvalid,wdata));
+
+    // ASSERT PROPERTY FOR VALUE X/Z ON RDATA BYTE LANES IS NOT ALLOWED WHEN RVALID IS HIGH
     AXI_ASSERTION_029 :
-        assert property (assertion_invalid_signal(rvalid,rdata)) pass_print_f();
+        assert property (assertion_invalid_signal(rvalid,rdata)) 
         else begin
             $display("VALUE X/Z PN RDATA IS NOT ALLOWED WHEN RVALID IS HIGH");
             fail_print_f();
         end
 
-    // The slave must wait for both AWVALID and AWREADY to be asserted before asserting BVALID
+    // COVER PROPERTY FOR VALUE X/Z ON RDATA BYTE LANES IS NOT ALLOWED WHEN RVALID IS HIGH
+    cover property (assertion_invalid_signal(rvalid,rdata));
+
+    // ASSERT PROPERTY FOR The SLAVE MUST WAIT FOR BOTH AWVALID and AWREADY ASSERTED BEFORE ASSERTING BVALID
     AXI_ASSERTION_043 : 
-        assert property (assertion_addr_channel_dependency) pass_print_f();
+        assert property (assertion_addr_channel_dependency) 
         else begin
             $display("BVALID SHOULD BE ASSERTED AFTER ADDRESS CHANNEL HANDSHAKING DONE");
             fail_print_f();
         end
 
-    // "The slave must wait for WVALID, WREADY, and WLAST to be asserted before asserting BVALID"
+    // COVER PROPERTY FOR The SLAVE MUST WAIT FOR BOTH AWVALID and AWREADY ASSERTED BEFORE ASSERTING BVALID
+    cover property (assertion_addr_channel_dependency);
+
+    // ASSERT PROPERTY FOR The SLAVE MUST WAIT WVALID, WREADY AND WLAST ASSERTED BEFORE ASSERTING BVALID
     AXI_ASSERTION_044 :
-        assert property (assertion_data_channel_dependency) pass_print_f();
+        assert property (assertion_data_channel_dependency)
         else begin
             $display("BVALID SHOULD BE ASSERTED AFTER DATA CHANNEL HANDSHAKING IS DONE AND WLAST IS ASSERTED");
             fail_print_f();
         end
+
+    // COVER PROPERTY FOR The SLAVE MUST WAIT WVALID, WREADY AND WLAST ASSERTED BEFORE ASSERTING BVALID
+    cover property (assertion_data_channel_dependency);
+
 /*
-    // RLAST must come only afterwards of  the last read data transfer.
+    // ASSERT PROPERTY FOR WLAST MUST COME ONLY AFTERWARDS OF THE LAST WRITE DATA TRANSFER
     AXI_ASSERTION_040 :
-        assert property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast)) pass_print_f();
+        assert property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast))
         else begin
             $display("WLAST MUST COME ONLY AFTERWARDS OF THE LAST WRITE DATA TRANSFER");
             fail_print_f();
         end
 
-    // BLAST must come only afterwards of  the last read data transfer.
+    // COVER PROPERTY FOR WLAST MUST COME ONLY AFTERWARDS OF THE LAST WRITE DATA TRANSFER
+    cover property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast));
+
+    // ASSERT PROPERTY FOR RLAST MUST COME ONLY AFTERWARDS OF THE LAST READ TRANSFER
     AXI_ASSERTION_034 :
         assert property (assertion_w_r_last(arvalid,arready,arlen,rvalid,rready,rlast)) pass_print_f();
         else begin
             $display("RLAST MUST COME AFTERWARDS OF THE LAST READ DATA TRANSFER");
             fail_print_f();
         end
+
+    // COVER PROPERTY FOR RLAST MUST COME ONLY AFTERWARDS OF THE LAST READ TRANSFER
+    cover property (assertion_w_r_last(arvalid,arready,arlen,rvalid,rready,rlast));
 */
 endmodule :assertion
 

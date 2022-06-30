@@ -92,20 +92,19 @@ class ei_axi4_master_driver_c;
     task write_address_task();
         @(`VMST);
         `VMST.awvalid <= 1'b1;
-       // $display("write_running_index = %0d",write_running_index);
-      //  $display("write_queue = %0p",write_queue);
+        
+      inject_error();
 
         `VMST.awaddr <= write_queue[write_running_index].addr;
         `VMST.awburst <= write_queue[write_running_index].burst;
         `VMST.awlen <= write_queue[write_running_index].len;
         `VMST.awsize <= write_queue[write_running_index].size;
         write_running_index++;
-
-        @(`VMST iff(`VMST.awready <= 1'b1)) 
+        
+      @(`VMST iff(`VMST.awready <= 1'b1)) 
         `VMST.awvalid <= 1'b0;
 //        `VMST.awaddr <= 'bx;
         
-
     endtask : write_address_task 
 
     task write_data_task();
@@ -206,4 +205,58 @@ class ei_axi4_master_driver_c;
     endtask : read_data_task
 
     
-endclass : ei_axi4_master_driver_c
+    function void inject_error();
+
+      case(tr.errors)
+        ///////////////////// for wrap unalligned errorneous scenario //////////////////////////
+        ERROR_WRAP_UNALLIGNED : begin
+
+        if((write_queue[write_running_index].addr / 2 ** tr.size) * (2 ** tr.size)) begin 
+          write_queue[write_running_index].addr = write_queue[write_running_index].addr + 1'b1; 
+        end
+
+        else begin 
+          write_queue[write_running_index].addr <= write_queue[write_running_index].addr;
+        end
+        write_queue[write_running_index].burst = WRAP;
+
+        end// error_wrap_unaligned
+
+        ///////////////////// for 4kb boundary cross errorneous scenario //////////////////////////
+        ERROR_4K_BOUNDARY : begin
+          write_queue[write_running_index].addr = (write_queue[write_running_index].addr - (write_queue[write_running_index].addr % 4096) + 4096 - 1); 
+          write_queue[write_running_index].len = $urandom_range(1,255);
+          write_queue[write_running_index].burst = INCR;
+        end// error_4k_boundary 
+        
+        ///////////////////// for fixed length errorneous scenario //////////////////////////
+        ERROR_FIXED_LEN : begin
+          write_queue[write_running_index].burst = FIXED;
+
+        if(write_queue[write_running_index].len <= 15) begin 
+          write_queue[write_running_index].len = write_queue[write_running_index].len + $urandom_range(16,255);
+        end
+
+        else begin 
+          write_queue[write_running_index].len <= write_queue[write_running_index].len;
+        end
+        end//error_fixed_len
+
+        ///////////////////// for wrap length errorneous scenario //////////////////////////
+        ERROR_WRAP_LEN : begin
+
+        write_queue[write_running_index].burst = WRAP;
+  
+        if((write_queue[write_running_index].len == 1) | (write_queue[write_running_index].len == 3) | (write_queue[write_running_index].len == 7) | (write_queue[write_running_index].len == 15)) begin 
+          write_queue[write_running_index].len = write_queue[write_running_index].len + 1'b1;
+        end
+
+        else begin 
+           write_queue[write_running_index].len <= write_queue[write_running_index].len;
+        end
+        end//error_wrap_len
+      endcase
+
+    endfunction
+
+endclass : ei_axi4_master_driver_c 
