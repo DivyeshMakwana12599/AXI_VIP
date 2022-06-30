@@ -56,7 +56,6 @@ class ei_axi4_slave_agent_c;
     end
     this.slv_vif = slv_vif;
     slv_mon = new(1, ,slv_mon2scb,mon_vif);
-    slv_vif.awready = 1'b1;
   endfunction
  
 /**

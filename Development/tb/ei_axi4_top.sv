@@ -46,11 +46,6 @@ module ei_axi4_top;
  
   always #(`PERIOD) aclk = ~aclk;
 
-  initial begin
-    // mst_pif.awvalid = 1'b1;
-    // slv_pif.awvalid = 1'b1;
-  end
-  
   /* To initialize the variables */
   initial begin 
     aresetn  = 1;

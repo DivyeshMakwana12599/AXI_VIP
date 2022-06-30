@@ -161,6 +161,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
        @(`VSLV iff(`VSLV.awvalid == 1)); 
        $display("[Write Address Channel] \t\t@%0t AWVALID & AWREADY Handshaked ",$time);
        write_tr.addr           =  `VSLV.awaddr;
+      $display(",.,..,.,,.,.,.,.,.,., @%0t  --> waddr at address channel = %0x", $time,`VSLV.awaddr);
        write_tr.burst          =  `VSLV.awburst;
        write_tr.len            =  `VSLV.awlen + 1;
        write_tr.size           =  `VSLV.awsize;
@@ -205,7 +206,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      int lower_wb,upper_wb;
 
      start_addr         = write_tr.addr;
+     $display("*********** start_addr = %0x", start_addr);
      number_bytes       = 2**write_tr.size;
+     $display("*********** number_bytes = %0x", number_bytes);
      burst_len          = write_tr.len; 
      burst              = write_tr.burst;
      address_n          = start_addr;
@@ -308,12 +311,13 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       @(`VSLV iff(`VSLV.wvalid == 1));
       $display("[FIXED WRITE] \t\t\tWVALID and WREADY Handshaked");
       mem_addr          = (q_awaddr.pop_front())/ 8;
+      $display("[FIXED WRITE] \t\t\t mem_addr = %0x",mem_addr);
       write_tr.wstrb    =   new[1];
       write_tr.data     =   new[1];
       write_tr.wstrb[0] =   `VSLV.wstrb;
       write_tr.data[0]  =   `VSLV.wdata;
-      //$display("[FIXED WRITE] \t\t\t\t wstrb = %0p",write_tr.wstrb);
-      //$display("[FIXED WRITE] \t\t\t\t wdata = %0p",write_tr.data);
+      $display("[FIXED WRITE] \t\t\t\t wstrb = %0p",write_tr.wstrb);
+      $display("[FIXED WRITE] \t\t\t\t wdata = %0p",write_tr.data);
       for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
       if(write_tr.wstrb[0][j] == 1 ) begin
         // if strobe is 1 then data is valid and store to memory
@@ -322,11 +326,11 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       end
     end
     end
-   /* foreach(slv_drv_mem[k]) begin
+   foreach(slv_drv_mem[k]) begin
       $display("################################################");
       $display("Slave Memory: Row[%0d]    = %0d",k,slv_drv_mem[k]);
     end
-    */
+  
 
   endtask : fixed_write
 
@@ -690,7 +694,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     len_sel_r       = len_sel_r << ((data_bus_bytes - 1) - ubl + lbl) * 8;             // len_sel mask creation 
     len_sel_r       = len_sel_r >> ((data_bus_bytes - 1) - ubl) * 8;
     rdata           = slv_drv_mem[mem_addr_r] & len_sel_r;
-    /*
+    
     $display("=============================================================");
       $display("[RDATA] \t\t @%0t --> size = %0d",$time,number_bytes);
       $display("[RDATA] \t\t @%0t --> addr = %0d",$time,addr);
@@ -698,7 +702,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       $display("[RDATA] \t\t @%0t --> ubl  = %0d",$time,ubl);
       $display("[RDATA] \t\t @%0t --> %0dst beat rdata = %0h ",$time,i,rdata);
       $display("=============================================================");
-    */
+    
     end
     else begin
       addr            = q_araddr.pop_front();
@@ -712,7 +716,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       len_sel_r       = len_sel_r << (data_bus_bytes - 1 - ubl + lbl) * 8;             // len_sel mask creation 
       len_sel_r       = len_sel_r >> (data_bus_bytes - 1 - ubl) * 8;
       rdata           = slv_drv_mem[mem_addr_r] & len_sel_r; 
-      /*
+      
       $display("=============================================================");
       $display("[RDATA] \t\t @%0t --> size = %0d",$time,number_bytes);
       $display("[RDATA] \t\t @%0t --> addr = %0d",$time,addr);
@@ -720,7 +724,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       $display("[RDATA] \t\t @%0t --> ubl  = %0d",$time,ubl);
       $display("[RDATA] \t\t @%0t --> %0dst beat rdata = %0h ",$time,i,rdata);
       $display("=============================================================");
-      */
+      
     end
   endfunction :rdata
 endclass : ei_axi4_slave_driver_c
