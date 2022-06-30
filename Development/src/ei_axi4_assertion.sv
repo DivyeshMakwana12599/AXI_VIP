@@ -173,6 +173,7 @@ module assertion(
 	    end
 
     // COVER PROPERTY FOR AWVALID IF RESET IS ASSERTED
+	AXI4_COVER_ASSERTION_002 : 
     cover property (assertion_at_rst_asserted(awvalid));
 	
     // ASSERT PROPERTY FOR WVALID IF RESET IS ASSERTED
@@ -184,6 +185,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR WVALID IF RESET IS ASSERTED
+	AXI4_COVER_ASSERTION_003 : 
     cover property (assertion_at_rst_asserted(wvalid));
 	
     // ASSERT PROPERTY FOR BVALID IF RESET IS ASSERTED
@@ -195,6 +197,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR BVALID IF RESET IS ASSERTED
+	AXI4_COVER_ASSERTION_005 : 
     cover property (assertion_at_rst_asserted(bvalid));
 
 	// ASSERT PROPERTY FOR ARVALID IF RESET IS ASSERTED
@@ -206,6 +209,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR ARVALID IF RESET IS ASSERTED
+	AXI4_COVER_ASSERTION_001 : 
     cover property (assertion_at_rst_asserted(arvalid));
 
 	// ASSERT PROPERTY FOR RVALID IF RESET IS ASSERTED
@@ -217,6 +221,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR RVALID IF RESET IS ASSERTED
+	AXI4_COVER_ASSERTION_004 : 
     cover property (assertion_at_rst_asserted(rvalid)); 
 
 	// ASSERT PROPERTY FOR AWVALID AFTER DEASSERTION OF RESET
@@ -229,6 +234,7 @@ module assertion(
 
 
 	// COVER PROPERTY FOR AWVALID AFTER DEASSERTION OF RESET
+	AXI4_COVER_ASSERTION_007 : 
     cover property (assertion_after_rst_deassertion(awvalid));
 
 	// ASSERT PROPERTY FOR WVALID AFTER DEASSERTION OF RESET
@@ -240,6 +246,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR WVALID AFTER DEASSERTION OF RESET
+	AXI4_COVER_ASSERTION_008 : 
     cover property (assertion_after_rst_deassertion(wvalid));
 
 	// ASSERT PROPERTY FOR ARVALID AFTER DEASSERTION OF RESET
@@ -251,6 +258,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR ARVALID AFTER DEASSERTION OF RESET
+	AXI4_COVER_ASSERTION_006 : 
     cover property (assertion_after_rst_deassertion(arvalid)); 
 
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN AWVALID CAN NOT DRIVE X OR Z
@@ -262,6 +270,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR IF RESET IS THERE THEN AWVALID CAN NOT DRIVE X OR Z
+	AXI4_COVER_ASSERTION_010 : 
     cover property (assertion_invalid_signal(aresetn,awvalid)); 
 
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN WVALID CAN NOT DRIVE X OR Z
@@ -273,6 +282,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR IF RESET IS THERE THEN WVALID CAN NOT DRIVE X OR Z
+	AXI4_COVER_ASSERTION_011 : 
     cover property (assertion_invalid_signal(aresetn,wvalid)); 
     
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN BVALID CAN NOT DRIVE X OR Z
@@ -285,6 +295,7 @@ module assertion(
 
 
 	// COVER PROPERTY FOR IF RESET IS THERE THEN BVALID CAN NOT DRIVE X OR Z
+	AXI4_COVER_ASSERTION_013 : 
     cover property (assertion_invalid_signal(aresetn,bvalid));
 
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN ARVALID CAN NOT DRIVE X OR Z
@@ -297,6 +308,7 @@ module assertion(
 
 
 	// COVER PROPERTY FOR IF RESET IS THERE THEN ARVALID CAN NOT DRIVE X OR Z
+	AXI4_COVER_ASSERTION_009 : 
     cover property (assertion_invalid_signal(aresetn,arvalid));
 
 	// ASSERT PROPERTY FOR IF RESET IS THERE THEN RVALID CAN NOT DRIVE X OR Z
@@ -309,6 +321,7 @@ module assertion(
 
 
 	// COVER PROPERTY FOR IF RESET IS THERE THEN RVALID CAN NOT DRIVE X OR Z
+	AXI4_COVER_ASSERTION_012 : 
     cover property (assertion_invalid_signal(aresetn,rvalid));
 
 	// ASSERT PROPERTY FOR "AWADDR remains stable when AWVALID is asserted and AWREADY is LOW"
@@ -320,6 +333,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR AWADDR REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
+	AXI4_COVER_ASSERTION_014 : 
     cover property (assertion_for_stable_signal(awvalid,awready,awaddr));
 
 	// ASSERT PROPERTY FOR AWLEN REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
@@ -331,6 +345,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR AWLEN remains stable when AWVALID is asserted and AWREADY is LOW
+	AXI4_COVER_ASSERTION_016 : 
     cover property (assertion_for_stable_signal(awvalid,awready,awlen));
         
     // ASSERT PROPERTY FOR AWSIZE REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
@@ -342,6 +357,7 @@ module assertion(
          end
 
     // COVER PROPERTY FOR "AWSIZE must remains stable when AWVALID is asserted and AWREADY is LOW"
+	AXI4_COVER_ASSERTION_018 : 
     cover property (assertion_for_stable_signal(awvalid,awready,awsize));
 
 	// ASSERT PROPERTY FOR AWBURST REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
@@ -352,7 +368,8 @@ module assertion(
              fail_print_f();
          end
 
-	// COVER PROPERTY FOR "AWBURST remains stable when AWVALID is asserted and AWREADY is LOW"
+	// COVER PROPERTY FOR AWBURST REMAINS STABLE WHEN AWVALID IS ASSERTED AND AWREADY IS LOW
+	AXI4_COVER_ASSERTION_020 : 
     cover property (assertion_for_stable_signal(awvalid,awready,awburst));
 
 	// ASSERT PROPERTY FOR ARADDR REMAINS STABLE WHEN ARVALID ASSERTED AND ARREADY IS LOW
@@ -363,7 +380,8 @@ module assertion(
              fail_print_f();
          end
 
-	// COVER PROPERTY FOR "ARADDR remains stable when ARVALID is asserted and ARREADY is LOW"
+	// COVER PROPERTY FOR ARADDR REMAINS STABLE WHEN ARVALID ASSERTED AND ARREADY IS LOW
+	AXI4_COVER_ASSERTION_021 : 
     cover property (assertion_for_stable_signal(arvalid,arready,araddr));
 
 	// ASSERT PROPERTY FOR ARLEN REMAINS STABLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
@@ -374,7 +392,8 @@ module assertion(
             fail_print_f();
         end
 
-	// COVER PROPERTY FOR "ARLEN remains stable when ARVALID is asserted and ARREADY is LOW"
+	// COVER PROPERTY FOR ARLEN REMAINS STABLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
+	AXI4_COVER_ASSERTION_023 : 
     cover property (assertion_for_stable_signal(arvalid,arready,arlen));
 
 	// ASSERT PROPERTY FOR ARSIZE REMAINS SATBLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
@@ -385,7 +404,8 @@ module assertion(
             fail_print_f();
         end
 
-	// COVER PROPERTY FOR "ARSIZE remains stable when ARVALID is asserted, and ARREADY is LOW"
+	// COVER PROPERTY FOR ARSIZE REMAINS SATBLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
+	AXI4_COVER_ASSERTION_025 : 
     cover property (assertion_for_stable_signal(arvalid,arready,arsize));
 
 	// ASSERT PROPERTY FOR ARBURST REMAINS STABLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
@@ -396,7 +416,8 @@ module assertion(
             fail_print_f();
         end
 
-	// COVER PROPERTY FOR ARBURST remains stable when ARVALID is asserted, and ARREADY is LOW
+	// COVER PROPERTY FOR ARBURST REMAINS STABLE WHEN ARVALID IS ASSERTED AND ARREADY IS LOW
+	AXI4_COVER_ASSERTION_027 : 
     cover property (assertion_for_stable_signal(arvalid,arready,arburst));
 
 	// ASSERT PROPERTY FOR RDATA REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE
@@ -408,6 +429,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR RDATA REMAINS STABLE UNTILL WHEN RVALID AND RREADY HANDSHAKING DONE
+	AXI4_COVER_ASSERTION_028 : 
     cover property (assertion_for_stable_signal(rvalid,rready,rdata));
 
 	// ASSERT PROPERTY FOR RRESP REMAINS STALBE WHEN RVALID ASSERTED AND RREADY IS LOW
@@ -419,6 +441,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR RRESP REMAINS STABLE WHEN RVALID IS ASSERTED AND RREADY IS LOW
+	AXI4_COVER_ASSERTION_030 : 
     cover property (assertion_for_stable_signal(rvalid,rready,rresp));
 
 	// ASSERT PROPERTY FOR RLAST REMAINS STABLE WHEN RVALID IS ASSERTED AND RREADY IS LOW
@@ -430,6 +453,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR RLAST REMAINS STABLE WHEN RVALID IS ASSERTED AND RREADY IS LOW
+	AXI4_COVER_ASSERTION_032 : 
     cover property (assertion_for_stable_signal(rvalid,rready,rresp));
 
 	// ASSERT PROPERTY FOR WVALID AND WDATA REMAINS STABLE UNTILL WREADY IS ASSERTED
@@ -441,6 +465,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR WVALID AND WDATA REMAINS STABLE UNTILL WREADY IS ASSERTED
+	AXI4_COVER_ASSERTION_035 : 
     cover property (assertion_for_stable_signal(wvalid,wready,wdata));
 
 	// ASSERT PROPERTY FOR WSTRB REMAINS STABLE WHEN WVALID ASSERTED and WREADY IS LOW.
@@ -452,6 +477,7 @@ module assertion(
         end
        
 	// COVER PROPERTY FOR WSTRB REMAINS STABLE WHEN WVALID ASSERTED and WREADY IS LOW.
+	AXI4_COVER_ASSERTION_037 : 
     cover property (assertion_for_stable_signal(wvalid,wready,wstrb));
 
 	// ASSERT PROPERTY FOR "WLAST REMAINS STABLE WHEN WVALID IS ASSERTED AND WREADY IS LOW
@@ -462,7 +488,8 @@ module assertion(
             fail_print_f();
         end
 
-	// COVER PROPERTY FOR "WLAST REMAINS STABLE WHEN WVALID IS ASSERTED AND WREADY IS LOW
+	// COVER PROPERTY FOR WLAST REMAINS STABLE WHEN WVALID IS ASSERTED AND WREADY IS LOW
+	AXI4_COVER_ASSERTION_039 : 
     cover property (assertion_for_stable_signal(wvalid,wready,wlast));
 
 	// ASSERT PROPERTY FOR BRESP REMAINS STABLE WHEN BVALID ASSERTED AND BREADY IS LOW
@@ -474,6 +501,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR BRESP REMAINS STABLE WHEN BVALID ASSERTED AND BREADY IS LOW
+	AXI4_COVER_ASSERTION_041 : 
     cover property (assertion_for_stable_signal(bvalid,bready,bresp));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON AWADDR IS NOT ALLOWED WHEN AWVALID IS HIGH
@@ -485,6 +513,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON AWADDR IS NOT ALLOWED WHEN AWVALID IS HIGH
+	AXI4_COVER_ASSERTION_015 : 
     cover property (assertion_invalid_signal(awvalid,awaddr));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON AWLEN IS NOT ALLOWED WHEN AWVALID IS HIGH
@@ -496,6 +525,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON AWLEN IS NOT ALLOWED WHEN AWVALID IS HIGH
+	AXI4_COVER_ASSERTION_017 : 
     cover property (assertion_invalid_signal(awvalid,awlen));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON AWSIZE IS NOT PERMITTED WHEN AWVALID IS HIGH
@@ -507,6 +537,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON AWSIZE IS NOT PERMITTED WHEN AWVALID IS HIGH
+	AXI4_COVER_ASSERTION_019 : 
     cover property (assertion_invalid_signal(awvalid,awsize));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON ARADDR IS NOT ALLOWED WHEN ARVALID IS HIGH
@@ -518,6 +549,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON ARADDR IS NOT ALLOWED WHEN ARVALID IS HIGH
+	AXI4_COVER_ASSERTION_022 : 
     cover property (assertion_invalid_signal(arvalid,araddr));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON ARLEN IS NOT ALLOWED WHEN ARVALID IS HIGH
@@ -529,6 +561,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON ARLEN IS NOT ALLOWED WHEN ARVALID IS HIGH
+	AXI4_COVER_ASSERTION_024 : 
     cover property (assertion_invalid_signal(arvalid,arlen));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON ARSIZE IS NOT PERMITTED WHEN ARVALID IS HIGH
@@ -540,6 +573,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON ARSIZE IS NOT PERMITTED WHEN ARVALID IS HIGH
+	AXI4_COVER_ASSERTION_026 : 
     cover property (assertion_invalid_signal(arvalid,arsize));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON RRESP IS NOT PERMITTED WHEN RVALID IS HIGH
@@ -551,6 +585,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON RRESP IS NOT PERMITTED WHEN RVALID IS HIGH
+	AXI4_COVER_ASSERTION_031 : 
     cover property (assertion_invalid_signal(rvalid,rresp));
 
 	// ASSERT PROPERTY FOR VALUE OF X/Z ON RLAST IS NOT PERMITTED WHEN RVALID IS HIGH
@@ -562,6 +597,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE OF X/Z ON RLAST IS NOT PERMITTED WHEN RVALID IS HIGH
+	AXI4_COVER_ASSERTION_033 : 
     cover property (assertion_invalid_signal(rvalid,rlast));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON WSTRB IS NOT PERMITTED WHEN WVALID IS HIGH.
@@ -573,6 +609,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON WSTRB IS NOT PERMITTED WHEN WVALID IS HIGH.
+	AXI4_COVER_ASSERTION_038 : 
     cover property (assertion_invalid_signal(wvalid,wstrb));
 
 	// ASSERT PROPERTY FOR VALUE X/Z ON BRESP IS NOT PERMITTED WHEN BVALID IS HIGH
@@ -584,6 +621,7 @@ module assertion(
         end
 
 	// COVER PROPERTY FOR VALUE X/Z ON BRESP IS NOT PERMITTED WHEN BVALID IS HIGH
+	AXI4_COVER_ASSERTION_042 : 
     cover property (assertion_invalid_signal(bvalid,bresp));
 
     // ASSERT PROPERTY FOR VALUE X/Z ON WDATA VALID BYTE LANES IS NOT ALLOWED WHEN WVALID IS HIGH
@@ -595,6 +633,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR VALUE X/Z ON WDATA VALID BYTE LANES IS NOT ALLOWED WHEN WVALID IS HIGH
+	AXI4_COVER_ASSERTION_036 : 
     cover property (assertion_invalid_signal(wvalid,wdata));
 
     // ASSERT PROPERTY FOR VALUE X/Z ON RDATA BYTE LANES IS NOT ALLOWED WHEN RVALID IS HIGH
@@ -606,6 +645,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR VALUE X/Z ON RDATA BYTE LANES IS NOT ALLOWED WHEN RVALID IS HIGH
+	AXI4_COVER_ASSERTION_029 : 
     cover property (assertion_invalid_signal(rvalid,rdata));
 
     // ASSERT PROPERTY FOR The SLAVE MUST WAIT FOR BOTH AWVALID and AWREADY ASSERTED BEFORE ASSERTING BVALID
@@ -617,6 +657,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR The SLAVE MUST WAIT FOR BOTH AWVALID and AWREADY ASSERTED BEFORE ASSERTING BVALID
+	AXI4_COVER_ASSERTION_043 : 
     cover property (assertion_addr_channel_dependency);
 
     // ASSERT PROPERTY FOR The SLAVE MUST WAIT WVALID, WREADY AND WLAST ASSERTED BEFORE ASSERTING BVALID
@@ -628,6 +669,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR The SLAVE MUST WAIT WVALID, WREADY AND WLAST ASSERTED BEFORE ASSERTING BVALID
+	AXI4_COVER_ASSERTION_044 : 
     cover property (assertion_data_channel_dependency);
 
 /*
@@ -640,6 +682,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR WLAST MUST COME ONLY AFTERWARDS OF THE LAST WRITE DATA TRANSFER
+	AXI4_COVER_ASSERTION_040 : 
     cover property (assertion_w_r_last(awvalid,awready,awlen,wvalid,wready,wlast));
 
     // ASSERT PROPERTY FOR RLAST MUST COME ONLY AFTERWARDS OF THE LAST READ TRANSFER
@@ -651,6 +694,7 @@ module assertion(
         end
 
     // COVER PROPERTY FOR RLAST MUST COME ONLY AFTERWARDS OF THE LAST READ TRANSFER
+	AXI4_COVER_ASSERTION_034 : 
     cover property (assertion_w_r_last(arvalid,arready,arlen,rvalid,rready,rlast));
 */
 endmodule :assertion
