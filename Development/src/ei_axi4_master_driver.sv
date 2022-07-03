@@ -1,262 +1,241 @@
 class ei_axi4_master_driver_c;
-    
-    ei_axi4_transaction_c tr;
 
-    ei_axi4_transaction_c write_queue[$];
-    ei_axi4_transaction_c read_queue[$];
+  ei_axi4_transaction_c tr;
 
-    mailbox #(ei_axi4_transaction_c) gen2drv;
-    int write_running_index, read_running_index;
-    virtual `MST_INTF vif;
-    semaphore sema_write,sema_read,sema_response;
+  ei_axi4_transaction_c write_address_queue[$];
+  ei_axi4_transaction_c write_data_queue[$];
+  ei_axi4_transaction_c write_response_queue[$]; 
+  ei_axi4_transaction_c read_address_queue[$];
+  ei_axi4_transaction_c read_data_queue[$];
 
-    function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual `MST_INTF vif);
-        this.gen2drv = gen2drv;
-        this.vif = vif;
-        sema_write = new(1);
-        sema_read = new(1);
-        sema_response = new(1);
+  mailbox #(ei_axi4_transaction_c) gen2drv;
+  int write_running_index, read_running_index;
+  virtual `MST_INTF vif;
+  semaphore sema_write,sema_read,sema_response;
 
-        vif.awaddr = 0;
-        vif.awvalid = 0;
-        vif.awburst = FIXED;
-        vif.awlen = 0;
-        vif.awsize = 0;
-        vif.wvalid = 0;
-        vif.wdata = 0;
-        vif.wstrb = 0;
-        vif.wlast = 0;
+  function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual `MST_INTF vif);
+    this.gen2drv = gen2drv;
+    this.vif = vif;
+    sema_write = new(1);
+    sema_read = new(1);
+    sema_response = new(1);
 
-        vif.arvalid = 0;
-        vif.arburst = FIXED;
-        vif.arlen = 0;
-        vif.arsize = 0;
-        vif.araddr = 0;
-        vif.rready = 0;
-        vif.bready = 0;
-         
-    endfunction : new
+    vif.awaddr = 0;
+    vif.awvalid = 0;
+    vif.awburst = FIXED;
+    vif.awlen = 0;
+    vif.awsize = 0;
+    vif.wvalid = 0;
+    vif.wdata = 0;
+    vif.wstrb = 0;
+    vif.wlast = 0;
 
-    task run();
-        forever begin
-            gen2drv.get(tr);
-            fork//1
-                begin //1
-                        if(tr.transaction_type == WRITE)begin
-                            write_queue.push_back(tr);
-                                $display("write_queue = %0p",tr.data);
-                            write_address_task();
-                         fork//2
-                            write_data_task();
-                            write_response_task();
-                         join_none//2 
-                        end 
-                end //1
+    vif.arvalid = 0;
+    vif.arburst = FIXED;
+    vif.arlen = 0;
+    vif.arsize = 0;
+    vif.araddr = 0;
+    vif.rready = 0;
+    vif.bready = 0;
 
-                begin //2
-                    
-                        if(tr.transaction_type == READ)begin
-                            read_queue.push_back(tr);
-                            read_address_task(); 
-                            fork//3
-                                 read_data_task(); // join none here only 
-                            join_none//3
-                        end
-                end //2
+  endfunction : new
 
-                begin //3
+      task get_trans_from_mailbox();
+        gen2drv.get(tr);
+        if(tr.transaction_type == WRITE) begin 
+          write_address_queue.push_back(tr); 
+        end 
+        
+        else if(tr.transaction_type == READ) begin 
+          read_address_queue.push_back(tr);
+        end 
+      endtask : get_trans_from_mailbox
 
-                        if(tr.transaction_type == READ_WRITE)begin
-                            fork//4
-                            write_queue.push_back(tr);
-                            gen2drv.get(tr);
-                            read_queue.push_back(tr);
-                                write_address_task();
-                                read_address_task();
-                            join//4
+      task trigger_tasks();
+        fork 
+          write_address_channel();
+          write_data_channel();
+          write_response_channel();
+          read_address_channel();
+          read_data_channel();
+        join_none
+      endtask : trigger_tasks
 
-                            fork //5
-                                write_data_task();
-                                write_response_task();
-                                read_data_task();
-                            join_none//5
+  task run();
+    trigger_tasks();
+    forever begin
+      get_trans_from_mailbox();
+    end 
+  endtask : run 
 
-                        end
-                end//3
-            join // 1
-        end // forever
-        #5;
-    
-    endtask : run
+    task write_address_channel();
 
-    task write_address_task();
+      ei_axi4_transaction_c write_address;
+
+      forever begin 
+        wait(write_address_queue.size() > 0);
+        write_address = write_address_queue.pop_front();
+
+
         @(`VMST);
         `VMST.awvalid <= 1'b1;
-        
-      inject_error();
 
-        `VMST.awaddr <= write_queue[write_running_index].addr;
-        `VMST.awburst <= write_queue[write_running_index].burst;
-        `VMST.awlen <= write_queue[write_running_index].len;
-        `VMST.awsize <= write_queue[write_running_index].size;
-        write_running_index++;
-        
-      @(`VMST iff(`VMST.awready <= 1'b1)) 
-        `VMST.awvalid <= 1'b0;
-//        `VMST.awaddr <= 'bx;
-        
-    endtask : write_address_task 
+        if(tr.errors == ERROR_WRAP_UNALLIGNED) begin 
 
-    task write_data_task();
-        
-        sema_write.get(1);   
-
-        @(`VMST iff(`VMST.awready));
-        `VMST.wvalid <= 1'b1;
-
-        for(int i = 0; i <= write_queue[0].len ; i++)begin 
-            `VMST.wdata <= write_queue[0].data[i];
-            `VMST.wstrb <= write_queue[0].wstrb[i];
-
-            if(i == write_queue[0].len)begin 
-                `VMST.wlast <= 1'b1;
-                $display("[MST DRV] --> .... @%0t WLAST Asserted",$time);
-            end
-
-            @(`VMST iff(`VMST.wready));
-                
-        end //for
-
-        //if(`VMST.wlast == 1'b1)begin
-       // @(`VMST iff(`VMST.wlast == 1'b1))
-            `VMST.wvalid <= 1'b0;
-            `VMST.wlast <= 1'b0;
-             $display("[MST DRV] --> .... @%0t WLAST Deasserted",$time);
- //           `VMST.wdata <= 'bx;
-  //          `VMST.wstrb <= 'bx;
-
-            write_queue.pop_front();
-            $display(write_queue.size,$time);
-            write_running_index--;
-    
-            sema_write.put(1);
-    endtask : write_data_task
-
-    task write_response_task();
-            sema_response.get(1);
-      //  @(`VMST iff(vif.wlast == 1))begin 
-            @(`VMST iff(vif.bvalid == 1))
-                `VMST.bready <= 1;
-                @(`VMST);
-                `VMST.bready <= 1'b0;
-      //  @(`VMST iff(`VMST.wlast == 1)) 
-            //@(`VMST iff(`VMST.wready && `VMST.wlast)) //FIXME : here removed wvalid check is ot okay or not ? 
-            //`VMST.bready <= 1'b1;
-               
-            //@(`VMST);
-            //`VMST.bready <= 1'b0;
-
-        //    write_queue.pop_front();
-          //  $display(write_queue.size,$time);
-            //write_running_index--;
-    
-            sema_response.put(1);
-    endtask : write_response_task 
-
-
-    task read_address_task();
-        
-        @(`VMST);
-        vif.arvalid <= 1'b1;
-        `VMST.araddr <= read_queue[read_running_index].addr;
-        `VMST.arlen <= read_queue[read_running_index].len;
-        `VMST.arsize <= read_queue[read_running_index].size;
-        `VMST.arburst <= read_queue[read_running_index].burst;
-        read_running_index ++;
-        
-        @(`VMST iff(`VMST.arready));
-     // $display("Hello");
-        `VMST.arvalid <= 1'b0;
-   //     `VMST.araddr <= 'bx;
-       // `VMST.rlast <= 1'b0;
-    endtask : read_address_task
-        
-    task read_data_task();
-        
-        sema_read.get(1);
-
-        `VMST.rready <= 1'b1;
-       // @(`VMST iff(`VMST.arready));
-
-       // `VMST.rready <= 1'b1; //changes by [SP]
- 
-        for(int i = 0 ; i <= read_queue[0].len ; i++)begin 
-
-            @(`VMST iff(`VMST.rvalid));
-
-        end// for
-      
-        `VMST.rready <= 1'b0;
-
-        read_queue.pop_front();
-        read_running_index --;
-        sema_read.put(1);
-        
-    endtask : read_data_task
-
-    
-    function void inject_error();
-
-      case(tr.errors)
-        ///////////////////// for wrap unalligned errorneous scenario //////////////////////////
-        ERROR_WRAP_UNALLIGNED : begin
-
-        if((write_queue[write_running_index].addr / 2 ** tr.size) * (2 ** tr.size)) begin 
-          write_queue[write_running_index].addr = write_queue[write_running_index].addr + 1'b1; 
+        if((write_address.addr / 2 ** tr.size) * (2 ** tr.size)) begin 
+          write_address.addr = write_address.addr + 1'b1; 
         end
 
         else begin 
-          write_queue[write_running_index].addr <= write_queue[write_running_index].addr;
+          write_address.addr <= write_address.addr;
         end
-        write_queue[write_running_index].burst = WRAP;
+        write_address.burst = WRAP;
 
         end// error_wrap_unaligned
 
-        ///////////////////// for 4kb boundary cross errorneous scenario //////////////////////////
-        ERROR_4K_BOUNDARY : begin
-          write_queue[write_running_index].addr = (write_queue[write_running_index].addr - (write_queue[write_running_index].addr % 4096) + 4096 - 1); 
-          write_queue[write_running_index].len = $urandom_range(1,255);
-          write_queue[write_running_index].burst = INCR;
-        end// error_4k_boundary 
+        if(tr.errors == ERROR_4K_BOUNDARY) begin 
+
+          write_address.addr = (write_address.addr - (write_address.addr % 4096) + 4096 - 1); 
+          write_address.len = $urandom_range(1,255);
+          write_address.burst = INCR;
+
+        end 
         
-        ///////////////////// for fixed length errorneous scenario //////////////////////////
-        ERROR_FIXED_LEN : begin
-          write_queue[write_running_index].burst = FIXED;
+        if(tr.errors == ERROR_FIXED_LEN) begin 
 
-        if(write_queue[write_running_index].len <= 15) begin 
-          write_queue[write_running_index].len = write_queue[write_running_index].len + $urandom_range(16,255);
+          write_address.burst = FIXED;
+
+        if(write_address.len <= 15) begin 
+          write_address.len = write_address.len + $urandom_range(16,255);
         end
 
         else begin 
-          write_queue[write_running_index].len <= write_queue[write_running_index].len;
+          write_address.len = write_address.len;
         end
-        end//error_fixed_len
 
-        ///////////////////// for wrap length errorneous scenario //////////////////////////
-        ERROR_WRAP_LEN : begin
+        end // error_fixed_len 
 
-        write_queue[write_running_index].burst = WRAP;
+        if(tr.errors == ERROR_WRAP_LEN) begin 
+
+        write_address.burst = WRAP;
   
-        if((write_queue[write_running_index].len == 1) | (write_queue[write_running_index].len == 3) | (write_queue[write_running_index].len == 7) | (write_queue[write_running_index].len == 15)) begin 
-          write_queue[write_running_index].len = write_queue[write_running_index].len + 1'b1;
+        if((write_address.len == 1) | (write_address.len == 3) | (write_address.len == 7) | (write_address.len == 15)) begin 
+          write_address.len = write_address.len + 1'b1;
         end
 
         else begin 
-           write_queue[write_running_index].len <= write_queue[write_running_index].len;
+           write_address.len = write_address.len;
         end
-        end//error_wrap_len
-      endcase
+        end // error_wrap_len 
 
-    endfunction
+        `VMST.awaddr <= write_address.addr;
+        `VMST.awburst <= write_address.burst;
+        `VMST.awlen <= write_address.len;
+        `VMST.awsize <= write_address.size;
 
+        @(`VMST iff(`VMST.awready <= 1'b1)); 
+        `VMST.awvalid <= 1'b0;
+
+        write_data_queue.push_back(write_address);
+      end
+
+    endtask : write_address_channel
+
+
+      task write_data_channel();
+
+        ei_axi4_transaction_c write_data;
+
+        forever begin 
+          wait(write_data_queue.size > 0);
+          write_data = write_data_queue.pop_front();
+          
+          @(`VMST iff(`VMST.awready));
+          `VMST.wvalid <= 1'b1;
+
+          for(int i = 0; i <= write_data.len ; i++)begin 
+            `VMST.wdata <= write_data.data[i];
+            `VMST.wstrb <= write_data.wstrb[i];
+
+            if(i == write_data.len)begin 
+              `VMST.wlast <= 1'b1;
+              $display("[MST DRV] --> .... @%0t WLAST Asserted",$time);
+            end
+
+            @(`VMST iff(`VMST.wready));
+
+          end //for
+
+          `VMST.wvalid <= 1'b0;
+          `VMST.wlast <= 1'b0;
+          
+          $display("[MST DRV] --> .... @%0t WLAST Deasserted",$time);
+
+          write_response_queue.push_back(write_data);
+        end//forever 
+        
+      endtask : write_data_channel
+
+      task write_response_channel();
+      
+        forever begin 
+          wait(write_response_queue.size > 0);
+          void'(write_response_queue.pop_front());
+
+          @(`VMST iff(vif.bvalid == 1))
+          `VMST.bready <= 1;
+          @(`VMST);
+          `VMST.bready <= 1'b0;
+        end//forever 
+
+      endtask : write_response_channel
+
+
+      task read_address_channel();
+
+        ei_axi4_transaction_c read_address;
+
+        forever begin 
+          wait(read_address_queue.size > 0);
+          read_address = read_address_queue.pop_front();
+
+          @(`VMST);
+          vif.arvalid <= 1'b1;
+          `VMST.araddr <= read_address.addr;
+          `VMST.arlen <= read_address.len;
+          `VMST.arsize <= read_address.size;
+          `VMST.arburst <= read_address.burst;
+
+          @(`VMST iff(`VMST.arready));
+          `VMST.arvalid <= 1'b0;
+          read_data_queue.push_back(read_address);
+        end // forever 
+
+      endtask : read_address_channel
+
+
+      task read_data_channel();
+
+        ei_axi4_transaction_c read_data;
+
+        forever begin 
+          wait(read_data_queue.size > 0);
+          read_data = read_data_queue.pop_front();
+          $display("time",$time);  
+
+          `VMST.rready <= 1'b1;
+
+          for(int i = 0 ; i <= read_data.len ; i++)begin 
+            @(`VMST iff(`VMST.rvalid));
+          $display("time",$time);  
+          end// for
+
+          //@(`VMST);
+          `VMST.rready <= 1'b0;
+          $display("time",$time);  
+        end // forever 
+
+      endtask : read_data_channel
+        
 endclass : ei_axi4_master_driver_c 
+

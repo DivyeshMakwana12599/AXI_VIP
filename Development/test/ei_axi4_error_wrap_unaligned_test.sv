@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 File name     : ei_axi4_error_wrap_unaligned_test.sv
-Title         : testcase_07 for VIP testcases
+Title         : testcase_08 for VIP testcases
 Project       : AMBA AXI-4 SV VIP
 Created On    : 28-June-22
 Developers    : Jaspal Singh
@@ -26,18 +26,30 @@ Revision    : 0.1
 ------------------------------------------------------------------------------*/
 
 
-//======== testcase: 10 =========================== ERROR WRAP UNALIGNED TEST i.e [wrap unaligned test] ====================//
+//======== testcase: 08 =========================== ERROR WRAP UNALIGNED TEST i.e [wrap unaligned test] ====================//
 class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
 
   ei_axi4_read_transaction_c rd_trans;
   ei_axi4_write_transaction_c wr_trans;
   ei_axi4_test_config_c test_cfg;
   
+  /***
+  //   Method name          : new()                 
+  //   Parameters passed    : master and slave interface                
+  //   Returned parameters  : None                        
+  //   Description          : constructor       
+  ***/
   function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
     super.new(mst_vif, slv_vif, mon_vif);
     test_cfg = new();
   endfunction
   
+  /***
+  //   Method name          : build()                 
+  //   Parameters passed    : none                
+  //   Returned parameters  : None                        
+  //   Description          : randomize test config      
+  ***/
   task build();
     `SV_RAND_CHECK(test_cfg.randomize()); // for no of iteration only
   endtask
@@ -46,15 +58,13 @@ class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
   //   Method name          : start()                 
   //   Parameters passed    : none                
   //   Returned parameters  : None                        
-  //   Description          : random write read       
+  //   Description          : main task      
   ***/
   task start();
-      super.run();
-
+    super.run();
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
       wr_trans = new();
       rd_trans = new();
-
       wr_trans.errors.rand_mode(0);
       rd_trans.errors.rand_mode(0); 
       wr_trans.error_ct.constraint_mode(0);
@@ -62,19 +72,24 @@ class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
       wr_trans.errors = ERROR_WRAP_UNALLIGNED;
       rd_trans.errors = ERROR_WRAP_UNALLIGNED;
     
-
       randsequence(main)
-      main  : write | read;
-      write : {env.mst_agt.mst_gen.start(wr_trans);};
-      read  : {env.mst_agt.mst_gen.start(rd_trans);};
+        main  : write | read;
+        write : {env.mst_agt.mst_gen.start(wr_trans);};
+        read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
-
-     $display(wr_trans.errors.name);
+    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
     end
   endtask
 
+  /***
+  //   Method name          : wrap_up()                 
+  //   Parameters passed    : none                
+  //   Returned parameters  : None                        
+  //   Description          : summary       
+  ***/
     task wrap_up();
-         $display("ERROR WRAP UNALIGNED TESTCASE SELECTED");
+      super.wrap_up();
+      $display("ERROR WRAP UNALIGNED TESTCASE SELECTED");
     endtask
   
 endclass :ei_axi4_error_wrap_unaligned_test_c 

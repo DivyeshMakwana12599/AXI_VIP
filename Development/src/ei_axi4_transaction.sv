@@ -35,7 +35,7 @@ class ei_axi4_transaction_c#(DATA_WIDTH = `DATA_WIDTH , ADDR_WIDTH = `ADDR_WIDTH
 	
 	//-------Signal write read-------
 
-	rand transaction_type_e transaction_type;
+	randc transaction_type_e transaction_type;
 
 	//-------Read and write Address Channel------- 		
 	randc bit [ADDR_WIDTH - 1:0]    addr;

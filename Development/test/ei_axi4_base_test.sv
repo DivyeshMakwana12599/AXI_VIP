@@ -36,14 +36,10 @@ virtual class ei_axi4_base_test_c;
   //   Returned parameters  : None                        
   //   Description          : constructor      
   ***/
-	function new(
-    virtual `MST_INTF mst_vif, 
-    virtual `SLV_INTF slv_vif, 
-    virtual `MON_INTF mon_vif
-  );
-		env_cfg      = new();
-		env          = new(mst_vif, slv_vif, mon_vif,env_cfg);
-	endfunction
+  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
+	env_cfg  = new();
+	env      = new(mst_vif, slv_vif, mon_vif, env_cfg);
+  endfunction
 	
   /***
   //   Method name          : run()                 
@@ -52,9 +48,9 @@ virtual class ei_axi4_base_test_c;
   //   Description          : to run the environment in background, fork join_none     
   ***/
 	virtual task run();
-		fork
-          env.run();
-		join_none
+	  fork
+        env.run();
+      join_none
 	endtask
 
     pure virtual task build();
@@ -64,10 +60,10 @@ virtual class ei_axi4_base_test_c;
   //   Method name          : start()                 
   //   Parameters passed    : none                
   //   Returned parameters  : None                        
-  //   Description          : random write read       
+  //   Description          : calling environment wrap_up function       
   ***/
     virtual task wrap_up();
-        env.wrap_up();
+      env.wrap_up();
     endtask :wrap_up
 
 endclass :ei_axi4_base_test_c

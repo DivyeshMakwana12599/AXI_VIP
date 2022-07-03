@@ -1,145 +1,114 @@
+/*------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File name     : ei_axi4_parallel_wr_rd_test.sv
+Title         : testcase_06 for VIP testcases
+Project       : AMBA AXI-4 SV VIP
+Created On    : 30-June-22
+Developers    : Jaspal Singh
+E-mail        : Jaspal.Singh@einfochips.com
+Purpose       : To test the design functionality
+          
+Assumptions   : As per the Feature plan All the pins are not declared here
+Limitations   : 
+Known Errors  : 
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Copyright (c) 2000-2022 eInfochips - All rights reserved
+This software is authored by eInfochips and is eInfochips intellectual
+property, including the copyrights in all countries in the world. This
+software is provided under a license to use only with all other rights,
+including ownership rights, being retained by eInfochips
+This file may not be distributed, copied, or reproduced in any manner,
+electronic or otherwise, without the express written consent of
+eInfochips 
+--------------------------------------------------------------------------------
+Revision    : 0.1
+------------------------------------------------------------------------------*/
+
+
+//======== testcase: 06 =========================== PARALLEL WRITE READ TEST i.e [parallel wr rd test] ====================//
+
 class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
-    ei_axi4_read_transaction_c read_trans;
-    ei_axi4_write_transaction_c write_trans;
-    ei_axi4_read_write_transaction_c read_write_trans;
-    ei_axi4_test_config_c test_cfg;
 
-    function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
-        super.new(mst_vif, slv_vif, mon_vif);
-        test_cfg = new();
-    endfunction : new
-
-    task build();
-        `SV_RAND_CHECK(test_cfg.randomize());
-        $display("[TEST_C] : parallel_wr_rd_test");
-    endtask : build
-
-    task start();
-
-        bit [31:0] write_address[$];
-        bit [1:0]  write_burst[$];
-        bit [3:0]  write_size[$];
-        bit [7:0]  write_length[$];
-       
-        super.run();
-
-        for(int i = 0 ; i < test_cfg.total_num_trans *2 -2 ; i++) begin 
-
-            if(i == 0) begin 
-                write_trans = new();
-                env.mst_agt.mst_gen.start(write_trans);
-//          write_trans.randomize();
-
- /*               $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                $display("wr_trans = ",write_trans);
-                $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                $display("\n");
-                $display("\n");
-                $display("\n");
-  */              
-                write_address.push_back(write_trans.addr); 
-                write_burst.push_back(write_trans.burst); 
-                write_size.push_back(write_trans.size); 
-                write_length.push_back(write_trans.len); 
-            end 
-
-            else if(i > 0 && i < test_cfg.total_num_trans * 2 - 3) begin 
-                if(i % 2 != 0) begin
-                    read_write_trans = new();
-                    env.mst_agt.mst_gen.start(read_write_trans);
-            //        read_write_trans.randomize();
-            //        $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                    write_address.push_back(read_write_trans.addr);
-                    write_burst.push_back(read_write_trans.burst);
-                    write_size.push_back(read_write_trans.size);
-                    write_length.push_back(read_write_trans.len);
-             /*       $display("wr_rd_trans = ",read_write_trans);
-                    $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                    $display("\n");
-                    $display("\n");
-                    $display("\n");*/
-                end
-
-                if(i % 2 == 0) begin 
-                    read_write_trans = new();
-                    read_write_trans.addr.rand_mode(0); 
-                    read_write_trans.size.rand_mode(0); 
-                    read_write_trans.len.rand_mode(0); 
-                    read_write_trans.burst.rand_mode(0); 
-                    //$display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                    read_write_trans.addr = write_address.pop_front();
-                    read_write_trans.burst = write_burst.pop_front();
-                    read_write_trans.size = write_size.pop_front();
-                    read_write_trans.len = write_length.pop_front();
-                    env.mst_agt.mst_gen.start(read_write_trans);
-                   // read_write_trans.randomize();
-                    /*$display("wr_rd_trans = ",read_write_trans);
-                    $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                    $display("\n");
-                    $display("\n");
-                    $display("\n");*/
-                end 
-
-        /*        write_trans = new();
-                //env.mst_agt.mst_gen.start(write_trans);
-                
-                write_address.push_back(write_trans.addr); 
-                write_burst.push_back(write_trans.burst); 
-                write_size.push_back(write_trans.size); 
-                write_length.push_back(write_trans.len); 
-                $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                $display("write_trans[read_write] = ",write_trans);
-                $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                $display("\n");
-                $display("\n");
-                $display("\n");
-
-
-
-                read_trans = new();
-                read_trans.rand_mode(0);
-
-                read_trans.addr = write_address.pop_front();
-                read_trans.burst = write_burst.pop_front();
-                read_trans.size = write_size.pop_front();
-                read_trans.len = write_length.pop_front();
-               
-                $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                $display("read_trans[read_write] = ",read_trans);
-                $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                $display("\n");
-                $display("\n");
-                $display("\n");
-
-                //env.mst_agt.mst_gen.start(read_trans);
-         */   
-            
-            end 
-            
-           if(i == test_cfg.total_num_trans * 2 - 3) begin 
-                read_trans = new();
-                read_trans.rand_mode(0);
-
-                read_trans.addr = write_address.pop_front();
-                read_trans.burst = write_burst.pop_front();
-                read_trans.size = write_size.pop_front();
-                read_trans.len = write_length.pop_front();
-             /*  $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-               $display("read_trans = ",read_trans);
-               $display("\n");
-               $display("\n");
-               $display("\n");
-               $display("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");*/
-                env.mst_agt.mst_gen.start(read_trans);
-
-            end   
+  ei_axi4_read_transaction_c rd_trans;
+  ei_axi4_write_transaction_c wr_trans;
+  ei_axi4_test_config_c test_cfg;
+  
+    
+  /***
+  //   Method name          : new()                 
+  //   Parameters passed    : master and slave interface                
+  //   Returned parameters  : None                        
+  //   Description          : constructor       
+  ***/
+  function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
+    super.new(mst_vif, slv_vif, mon_vif);
+    test_cfg = new();
+  endfunction
+  
+  
+  /***
+  //   Method name          : new()                 
+  //   Parameters passed    : none               
+  //   Returned parameters  : None                        
+  //   Description          : randomize test_config class     
+  ***/
+  task build();
+    `SV_RAND_CHECK(test_cfg.randomize()); // for no of iteration only
+  endtask
+  
+  
+  /***
+  //   Method name          : start()                 
+  //   Parameters passed    : none               
+  //   Returned parameters  : None                        
+  //   Description          : passing write and read testcase handle to generator start method      
+  ***/
+  task start();
+    super.run();
+    for(int i = 0; i < test_cfg.total_num_trans; i++) begin
+     fork 
+        begin
+             //if(i%2 == 0)begin
+                wr_trans = new();
+                env.mst_agt.mst_gen.start(wr_trans); 
+            //end
         end
-        wait((test_cfg.total_num_trans * 2) - 2 == env.mst_agt.mst_mon.no_of_trans_monitored);
-    endtask : start 
-
-    task wrap_up();
-        super.wrap_up();
-        $display("PARALLEL WRITE READ TESTCASE SELECTED");
-    endtask : wrap_up
-endclass : ei_axi4_parallel_wr_rd_test_c
+        begin
+            //if(i%2 != 0) begin
+                rd_trans = new();
+                rd_trans.addr.rand_mode(0);
+                rd_trans.burst.rand_mode(0);
+                rd_trans.len.rand_mode(0);
+                rd_trans.size.rand_mode(0);
+                rd_trans.transaction_type = READ;
+                rd_trans.addr  = wr_trans.addr; 
+                rd_trans.burst = wr_trans.burst;  
+                rd_trans.len   = wr_trans.len;  
+                rd_trans.size  = wr_trans.size;
+                rd_trans.specific_burst_type.constraint_mode(0);
+                rd_trans.addr_type_c.constraint_mode(0);
+                rd_trans.specific_transaction_length.constraint_mode(0);
+                rd_trans.specific_transfer_size.constraint_mode(0);
+                env.mst_agt.mst_gen.start(rd_trans);
+            //end
+        end
+    join_any
+    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+    end
+  endtask
+    
+    
+  /***
+  //   Method name          : new()                 
+  //   Parameters passed    : master and slave interface                
+  //   Returned parameters  : None                        
+  //   Description          : constructor       
+  ***/    
+  task wrap_up();
+    $display("PARALLEL WRITE READ TEST SELECTED");
+    super.wrap_up();
+  endtask
+  
+endclass :ei_axi4_parallel_wr_rd_test_c
 

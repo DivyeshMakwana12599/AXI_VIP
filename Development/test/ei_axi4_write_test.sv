@@ -63,10 +63,9 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
 	      wr_trans = new();
 		  env.mst_agt.mst_gen.start(wr_trans);
-		end
+          wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+        end
 
-        wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
-        //$finish;
 	endtask
 
   /***
@@ -76,6 +75,7 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
   //   Description          : for summary print    
   ***/
     task wrap_up();
+      super.wrap_up();  
       $display("WRITE TESTCASE SELECTED");
     endtask
 	

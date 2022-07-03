@@ -63,9 +63,8 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
 		  rd_trans = new();
 		  env.mst_agt.mst_gen.start(rd_trans);
+          wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
 		end
-        //wait(test_cfg.total_num_trans == env.mst_agt.mst_mon.no_of_trans_monitored);
-        //$finish;
 	endtask
 
   /***
@@ -75,7 +74,8 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
   //   Description          : wrapping up      
   ***/
     task wrap_up();
-         $display("READ TESTCASE SELECTED");
+      super.wrap_up();
+      $display("READ TESTCASE SELECTED");
     endtask
 
 endclass :ei_axi4_rd_test_c
