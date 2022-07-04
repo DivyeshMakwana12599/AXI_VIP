@@ -1,9 +1,3 @@
-`include "ei_axi4_macros.sv"
-`include "ei_axi4_helper_functions.sv"
-`include "ei_axi4_print.sv"
-`include "ei_axi4_transaction.sv"
-
-
 class ei_axi4_coverage_c;
 
   addr_type_e addr_type;
@@ -125,31 +119,3 @@ class ei_axi4_coverage_c;
 
 
 endclass
-
-module test;
-  mailbox#(ei_axi4_transaction_c) mon2cov = new();
-  ei_axi4_transaction_c pkt = new();
-  ei_axi4_coverage_c coverage = new(mon2cov);
-
-  parameter n = 100;
-
-  initial begin
-    repeat(n) begin
-      pkt.randomize();
-      mon2cov.put(pkt);
-      #1;
-    end
-    $finish;
-  end
-
-  final begin
-    $display("-----------------------------------------------------------------------------------------------------");
-    $display("Write Coverage = %0d", coverage.ei_axi4_write_cg.get_coverage());
-    $display("Read Coverage = %0d", coverage.ei_axi4_read_cg.get_coverage());
-    $display("-----------------------------------------------------------------------------------------------------");
-  end
-
-  initial begin
-    coverage.run();
-  end
-endmodule
