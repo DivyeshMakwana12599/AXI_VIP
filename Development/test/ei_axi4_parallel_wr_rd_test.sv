@@ -67,14 +67,13 @@ class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
   task start();
     super.run();
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
-     fork 
-        begin
              //if(i%2 == 0)begin
+        if(i == 0) begin
                 wr_trans = new();
                 env.mst_agt.mst_gen.start(wr_trans); 
-            //end
         end
-        begin
+            //end
+        else if(i == test_cfg.total_num_trans - 1)begin
             //if(i%2 != 0) begin
                 rd_trans = new();
                 rd_trans.addr.rand_mode(0);
@@ -93,8 +92,31 @@ class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
                 env.mst_agt.mst_gen.start(rd_trans);
             //end
         end
-    join_any
-    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+        else begin
+                rd_trans = new();
+                rd_trans.addr.rand_mode(0);
+                rd_trans.burst.rand_mode(0);
+                rd_trans.len.rand_mode(0);
+                rd_trans.size.rand_mode(0);
+                rd_trans.transaction_type = READ;
+                rd_trans.addr  = wr_trans.addr; 
+                rd_trans.burst = wr_trans.burst;  
+                rd_trans.len   = wr_trans.len;  
+                rd_trans.size  = wr_trans.size;
+                rd_trans.specific_burst_type.constraint_mode(0);
+                rd_trans.addr_type_c.constraint_mode(0);
+                rd_trans.specific_transaction_length.constraint_mode(0);
+                rd_trans.specific_transfer_size.constraint_mode(0);
+                env.mst_agt.mst_gen.start(rd_trans); 
+                wr_trans = new();
+                env.mst_agt.mst_gen.start(wr_trans); 
+        end
+        if(i == 0 || i == test_cfg.total_num_trans - 1) begin
+            wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+        end
+        else begin
+            wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 2);
+        end
     end
   endtask
     
