@@ -81,7 +81,7 @@ class ei_axi4_master_driver_c;
         `VMST.awvalid <= 1'b1;
 
         if(tr.errors == ERROR_WRAP_UNALLIGNED) begin 
-
+          $display("#### ERROR INJECTED - WRAP UNALLIGNED #####################");
         if((write_address.addr / 2 ** tr.size) * (2 ** tr.size)) begin 
           write_address.addr = write_address.addr + 1'b1; 
         end
@@ -95,6 +95,7 @@ class ei_axi4_master_driver_c;
 
         if(tr.errors == ERROR_4K_BOUNDARY) begin 
 
+          $display("#### ERROR INJECTED - WRAP  4K Boundary#####################");
           write_address.addr = (write_address.addr - (write_address.addr % 4096) + 4096 - 1); 
           write_address.len = $urandom_range(1,255);
           write_address.burst = INCR;

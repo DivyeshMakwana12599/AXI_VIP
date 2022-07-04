@@ -201,7 +201,12 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         if(write_trans.burst == WRAP) begin
           bit [`ADDR_WIDTH - 1 : 0] lwb      = write_trans.addr - ( write_trans.addr % ((write_trans.len + 1) * (2**write_trans.size)));
           bit [`ADDR_WIDTH - 1 : 0] uwb      = lwb +  ((write_trans.len + 1) * (2**write_trans.size));
-          addr       =  write_trans.addr + (i * (2** write_trans.size));
+          if(i == 0) begin
+            addr = write_trans.addr;
+          end
+          else begin
+            addr       += (2** write_trans.size);
+          end
           if(addr == uwb) begin
             addr   =  lwb;
           end
@@ -369,7 +374,12 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         if(read_trans.burst  == WRAP) begin
           bit [`ADDR_WIDTH - 1 : 0] lwb      = read_trans.addr - ( read_trans.addr % ((read_trans.len + 1) * (2**read_trans.size)));
           bit [`ADDR_WIDTH - 1 : 0] uwb      = lwb +  ((read_trans.len + 1) * (2**read_trans.size));
-          addr       =  read_trans.addr + (i * (2** read_trans.size));
+          if(i == 0) begin
+            addr = read_trans.addr;
+          end
+          else begin
+            addr       +=  ((2** read_trans.size));
+          end
           if(addr == uwb) begin
             addr   =  lwb;
           end

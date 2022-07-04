@@ -40,7 +40,7 @@ class ei_axi4_test_config_c ;
       (addr_type == UNALIGNED) -> (transfer_size > 0);
   }
 
-  constraint reasonable {total_num_trans inside {[1:100]};}
+  //constraint reasonable {total_num_trans inside {[1:100]};}  ///CHNAGED BY SP
 
   constraint wrap_len_ct {
     (burst_type == WRAP) -> (transaction_length inside {1, 3, 7, 15});
