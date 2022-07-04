@@ -37,7 +37,7 @@ class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
     
   /***
   //   Method name          : new()                 
-  //   Parameters passed    : master and slave interface                
+  //   Parameters passed    : master, slave and monitor                
   //   Returned parameters  : None                        
   //   Description          : constructor       
   ***/

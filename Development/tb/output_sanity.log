@@ -1,6 +1,6 @@
 Chronologic VCS simulator copyright 1991-2020
 Contains Synopsys proprietary information.
-Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul  4 11:26 2022
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul  4 12:02 2022
 ---------------------------------------------------------------
 [SLV_DRV] 		Virtual Interface has been linked.
 ---------------------------------------------------------------
@@ -11147,5 +11147,5 @@ $finish at simulation time                 4775
 "../src/ei_axi4_assertion.sv", 225: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_004, 0 attempts, 0 match
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 4775
-CPU Time:      0.790 seconds;       Data structure size:   0.2Mb
-Mon Jul  4 11:26:51 2022
+CPU Time:      0.950 seconds;       Data structure size:   0.2Mb
+Mon Jul  4 12:02:36 2022

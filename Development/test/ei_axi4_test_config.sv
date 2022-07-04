@@ -40,7 +40,7 @@ class ei_axi4_test_config_c ;
       (addr_type == UNALIGNED) -> (transfer_size > 0);
   }
 
-  //constraint reasonable {total_num_trans inside {[1:100]};}  ///CHNAGED BY SP
+  constraint reasonable {total_num_trans inside {[1:100]};}  ///CHNAGED BY SP
 
   constraint wrap_len_ct {
     (burst_type == WRAP) -> (transaction_length inside {1, 3, 7, 15});
@@ -72,9 +72,11 @@ class ei_axi4_test_config_c ;
   function new();
     if($value$plusargs("total_num_trans=%0d", total_num_trans)) begin
       total_num_trans.rand_mode(0);             //if argument is passed, make randomization off
+      reasonable.constraint_mode(0);       //constraint off
     end
     else begin
       total_num_trans.rand_mode(1);             //else enable randomization
+      reasonable.constraint_mode(1);       //constraint ON
     end
     
     if($value$plusargs("size=%0d", transfer_size)) begin
