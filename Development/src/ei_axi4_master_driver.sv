@@ -97,7 +97,7 @@ class ei_axi4_master_driver_c;
 
           $display("#### ERROR INJECTED - WRAP  4K Boundary#####################");
           write_address.addr = (write_address.addr - (write_address.addr % 4096) + 4096 - 1); 
-          write_address.len = $urandom_range(1,255);
+//          write_address.len = $urandom_range(1,255);
           write_address.burst = INCR;
 
         end 

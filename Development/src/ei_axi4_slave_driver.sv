@@ -180,6 +180,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       `VSLV.wready     <= 1;
       alligned_addr   = write_trans.addr - (write_trans.addr % (2**write_trans.size));
 
+      calculate_error_write(write_trans);
       for(int i = 0; i < write_trans.len + 1; i++) begin
         @(`VSLV iff(`VSLV.wvalid == 1 ));
         if(write_trans.burst == FIXED) begin        
@@ -212,18 +213,15 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           end
           mem_addr = addr/ (`BUS_BYTE_LANES);
         end
-         $display("##########################################################");
-         $display("[SLV DRV] \t\t@%0t --> write address = %0x",$time,addr);
-         $display("[SLV DRV] \t\t@%0t --> write size = %0x",$time,2**write_trans.size);
         
-         $display("[SLV DRV] \t\t@%0t --> write len  = %0x",$time,2**write_trans.len);
-         
-        for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
-          if(`VSLV.wstrb[j] == 1 ) begin
-            slv_drv_mem[mem_addr][(8*j) + 7-:8] = `VSLV.wdata[(8*j)+7 -: 8];
+        if(write_trans.errors == NO_ERROR) begin  
+          for(int j = 0; j < `BUS_BYTE_LANES; j++) begin
+            if(`VSLV.wstrb[j] == 1 ) begin
+              slv_drv_mem[mem_addr][(8*j) + 7-:8] = `VSLV.wdata[(8*j)+7 -: 8];
+            end
           end
         end
-        $display("[SLV DRV] \t\t @%0t --> mem[%0x] = %0x",$time,mem_addr,slv_drv_mem[mem_addr]);
+       // $display("[SLV DRV] \t\t @%0t --> mem[%0x] = %0x",$time,mem_addr,slv_drv_mem[mem_addr]);
         /*
         $display("===========================================================");
         $display("[SLV DRV] \t\t @%0t --> beat no. = %0d",$time,i);
@@ -260,7 +258,6 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     forever begin
       wait(write_response_queue.size > 0);
       write_trans      = write_response_queue.pop_back();
-      calculate_error_write(write_trans);
       @(`VSLV);
       `VSLV.bvalid      <= 1;
       if(write_trans.errors != NO_ERROR) begin
@@ -286,18 +283,22 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
    function void calculate_error_write(ei_axi4_transaction_c write_tr);
      if((((write_tr.addr - (write_tr.addr % write_tr.size)) % 4096) + ((write_tr.len+1) * (2**write_tr.size))) > 4096) begin
        write_tr.errors =  ERROR_4K_BOUNDARY;
+       $display("############# [SLV DRV] [WRITE CHANNEL] ERROR DETECTED : 4K BOUNDARY CROSSING DETECTED ");
        return;
      end
      if(write_tr.burst == WRAP && !(write_tr.len inside {1,3,7,15}) ) begin
        write_tr.errors = ERROR_WRAP_LEN;
+       $display("############# [SLV DRV] [WRITE CHANNEL] ERROR DETECTED : ERROR IN WRAP LEN DETECTED ");
         return;
       end
       if(write_tr.burst == WRAP && write_tr.addr != ((write_tr.addr/(2**write_tr.size))* (2**write_tr.size))) begin
         write_tr.errors = ERROR_WRAP_UNALLIGNED;
+       $display("############# [SLV DRV] [WRITE CHANNEL] ERROR WRAP UNALLIGNED DETECTED ");
         return;
       end 
       if(write_tr.burst == FIXED && !(write_tr.len inside {[0:15]})) begin
         write_tr.errors = ERROR_FIXED_LEN;
+       $display("############# [SLV DRV] [WRITE CHANNEL] ERROR FIXED LEN DETECTED ");
         return;
       end
 
@@ -385,26 +386,32 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           end
           mem_addr = addr/ (`BUS_BYTE_LANES);
         end
-        $display("++++++++++++++++++++++++ [ beat = %0d ] ++++++++++++++++++++++++++++++++++++++++",i);
-        $display("[SLV DRV] \t\t\t @%0t --> read burst = ",$time,read_trans.burst);
-         $display("[SLV DRV] \t\t\t @%0t --> read size = %0x",$time,2**read_trans.size);
-         read_trans.data    = new[1];
+
+        calculate_error_read(read_trans);
+        read_trans.data    = new[1];
         for(bit [31:0] j = addr; 
             j < (addr - (addr % (2**read_trans.size))) 
             + (2**read_trans.size) ; j++) begin
-         $display("[SLV DRV] \t\t\t @%0t --> read addr = %0x",$time,addr);
          read_trans.data[0][(8*(j % 8)) + 7 -: 8]    = slv_drv_mem[mem_addr][(8*(j % 8)) + 7 -: 8];
         end
-        `VSLV.rdata       <=   read_trans.data[0];
-         $display("[SLV DRV] \t\t\t @%0t --> read data= %0x",$time,read_trans.data[0]);
-        $display("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        //if errorneous transaction detected then send rdata with value '0'
+        if(read_trans.errors == NO_ERROR) begin 
+          `VSLV.rdata       <=   read_trans.data[0];
+        end
+        else begin
+          `VSLV.rdata       <=  0;
+        end
+
+        //if last beat/transfer then assert rlast
         if(i == read_trans.len) begin 
           `VSLV.rlast     <= 1;
         end
         else begin
           `VSLV.rlast     <= 0;
         end
-        calculate_error_read(read_trans);
+        
+        ////if errorneous transaction detected then send slave error in read response 
         if(read_trans.errors != NO_ERROR) begin
           `VSLV.rresp     <= SLVERR;
         end
@@ -432,18 +439,22 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
    function void calculate_error_read(ei_axi4_transaction_c read_tr);
      if((((read_tr.addr - (read_tr.addr % read_tr.size)) % 4096) + ((read_tr.len+1) * (2**read_tr.size))) > 4096) begin
        read_tr.errors =  ERROR_4K_BOUNDARY;
+       $display("############# [SLV DRV] [READ CHANNEL] ERROR DETECTED : 4K BOUNDARY CROSSING DETECTED ");
        return;
      end
      if(read_tr.burst == WRAP && !(read_tr.len inside {1,3,7,15}) ) begin
        read_tr.errors = ERROR_WRAP_LEN;
+       $display("############# [SLV DRV] [READ CHANNEL] ERROR DETECTED : ERROR IN WRAP LEN DETECTED ");
         return;
       end
       if(read_tr.burst == WRAP && read_tr.addr != ((read_tr.addr/(2**read_tr.size))* (2**read_tr.size))) begin
         read_tr.errors = ERROR_WRAP_UNALLIGNED;
+       $display("############# [SLV DRV] [READ CHANNEL] ERROR WRAP UNALLIGNED DETECTED ");
         return;
       end 
       if(read_tr.burst == FIXED && !(read_tr.len inside {[0:15]})) begin
         read_tr.errors = ERROR_FIXED_LEN;
+       $display("############# [SLV DRV] [READ CHANNEL] ERROR FIXED LEN DETECTED ");
         return;
       end
 
