@@ -35,7 +35,6 @@ Revision  : 0.1
 
 class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
                                ADDR_WIDTH = `ADDR_WIDTH);
-  localparam BUS_BYTE_LANES = DATA_WIDTH / 8;
   bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1 : 0]];
   ei_axi4_transaction_c write_data_queue[$];
   ei_axi4_transaction_c read_data_queue[$];
@@ -46,9 +45,8 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : new()
 *\   parameters passed    : virtual interface handle                      
 *\   Returned parameters  : None
-*\   Description          : function links virtual interface and also it builds
-*\                          two handles of transaction class, read transaction
-*\                          write transaction
+*\   Description          : function links virtual interface which was passed
+*\                          from slave agent
 **/
 
   function new(virtual `SLV_INTF vif);
@@ -60,9 +58,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\   Method name          : print_build()
 *\   parameters passed    : None                      
 *\   Returned parameters  : None
-*\   Description          : This function prints the interface linking status,
-*\                          Read and Write transaction handle memory allocation  
-*\                          Status
+*\   Description          : This function prints the interface linking status.
 **/
   function print_build;
     $display("---------------------------------------------------------------");
@@ -83,7 +79,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task run();
     forever begin
       fork : run_AXI_slave_driver
-        reset_run();
+        @(negedge vif.aresetn, `VSLV  iff (vif.aresetn == 0));
         write_address_run();
         write_data_run();
         write_response_run();
@@ -91,35 +87,24 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         read_data_run();
       join_any
       disable run_AXI_slave_driver;
-      $display("[SLAVE_DRV] \t\t@%0t fork join disabled",$time);
+      $display("[SLV_DRV] \t\t@%0t --> fork join disabled",$time);
+      $display("-------------------------------------------------------------");
+      $display("################ RESET HAS BEEN ASSERTED !! #################");
+      $display("############### SLAVE DRIVER HAS BEEN PAUSED !! #############");
+      $display("-------------------------------------------------------------");
+      vif.awready      <= 0;
+      vif.arready      <= 0;
+      vif.wready       <= 0;
+      vif.bvalid       <= 0;
+      vif.rvalid       <= 0;
+      write_data_queue.delete();
+      read_data_queue.delete();
+      write_response_queue.delete();
+      @(posedge `VSLV.aresetn);
+      $display("################ RESET HAS BEEN DEASSERTED !! ############## ");
+      $display("-------------------------------------------------------------");
     end
   endtask : run
-
-/**
-*\   Method name          : reset_run()
-*\   parameters passed    : None                      
-*\   Returned parameters  : None
-*\   Description          : reset_run task make sures that all the slave hand -
-*\                          shake signals gets deasserted when reset assertion
-*\                          is detected.
-*\                         
-**/
-
-  task reset_run();
-    @(negedge vif.aresetn, `VSLV  iff (vif.aresetn == 0));
-    $display("---------------------------------------------------------------");
-    $display("################# RESET HAS BEEN ASSERTED !! ##################");
-    $display("################# SLAVE DRIVER HAS BEEN PAUSED !! #############");
-    $display("---------------------------------------------------------------");
-    vif.awready     = 0;
-    vif.arready     = 0;
-    vif.wready      = 0;
-    vif.bvalid      = 0;
-    vif.rvalid      = 0;
-    write_data_queue.delete();
-    read_data_queue.delete();
-    write_response_queue.delete();
-  endtask : reset_run
 
 /**
 *\   Method name          : write_address_run()
@@ -137,6 +122,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_address_run();
     ei_axi4_transaction_c write_trans;
     vif.awready               <= 0;
+      @(`VSLV);
     forever begin
       `VSLV.awready           <= 1;
        $display("------------------------------------------------------------");
@@ -173,6 +159,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     bit [`ADDR_WIDTH - 1 : 0] mem_addr;
     ei_axi4_transaction_c write_trans;
     vif.wready       = 0;
+      @(`VSLV);
     
     forever begin 
       wait(write_data_queue.size > 0);
@@ -188,7 +175,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           mem_addr = addr/(`BUS_BYTE_LANES);
         end
 
-        if(write_trans.burst == INCR ) begin
+        else if(write_trans.burst == INCR ) begin
           if(i == 0) begin
             addr   = write_trans.addr;
             mem_addr = addr/(`BUS_BYTE_LANES);
@@ -199,7 +186,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           end
         end
 
-        if(write_trans.burst == WRAP) begin
+        else if(write_trans.burst == WRAP) begin
           bit [`ADDR_WIDTH - 1 : 0] lwb      = write_trans.addr - ( write_trans.addr % ((write_trans.len + 1) * (2**write_trans.size)));
           bit [`ADDR_WIDTH - 1 : 0] uwb      = lwb +  ((write_trans.len + 1) * (2**write_trans.size));
           if(i == 0) begin
@@ -254,6 +241,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task write_response_run();
     ei_axi4_transaction_c write_trans;
     vif.bvalid         = 0 ;
+      @(`VSLV);
     
     forever begin
       wait(write_response_queue.size > 0);
@@ -319,6 +307,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
   task read_address_run();
     ei_axi4_transaction_c read_trans;
     vif.arready               <= 0;
+      @(`VSLV);
     forever begin
       `VSLV.arready           <= 1;
        $display("----------------------------------------------------------:---");
@@ -350,10 +339,13 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     vif.rvalid         = 0;
     vif.rlast          = 0;
     vif.rdata          = 0;
-      forever begin
+    @(`VSLV);
+
+    forever begin
       wait(read_data_queue.size > 0);
       read_trans       = read_data_queue.pop_front();
       alligned_addr    = read_trans.addr - (read_trans.addr % (2**read_trans.size));
+
       for(int i = 0; i < read_trans.len + 1 ; i++) begin
         `VSLV.rvalid     <= 1;
         if(read_trans.burst  == FIXED) begin
@@ -361,7 +353,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           addr          = read_trans.addr;
         end
         
-        if(read_trans.burst  == INCR) begin
+        else if(read_trans.burst  == INCR) begin
           if(i == 0) begin
             addr         = read_trans.addr;
             mem_addr     = addr/(`BUS_BYTE_LANES);
@@ -372,7 +364,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           end
         end
         
-        if(read_trans.burst  == WRAP) begin
+        else if(read_trans.burst  == WRAP) begin
           bit [`ADDR_WIDTH - 1 : 0] lwb      = read_trans.addr - ( read_trans.addr % ((read_trans.len + 1) * (2**read_trans.size)));
           bit [`ADDR_WIDTH - 1 : 0] uwb      = lwb +  ((read_trans.len + 1) * (2**read_trans.size));
           if(i == 0) begin
@@ -411,7 +403,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
           `VSLV.rlast     <= 0;
         end
         
-        ////if errorneous transaction detected then send slave error in read response 
+        //if errorneous transaction detected then send slave error in read response 
         if(read_trans.errors != NO_ERROR) begin
           `VSLV.rresp     <= SLVERR;
         end
@@ -445,18 +437,18 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
      if(read_tr.burst == WRAP && !(read_tr.len inside {1,3,7,15}) ) begin
        read_tr.errors = ERROR_WRAP_LEN;
        $display("############# [SLV DRV] [READ CHANNEL] ERROR DETECTED : ERROR IN WRAP LEN DETECTED ");
-        return;
-      end
-      if(read_tr.burst == WRAP && read_tr.addr != ((read_tr.addr/(2**read_tr.size))* (2**read_tr.size))) begin
-        read_tr.errors = ERROR_WRAP_UNALLIGNED;
+       return;
+     end
+     if(read_tr.burst == WRAP && read_tr.addr != ((read_tr.addr/(2**read_tr.size))* (2**read_tr.size))) begin
+       read_tr.errors = ERROR_WRAP_UNALLIGNED;
        $display("############# [SLV DRV] [READ CHANNEL] ERROR WRAP UNALLIGNED DETECTED ");
-        return;
-      end 
-      if(read_tr.burst == FIXED && !(read_tr.len inside {[0:15]})) begin
-        read_tr.errors = ERROR_FIXED_LEN;
+       return;
+     end 
+     if(read_tr.burst == FIXED && !(read_tr.len inside {[0:15]})) begin
+       read_tr.errors = ERROR_FIXED_LEN;
        $display("############# [SLV DRV] [READ CHANNEL] ERROR FIXED LEN DETECTED ");
-        return;
-      end
+       return;
+     end
 
     endfunction : calculate_error_read
 endclass : ei_axi4_slave_driver_c
