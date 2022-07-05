@@ -11,36 +11,33 @@ class ei_axi4_master_driver_c;
   mailbox #(ei_axi4_transaction_c) gen2drv;
   int write_running_index, read_running_index;
   virtual `MST_INTF vif;
-  semaphore sema_write,sema_read,sema_response;
 
   function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual `MST_INTF vif);
     this.gen2drv = gen2drv;
     this.vif = vif;
-    sema_write = new(1);
-    sema_read = new(1);
-    sema_response = new(1);
 
-    vif.awaddr = 0;
-    vif.awvalid = 0;
-    vif.awburst = FIXED;
-    vif.awlen = 0;
-    vif.awsize = 0;
-    vif.wvalid = 0;
-    vif.wdata = 0;
-    vif.wstrb = 0;
-    vif.wlast = 0;
+    vif.awaddr <= 0;
+    vif.awvalid <= 0;
+    vif.awburst <= FIXED;
+    vif.awlen <= 0;
+    vif.awsize <= 0;
+    vif.wvalid <= 0;
+    vif.wdata <= 0;
+    vif.wstrb <= 0;
+    vif.wlast <= 0;
 
-    vif.arvalid = 0;
-    vif.arburst = FIXED;
-    vif.arlen = 0;
-    vif.arsize = 0;
-    vif.araddr = 0;
-    vif.rready = 0;
-    vif.bready = 0;
+    vif.arvalid <= 0;
+    vif.arburst <= FIXED;
+    vif.arlen <= 0;
+    vif.arsize <= 0;
+    vif.araddr <= 0;
+    vif.rready <= 0;
+    vif.bready <= 0;
 
   endfunction : new
 
       task get_trans_from_mailbox();
+        forever begin
         gen2drv.get(tr);
         if(tr.transaction_type == WRITE) begin 
           write_address_queue.push_back(tr); 
@@ -49,24 +46,51 @@ class ei_axi4_master_driver_c;
         else if(tr.transaction_type == READ) begin 
           read_address_queue.push_back(tr);
         end 
+        end // forever 
       endtask : get_trans_from_mailbox
 
-      task trigger_tasks();
-        fork 
+      task reset();  // as it is asynchronous reset thread so we used vif instead of `VMST 
+        forever begin 
+          @(negedge vif.aresetn , `VMST iff(vif.aresetn == 0));
+          vif.awvalid <= 0;
+          vif.wvalid <= 0;
+          vif.arvalid <= 0;
+          vif.rready <= 0;
+          vif.bready <= 0;
+          write_address_queue.delete();
+          read_address_queue.delete();
+        end 
+      endtask : reset
+
+      task run();
+
+        fork : trigger_tasks_1
           write_address_channel();
           write_data_channel();
           write_response_channel();
           read_address_channel();
           read_data_channel();
-        join_none
-      endtask : trigger_tasks
+        join_none 
 
-  task run();
-    trigger_tasks();
-    forever begin
-      get_trans_from_mailbox();
-    end 
-  endtask : run 
+        fork 
+          get_trans_from_mailbox();
+          
+          begin 
+            reset();
+            disable trigger_tasks_1;
+            disable trigger_tasks_2;
+
+            fork : trigger_tasks_2
+              write_address_channel();
+              write_data_channel();
+              write_response_channel();
+              read_address_channel();
+              read_data_channel();
+            join_none 
+          end 
+        join 
+
+      endtask : run 
 
     task write_address_channel();
 
@@ -76,33 +100,28 @@ class ei_axi4_master_driver_c;
         wait(write_address_queue.size() > 0);
         write_address = write_address_queue.pop_front();
 
-
         @(`VMST);
         `VMST.awvalid <= 1'b1;
 
         if(tr.errors == ERROR_WRAP_UNALLIGNED) begin 
-          $display("#### ERROR INJECTED - WRAP UNALLIGNED #####################");
-        if((write_address.addr / 2 ** tr.size) * (2 ** tr.size)) begin 
-          write_address.addr = write_address.addr + 1'b1; 
-        end
 
-        else begin 
-          write_address.addr <= write_address.addr;
-        end
+          if((write_address.addr / 2 ** tr.size) * (2 ** tr.size)) begin 
+            write_address.addr = write_address.addr + 1'b1; 
+          end
+
         write_address.burst = WRAP;
-
         end// error_wrap_unaligned
 
-        if(tr.errors == ERROR_4K_BOUNDARY) begin 
+        else if(tr.errors == ERROR_4K_BOUNDARY) begin 
 
-          $display("#### ERROR INJECTED - WRAP  4K Boundary#####################");
+          $display("################## ERROR INJECTED - WRAP  4K Boundary#####################");
           write_address.addr = (write_address.addr - (write_address.addr % 4096) + 4096 - 1); 
-//          write_address.len = $urandom_range(1,255);
+          write_address.len = $urandom_range(1,255);
           write_address.burst = INCR;
 
         end 
         
-        if(tr.errors == ERROR_FIXED_LEN) begin 
+        else if(tr.errors == ERROR_FIXED_LEN) begin 
 
           write_address.burst = FIXED;
 
@@ -110,25 +129,21 @@ class ei_axi4_master_driver_c;
           write_address.len = write_address.len + $urandom_range(16,255);
         end
 
-        else begin 
-          write_address.len = write_address.len;
-        end
-
         end // error_fixed_len 
 
-        if(tr.errors == ERROR_WRAP_LEN) begin 
+        else if(tr.errors == ERROR_WRAP_LEN) begin 
 
         write_address.burst = WRAP;
-  
-        if((write_address.len == 1) | (write_address.len == 3) | (write_address.len == 7) | (write_address.len == 15)) begin 
-          write_address.len = write_address.len + 1'b1;
-        end
 
-        else begin 
-           write_address.len = write_address.len;
+        if(((write_address.len == 1) | (write_address.len == 3) | (write_address.len == 7) | (write_address.len == 15))) begin 
+          write_address.len = write_address.len + 1'b1;
         end
         end // error_wrap_len 
 
+        $display("------- write_address = %0h", write_address.addr);
+        $display("------- write burst = %0h", write_address.burst);
+        $display("------- write_len = %0h", write_address.len);
+        $display("------- write_size = %0h", write_address.size);
         `VMST.awaddr <= write_address.addr;
         `VMST.awburst <= write_address.burst;
         `VMST.awlen <= write_address.len;
@@ -151,7 +166,6 @@ class ei_axi4_master_driver_c;
           wait(write_data_queue.size > 0);
           write_data = write_data_queue.pop_front();
           
-          @(`VMST iff(`VMST.awready));
           `VMST.wvalid <= 1'b1;
 
           for(int i = 0; i <= write_data.len ; i++)begin 
@@ -201,12 +215,48 @@ class ei_axi4_master_driver_c;
           read_address = read_address_queue.pop_front();
 
           @(`VMST);
-          vif.arvalid <= 1'b1;
+          `VMST.arvalid <= 1'b1;
+
+        if(tr.errors == ERROR_WRAP_UNALLIGNED) begin 
+          if((read_address.addr / 2 ** tr.size) * (2 ** tr.size)) begin 
+            read_address.addr = read_address.addr + 1'b1; 
+          end
+          read_address.burst = WRAP;
+        end// error_wrap_unaligned
+
+        if(tr.errors == ERROR_4K_BOUNDARY) begin 
+          read_address.addr = (read_address.addr - (read_address.addr % 4096) + 4096 - 1); 
+          read_address.len = $urandom_range(1,255);
+          read_address.burst = INCR;
+        end 
+        
+        else if(tr.errors == ERROR_FIXED_LEN) begin 
+
+          read_address.burst = FIXED;
+
+        if(read_address.len <= 15) begin 
+          read_address.len = read_address.len + $urandom_range(16,255);
+        end
+        end // error_fixed_len 
+
+        else if(tr.errors == ERROR_WRAP_LEN) begin 
+
+        read_address.burst = WRAP;  
+
+        if(((read_address.len == 1) | (read_address.len == 3) | (read_address.len == 7) | (read_address.len == 15))) begin 
+          read_address.len = read_address.len + 1'b1;
+        end
+        end // error_wrap_len 
+
+        //$display("-------> write_address = %0h", read_address.addr);
+        //$display("-------> write burst = %0h", read_address.burst);
+        //$display("-------> write_len = %0h", read_address.len);
+        //$display("-------> write_size = %0h", read_address.size);
           `VMST.araddr <= read_address.addr;
           `VMST.arlen <= read_address.len;
           `VMST.arsize <= read_address.size;
           `VMST.arburst <= read_address.burst;
-
+       //   $display("LILILILILILILILILILILILILILILILILILI    >>>>>>>>>>>   driven address = ",vif.araddr);
           @(`VMST iff(`VMST.arready));
           `VMST.arvalid <= 1'b0;
           read_data_queue.push_back(read_address);
@@ -231,7 +281,6 @@ class ei_axi4_master_driver_c;
           $display("time",$time);  
           end// for
 
-          //@(`VMST);
           `VMST.rready <= 1'b0;
           $display("time",$time);  
         end // forever 

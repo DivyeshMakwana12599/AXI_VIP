@@ -100,7 +100,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       write_data_queue.delete();
       read_data_queue.delete();
       write_response_queue.delete();
-      @(posedge `VSLV.aresetn);
+      @(posedge vif.aresetn);
       $display("################ RESET HAS BEEN DEASSERTED !! ############## ");
       $display("-------------------------------------------------------------");
     end
@@ -269,7 +269,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                       
 **/
    function void calculate_error_write(ei_axi4_transaction_c write_tr);
-     if((((write_tr.addr - (write_tr.addr % write_tr.size)) % 4096) + ((write_tr.len+1) * (2**write_tr.size))) > 4096) begin
+     if((((write_tr.addr - (write_tr.addr % (2 ** write_tr.size))) % 4096) + ((write_tr.len+1) * (2**write_tr.size))) > 4096) begin
        write_tr.errors =  ERROR_4K_BOUNDARY;
        $display("############# [SLV DRV] [WRITE CHANNEL] ERROR DETECTED : 4K BOUNDARY CROSSING DETECTED ");
        return;
@@ -429,7 +429,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 *\                       
 **/
    function void calculate_error_read(ei_axi4_transaction_c read_tr);
-     if((((read_tr.addr - (read_tr.addr % read_tr.size)) % 4096) + ((read_tr.len+1) * (2**read_tr.size))) > 4096) begin
+     if((((read_tr.addr - (read_tr.addr % (2 ** read_tr.size))) % 4096) + ((read_tr.len+1) * (2**read_tr.size))) > 4096) begin
        read_tr.errors =  ERROR_4K_BOUNDARY;
        $display("############# [SLV DRV] [READ CHANNEL] ERROR DETECTED : 4K BOUNDARY CROSSING DETECTED ");
        return;
