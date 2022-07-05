@@ -15,25 +15,6 @@ class ei_axi4_master_driver_c;
   function new(mailbox #(ei_axi4_transaction_c) gen2drv, virtual `MST_INTF vif);
     this.gen2drv = gen2drv;
     this.vif = vif;
-
-    vif.awaddr <= 0;
-    vif.awvalid <= 0;
-    vif.awburst <= FIXED;
-    vif.awlen <= 0;
-    vif.awsize <= 0;
-    vif.wvalid <= 0;
-    vif.wdata <= 0;
-    vif.wstrb <= 0;
-    vif.wlast <= 0;
-
-    vif.arvalid <= 0;
-    vif.arburst <= FIXED;
-    vif.arlen <= 0;
-    vif.arsize <= 0;
-    vif.araddr <= 0;
-    vif.rready <= 0;
-    vif.bready <= 0;
-
   endfunction : new
 
       task get_trans_from_mailbox();
@@ -50,46 +31,30 @@ class ei_axi4_master_driver_c;
       endtask : get_trans_from_mailbox
 
       task reset();  // as it is asynchronous reset thread so we used vif instead of `VMST 
-        forever begin 
-          @(negedge vif.aresetn , `VMST iff(vif.aresetn == 0));
           vif.awvalid <= 0;
           vif.wvalid <= 0;
           vif.arvalid <= 0;
           vif.rready <= 0;
           vif.bready <= 0;
           write_address_queue.delete();
-          read_address_queue.delete();
-        end 
+          read_address_queue.delete(); 
+          wait(vif.aresetn == 1'b1);
       endtask : reset
 
       task run();
-
-        fork : trigger_tasks_1
-          write_address_channel();
-          write_data_channel();
-          write_response_channel();
-          read_address_channel();
-          read_data_channel();
-        join_none 
-
-        fork 
-          get_trans_from_mailbox();
-          
-          begin 
-            reset();
-            disable trigger_tasks_1;
-            disable trigger_tasks_2;
-
-            fork : trigger_tasks_2
+        forever begin
+           reset();
+           fork : driver_run
+              get_trans_from_mailbox();
               write_address_channel();
               write_data_channel();
               write_response_channel();
               read_address_channel();
               read_data_channel();
-            join_none 
-          end 
-        join 
-
+             @(negedge vif.aresetn);
+           join_any 
+           disable driver_run;                 
+        end
       endtask : run 
 
     task write_address_channel();
