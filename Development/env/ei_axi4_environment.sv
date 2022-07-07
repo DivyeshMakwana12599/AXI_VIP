@@ -88,6 +88,7 @@ class ei_axi4_environment_c;
   
   task wrap_up();
     scb.wrap_up();
+    mst_agt.wrap_up();
   endtask : wrap_up
 
 endclass :ei_axi4_environment_c

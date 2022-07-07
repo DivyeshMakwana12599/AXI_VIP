@@ -30,6 +30,10 @@ virtual class ei_axi4_base_test_c;
     ei_axi4_environment_c env;
 	ei_axi4_env_config_c env_cfg;
 
+  virtual `MST_INTF mst_vif;
+  virtual `SLV_INTF slv_vif;
+  virtual `MON_INTF mon_vif;
+
   /***
   //   Method name          : new()                 
   //   Parameters passed    : master and slave interface               
@@ -37,8 +41,11 @@ virtual class ei_axi4_base_test_c;
   //   Description          : constructor      
   ***/
   function new(virtual `MST_INTF mst_vif, virtual `SLV_INTF slv_vif, virtual `MON_INTF mon_vif);
-	env_cfg  = new();
-	env      = new(mst_vif, slv_vif, mon_vif, env_cfg);
+    env_cfg  = new();
+    this.mst_vif = mst_vif;
+    this.mon_vif = mon_vif;
+    this.slv_vif = slv_vif;
+    env      = new(mst_vif, slv_vif, mon_vif, env_cfg);
   endfunction
 	
   /***

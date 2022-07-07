@@ -77,7 +77,7 @@ class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
         write : {env.mst_agt.mst_gen.start(wr_trans);};
         read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
-    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
     end
   endtask
 

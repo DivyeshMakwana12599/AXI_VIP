@@ -1,16 +1,19 @@
 class ei_axi4_coverage_c;
 
-  addr_type_e addr_type;
-  ei_axi4_transaction_c trans;
 
-  covergroup ei_axi4_write_cg;
+  covergroup ei_axi4_write_cg with function sample(
+    ei_axi4_transaction_c trans, 
+    addr_type_e addr_type
+  );
 
     ei_axi4_write_address_type_cp : coverpoint addr_type {
       bins aligned_addr   = {ALIGNED};
       bins unaligned_addr = {UNALIGNED};
     }
 
-    ei_axi4_write_transfer_size_cp : coverpoint trans.size;
+    ei_axi4_write_transfer_size_cp : coverpoint trans.size{
+      bins size[] = {[0:$clog2(`BUS_BYTE_LANES)]};
+    }
     ei_axi4_write_transaction_length_cp : coverpoint trans.len;
     ei_axi4_write_burst_type_cp : coverpoint trans.burst;
 
@@ -46,14 +49,19 @@ class ei_axi4_coverage_c;
       cross ei_axi4_write_burst_type_cp, ei_axi4_write_response_type_cp;
   endgroup
 
-  covergroup ei_axi4_read_cg;
+  covergroup ei_axi4_read_cg with function sample(
+    ei_axi4_transaction_c trans, 
+    addr_type_e addr_type
+  );
 
     ei_axi4_read_address_type_cp : coverpoint addr_type {
       bins aligned_addr   = {ALIGNED};
       bins unaligned_addr = {UNALIGNED};
     }
 
-    ei_axi4_read_transfer_size_cp : coverpoint trans.size;
+    ei_axi4_read_transfer_size_cp : coverpoint trans.size{
+      bins size[] = {[0:$clog2(`BUS_BYTE_LANES)]};
+    }
     ei_axi4_read_transaction_length_cp : coverpoint trans.len;
     ei_axi4_read_burst_type_cp : coverpoint trans.burst;
     ei_axi4_read_response_type_cp : 
@@ -87,35 +95,9 @@ class ei_axi4_coverage_c;
       cross ei_axi4_read_burst_type_cp, ei_axi4_read_response_type_cp;
   endgroup
 
-  mailbox#(ei_axi4_transaction_c) mon2cov;
-
-
-
-
-
-  function new(mailbox#(ei_axi4_transaction_c) mon2cov);
+  function new();
     ei_axi4_write_cg = new();
     ei_axi4_read_cg = new();
-    this.mon2cov = mon2cov;
   endfunction 
-
-  task run;
-    forever begin
-      mon2cov.get(trans);
-      calcualte_addr_type(trans);
-      if(trans.transaction_type == WRITE) begin
-        ei_axi4_write_cg.sample();
-      end
-      else if(trans.transaction_type == READ) begin
-        ei_axi4_read_cg.sample();
-      end
-    end
-  endtask
-
-  function void calcualte_addr_type(ei_axi4_transaction_c trans);
-    addr_type = ((trans.addr % (2 ** trans.size)) == 0) ? ALIGNED : UNALIGNED;
-  endfunction
-
-
 
 endclass

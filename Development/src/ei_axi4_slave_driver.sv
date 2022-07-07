@@ -78,8 +78,9 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 
   task run();
     forever begin
+      reset();
       fork : run_AXI_slave_driver
-        @(negedge vif.aresetn, `VSLV  iff (vif.aresetn == 0));
+        @(negedge vif.aresetn);
         write_address_run();
         write_data_run();
         write_response_run();
@@ -87,6 +88,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
         read_data_run();
       join_any
       disable run_AXI_slave_driver;
+    end
+  endtask : run
+
+  task reset();
       $display("[SLV_DRV] \t\t@%0t --> fork join disabled",$time);
       $display("-------------------------------------------------------------");
       $display("################ RESET HAS BEEN ASSERTED !! #################");
@@ -100,12 +105,10 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
       write_data_queue.delete();
       read_data_queue.delete();
       write_response_queue.delete();
-      @(posedge vif.aresetn);
+      wait(vif.aresetn == 1);
       $display("################ RESET HAS BEEN DEASSERTED !! ############## ");
       $display("-------------------------------------------------------------");
-    end
-  endtask : run
-
+  endtask
 /**
 *\   Method name          : write_address_run()
 *\   parameters passed    : None                      

@@ -38,12 +38,16 @@ class ei_axi4_master_driver_c;
           vif.bready <= 0;
           write_address_queue.delete();
           read_address_queue.delete(); 
+          write_data_queue.delete();
+          write_response_queue.delete();
+          read_data_queue.delete();
           wait(vif.aresetn == 1'b1);
       endtask : reset
 
       task run();
         forever begin
            reset();
+           // @(`VMST);
            fork : driver_run
               get_trans_from_mailbox();
               write_address_channel();

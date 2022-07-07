@@ -74,13 +74,13 @@ class ei_axi4_checker_db_c;
 
   function void report();
     if(check_cfg.size) begin
-      $display("+=================================================================================================+");
-      $display("| %-12s | %-50s | %-12s | %-12s |", "CHECKER ID", "DESCRIPTION", "FAIL COUNT", "PASS COUNT");
-      $display("+=================================================================================================+");
+      $display("+================================================================================================================================+");
+      $display("| %-18s | %-75s | %-12s | %-12s |", "CHECKER ID", "DESCRIPTION", "FAIL COUNT", "PASS COUNT");
+      $display("+================================================================================================================================+");
       foreach(check_cfg[i]) begin
-        $display("| %-12s | %-50s | %-12d | %-12d |", i, check_cfg[i].checker_description, check_cfg[i].fail_cnt, check_cfg[i].eval_cnt);
+        $display("| %-18s | %-75s | %-12d | %-12d |", i, check_cfg[i].checker_description, check_cfg[i].fail_cnt, check_cfg[i].eval_cnt);
       end
-      $display("+=================================================================================================+");
+      $display("+================================================================================================================================+");
     end
     else begin
       $display("Nothing to report no checker registered.");

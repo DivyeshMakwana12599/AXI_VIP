@@ -38,6 +38,6 @@ class ei_axi4_master_agent_c;
   endtask
 
   function void wrap_up();
-
+    mst_mon.wrap_up();
   endfunction
 endclass : ei_axi4_master_agent_c

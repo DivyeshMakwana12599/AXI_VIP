@@ -47,26 +47,26 @@ module ei_axi4_top;
   always #(`PERIOD) aclk = ~aclk;
 
   /* To initialize the variables */
-  initial begin 
-    aresetn  = 1;
-  end
+  // initial begin 
+    // aresetn  = 1;
+    // dummy_time = $urandom_range(0,200);
+    // #(dummy_time); 
+    // aresetn = 0;
+    // #(dummy_time);
+    // @(posedge aclk);
+    // aresetn = 1;
+  // end
   
-   /* To build */
   initial begin
-   /* To build */
+    aresetn = 1;
+  end
+  /* To build */
+  initial begin
     test  =  new(mst_pif,slv_pif, mon_pif);
     test.run();
     $finish;
    end
 
-   initial begin
-     if($test$plusargs("RESET")) begin
-        dummy_time = $urandom_range(0,200);
-        #(dummy_time) aresetn = 0;
-        @(posedge aclk);
-        aresetn      = 1;
-     end
-   end
   initial begin
     $dumpfile("dumpfile.vcd");
     $dumpvars;
