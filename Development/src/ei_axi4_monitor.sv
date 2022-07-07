@@ -71,15 +71,11 @@ class ei_axi4_monitor_c;
           @(negedge mon_vif.aresetn);
         end
       join_any
-      $display("reset asserted monitor");
-      // disable monitor_run;
+      disable monitor_run;
     end
   endtask
 
   task reset();
-    $display("read data queue size = %0d", read_data_queue.size());
-    $display("write data queue size = %0d", write_data_queue.size());
-    $display("write response queue size = %0d", write_response_queue.size());
     if(read_data_queue.size()) begin
       no_of_trans_monitored++;
       $display("no_of_trans_monitored reset = %0d", no_of_trans_monitored);

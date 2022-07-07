@@ -47,15 +47,15 @@ module ei_axi4_top;
   always #(`PERIOD) aclk = ~aclk;
 
   /* To initialize the variables */
-  // initial begin 
-    // aresetn  = 1;
-    // dummy_time = $urandom_range(0,200);
-    // #(dummy_time); 
-    // aresetn = 0;
-    // #(dummy_time);
-    // @(posedge aclk);
-    // aresetn = 1;
-  // end
+  initial begin 
+    aresetn  = 1;
+    dummy_time = $urandom_range(0,200);
+    #(dummy_time); 
+    aresetn = 0;
+    #(dummy_time);
+    @(posedge aclk);
+    aresetn = 1;
+  end
   
   initial begin
     aresetn = 1;
