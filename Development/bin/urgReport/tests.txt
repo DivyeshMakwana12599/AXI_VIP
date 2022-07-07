@@ -1,0 +1,13 @@
+Tests
+
+Total Coverage Summary 
+SCORE  ASSERT GROUP  
+ 93.71  88.10  99.32 
+
+
+Total tests in report: 2
+-------------------------------------------------------------------------------
+Data from the following tests was used to generate this report
+simv/test       
+mergedir/merged 
+

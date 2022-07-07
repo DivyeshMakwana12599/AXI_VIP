@@ -1,0 +1,169 @@
+===============================================================================
+Module : assertion
+===============================================================================
+SCORE  ASSERT 
+ 88.10  88.10 
+
+Source File(s) : 
+
+/home/divyesh.makwana1/github/AXI_VIP/Development/bin/../src/ei_axi4_assertion.sv
+
+Module self-instances :
+
+SCORE  ASSERT NAME                      
+ 88.10  88.10 ei_axi4_top.axi_assertion 
+
+
+
+-------------------------------------------------------------------------------
+Assert Coverage for Module : assertion
+                 Total Attempted Percent Succeeded/Matched Percent 
+Assertions       0     0                 0                         
+Cover properties 42    37        88.10   37                88.10   
+Cover sequences  0     0                 0                         
+Total            42    37        88.10   37                88.10   
+
+
+
+-------------------------------------------------------------------------------
+
+Cover Directives for Properties: Details
+
+Name                     Attempts Matches Incomplete 
+AXI4_COVER_ASSERTION_001 0        0       0          
+AXI4_COVER_ASSERTION_002 0        0       0          
+AXI4_COVER_ASSERTION_003 0        0       0          
+AXI4_COVER_ASSERTION_004 0        0       0          
+AXI4_COVER_ASSERTION_005 0        0       0          
+AXI4_COVER_ASSERTION_006 698313   452     0          
+AXI4_COVER_ASSERTION_007 698313   109     343        
+AXI4_COVER_ASSERTION_008 698313   109     343        
+AXI4_COVER_ASSERTION_009 698313   698313  0          
+AXI4_COVER_ASSERTION_010 698313   698313  0          
+AXI4_COVER_ASSERTION_011 698313   698313  0          
+AXI4_COVER_ASSERTION_012 698313   698313  0          
+AXI4_COVER_ASSERTION_013 698313   698313  0          
+AXI4_COVER_ASSERTION_014 698313   5178    0          
+AXI4_COVER_ASSERTION_015 698313   5178    0          
+AXI4_COVER_ASSERTION_016 698313   5178    0          
+AXI4_COVER_ASSERTION_017 698313   5178    0          
+AXI4_COVER_ASSERTION_018 698313   5178    0          
+AXI4_COVER_ASSERTION_019 698313   5178    0          
+AXI4_COVER_ASSERTION_020 698313   5178    0          
+AXI4_COVER_ASSERTION_021 698313   5525    0          
+AXI4_COVER_ASSERTION_022 698313   5525    0          
+AXI4_COVER_ASSERTION_023 698313   5525    0          
+AXI4_COVER_ASSERTION_024 698313   5525    0          
+AXI4_COVER_ASSERTION_025 698313   5525    0          
+AXI4_COVER_ASSERTION_026 698313   5525    0          
+AXI4_COVER_ASSERTION_027 698313   5525    0          
+AXI4_COVER_ASSERTION_028 698313   5525    0          
+AXI4_COVER_ASSERTION_029 698313   327795  0          
+AXI4_COVER_ASSERTION_030 698313   5525    0          
+AXI4_COVER_ASSERTION_031 698313   327795  0          
+AXI4_COVER_ASSERTION_032 698313   5525    0          
+AXI4_COVER_ASSERTION_033 698313   327795  0          
+AXI4_COVER_ASSERTION_035 698313   5178    0          
+AXI4_COVER_ASSERTION_036 698313   305953  0          
+AXI4_COVER_ASSERTION_037 698313   5178    0          
+AXI4_COVER_ASSERTION_038 698313   305953  0          
+AXI4_COVER_ASSERTION_039 698313   5178    0          
+AXI4_COVER_ASSERTION_041 698313   5178    0          
+AXI4_COVER_ASSERTION_042 698313   10356   0          
+AXI4_COVER_ASSERTION_043 698313   5178    0          
+AXI4_COVER_ASSERTION_044 698313   5178    0          
+
+
+-------------------------------------------------------------------------------
+===============================================================================
+Module Instance : ei_axi4_top.axi_assertion
+===============================================================================
+
+Instance :
+
+SCORE  ASSERT 
+ 88.10  88.10 
+
+
+Instance's subtree :
+
+SCORE  ASSERT 
+ 88.10  88.10 
+
+
+Module : 
+
+SCORE  ASSERT NAME      
+ 88.10  88.10 assertion 
+
+
+Parent : 
+
+SCORE  ASSERT NAME        
+--     --     ei_axi4_top 
+
+
+Subtrees :
+
+
+no children
+----------------
+
+
+-------------------------------------------------------------------------------
+Since this is the module's only instance, the coverage report is the same as for the module.
+===============================================================================
+Module : ei_axi4_top
+===============================================================================
+SCORE  ASSERT 
+--     --     
+
+Source File(s) : 
+
+/home/divyesh.makwana1/github/AXI_VIP/Development/bin/../tb/ei_axi4_top.sv
+
+Module self-instances :
+
+SCORE  ASSERT NAME        
+--     --     ei_axi4_top 
+
+
+
+-------------------------------------------------------------------------------
+===============================================================================
+Module Instance : ei_axi4_top
+===============================================================================
+
+Instance :
+
+SCORE  ASSERT 
+--     --     
+
+
+Instance's subtree :
+
+SCORE  ASSERT 
+ 88.10  88.10 
+
+
+Module : 
+
+SCORE  ASSERT NAME        
+--     --     ei_axi4_top 
+
+
+Parent : 
+
+none
+----------------
+
+
+Subtrees :
+
+SCORE  ASSERT NAME          
+ 88.10  88.10 axi_assertion 
+
+
+
+-------------------------------------------------------------------------------
+Since this is the module's only instance, the coverage report is the same as for the module.

@@ -77,15 +77,15 @@ class ei_axi4_monitor_c;
 
   task reset();
     if(read_data_queue.size()) begin
-      no_of_trans_monitored++;
+      no_of_trans_monitored += read_data_queue.size();
       $display("no_of_trans_monitored reset = %0d", no_of_trans_monitored);
     end
     if(write_data_queue.size()) begin
-      no_of_trans_monitored++;
+      no_of_trans_monitored += write_data_queue.size();
       $display("no_of_trans_monitored reset = %0d", no_of_trans_monitored);
     end
     if(write_response_queue.size()) begin
-      no_of_trans_monitored++;
+      no_of_trans_monitored += write_response_queue.size();
       $display("no_of_trans_monitored reset = %0d", no_of_trans_monitored);
     end
     read_data_queue.delete();

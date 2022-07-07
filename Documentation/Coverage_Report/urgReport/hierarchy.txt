@@ -1,0 +1,11 @@
+Design Hierarchy
+
+
+----------------
+SCORE  ASSERT             
+ 88.10  88.10 ei_axi4_top 
+  
+  ----------------
+  SCORE  ASSERT               
+   88.10  88.10 axi_assertion 
+
