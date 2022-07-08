@@ -65,33 +65,32 @@ class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
   //   Description          : passing write and read testcase handle to generator start method      
   ***/
   task start();
-    super.run();
+    super.run(); //calling run task of base test class
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
-             //if(i%2 == 0)begin
+        //making first transaction of write type
         if(i == 0) begin
                 wr_trans = new();
                 env.mst_agt.mst_gen.start(wr_trans); 
         end
-            //end
+        //making last transaction of read type
         else if(i == test_cfg.total_num_trans - 1)begin
-            //if(i%2 != 0) begin
                 rd_trans = new();
-                rd_trans.addr.rand_mode(0);
+                rd_trans.addr.rand_mode(0);         //disable randomization 
                 rd_trans.burst.rand_mode(0);
                 rd_trans.len.rand_mode(0);
                 rd_trans.size.rand_mode(0);
-                rd_trans.transaction_type = READ;
-                rd_trans.addr  = wr_trans.addr; 
+                rd_trans.transaction_type = READ;  //assign transaction type
+                rd_trans.addr  = wr_trans.addr;    //assigning write transaction to read transaction properties
                 rd_trans.burst = wr_trans.burst;  
                 rd_trans.len   = wr_trans.len;  
                 rd_trans.size  = wr_trans.size;
-                rd_trans.specific_burst_type.constraint_mode(0);
+                rd_trans.specific_burst_type.constraint_mode(0); //disable constraints
                 rd_trans.addr_type_c.constraint_mode(0);
                 rd_trans.specific_transaction_length.constraint_mode(0);
                 rd_trans.specific_transfer_size.constraint_mode(0);
-                env.mst_agt.mst_gen.start(rd_trans);
-            //end
+                env.mst_agt.mst_gen.start(rd_trans);   //passing rd_trans tp generator
         end
+        //in between making write read transaction
         else begin
                 rd_trans = new();
                 rd_trans.addr.rand_mode(0);
@@ -112,7 +111,7 @@ class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
                 env.mst_agt.mst_gen.start(wr_trans); 
         end
         if(i == 0 || i == test_cfg.total_num_trans - 1) begin
-            wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+            wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1); //wait to complete transaction
         end
         else begin
             wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 2);
@@ -129,7 +128,7 @@ class ei_axi4_parallel_wr_rd_test_c extends ei_axi4_base_test_c;
   ***/    
   task wrap_up();
     $display("PARALLEL WRITE READ TEST SELECTED");
-    super.wrap_up();
+    super.wrap_up(); //calling wrap_up task of base test class
   endtask
   
 endclass :ei_axi4_parallel_wr_rd_test_c

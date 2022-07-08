@@ -35,7 +35,7 @@ class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
   
   /***
   //   Method name          : new()                 
-  //   Parameters passed    : master and slave interface                
+  //   Parameters passed    : master, slave and monitor interface                
   //   Returned parameters  : None                        
   //   Description          : constructor       
   ***/
@@ -61,17 +61,18 @@ class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
   //   Description          : main task      
   ***/
   task start();
-    super.run();
+    super.run();            //caling run task of base class
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
       wr_trans = new();
       rd_trans = new();
-      wr_trans.errors.rand_mode(0);
+      wr_trans.errors.rand_mode(0); //disable randomization for error type enum
       rd_trans.errors.rand_mode(0); 
-      wr_trans.error_ct.constraint_mode(0);
+      wr_trans.error_ct.constraint_mode(0); //disable constraint mode for error type enum
       rd_trans.error_ct.constraint_mode(0);
-      wr_trans.errors = ERROR_WRAP_UNALLIGNED;
+      wr_trans.errors = ERROR_WRAP_UNALLIGNED; //injecting errors
       rd_trans.errors = ERROR_WRAP_UNALLIGNED;
     
+      //randomly select write or read
       randsequence(main)
         main  : write | read;
         write : {env.mst_agt.mst_gen.start(wr_trans);};
@@ -88,7 +89,7 @@ class ei_axi4_error_wrap_unaligned_test_c extends ei_axi4_base_test_c;
   //   Description          : summary       
   ***/
     task wrap_up();
-      super.wrap_up();
+      super.wrap_up();      //calling wrap_up task of base class
       $display("ERROR WRAP UNALIGNED TESTCASE SELECTED");
     endtask
   

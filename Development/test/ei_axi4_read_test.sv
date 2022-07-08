@@ -59,10 +59,10 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
   //   Description          : pass testcase class handle to the generator start method       
   ***/
 	task start();
-      super.run();
+      super.run(); //calling run task of base class
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
 		  rd_trans = new();
-		  env.mst_agt.mst_gen.start(rd_trans);
+		  env.mst_agt.mst_gen.start(rd_trans); //passing read trans to generator
           wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
 		end
 	endtask
@@ -74,7 +74,7 @@ class ei_axi4_rd_test_c extends ei_axi4_base_test_c;
   //   Description          : wrapping up      
   ***/
     task wrap_up();
-      super.wrap_up();
+      super.wrap_up(); //calling wrap_up task of base class
       $display("READ TESTCASE SELECTED");
     endtask
 

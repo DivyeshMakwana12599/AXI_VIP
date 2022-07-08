@@ -61,23 +61,24 @@ class ei_axi4_4k_boundary_test_c extends ei_axi4_base_test_c;
   //   Description          : main task      
   ***/
   task start();
-    super.run();
+    super.run();             //calling run task of base test
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
       wr_trans = new();
       rd_trans = new();
-      wr_trans.errors.rand_mode(0);
-      rd_trans.errors.rand_mode(0); 
-      wr_trans.error_ct.constraint_mode(0);
+      wr_trans.errors.rand_mode(0);           //disable randomization for errors 
+      rd_trans.errors.rand_mode(0);           //disable randomization for errors 
+      wr_trans.error_ct.constraint_mode(0);   //disable constraint mode
       rd_trans.error_ct.constraint_mode(0);
-      wr_trans.errors = ERROR_4K_BOUNDARY;
+      wr_trans.errors = ERROR_4K_BOUNDARY;    //enjecting error scenario
       rd_trans.errors = ERROR_4K_BOUNDARY;
     
+      //for randomly select any transaction type i.e write or read
       randsequence(main)
         main  : write | read;
-        write : {env.mst_agt.mst_gen.start(wr_trans);};
-        read  : {env.mst_agt.mst_gen.start(rd_trans);};
+        write : {env.mst_agt.mst_gen.start(wr_trans);}; //passing write_trans to generator
+        read  : {env.mst_agt.mst_gen.start(rd_trans);}; //passing read _trans to generator
       endsequence
-      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);  //wait to complete transaction
     end
   endtask
 

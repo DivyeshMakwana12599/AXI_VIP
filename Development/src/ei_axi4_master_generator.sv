@@ -30,22 +30,28 @@ Revision		: 0.1
 class ei_axi4_master_generator_c;
 	
   mailbox #(ei_axi4_transaction_c) gen2drv;  	//mailbox for transafer data from generator to driver
-  ei_axi4_transaction_c trans;
+  ei_axi4_transaction_c trans;                  //creating handle of transaction
   
     /***
 	//   Method name          : new() i.e constructor							  	
 	//   Parameters passed    : mailbox and test_config							  
 	//   Returned parameters  : None											  
-	//   Description          : take argument from environment class 			  
+	//   Description          : take argument from environment class			  
 	***/
   function new(mailbox #(ei_axi4_transaction_c) gen2drv);
     this.gen2drv = gen2drv;
   endfunction
 
+    /***
+	//   Method name          : start() i.e randomize the packet and put into mailbox							  	
+	//   Parameters passed    : transaction						  
+	//   Returned parameters  : None											  
+	//   Description          : take argument from environment class			  
+	***/
   task start(ei_axi4_transaction_c trans);
-    `SV_RAND_CHECK(trans.randomize());
-    trans.print("GENERATOR");
-    gen2drv.put(trans.copy());
+    `SV_RAND_CHECK(trans.randomize());         //randomize the packet and do rand check by macro function sv_rand_check
+    trans.print("GENERATOR");                  //calling print function and passing "GENERATOR"
+    gen2drv.put(trans.copy());                 //put copy of randomized packet
   endtask
 
 endclass :ei_axi4_master_generator_c;
