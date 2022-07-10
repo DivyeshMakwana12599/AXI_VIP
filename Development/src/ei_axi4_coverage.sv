@@ -62,7 +62,10 @@ class ei_axi4_coverage_c;
     ei_axi4_read_transfer_size_cp : coverpoint trans.size{
       bins size[] = {[0:$clog2(`BUS_BYTE_LANES)]};
     }
-    ei_axi4_read_transaction_length_cp : coverpoint trans.len;
+    ei_axi4_read_transaction_length_cp : coverpoint trans.len{
+      option.auto_bin_max = 1000;
+      bins len[256] = {[0:$]};
+    }
     ei_axi4_read_burst_type_cp : coverpoint trans.burst;
     ei_axi4_read_response_type_cp : 
       coverpoint trans.rresp[0] {

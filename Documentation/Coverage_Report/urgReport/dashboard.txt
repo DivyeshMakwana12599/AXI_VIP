@@ -1,0 +1,33 @@
+Dashboard
+
+Date: Thu Jul  7 15:59:15 2022
+
+User: divyesh.makwana1
+
+Version: R-2020.12-SP2
+Command line: urg -dir ./simv.vdb -dir ./mergedir.vdb -dbname mergedir/merged -format both
+Number of tests: 2
+
+-------------------------------------------------------------------------------
+Total Coverage Summary 
+SCORE  ASSERT GROUP  
+ 93.71  88.10  99.32 
+
+
+-------------------------------------------------------------------------------
+Hierarchical coverage data for top-level instances 
+SCORE  ASSERT NAME        
+ 88.10  88.10 ei_axi4_top 
+
+
+-------------------------------------------------------------------------------
+Total Module Definition Coverage Summary 
+SCORE  ASSERT 
+ 88.10  88.10 
+
+
+-------------------------------------------------------------------------------
+Total Groups Coverage Summary 
+SCORE  WEIGHT 
+ 99.32 1      
+

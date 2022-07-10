@@ -59,11 +59,11 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
   //   Description          : constructing testcase and passing handle to generator start method 
   ***/
 	task start();
-      super.run();
+      super.run();    //calling run method of base class
 		for(int i = 0; i < test_cfg.total_num_trans; i++) begin
-	      wr_trans = new();
-		  env.mst_agt.mst_gen.start(wr_trans);
-          wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+	      wr_trans = new();                     //creating instance of write_trans 
+		  env.mst_agt.mst_gen.start(wr_trans);  //passing wr_trans to generator start method
+          wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1); //wait for transaction to complete
         end
 
 	endtask
@@ -75,7 +75,7 @@ class ei_axi4_wr_test_c extends ei_axi4_base_test_c;
   //   Description          : for summary print    
   ***/
     task wrap_up();
-      super.wrap_up();  
+      super.wrap_up();   //caling wrap_up method of base class
       $display("WRITE TESTCASE SELECTED");
     endtask
 	

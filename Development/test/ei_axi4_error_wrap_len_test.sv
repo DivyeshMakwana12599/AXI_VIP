@@ -61,23 +61,24 @@ class ei_axi4_error_wrap_len_test_c extends ei_axi4_base_test_c;
   //   Description          : main task       
   ***/
   task start();
-    super.run();
+    super.run();             //calling run method of base class
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
       wr_trans = new();
       rd_trans = new();
-      wr_trans.errors.rand_mode(0);
+      wr_trans.errors.rand_mode(0);     //making rand mode off for errors type enum
       rd_trans.errors.rand_mode(0); 
-      wr_trans.error_ct.constraint_mode(0);
+      wr_trans.error_ct.constraint_mode(0); //disable constraint mode for error type enum
       rd_trans.error_ct.constraint_mode(0);
-      wr_trans.errors = ERROR_WRAP_LEN;
+      wr_trans.errors = ERROR_WRAP_LEN;     //enjecting errors
       rd_trans.errors = ERROR_WRAP_LEN;
     
+      ///randomly select write or read
       randsequence(main)
         main  : write | read;
         write : {env.mst_agt.mst_gen.start(wr_trans);};
         read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
-    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1); //wait to complete transaction
     end
   endtask
   /***
@@ -87,7 +88,7 @@ class ei_axi4_error_wrap_len_test_c extends ei_axi4_base_test_c;
   //   Description          : summary       
   ***/
     task wrap_up();
-      super.wrap_up();
+      super.wrap_up();       //caling wrap_up method of base class
       $display("ERROR WRAP LEN TESTCASE SELECTED");
     endtask
   

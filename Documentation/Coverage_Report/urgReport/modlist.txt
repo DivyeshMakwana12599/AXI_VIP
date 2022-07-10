@@ -1,0 +1,13 @@
+Design Module List
+
+Total Module Definition Coverage Summary 
+SCORE  ASSERT 
+ 88.10  88.10 
+
+
+Total modules in report: 2
+-------------------------------------------------------------------------------
+SCORE  ASSERT NAME        
+ 88.10  88.10 assertion   
+--     --     ei_axi4_top 
+

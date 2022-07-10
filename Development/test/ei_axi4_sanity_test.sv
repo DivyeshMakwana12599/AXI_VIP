@@ -67,28 +67,30 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
   task start();
     super.run();
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
+    //write for even num of iterations
       if(i%2 == 0)begin
         wr_trans = new();
         env.mst_agt.mst_gen.start(wr_trans); 
       end
       else begin
+       //read during odd num of iterations
         rd_trans = new();
-        rd_trans.addr.rand_mode(0);
-        rd_trans.burst.rand_mode(0);
-        rd_trans.len.rand_mode(0);
-        rd_trans.size.rand_mode(0);
-        rd_trans.transaction_type = READ;
-        rd_trans.addr  = wr_trans.addr; 
+        rd_trans.addr.rand_mode(0);      //disable randomization for address
+        rd_trans.burst.rand_mode(0);     //disable randomization for burst type
+        rd_trans.len.rand_mode(0);       //disabling rand mode for length
+        rd_trans.size.rand_mode(0);      //disabling rand mode for transfer size
+        rd_trans.transaction_type = READ; //making transaction type READ
+        rd_trans.addr  = wr_trans.addr;   //assigning address of write during write operation into read
         rd_trans.burst = wr_trans.burst;  
         rd_trans.len   = wr_trans.len;  
         rd_trans.size  = wr_trans.size;
-        rd_trans.specific_burst_type.constraint_mode(0);
-        rd_trans.addr_type_c.constraint_mode(0);
+        rd_trans.specific_burst_type.constraint_mode(0); //disabling constraint mode off for burst type
+        rd_trans.addr_type_c.constraint_mode(0);         //disable address type constraiint mode
         rd_trans.specific_transaction_length.constraint_mode(0);
         rd_trans.specific_transfer_size.constraint_mode(0);
-        env.mst_agt.mst_gen.start(rd_trans);
+        env.mst_agt.mst_gen.start(rd_trans);     //passing read trans to generator
       end
-      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);  //wait for the transaction to complete
     end
   endtask
     
@@ -101,7 +103,7 @@ class ei_axi4_sanity_test_c extends ei_axi4_base_test_c;
   ***/    
   task wrap_up();
     $display("SANITY TEST SELECTED");
-    super.wrap_up();
+    super.wrap_up(); //calling wrap_up task of base class
   endtask
   
 endclass :ei_axi4_sanity_test_c

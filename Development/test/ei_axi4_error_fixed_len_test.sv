@@ -61,23 +61,24 @@ class ei_axi4_error_fixed_len_test_c extends ei_axi4_base_test_c;
   //   Description          : main task       
   ***/
   task start();
-    super.run();
+    super.run();       //calling run method of extended class
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
       wr_trans = new();
       rd_trans = new();
-      wr_trans.errors.rand_mode(0);
-      rd_trans.errors.rand_mode(0); 
-      wr_trans.error_ct.constraint_mode(0);
+      wr_trans.errors.rand_mode(0); //disable randomization for error type enum
+      rd_trans.errors.rand_mode(0);  
+      wr_trans.error_ct.constraint_mode(0); //disable constraint for error type enum
       rd_trans.error_ct.constraint_mode(0);
-      wr_trans.errors = ERROR_FIXED_LEN;
+      wr_trans.errors = ERROR_FIXED_LEN;    //injecting errors
       rd_trans.errors = ERROR_FIXED_LEN;
 
+      //randomly select write or read
       randsequence(main)
         main  : write | read;
         write : {env.mst_agt.mst_gen.start(wr_trans);};
         read  : {env.mst_agt.mst_gen.start(rd_trans);};
       endsequence
-    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+    wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1); //wait to complete transaction
     end
   endtask
 

@@ -1,0 +1,2489 @@
+Group : $unit::ei_axi4_coverage_c::ei_axi4_read_cg
+
+===============================================================================
+Group : $unit::ei_axi4_coverage_c::ei_axi4_read_cg
+===============================================================================
+SCORE  WEIGHT GOAL   AT LEAST AUTO BIN MAX PRINT MISSING 
+ 98.75 1      100    1        64           64            
+
+
+Source File(s) : 
+
+/home/divyesh.makwana1/github/AXI_VIP/Development/bin/../src/ei_axi4_coverage.sv
+
+
+
+-------------------------------------------------------------------------------
+
+Summary for Group   $unit::ei_axi4_coverage_c::ei_axi4_read_cg
+
+
+
+CATEGORY  EXPECTED UNCOVERED COVERED PERCENT 
+Variables 267      0         267     100.00  
+Crosses   1323     128       1195    97.50   
+
+
+Variables for Group  $unit::ei_axi4_coverage_c::ei_axi4_read_cg
+
+
+VARIABLE                           EXPECTED UNCOVERED COVERED PERCENT GOAL WEIGHT AT LEAST AUTO BIN MAX COMMENT 
+ei_axi4_read_address_type_cp       2        0         2       100.00  100  1      1        0                    
+ei_axi4_read_transfer_size_cp      4        0         4       100.00  100  1      1        0                    
+ei_axi4_read_transaction_length_cp 256      0         256     100.00  100  1      1        0                    
+ei_axi4_read_burst_type_cp         3        0         3       100.00  100  1      1        0                    
+ei_axi4_read_response_type_cp      2        0         2       100.00  100  1      1        0                    
+
+
+Crosses for Group  $unit::ei_axi4_coverage_c::ei_axi4_read_cg
+
+
+CROSS                                            EXPECTED UNCOVERED COVERED PERCENT GOAL WEIGHT AT LEAST PRINT MISSING COMMENT 
+ei_axi4_read_transaction_length_transfer_size_cr 1024     128       896     87.50   100  1      1        0                     
+ei_axi4_read_burst_type_address_type_cr          5        0         5       100.00  100  1      1        0                     
+ei_axi4_read_burst_type_transfer_size_cr         12       0         12      100.00  100  1      1        0                     
+ei_axi4_read_burst_type_transaction_length_cr    276      0         276     100.00  100  1      1        0                     
+ei_axi4_read_burst_type_response_type            6        0         6       100.00  100  1      1        0                     
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_read_address_type_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 2        0         2       100.00  
+
+
+User Defined Bins for ei_axi4_read_address_type_cp
+
+
+Bins
+
+NAME           COUNT AT LEAST 
+unaligned_addr 2715  1        
+aligned_addr   2810  1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_read_transfer_size_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 4        0         4       100.00  
+
+
+User Defined Bins for ei_axi4_read_transfer_size_cp
+
+
+Bins
+
+NAME   COUNT AT LEAST 
+size_0 741   1        
+size_1 1608  1        
+size_2 1567  1        
+size_3 1609  1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_read_transaction_length_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 256      0         256     100.00  
+
+
+User Defined Bins for ei_axi4_read_transaction_length_cp
+
+
+Bins
+
+NAME    COUNT AT LEAST 
+len[00] 148   1        
+len[01] 363   1        
+len[02] 124   1        
+len[03] 315   1        
+len[04] 142   1        
+len[05] 156   1        
+len[06] 143   1        
+len[07] 340   1        
+len[08] 164   1        
+len[09] 146   1        
+len[0a] 144   1        
+len[0b] 152   1        
+len[0c] 146   1        
+len[0d] 148   1        
+len[0e] 125   1        
+len[0f] 529   1        
+len[10] 13    1        
+len[11] 9     1        
+len[12] 9     1        
+len[13] 14    1        
+len[14] 9     1        
+len[15] 10    1        
+len[16] 10    1        
+len[17] 10    1        
+len[18] 9     1        
+len[19] 10    1        
+len[1a] 11    1        
+len[1b] 10    1        
+len[1c] 8     1        
+len[1d] 7     1        
+len[1e] 12    1        
+len[1f] 10    1        
+len[20] 10    1        
+len[21] 8     1        
+len[22] 11    1        
+len[23] 13    1        
+len[24] 8     1        
+len[25] 10    1        
+len[26] 14    1        
+len[27] 11    1        
+len[28] 9     1        
+len[29] 9     1        
+len[2a] 19    1        
+len[2b] 11    1        
+len[2c] 8     1        
+len[2d] 5     1        
+len[2e] 9     1        
+len[2f] 8     1        
+len[30] 15    1        
+len[31] 10    1        
+len[32] 10    1        
+len[33] 10    1        
+len[34] 6     1        
+len[35] 10    1        
+len[36] 6     1        
+len[37] 11    1        
+len[38] 10    1        
+len[39] 11    1        
+len[3a] 11    1        
+len[3b] 4     1        
+len[3c] 10    1        
+len[3d] 9     1        
+len[3e] 7     1        
+len[3f] 17    1        
+len[40] 7     1        
+len[41] 11    1        
+len[42] 14    1        
+len[43] 13    1        
+len[44] 10    1        
+len[45] 5     1        
+len[46] 8     1        
+len[47] 10    1        
+len[48] 7     1        
+len[49] 13    1        
+len[4a] 13    1        
+len[4b] 9     1        
+len[4c] 5     1        
+len[4d] 10    1        
+len[4e] 10    1        
+len[4f] 11    1        
+len[50] 11    1        
+len[51] 8     1        
+len[52] 10    1        
+len[53] 9     1        
+len[54] 10    1        
+len[55] 16    1        
+len[56] 5     1        
+len[57] 10    1        
+len[58] 10    1        
+len[59] 12    1        
+len[5a] 6     1        
+len[5b] 5     1        
+len[5c] 6     1        
+len[5d] 6     1        
+len[5e] 8     1        
+len[5f] 5     1        
+len[60] 6     1        
+len[61] 9     1        
+len[62] 6     1        
+len[63] 12    1        
+len[64] 11    1        
+len[65] 9     1        
+len[66] 13    1        
+len[67] 14    1        
+len[68] 9     1        
+len[69] 13    1        
+len[6a] 14    1        
+len[6b] 7     1        
+len[6c] 11    1        
+len[6d] 5     1        
+len[6e] 11    1        
+len[6f] 12    1        
+len[70] 13    1        
+len[71] 7     1        
+len[72] 12    1        
+len[73] 10    1        
+len[74] 9     1        
+len[75] 5     1        
+len[76] 7     1        
+len[77] 10    1        
+len[78] 12    1        
+len[79] 6     1        
+len[7a] 8     1        
+len[7b] 10    1        
+len[7c] 13    1        
+len[7d] 11    1        
+len[7e] 6     1        
+len[7f] 14    1        
+len[80] 7     1        
+len[81] 12    1        
+len[82] 12    1        
+len[83] 5     1        
+len[84] 10    1        
+len[85] 15    1        
+len[86] 15    1        
+len[87] 9     1        
+len[88] 9     1        
+len[89] 5     1        
+len[8a] 12    1        
+len[8b] 10    1        
+len[8c] 10    1        
+len[8d] 10    1        
+len[8e] 9     1        
+len[8f] 10    1        
+len[90] 5     1        
+len[91] 9     1        
+len[92] 9     1        
+len[93] 7     1        
+len[94] 9     1        
+len[95] 6     1        
+len[96] 10    1        
+len[97] 5     1        
+len[98] 7     1        
+len[99] 12    1        
+len[9a] 11    1        
+len[9b] 14    1        
+len[9c] 3     1        
+len[9d] 14    1        
+len[9e] 12    1        
+len[9f] 11    1        
+len[a0] 9     1        
+len[a1] 6     1        
+len[a2] 8     1        
+len[a3] 9     1        
+len[a4] 12    1        
+len[a5] 7     1        
+len[a6] 5     1        
+len[a7] 5     1        
+len[a8] 9     1        
+len[a9] 12    1        
+len[aa] 13    1        
+len[ab] 7     1        
+len[ac] 9     1        
+len[ad] 3     1        
+len[ae] 8     1        
+len[af] 8     1        
+len[b0] 10    1        
+len[b1] 14    1        
+len[b2] 8     1        
+len[b3] 11    1        
+len[b4] 11    1        
+len[b5] 8     1        
+len[b6] 10    1        
+len[b7] 5     1        
+len[b8] 6     1        
+len[b9] 6     1        
+len[ba] 7     1        
+len[bb] 14    1        
+len[bc] 6     1        
+len[bd] 8     1        
+len[be] 7     1        
+len[bf] 9     1        
+len[c0] 9     1        
+len[c1] 6     1        
+len[c2] 8     1        
+len[c3] 10    1        
+len[c4] 7     1        
+len[c5] 16    1        
+len[c6] 15    1        
+len[c7] 10    1        
+len[c8] 9     1        
+len[c9] 7     1        
+len[ca] 13    1        
+len[cb] 9     1        
+len[cc] 7     1        
+len[cd] 7     1        
+len[ce] 9     1        
+len[cf] 6     1        
+len[d0] 9     1        
+len[d1] 8     1        
+len[d2] 11    1        
+len[d3] 11    1        
+len[d4] 8     1        
+len[d5] 9     1        
+len[d6] 6     1        
+len[d7] 8     1        
+len[d8] 7     1        
+len[d9] 8     1        
+len[da] 6     1        
+len[db] 9     1        
+len[dc] 5     1        
+len[dd] 13    1        
+len[de] 6     1        
+len[df] 7     1        
+len[e0] 10    1        
+len[e1] 10    1        
+len[e2] 8     1        
+len[e3] 8     1        
+len[e4] 11    1        
+len[e5] 7     1        
+len[e6] 6     1        
+len[e7] 7     1        
+len[e8] 5     1        
+len[e9] 8     1        
+len[ea] 12    1        
+len[eb] 14    1        
+len[ec] 9     1        
+len[ed] 9     1        
+len[ee] 11    1        
+len[ef] 13    1        
+len[f0] 8     1        
+len[f1] 13    1        
+len[f2] 10    1        
+len[f3] 12    1        
+len[f4] 8     1        
+len[f5] 10    1        
+len[f6] 14    1        
+len[f7] 6     1        
+len[f8] 5     1        
+len[f9] 12    1        
+len[fa] 8     1        
+len[fb] 12    1        
+len[fc] 10    1        
+len[fd] 7     1        
+len[fe] 6     1        
+len[ff] 9     1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_read_burst_type_cp
+
+
+CATEGORY                     EXPECTED UNCOVERED COVERED PERCENT 
+Automatically Generated Bins 3        0         3       100.00  
+
+
+Automatically Generated Bins for ei_axi4_read_burst_type_cp
+
+
+Bins
+
+NAME       COUNT AT LEAST 
+auto_FIXED 2192  1        
+auto_INCR  2369  1        
+auto_WRAP  964   1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_read_response_type_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 2        0         2       100.00  
+
+
+User Defined Bins for ei_axi4_read_response_type_cp
+
+
+Excluded/Illegal bins
+
+NAME         COUNT STATUS  
+invalid_resp 0     Illegal 
+
+
+Covered bins
+
+NAME    COUNT AT LEAST 
+slv_err 27    1        
+okay    5498  1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_read_transaction_length_transfer_size_cr
+
+
+Samples crossed: ei_axi4_read_transaction_length_cp ei_axi4_read_transfer_size_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+Automatically Generated Cross Bins 1024     128       896     87.50   128     
+
+
+Automatically Generated Cross Bins for ei_axi4_read_transaction_length_transfer_size_cr
+
+
+Uncovered bins
+
+ei_axi4_read_transaction_length_cp                ei_axi4_read_transfer_size_cp COUNT AT LEAST NUMBER 
+[len[11]]                                         [size_0]                      0     1        1      
+[len[12]]                                         [size_3]                      0     1        1      
+[len[13]]                                         [size_0]                      0     1        1      
+[len[22] , len[23]]                               [size_0]                      --    --       2      
+[len[24]]                                         [size_1]                      0     1        1      
+[len[27] , len[28]]                               [size_0]                      --    --       2      
+[len[2e]]                                         [size_2]                      0     1        1      
+[len[35]]                                         [size_0]                      0     1        1      
+[len[36]]                                         [size_2]                      0     1        1      
+[len[38]]                                         [size_0]                      0     1        1      
+[len[3a]]                                         [size_0 , size_1]             --    --       2      
+[len[3b]]                                         [size_0]                      0     1        1      
+[len[3b]]                                         [size_2]                      0     1        1      
+[len[3d]]                                         [size_0]                      0     1        1      
+[len[3e]]                                         [size_1]                      0     1        1      
+[len[42]]                                         [size_0]                      0     1        1      
+[len[44] , len[45] , len[46]]                     [size_0]                      --    --       3      
+[len[47]]                                         [size_3]                      0     1        1      
+[len[49] , len[4a] , len[4b]]                     [size_0]                      --    --       3      
+[len[4d]]                                         [size_1]                      0     1        1      
+[len[51]]                                         [size_2]                      0     1        1      
+[len[52]]                                         [size_0]                      0     1        1      
+[len[54]]                                         [size_0]                      0     1        1      
+[len[56]]                                         [size_0]                      0     1        1      
+[len[58]]                                         [size_0]                      0     1        1      
+[len[5a]]                                         [size_0]                      0     1        1      
+[len[5b]]                                         [size_2]                      0     1        1      
+[len[5c]]                                         [size_0]                      0     1        1      
+[len[5d]]                                         [size_0 , size_1]             --    --       2      
+[len[5f]]                                         [size_0]                      0     1        1      
+[len[5f]]                                         [size_3]                      0     1        1      
+[len[60] , len[61] , len[62] , len[63] , len[64]] [size_0]                      --    --       5      
+[len[6d]]                                         [size_2 , size_3]             --    --       2      
+[len[70]]                                         [size_0]                      0     1        1      
+[len[74] , len[75]]                               [size_0]                      --    --       2      
+[len[79]]                                         [size_0]                      0     1        1      
+[len[7e]]                                         [size_0]                      0     1        1      
+[len[7e]]                                         [size_3]                      0     1        1      
+[len[7f] , len[80]]                               [size_0]                      --    --       2      
+[len[86]]                                         [size_0]                      0     1        1      
+[len[89]]                                         [size_0]                      0     1        1      
+[len[8b]]                                         [size_0]                      0     1        1      
+[len[8d]]                                         [size_0]                      0     1        1      
+[len[8e]]                                         [size_1]                      0     1        1      
+[len[90]]                                         [size_2]                      0     1        1      
+[len[91]]                                         [size_0]                      0     1        1      
+[len[92]]                                         [size_1]                      0     1        1      
+[len[93]]                                         [size_0]                      0     1        1      
+[len[93]]                                         [size_3]                      0     1        1      
+[len[94]]                                         [size_0]                      0     1        1      
+[len[95]]                                         [size_1]                      0     1        1      
+[len[97]]                                         [size_3]                      0     1        1      
+[len[98]]                                         [size_1]                      0     1        1      
+[len[9c]]                                         [size_0]                      0     1        1      
+[len[9c]]                                         [size_2]                      0     1        1      
+[len[a1]]                                         [size_0]                      0     1        1      
+[len[a1]]                                         [size_3]                      0     1        1      
+[len[a2]]                                         [size_3]                      0     1        1      
+[len[a3]]                                         [size_0]                      0     1        1      
+[len[a3]]                                         [size_3]                      0     1        1      
+[len[a5] , len[a6] , len[a7] , len[a8] , len[a9]] [size_0]                      --    --       5      
+[len[ab]]                                         [size_2]                      0     1        1      
+[len[ac] , len[ad]]                               [size_0]                      --    --       2      
+[len[af]]                                         [size_0 , size_1]             --    --       2      
+[len[b0]]                                         [size_0]                      0     1        1      
+[len[b4]]                                         [size_0]                      0     1        1      
+[len[b7] , len[b8] , len[b9] , len[ba]]           [size_0]                      --    --       4      
+[len[bc]]                                         [size_2]                      0     1        1      
+[len[bd]]                                         [size_0]                      0     1        1      
+[len[c0] , len[c1] , len[c2]]                     [size_0]                      --    --       3      
+[len[c4] , len[c5]]                               [size_0]                      --    --       2      
+[len[c8]]                                         [size_0]                      0     1        1      
+[len[c9]]                                         [size_2]                      0     1        1      
+[len[cd] , len[ce] , len[cf]]                     [size_0]                      --    --       3      
+[len[d0]]                                         [size_0]                      0     1        1      
+[len[d0]]                                         [size_3]                      0     1        1      
+[len[d4] , len[d5]]                               [size_0]                      --    --       2      
+[len[d8]]                                         [size_0 , size_1]             --    --       2      
+[len[da]]                                         [size_0]                      0     1        1      
+[len[dc]]                                         [size_0]                      0     1        1      
+[len[de]]                                         [size_1]                      0     1        1      
+[len[df] , len[e0]]                               [size_0]                      --    --       2      
+[len[e3]]                                         [size_3]                      0     1        1      
+[len[e5]]                                         [size_0]                      0     1        1      
+[len[e6]]                                         [size_1]                      0     1        1      
+[len[e7]]                                         [size_2]                      0     1        1      
+[len[e8] , len[e9]]                               [size_0]                      --    --       2      
+[len[ec]]                                         [size_0]                      0     1        1      
+[len[f0]]                                         [size_0]                      0     1        1      
+[len[f3] , len[f4] , len[f5] , len[f6] , len[f7]] [size_0]                      --    --       5      
+[len[fa]]                                         [size_0]                      0     1        1      
+
+
+Covered bins
+
+ei_axi4_read_transaction_length_cp ei_axi4_read_transfer_size_cp COUNT AT LEAST 
+len[00]                            size_0                        25    1        
+len[00]                            size_1                        42    1        
+len[00]                            size_2                        40    1        
+len[00]                            size_3                        41    1        
+len[01]                            size_0                        70    1        
+len[01]                            size_1                        96    1        
+len[01]                            size_2                        99    1        
+len[01]                            size_3                        98    1        
+len[02]                            size_0                        12    1        
+len[02]                            size_1                        41    1        
+len[02]                            size_2                        36    1        
+len[02]                            size_3                        35    1        
+len[03]                            size_0                        59    1        
+len[03]                            size_1                        91    1        
+len[03]                            size_2                        82    1        
+len[03]                            size_3                        83    1        
+len[04]                            size_0                        16    1        
+len[04]                            size_1                        40    1        
+len[04]                            size_2                        47    1        
+len[04]                            size_3                        39    1        
+len[05]                            size_0                        18    1        
+len[05]                            size_1                        42    1        
+len[05]                            size_2                        47    1        
+len[05]                            size_3                        49    1        
+len[06]                            size_0                        19    1        
+len[06]                            size_1                        53    1        
+len[06]                            size_2                        35    1        
+len[06]                            size_3                        36    1        
+len[07]                            size_0                        56    1        
+len[07]                            size_1                        82    1        
+len[07]                            size_2                        110   1        
+len[07]                            size_3                        92    1        
+len[08]                            size_0                        15    1        
+len[08]                            size_1                        54    1        
+len[08]                            size_2                        42    1        
+len[08]                            size_3                        53    1        
+len[09]                            size_0                        23    1        
+len[09]                            size_1                        42    1        
+len[09]                            size_2                        37    1        
+len[09]                            size_3                        44    1        
+len[0a]                            size_0                        14    1        
+len[0a]                            size_1                        52    1        
+len[0a]                            size_2                        33    1        
+len[0a]                            size_3                        45    1        
+len[0b]                            size_0                        11    1        
+len[0b]                            size_1                        47    1        
+len[0b]                            size_2                        46    1        
+len[0b]                            size_3                        48    1        
+len[0c]                            size_0                        19    1        
+len[0c]                            size_1                        41    1        
+len[0c]                            size_2                        40    1        
+len[0c]                            size_3                        46    1        
+len[0d]                            size_0                        10    1        
+len[0d]                            size_1                        47    1        
+len[0d]                            size_2                        47    1        
+len[0d]                            size_3                        44    1        
+len[0e]                            size_0                        12    1        
+len[0e]                            size_1                        37    1        
+len[0e]                            size_2                        41    1        
+len[0e]                            size_3                        35    1        
+len[0f]                            size_0                        122   1        
+len[0f]                            size_1                        134   1        
+len[0f]                            size_2                        130   1        
+len[0f]                            size_3                        143   1        
+len[10]                            size_0                        1     1        
+len[10]                            size_1                        5     1        
+len[10]                            size_2                        5     1        
+len[10]                            size_3                        2     1        
+len[11]                            size_1                        5     1        
+len[11]                            size_2                        2     1        
+len[11]                            size_3                        2     1        
+len[12]                            size_0                        2     1        
+len[12]                            size_1                        5     1        
+len[12]                            size_2                        2     1        
+len[13]                            size_1                        6     1        
+len[13]                            size_2                        3     1        
+len[13]                            size_3                        5     1        
+len[14]                            size_0                        2     1        
+len[14]                            size_1                        4     1        
+len[14]                            size_2                        1     1        
+len[14]                            size_3                        2     1        
+len[15]                            size_0                        2     1        
+len[15]                            size_1                        2     1        
+len[15]                            size_2                        2     1        
+len[15]                            size_3                        4     1        
+len[16]                            size_0                        3     1        
+len[16]                            size_1                        2     1        
+len[16]                            size_2                        4     1        
+len[16]                            size_3                        1     1        
+len[17]                            size_0                        2     1        
+len[17]                            size_1                        3     1        
+len[17]                            size_2                        3     1        
+len[17]                            size_3                        2     1        
+len[18]                            size_0                        1     1        
+len[18]                            size_1                        4     1        
+len[18]                            size_2                        3     1        
+len[18]                            size_3                        1     1        
+len[19]                            size_0                        1     1        
+len[19]                            size_1                        3     1        
+len[19]                            size_2                        3     1        
+len[19]                            size_3                        3     1        
+len[1a]                            size_0                        1     1        
+len[1a]                            size_1                        2     1        
+len[1a]                            size_2                        5     1        
+len[1a]                            size_3                        3     1        
+len[1b]                            size_0                        2     1        
+len[1b]                            size_1                        2     1        
+len[1b]                            size_2                        4     1        
+len[1b]                            size_3                        2     1        
+len[1c]                            size_0                        1     1        
+len[1c]                            size_1                        2     1        
+len[1c]                            size_2                        4     1        
+len[1c]                            size_3                        1     1        
+len[1d]                            size_0                        1     1        
+len[1d]                            size_1                        3     1        
+len[1d]                            size_2                        2     1        
+len[1d]                            size_3                        1     1        
+len[1e]                            size_0                        2     1        
+len[1e]                            size_1                        2     1        
+len[1e]                            size_2                        3     1        
+len[1e]                            size_3                        5     1        
+len[1f]                            size_0                        1     1        
+len[1f]                            size_1                        3     1        
+len[1f]                            size_2                        3     1        
+len[1f]                            size_3                        3     1        
+len[20]                            size_0                        1     1        
+len[20]                            size_1                        4     1        
+len[20]                            size_2                        3     1        
+len[20]                            size_3                        2     1        
+len[21]                            size_0                        1     1        
+len[21]                            size_1                        3     1        
+len[21]                            size_2                        2     1        
+len[21]                            size_3                        2     1        
+len[22]                            size_1                        3     1        
+len[22]                            size_2                        2     1        
+len[22]                            size_3                        6     1        
+len[23]                            size_1                        9     1        
+len[23]                            size_2                        2     1        
+len[23]                            size_3                        2     1        
+len[24]                            size_0                        3     1        
+len[24]                            size_2                        2     1        
+len[24]                            size_3                        3     1        
+len[25]                            size_0                        1     1        
+len[25]                            size_1                        5     1        
+len[25]                            size_2                        1     1        
+len[25]                            size_3                        3     1        
+len[26]                            size_0                        1     1        
+len[26]                            size_1                        4     1        
+len[26]                            size_2                        4     1        
+len[26]                            size_3                        5     1        
+len[27]                            size_1                        4     1        
+len[27]                            size_2                        3     1        
+len[27]                            size_3                        4     1        
+len[28]                            size_1                        2     1        
+len[28]                            size_2                        3     1        
+len[28]                            size_3                        4     1        
+len[29]                            size_0                        1     1        
+len[29]                            size_1                        4     1        
+len[29]                            size_2                        3     1        
+len[29]                            size_3                        1     1        
+len[2a]                            size_0                        7     1        
+len[2a]                            size_1                        3     1        
+len[2a]                            size_2                        2     1        
+len[2a]                            size_3                        7     1        
+len[2b]                            size_0                        1     1        
+len[2b]                            size_1                        5     1        
+len[2b]                            size_2                        4     1        
+len[2b]                            size_3                        1     1        
+len[2c]                            size_0                        2     1        
+len[2c]                            size_1                        3     1        
+len[2c]                            size_2                        2     1        
+len[2c]                            size_3                        1     1        
+len[2d]                            size_0                        1     1        
+len[2d]                            size_1                        1     1        
+len[2d]                            size_2                        1     1        
+len[2d]                            size_3                        2     1        
+len[2e]                            size_0                        2     1        
+len[2e]                            size_1                        3     1        
+len[2e]                            size_3                        4     1        
+len[2f]                            size_0                        1     1        
+len[2f]                            size_1                        2     1        
+len[2f]                            size_2                        2     1        
+len[2f]                            size_3                        3     1        
+len[30]                            size_0                        3     1        
+len[30]                            size_1                        2     1        
+len[30]                            size_2                        4     1        
+len[30]                            size_3                        6     1        
+len[31]                            size_0                        1     1        
+len[31]                            size_1                        3     1        
+len[31]                            size_2                        4     1        
+len[31]                            size_3                        2     1        
+len[32]                            size_0                        3     1        
+len[32]                            size_1                        1     1        
+len[32]                            size_2                        2     1        
+len[32]                            size_3                        4     1        
+len[33]                            size_0                        2     1        
+len[33]                            size_1                        2     1        
+len[33]                            size_2                        2     1        
+len[33]                            size_3                        4     1        
+len[34]                            size_0                        1     1        
+len[34]                            size_1                        3     1        
+len[34]                            size_2                        1     1        
+len[34]                            size_3                        1     1        
+len[35]                            size_1                        5     1        
+len[35]                            size_2                        3     1        
+len[35]                            size_3                        2     1        
+len[36]                            size_0                        1     1        
+len[36]                            size_1                        1     1        
+len[36]                            size_3                        4     1        
+len[37]                            size_0                        1     1        
+len[37]                            size_1                        1     1        
+len[37]                            size_2                        3     1        
+len[37]                            size_3                        6     1        
+len[38]                            size_1                        3     1        
+len[38]                            size_2                        4     1        
+len[38]                            size_3                        3     1        
+len[39]                            size_0                        1     1        
+len[39]                            size_1                        2     1        
+len[39]                            size_2                        4     1        
+len[39]                            size_3                        4     1        
+len[3a]                            size_2                        6     1        
+len[3a]                            size_3                        5     1        
+len[3b]                            size_1                        3     1        
+len[3b]                            size_3                        1     1        
+len[3c]                            size_0                        2     1        
+len[3c]                            size_1                        3     1        
+len[3c]                            size_2                        4     1        
+len[3c]                            size_3                        1     1        
+len[3d]                            size_1                        2     1        
+len[3d]                            size_2                        5     1        
+len[3d]                            size_3                        2     1        
+len[3e]                            size_0                        1     1        
+len[3e]                            size_2                        5     1        
+len[3e]                            size_3                        1     1        
+len[3f]                            size_0                        3     1        
+len[3f]                            size_1                        6     1        
+len[3f]                            size_2                        4     1        
+len[3f]                            size_3                        4     1        
+len[40]                            size_0                        1     1        
+len[40]                            size_1                        3     1        
+len[40]                            size_2                        1     1        
+len[40]                            size_3                        2     1        
+len[41]                            size_0                        3     1        
+len[41]                            size_1                        1     1        
+len[41]                            size_2                        3     1        
+len[41]                            size_3                        4     1        
+len[42]                            size_1                        6     1        
+len[42]                            size_2                        4     1        
+len[42]                            size_3                        4     1        
+len[43]                            size_0                        2     1        
+len[43]                            size_1                        3     1        
+len[43]                            size_2                        3     1        
+len[43]                            size_3                        5     1        
+len[44]                            size_1                        3     1        
+len[44]                            size_2                        5     1        
+len[44]                            size_3                        2     1        
+len[45]                            size_1                        1     1        
+len[45]                            size_2                        2     1        
+len[45]                            size_3                        2     1        
+len[46]                            size_1                        3     1        
+len[46]                            size_2                        3     1        
+len[46]                            size_3                        2     1        
+len[47]                            size_0                        2     1        
+len[47]                            size_1                        4     1        
+len[47]                            size_2                        4     1        
+len[48]                            size_0                        2     1        
+len[48]                            size_1                        1     1        
+len[48]                            size_2                        2     1        
+len[48]                            size_3                        2     1        
+len[49]                            size_1                        4     1        
+len[49]                            size_2                        5     1        
+len[49]                            size_3                        4     1        
+len[4a]                            size_1                        3     1        
+len[4a]                            size_2                        4     1        
+len[4a]                            size_3                        6     1        
+len[4b]                            size_1                        3     1        
+len[4b]                            size_2                        3     1        
+len[4b]                            size_3                        3     1        
+len[4c]                            size_0                        1     1        
+len[4c]                            size_1                        1     1        
+len[4c]                            size_2                        1     1        
+len[4c]                            size_3                        2     1        
+len[4d]                            size_0                        2     1        
+len[4d]                            size_2                        6     1        
+len[4d]                            size_3                        2     1        
+len[4e]                            size_0                        1     1        
+len[4e]                            size_1                        2     1        
+len[4e]                            size_2                        3     1        
+len[4e]                            size_3                        4     1        
+len[4f]                            size_0                        3     1        
+len[4f]                            size_1                        2     1        
+len[4f]                            size_2                        3     1        
+len[4f]                            size_3                        3     1        
+len[50]                            size_0                        3     1        
+len[50]                            size_1                        1     1        
+len[50]                            size_2                        6     1        
+len[50]                            size_3                        1     1        
+len[51]                            size_0                        2     1        
+len[51]                            size_1                        1     1        
+len[51]                            size_3                        5     1        
+len[52]                            size_1                        4     1        
+len[52]                            size_2                        3     1        
+len[52]                            size_3                        3     1        
+len[53]                            size_0                        1     1        
+len[53]                            size_1                        1     1        
+len[53]                            size_2                        4     1        
+len[53]                            size_3                        3     1        
+len[54]                            size_1                        4     1        
+len[54]                            size_2                        3     1        
+len[54]                            size_3                        3     1        
+len[55]                            size_0                        2     1        
+len[55]                            size_1                        5     1        
+len[55]                            size_2                        7     1        
+len[55]                            size_3                        2     1        
+len[56]                            size_1                        1     1        
+len[56]                            size_2                        2     1        
+len[56]                            size_3                        2     1        
+len[57]                            size_0                        1     1        
+len[57]                            size_1                        3     1        
+len[57]                            size_2                        1     1        
+len[57]                            size_3                        5     1        
+len[58]                            size_1                        4     1        
+len[58]                            size_2                        4     1        
+len[58]                            size_3                        2     1        
+len[59]                            size_0                        2     1        
+len[59]                            size_1                        4     1        
+len[59]                            size_2                        1     1        
+len[59]                            size_3                        5     1        
+len[5a]                            size_1                        1     1        
+len[5a]                            size_2                        2     1        
+len[5a]                            size_3                        3     1        
+len[5b]                            size_0                        1     1        
+len[5b]                            size_1                        1     1        
+len[5b]                            size_3                        3     1        
+len[5c]                            size_1                        1     1        
+len[5c]                            size_2                        1     1        
+len[5c]                            size_3                        4     1        
+len[5d]                            size_2                        2     1        
+len[5d]                            size_3                        4     1        
+len[5e]                            size_0                        1     1        
+len[5e]                            size_1                        1     1        
+len[5e]                            size_2                        2     1        
+len[5e]                            size_3                        4     1        
+len[5f]                            size_1                        3     1        
+len[5f]                            size_2                        2     1        
+len[60]                            size_1                        2     1        
+len[60]                            size_2                        1     1        
+len[60]                            size_3                        3     1        
+len[61]                            size_1                        6     1        
+len[61]                            size_2                        2     1        
+len[61]                            size_3                        1     1        
+len[62]                            size_1                        3     1        
+len[62]                            size_2                        1     1        
+len[62]                            size_3                        2     1        
+len[63]                            size_1                        4     1        
+len[63]                            size_2                        3     1        
+len[63]                            size_3                        5     1        
+len[64]                            size_1                        2     1        
+len[64]                            size_2                        5     1        
+len[64]                            size_3                        4     1        
+len[65]                            size_0                        2     1        
+len[65]                            size_1                        3     1        
+len[65]                            size_2                        3     1        
+len[65]                            size_3                        1     1        
+len[66]                            size_0                        1     1        
+len[66]                            size_1                        8     1        
+len[66]                            size_2                        2     1        
+len[66]                            size_3                        2     1        
+len[67]                            size_0                        2     1        
+len[67]                            size_1                        5     1        
+len[67]                            size_2                        2     1        
+len[67]                            size_3                        5     1        
+len[68]                            size_0                        2     1        
+len[68]                            size_1                        2     1        
+len[68]                            size_2                        3     1        
+len[68]                            size_3                        2     1        
+len[69]                            size_0                        1     1        
+len[69]                            size_1                        4     1        
+len[69]                            size_2                        3     1        
+len[69]                            size_3                        5     1        
+len[6a]                            size_0                        1     1        
+len[6a]                            size_1                        5     1        
+len[6a]                            size_2                        4     1        
+len[6a]                            size_3                        4     1        
+len[6b]                            size_0                        1     1        
+len[6b]                            size_1                        3     1        
+len[6b]                            size_2                        2     1        
+len[6b]                            size_3                        1     1        
+len[6c]                            size_0                        1     1        
+len[6c]                            size_1                        4     1        
+len[6c]                            size_2                        4     1        
+len[6c]                            size_3                        2     1        
+len[6d]                            size_0                        3     1        
+len[6d]                            size_1                        2     1        
+len[6e]                            size_0                        1     1        
+len[6e]                            size_1                        5     1        
+len[6e]                            size_2                        1     1        
+len[6e]                            size_3                        4     1        
+len[6f]                            size_0                        1     1        
+len[6f]                            size_1                        2     1        
+len[6f]                            size_2                        5     1        
+len[6f]                            size_3                        4     1        
+len[70]                            size_1                        3     1        
+len[70]                            size_2                        5     1        
+len[70]                            size_3                        5     1        
+len[71]                            size_0                        1     1        
+len[71]                            size_1                        2     1        
+len[71]                            size_2                        3     1        
+len[71]                            size_3                        1     1        
+len[72]                            size_0                        1     1        
+len[72]                            size_1                        3     1        
+len[72]                            size_2                        5     1        
+len[72]                            size_3                        3     1        
+len[73]                            size_0                        2     1        
+len[73]                            size_1                        2     1        
+len[73]                            size_2                        3     1        
+len[73]                            size_3                        3     1        
+len[74]                            size_1                        4     1        
+len[74]                            size_2                        1     1        
+len[74]                            size_3                        4     1        
+len[75]                            size_1                        2     1        
+len[75]                            size_2                        2     1        
+len[75]                            size_3                        1     1        
+len[76]                            size_0                        1     1        
+len[76]                            size_1                        2     1        
+len[76]                            size_2                        3     1        
+len[76]                            size_3                        1     1        
+len[77]                            size_0                        1     1        
+len[77]                            size_1                        3     1        
+len[77]                            size_2                        2     1        
+len[77]                            size_3                        4     1        
+len[78]                            size_0                        1     1        
+len[78]                            size_1                        2     1        
+len[78]                            size_2                        4     1        
+len[78]                            size_3                        5     1        
+len[79]                            size_1                        2     1        
+len[79]                            size_2                        1     1        
+len[79]                            size_3                        3     1        
+len[7a]                            size_0                        1     1        
+len[7a]                            size_1                        2     1        
+len[7a]                            size_2                        1     1        
+len[7a]                            size_3                        4     1        
+len[7b]                            size_0                        1     1        
+len[7b]                            size_1                        2     1        
+len[7b]                            size_2                        3     1        
+len[7b]                            size_3                        4     1        
+len[7c]                            size_0                        2     1        
+len[7c]                            size_1                        4     1        
+len[7c]                            size_2                        2     1        
+len[7c]                            size_3                        5     1        
+len[7d]                            size_0                        1     1        
+len[7d]                            size_1                        4     1        
+len[7d]                            size_2                        2     1        
+len[7d]                            size_3                        4     1        
+len[7e]                            size_1                        1     1        
+len[7e]                            size_2                        5     1        
+len[7f]                            size_1                        5     1        
+len[7f]                            size_2                        6     1        
+len[7f]                            size_3                        3     1        
+len[80]                            size_1                        2     1        
+len[80]                            size_2                        2     1        
+len[80]                            size_3                        3     1        
+len[81]                            size_0                        1     1        
+len[81]                            size_1                        5     1        
+len[81]                            size_2                        2     1        
+len[81]                            size_3                        4     1        
+len[82]                            size_0                        2     1        
+len[82]                            size_1                        4     1        
+len[82]                            size_2                        2     1        
+len[82]                            size_3                        4     1        
+len[83]                            size_0                        1     1        
+len[83]                            size_1                        1     1        
+len[83]                            size_2                        2     1        
+len[83]                            size_3                        1     1        
+len[84]                            size_0                        1     1        
+len[84]                            size_1                        4     1        
+len[84]                            size_2                        3     1        
+len[84]                            size_3                        2     1        
+len[85]                            size_0                        1     1        
+len[85]                            size_1                        3     1        
+len[85]                            size_2                        6     1        
+len[85]                            size_3                        5     1        
+len[86]                            size_1                        7     1        
+len[86]                            size_2                        4     1        
+len[86]                            size_3                        4     1        
+len[87]                            size_0                        1     1        
+len[87]                            size_1                        4     1        
+len[87]                            size_2                        2     1        
+len[87]                            size_3                        2     1        
+len[88]                            size_0                        1     1        
+len[88]                            size_1                        1     1        
+len[88]                            size_2                        6     1        
+len[88]                            size_3                        1     1        
+len[89]                            size_1                        2     1        
+len[89]                            size_2                        1     1        
+len[89]                            size_3                        2     1        
+len[8a]                            size_0                        2     1        
+len[8a]                            size_1                        7     1        
+len[8a]                            size_2                        2     1        
+len[8a]                            size_3                        1     1        
+len[8b]                            size_1                        3     1        
+len[8b]                            size_2                        2     1        
+len[8b]                            size_3                        5     1        
+len[8c]                            size_0                        2     1        
+len[8c]                            size_1                        1     1        
+len[8c]                            size_2                        2     1        
+len[8c]                            size_3                        5     1        
+len[8d]                            size_1                        3     1        
+len[8d]                            size_2                        3     1        
+len[8d]                            size_3                        4     1        
+len[8e]                            size_0                        1     1        
+len[8e]                            size_2                        6     1        
+len[8e]                            size_3                        2     1        
+len[8f]                            size_0                        2     1        
+len[8f]                            size_1                        3     1        
+len[8f]                            size_2                        4     1        
+len[8f]                            size_3                        1     1        
+len[90]                            size_0                        1     1        
+len[90]                            size_1                        1     1        
+len[90]                            size_3                        3     1        
+len[91]                            size_1                        4     1        
+len[91]                            size_2                        3     1        
+len[91]                            size_3                        2     1        
+len[92]                            size_0                        2     1        
+len[92]                            size_2                        3     1        
+len[92]                            size_3                        4     1        
+len[93]                            size_1                        2     1        
+len[93]                            size_2                        5     1        
+len[94]                            size_1                        4     1        
+len[94]                            size_2                        3     1        
+len[94]                            size_3                        2     1        
+len[95]                            size_0                        2     1        
+len[95]                            size_2                        3     1        
+len[95]                            size_3                        1     1        
+len[96]                            size_0                        1     1        
+len[96]                            size_1                        2     1        
+len[96]                            size_2                        1     1        
+len[96]                            size_3                        6     1        
+len[97]                            size_0                        2     1        
+len[97]                            size_1                        1     1        
+len[97]                            size_2                        2     1        
+len[98]                            size_0                        2     1        
+len[98]                            size_2                        1     1        
+len[98]                            size_3                        4     1        
+len[99]                            size_0                        1     1        
+len[99]                            size_1                        4     1        
+len[99]                            size_2                        3     1        
+len[99]                            size_3                        4     1        
+len[9a]                            size_0                        1     1        
+len[9a]                            size_1                        3     1        
+len[9a]                            size_2                        6     1        
+len[9a]                            size_3                        1     1        
+len[9b]                            size_0                        4     1        
+len[9b]                            size_1                        1     1        
+len[9b]                            size_2                        8     1        
+len[9b]                            size_3                        1     1        
+len[9c]                            size_1                        1     1        
+len[9c]                            size_3                        2     1        
+len[9d]                            size_0                        1     1        
+len[9d]                            size_1                        7     1        
+len[9d]                            size_2                        3     1        
+len[9d]                            size_3                        3     1        
+len[9e]                            size_0                        1     1        
+len[9e]                            size_1                        5     1        
+len[9e]                            size_2                        3     1        
+len[9e]                            size_3                        3     1        
+len[9f]                            size_0                        2     1        
+len[9f]                            size_1                        4     1        
+len[9f]                            size_2                        1     1        
+len[9f]                            size_3                        4     1        
+len[a0]                            size_0                        1     1        
+len[a0]                            size_1                        1     1        
+len[a0]                            size_2                        3     1        
+len[a0]                            size_3                        4     1        
+len[a1]                            size_1                        4     1        
+len[a1]                            size_2                        2     1        
+len[a2]                            size_0                        2     1        
+len[a2]                            size_1                        4     1        
+len[a2]                            size_2                        2     1        
+len[a3]                            size_1                        7     1        
+len[a3]                            size_2                        2     1        
+len[a4]                            size_0                        1     1        
+len[a4]                            size_1                        5     1        
+len[a4]                            size_2                        3     1        
+len[a4]                            size_3                        3     1        
+len[a5]                            size_1                        2     1        
+len[a5]                            size_2                        3     1        
+len[a5]                            size_3                        2     1        
+len[a6]                            size_1                        2     1        
+len[a6]                            size_2                        1     1        
+len[a6]                            size_3                        2     1        
+len[a7]                            size_1                        1     1        
+len[a7]                            size_2                        2     1        
+len[a7]                            size_3                        2     1        
+len[a8]                            size_1                        2     1        
+len[a8]                            size_2                        4     1        
+len[a8]                            size_3                        3     1        
+len[a9]                            size_1                        4     1        
+len[a9]                            size_2                        4     1        
+len[a9]                            size_3                        4     1        
+len[aa]                            size_0                        1     1        
+len[aa]                            size_1                        3     1        
+len[aa]                            size_2                        3     1        
+len[aa]                            size_3                        6     1        
+len[ab]                            size_0                        1     1        
+len[ab]                            size_1                        3     1        
+len[ab]                            size_3                        3     1        
+len[ac]                            size_1                        2     1        
+len[ac]                            size_2                        2     1        
+len[ac]                            size_3                        5     1        
+len[ad]                            size_1                        1     1        
+len[ad]                            size_2                        1     1        
+len[ad]                            size_3                        1     1        
+len[ae]                            size_0                        1     1        
+len[ae]                            size_1                        4     1        
+len[ae]                            size_2                        1     1        
+len[ae]                            size_3                        2     1        
+len[af]                            size_2                        5     1        
+len[af]                            size_3                        3     1        
+len[b0]                            size_1                        1     1        
+len[b0]                            size_2                        4     1        
+len[b0]                            size_3                        5     1        
+len[b1]                            size_0                        4     1        
+len[b1]                            size_1                        3     1        
+len[b1]                            size_2                        3     1        
+len[b1]                            size_3                        4     1        
+len[b2]                            size_0                        1     1        
+len[b2]                            size_1                        1     1        
+len[b2]                            size_2                        1     1        
+len[b2]                            size_3                        5     1        
+len[b3]                            size_0                        1     1        
+len[b3]                            size_1                        3     1        
+len[b3]                            size_2                        5     1        
+len[b3]                            size_3                        2     1        
+len[b4]                            size_1                        2     1        
+len[b4]                            size_2                        6     1        
+len[b4]                            size_3                        3     1        
+len[b5]                            size_0                        1     1        
+len[b5]                            size_1                        2     1        
+len[b5]                            size_2                        1     1        
+len[b5]                            size_3                        4     1        
+len[b6]                            size_0                        3     1        
+len[b6]                            size_1                        1     1        
+len[b6]                            size_2                        3     1        
+len[b6]                            size_3                        3     1        
+len[b7]                            size_1                        1     1        
+len[b7]                            size_2                        3     1        
+len[b7]                            size_3                        1     1        
+len[b8]                            size_1                        2     1        
+len[b8]                            size_2                        1     1        
+len[b8]                            size_3                        3     1        
+len[b9]                            size_1                        3     1        
+len[b9]                            size_2                        2     1        
+len[b9]                            size_3                        1     1        
+len[ba]                            size_1                        2     1        
+len[ba]                            size_2                        3     1        
+len[ba]                            size_3                        2     1        
+len[bb]                            size_0                        2     1        
+len[bb]                            size_1                        5     1        
+len[bb]                            size_2                        2     1        
+len[bb]                            size_3                        5     1        
+len[bc]                            size_0                        2     1        
+len[bc]                            size_1                        2     1        
+len[bc]                            size_3                        2     1        
+len[bd]                            size_1                        2     1        
+len[bd]                            size_2                        2     1        
+len[bd]                            size_3                        4     1        
+len[be]                            size_0                        1     1        
+len[be]                            size_1                        2     1        
+len[be]                            size_2                        1     1        
+len[be]                            size_3                        3     1        
+len[bf]                            size_0                        2     1        
+len[bf]                            size_1                        3     1        
+len[bf]                            size_2                        1     1        
+len[bf]                            size_3                        3     1        
+len[c0]                            size_1                        4     1        
+len[c0]                            size_2                        4     1        
+len[c0]                            size_3                        1     1        
+len[c1]                            size_1                        1     1        
+len[c1]                            size_2                        1     1        
+len[c1]                            size_3                        4     1        
+len[c2]                            size_1                        1     1        
+len[c2]                            size_2                        2     1        
+len[c2]                            size_3                        5     1        
+len[c3]                            size_0                        2     1        
+len[c3]                            size_1                        3     1        
+len[c3]                            size_2                        2     1        
+len[c3]                            size_3                        3     1        
+len[c4]                            size_1                        3     1        
+len[c4]                            size_2                        2     1        
+len[c4]                            size_3                        2     1        
+len[c5]                            size_1                        6     1        
+len[c5]                            size_2                        5     1        
+len[c5]                            size_3                        5     1        
+len[c6]                            size_0                        3     1        
+len[c6]                            size_1                        3     1        
+len[c6]                            size_2                        5     1        
+len[c6]                            size_3                        4     1        
+len[c7]                            size_0                        1     1        
+len[c7]                            size_1                        3     1        
+len[c7]                            size_2                        2     1        
+len[c7]                            size_3                        4     1        
+len[c8]                            size_1                        3     1        
+len[c8]                            size_2                        3     1        
+len[c8]                            size_3                        3     1        
+len[c9]                            size_0                        1     1        
+len[c9]                            size_1                        3     1        
+len[c9]                            size_3                        3     1        
+len[ca]                            size_0                        4     1        
+len[ca]                            size_1                        3     1        
+len[ca]                            size_2                        3     1        
+len[ca]                            size_3                        3     1        
+len[cb]                            size_0                        1     1        
+len[cb]                            size_1                        2     1        
+len[cb]                            size_2                        2     1        
+len[cb]                            size_3                        4     1        
+len[cc]                            size_0                        2     1        
+len[cc]                            size_1                        3     1        
+len[cc]                            size_2                        1     1        
+len[cc]                            size_3                        1     1        
+len[cd]                            size_1                        4     1        
+len[cd]                            size_2                        1     1        
+len[cd]                            size_3                        2     1        
+len[ce]                            size_1                        3     1        
+len[ce]                            size_2                        3     1        
+len[ce]                            size_3                        3     1        
+len[cf]                            size_1                        2     1        
+len[cf]                            size_2                        2     1        
+len[cf]                            size_3                        2     1        
+len[d0]                            size_1                        4     1        
+len[d0]                            size_2                        5     1        
+len[d1]                            size_0                        2     1        
+len[d1]                            size_1                        3     1        
+len[d1]                            size_2                        1     1        
+len[d1]                            size_3                        2     1        
+len[d2]                            size_0                        1     1        
+len[d2]                            size_1                        4     1        
+len[d2]                            size_2                        5     1        
+len[d2]                            size_3                        1     1        
+len[d3]                            size_0                        2     1        
+len[d3]                            size_1                        3     1        
+len[d3]                            size_2                        4     1        
+len[d3]                            size_3                        2     1        
+len[d4]                            size_1                        1     1        
+len[d4]                            size_2                        6     1        
+len[d4]                            size_3                        1     1        
+len[d5]                            size_1                        4     1        
+len[d5]                            size_2                        1     1        
+len[d5]                            size_3                        4     1        
+len[d6]                            size_0                        1     1        
+len[d6]                            size_1                        1     1        
+len[d6]                            size_2                        2     1        
+len[d6]                            size_3                        2     1        
+len[d7]                            size_0                        2     1        
+len[d7]                            size_1                        1     1        
+len[d7]                            size_2                        3     1        
+len[d7]                            size_3                        2     1        
+len[d8]                            size_2                        4     1        
+len[d8]                            size_3                        3     1        
+len[d9]                            size_0                        1     1        
+len[d9]                            size_1                        1     1        
+len[d9]                            size_2                        4     1        
+len[d9]                            size_3                        2     1        
+len[da]                            size_1                        2     1        
+len[da]                            size_2                        3     1        
+len[da]                            size_3                        1     1        
+len[db]                            size_0                        1     1        
+len[db]                            size_1                        4     1        
+len[db]                            size_2                        2     1        
+len[db]                            size_3                        2     1        
+len[dc]                            size_1                        2     1        
+len[dc]                            size_2                        2     1        
+len[dc]                            size_3                        1     1        
+len[dd]                            size_0                        2     1        
+len[dd]                            size_1                        5     1        
+len[dd]                            size_2                        3     1        
+len[dd]                            size_3                        3     1        
+len[de]                            size_0                        2     1        
+len[de]                            size_2                        3     1        
+len[de]                            size_3                        1     1        
+len[df]                            size_1                        1     1        
+len[df]                            size_2                        3     1        
+len[df]                            size_3                        3     1        
+len[e0]                            size_1                        4     1        
+len[e0]                            size_2                        3     1        
+len[e0]                            size_3                        3     1        
+len[e1]                            size_0                        2     1        
+len[e1]                            size_1                        2     1        
+len[e1]                            size_2                        2     1        
+len[e1]                            size_3                        4     1        
+len[e2]                            size_0                        2     1        
+len[e2]                            size_1                        3     1        
+len[e2]                            size_2                        2     1        
+len[e2]                            size_3                        1     1        
+len[e3]                            size_0                        1     1        
+len[e3]                            size_1                        5     1        
+len[e3]                            size_2                        2     1        
+len[e4]                            size_0                        1     1        
+len[e4]                            size_1                        4     1        
+len[e4]                            size_2                        2     1        
+len[e4]                            size_3                        4     1        
+len[e5]                            size_1                        1     1        
+len[e5]                            size_2                        2     1        
+len[e5]                            size_3                        4     1        
+len[e6]                            size_0                        1     1        
+len[e6]                            size_2                        3     1        
+len[e6]                            size_3                        2     1        
+len[e7]                            size_0                        1     1        
+len[e7]                            size_1                        2     1        
+len[e7]                            size_3                        4     1        
+len[e8]                            size_1                        1     1        
+len[e8]                            size_2                        1     1        
+len[e8]                            size_3                        3     1        
+len[e9]                            size_1                        4     1        
+len[e9]                            size_2                        1     1        
+len[e9]                            size_3                        3     1        
+len[ea]                            size_0                        1     1        
+len[ea]                            size_1                        3     1        
+len[ea]                            size_2                        2     1        
+len[ea]                            size_3                        6     1        
+len[eb]                            size_0                        1     1        
+len[eb]                            size_1                        7     1        
+len[eb]                            size_2                        3     1        
+len[eb]                            size_3                        3     1        
+len[ec]                            size_1                        5     1        
+len[ec]                            size_2                        3     1        
+len[ec]                            size_3                        1     1        
+len[ed]                            size_0                        1     1        
+len[ed]                            size_1                        1     1        
+len[ed]                            size_2                        5     1        
+len[ed]                            size_3                        2     1        
+len[ee]                            size_0                        3     1        
+len[ee]                            size_1                        4     1        
+len[ee]                            size_2                        1     1        
+len[ee]                            size_3                        3     1        
+len[ef]                            size_0                        2     1        
+len[ef]                            size_1                        5     1        
+len[ef]                            size_2                        4     1        
+len[ef]                            size_3                        2     1        
+len[f0]                            size_1                        5     1        
+len[f0]                            size_2                        1     1        
+len[f0]                            size_3                        2     1        
+len[f1]                            size_0                        3     1        
+len[f1]                            size_1                        3     1        
+len[f1]                            size_2                        2     1        
+len[f1]                            size_3                        5     1        
+len[f2]                            size_0                        1     1        
+len[f2]                            size_1                        4     1        
+len[f2]                            size_2                        3     1        
+len[f2]                            size_3                        2     1        
+len[f3]                            size_1                        3     1        
+len[f3]                            size_2                        1     1        
+len[f3]                            size_3                        8     1        
+len[f4]                            size_1                        1     1        
+len[f4]                            size_2                        5     1        
+len[f4]                            size_3                        2     1        
+len[f5]                            size_1                        3     1        
+len[f5]                            size_2                        3     1        
+len[f5]                            size_3                        4     1        
+len[f6]                            size_1                        2     1        
+len[f6]                            size_2                        5     1        
+len[f6]                            size_3                        7     1        
+len[f7]                            size_1                        1     1        
+len[f7]                            size_2                        3     1        
+len[f7]                            size_3                        2     1        
+len[f8]                            size_0                        1     1        
+len[f8]                            size_1                        1     1        
+len[f8]                            size_2                        1     1        
+len[f8]                            size_3                        2     1        
+len[f9]                            size_0                        4     1        
+len[f9]                            size_1                        4     1        
+len[f9]                            size_2                        3     1        
+len[f9]                            size_3                        1     1        
+len[fa]                            size_1                        5     1        
+len[fa]                            size_2                        1     1        
+len[fa]                            size_3                        2     1        
+len[fb]                            size_0                        1     1        
+len[fb]                            size_1                        2     1        
+len[fb]                            size_2                        5     1        
+len[fb]                            size_3                        4     1        
+len[fc]                            size_0                        1     1        
+len[fc]                            size_1                        2     1        
+len[fc]                            size_2                        4     1        
+len[fc]                            size_3                        3     1        
+len[fd]                            size_0                        2     1        
+len[fd]                            size_1                        1     1        
+len[fd]                            size_2                        2     1        
+len[fd]                            size_3                        2     1        
+len[fe]                            size_0                        1     1        
+len[fe]                            size_1                        1     1        
+len[fe]                            size_2                        2     1        
+len[fe]                            size_3                        2     1        
+len[ff]                            size_0                        2     1        
+len[ff]                            size_1                        3     1        
+len[ff]                            size_2                        2     1        
+len[ff]                            size_3                        2     1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_read_burst_type_address_type_cr
+
+
+Samples crossed: ei_axi4_read_burst_type_cp ei_axi4_read_address_type_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+TOTAL                              5        0         5       100.00          
+Automatically Generated Cross Bins 5        0         5       100.00          
+User Defined Cross Bins            0        0         0                       
+
+
+Automatically Generated Cross Bins for ei_axi4_read_burst_type_address_type_cr
+
+
+Bins
+
+ei_axi4_read_burst_type_cp ei_axi4_read_address_type_cp COUNT AT LEAST 
+auto_FIXED                 unaligned_addr               1320  1        
+auto_FIXED                 aligned_addr                 872   1        
+auto_INCR                  unaligned_addr               1386  1        
+auto_INCR                  aligned_addr                 983   1        
+auto_WRAP                  aligned_addr                 955   1        
+
+
+User Defined Cross Bins for ei_axi4_read_burst_type_address_type_cr
+
+
+Excluded/Illegal bins
+
+NAME           COUNT STATUS   
+wrap_unaligned 0     Excluded 
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_read_burst_type_transfer_size_cr
+
+
+Samples crossed: ei_axi4_read_burst_type_cp ei_axi4_read_transfer_size_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+Automatically Generated Cross Bins 12       0         12      100.00          
+
+
+Automatically Generated Cross Bins for ei_axi4_read_burst_type_transfer_size_cr
+
+
+Bins
+
+ei_axi4_read_burst_type_cp ei_axi4_read_transfer_size_cp COUNT AT LEAST 
+auto_FIXED                 size_0                        234   1        
+auto_FIXED                 size_1                        690   1        
+auto_FIXED                 size_2                        618   1        
+auto_FIXED                 size_3                        650   1        
+auto_INCR                  size_0                        254   1        
+auto_INCR                  size_1                        700   1        
+auto_INCR                  size_2                        699   1        
+auto_INCR                  size_3                        716   1        
+auto_WRAP                  size_0                        253   1        
+auto_WRAP                  size_1                        218   1        
+auto_WRAP                  size_2                        250   1        
+auto_WRAP                  size_3                        243   1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_read_burst_type_transaction_length_cr
+
+
+Samples crossed: ei_axi4_read_burst_type_cp ei_axi4_read_transaction_length_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+TOTAL                              276      0         276     100.00          
+Automatically Generated Cross Bins 276      0         276     100.00          
+User Defined Cross Bins            0        0         0                       
+
+
+Automatically Generated Cross Bins for ei_axi4_read_burst_type_transaction_length_cr
+
+
+Bins
+
+ei_axi4_read_burst_type_cp ei_axi4_read_transaction_length_cp COUNT AT LEAST 
+auto_FIXED                 len[00]                            139   1        
+auto_FIXED                 len[01]                            135   1        
+auto_FIXED                 len[02]                            118   1        
+auto_FIXED                 len[03]                            128   1        
+auto_FIXED                 len[04]                            135   1        
+auto_FIXED                 len[05]                            144   1        
+auto_FIXED                 len[06]                            132   1        
+auto_FIXED                 len[07]                            127   1        
+auto_FIXED                 len[08]                            157   1        
+auto_FIXED                 len[09]                            133   1        
+auto_FIXED                 len[0a]                            138   1        
+auto_FIXED                 len[0b]                            140   1        
+auto_FIXED                 len[0c]                            134   1        
+auto_FIXED                 len[0d]                            142   1        
+auto_FIXED                 len[0e]                            118   1        
+auto_FIXED                 len[0f]                            168   1        
+auto_INCR                  len[00]                            8     1        
+auto_INCR                  len[01]                            8     1        
+auto_INCR                  len[02]                            6     1        
+auto_INCR                  len[03]                            14    1        
+auto_INCR                  len[04]                            7     1        
+auto_INCR                  len[05]                            12    1        
+auto_INCR                  len[06]                            11    1        
+auto_INCR                  len[07]                            6     1        
+auto_INCR                  len[08]                            7     1        
+auto_INCR                  len[09]                            12    1        
+auto_INCR                  len[0a]                            6     1        
+auto_INCR                  len[0b]                            10    1        
+auto_INCR                  len[0c]                            11    1        
+auto_INCR                  len[0d]                            6     1        
+auto_INCR                  len[0e]                            7     1        
+auto_INCR                  len[0f]                            11    1        
+auto_INCR                  len[10]                            13    1        
+auto_INCR                  len[11]                            9     1        
+auto_INCR                  len[12]                            9     1        
+auto_INCR                  len[13]                            14    1        
+auto_INCR                  len[14]                            9     1        
+auto_INCR                  len[15]                            10    1        
+auto_INCR                  len[16]                            10    1        
+auto_INCR                  len[17]                            10    1        
+auto_INCR                  len[18]                            9     1        
+auto_INCR                  len[19]                            10    1        
+auto_INCR                  len[1a]                            11    1        
+auto_INCR                  len[1b]                            10    1        
+auto_INCR                  len[1c]                            7     1        
+auto_INCR                  len[1d]                            7     1        
+auto_INCR                  len[1e]                            12    1        
+auto_INCR                  len[1f]                            10    1        
+auto_INCR                  len[20]                            10    1        
+auto_INCR                  len[21]                            8     1        
+auto_INCR                  len[22]                            11    1        
+auto_INCR                  len[23]                            13    1        
+auto_INCR                  len[24]                            8     1        
+auto_INCR                  len[25]                            10    1        
+auto_INCR                  len[26]                            14    1        
+auto_INCR                  len[27]                            11    1        
+auto_INCR                  len[28]                            9     1        
+auto_INCR                  len[29]                            9     1        
+auto_INCR                  len[2a]                            19    1        
+auto_INCR                  len[2b]                            11    1        
+auto_INCR                  len[2c]                            8     1        
+auto_INCR                  len[2d]                            5     1        
+auto_INCR                  len[2e]                            9     1        
+auto_INCR                  len[2f]                            8     1        
+auto_INCR                  len[30]                            15    1        
+auto_INCR                  len[31]                            10    1        
+auto_INCR                  len[32]                            10    1        
+auto_INCR                  len[33]                            10    1        
+auto_INCR                  len[34]                            6     1        
+auto_INCR                  len[35]                            10    1        
+auto_INCR                  len[36]                            6     1        
+auto_INCR                  len[37]                            11    1        
+auto_INCR                  len[38]                            10    1        
+auto_INCR                  len[39]                            11    1        
+auto_INCR                  len[3a]                            11    1        
+auto_INCR                  len[3b]                            4     1        
+auto_INCR                  len[3c]                            10    1        
+auto_INCR                  len[3d]                            9     1        
+auto_INCR                  len[3e]                            7     1        
+auto_INCR                  len[3f]                            17    1        
+auto_INCR                  len[40]                            7     1        
+auto_INCR                  len[41]                            11    1        
+auto_INCR                  len[42]                            13    1        
+auto_INCR                  len[43]                            13    1        
+auto_INCR                  len[44]                            10    1        
+auto_INCR                  len[45]                            5     1        
+auto_INCR                  len[46]                            8     1        
+auto_INCR                  len[47]                            10    1        
+auto_INCR                  len[48]                            7     1        
+auto_INCR                  len[49]                            13    1        
+auto_INCR                  len[4a]                            13    1        
+auto_INCR                  len[4b]                            9     1        
+auto_INCR                  len[4c]                            5     1        
+auto_INCR                  len[4d]                            9     1        
+auto_INCR                  len[4e]                            10    1        
+auto_INCR                  len[4f]                            11    1        
+auto_INCR                  len[50]                            11    1        
+auto_INCR                  len[51]                            8     1        
+auto_INCR                  len[52]                            10    1        
+auto_INCR                  len[53]                            9     1        
+auto_INCR                  len[54]                            10    1        
+auto_INCR                  len[55]                            16    1        
+auto_INCR                  len[56]                            5     1        
+auto_INCR                  len[57]                            10    1        
+auto_INCR                  len[58]                            10    1        
+auto_INCR                  len[59]                            12    1        
+auto_INCR                  len[5a]                            6     1        
+auto_INCR                  len[5b]                            5     1        
+auto_INCR                  len[5c]                            6     1        
+auto_INCR                  len[5d]                            4     1        
+auto_INCR                  len[5e]                            8     1        
+auto_INCR                  len[5f]                            5     1        
+auto_INCR                  len[60]                            6     1        
+auto_INCR                  len[61]                            9     1        
+auto_INCR                  len[62]                            6     1        
+auto_INCR                  len[63]                            12    1        
+auto_INCR                  len[64]                            11    1        
+auto_INCR                  len[65]                            9     1        
+auto_INCR                  len[66]                            13    1        
+auto_INCR                  len[67]                            13    1        
+auto_INCR                  len[68]                            9     1        
+auto_INCR                  len[69]                            13    1        
+auto_INCR                  len[6a]                            14    1        
+auto_INCR                  len[6b]                            7     1        
+auto_INCR                  len[6c]                            11    1        
+auto_INCR                  len[6d]                            5     1        
+auto_INCR                  len[6e]                            11    1        
+auto_INCR                  len[6f]                            12    1        
+auto_INCR                  len[70]                            13    1        
+auto_INCR                  len[71]                            7     1        
+auto_INCR                  len[72]                            11    1        
+auto_INCR                  len[73]                            10    1        
+auto_INCR                  len[74]                            9     1        
+auto_INCR                  len[75]                            5     1        
+auto_INCR                  len[76]                            7     1        
+auto_INCR                  len[77]                            10    1        
+auto_INCR                  len[78]                            12    1        
+auto_INCR                  len[79]                            6     1        
+auto_INCR                  len[7a]                            8     1        
+auto_INCR                  len[7b]                            10    1        
+auto_INCR                  len[7c]                            13    1        
+auto_INCR                  len[7d]                            11    1        
+auto_INCR                  len[7e]                            6     1        
+auto_INCR                  len[7f]                            14    1        
+auto_INCR                  len[80]                            7     1        
+auto_INCR                  len[81]                            12    1        
+auto_INCR                  len[82]                            12    1        
+auto_INCR                  len[83]                            5     1        
+auto_INCR                  len[84]                            10    1        
+auto_INCR                  len[85]                            15    1        
+auto_INCR                  len[86]                            15    1        
+auto_INCR                  len[87]                            9     1        
+auto_INCR                  len[88]                            9     1        
+auto_INCR                  len[89]                            5     1        
+auto_INCR                  len[8a]                            12    1        
+auto_INCR                  len[8b]                            10    1        
+auto_INCR                  len[8c]                            10    1        
+auto_INCR                  len[8d]                            10    1        
+auto_INCR                  len[8e]                            9     1        
+auto_INCR                  len[8f]                            10    1        
+auto_INCR                  len[90]                            5     1        
+auto_INCR                  len[91]                            9     1        
+auto_INCR                  len[92]                            9     1        
+auto_INCR                  len[93]                            7     1        
+auto_INCR                  len[94]                            9     1        
+auto_INCR                  len[95]                            6     1        
+auto_INCR                  len[96]                            10    1        
+auto_INCR                  len[97]                            5     1        
+auto_INCR                  len[98]                            7     1        
+auto_INCR                  len[99]                            12    1        
+auto_INCR                  len[9a]                            11    1        
+auto_INCR                  len[9b]                            14    1        
+auto_INCR                  len[9c]                            3     1        
+auto_INCR                  len[9d]                            14    1        
+auto_INCR                  len[9e]                            12    1        
+auto_INCR                  len[9f]                            11    1        
+auto_INCR                  len[a0]                            9     1        
+auto_INCR                  len[a1]                            6     1        
+auto_INCR                  len[a2]                            8     1        
+auto_INCR                  len[a3]                            9     1        
+auto_INCR                  len[a4]                            12    1        
+auto_INCR                  len[a5]                            7     1        
+auto_INCR                  len[a6]                            5     1        
+auto_INCR                  len[a7]                            5     1        
+auto_INCR                  len[a8]                            9     1        
+auto_INCR                  len[a9]                            12    1        
+auto_INCR                  len[aa]                            13    1        
+auto_INCR                  len[ab]                            7     1        
+auto_INCR                  len[ac]                            9     1        
+auto_INCR                  len[ad]                            3     1        
+auto_INCR                  len[ae]                            8     1        
+auto_INCR                  len[af]                            8     1        
+auto_INCR                  len[b0]                            10    1        
+auto_INCR                  len[b1]                            14    1        
+auto_INCR                  len[b2]                            8     1        
+auto_INCR                  len[b3]                            11    1        
+auto_INCR                  len[b4]                            11    1        
+auto_INCR                  len[b5]                            8     1        
+auto_INCR                  len[b6]                            10    1        
+auto_INCR                  len[b7]                            5     1        
+auto_INCR                  len[b8]                            6     1        
+auto_INCR                  len[b9]                            6     1        
+auto_INCR                  len[ba]                            7     1        
+auto_INCR                  len[bb]                            14    1        
+auto_INCR                  len[bc]                            6     1        
+auto_INCR                  len[bd]                            8     1        
+auto_INCR                  len[be]                            7     1        
+auto_INCR                  len[bf]                            9     1        
+auto_INCR                  len[c0]                            9     1        
+auto_INCR                  len[c1]                            6     1        
+auto_INCR                  len[c2]                            8     1        
+auto_INCR                  len[c3]                            10    1        
+auto_INCR                  len[c4]                            7     1        
+auto_INCR                  len[c5]                            16    1        
+auto_INCR                  len[c6]                            15    1        
+auto_INCR                  len[c7]                            10    1        
+auto_INCR                  len[c8]                            7     1        
+auto_INCR                  len[c9]                            6     1        
+auto_INCR                  len[ca]                            13    1        
+auto_INCR                  len[cb]                            9     1        
+auto_INCR                  len[cc]                            7     1        
+auto_INCR                  len[cd]                            7     1        
+auto_INCR                  len[ce]                            9     1        
+auto_INCR                  len[cf]                            6     1        
+auto_INCR                  len[d0]                            9     1        
+auto_INCR                  len[d1]                            8     1        
+auto_INCR                  len[d2]                            11    1        
+auto_INCR                  len[d3]                            11    1        
+auto_INCR                  len[d4]                            8     1        
+auto_INCR                  len[d5]                            9     1        
+auto_INCR                  len[d6]                            6     1        
+auto_INCR                  len[d7]                            8     1        
+auto_INCR                  len[d8]                            7     1        
+auto_INCR                  len[d9]                            7     1        
+auto_INCR                  len[da]                            6     1        
+auto_INCR                  len[db]                            7     1        
+auto_INCR                  len[dc]                            5     1        
+auto_INCR                  len[dd]                            13    1        
+auto_INCR                  len[de]                            6     1        
+auto_INCR                  len[df]                            7     1        
+auto_INCR                  len[e0]                            10    1        
+auto_INCR                  len[e1]                            10    1        
+auto_INCR                  len[e2]                            8     1        
+auto_INCR                  len[e3]                            8     1        
+auto_INCR                  len[e4]                            11    1        
+auto_INCR                  len[e5]                            7     1        
+auto_INCR                  len[e6]                            6     1        
+auto_INCR                  len[e7]                            7     1        
+auto_INCR                  len[e8]                            5     1        
+auto_INCR                  len[e9]                            8     1        
+auto_INCR                  len[ea]                            12    1        
+auto_INCR                  len[eb]                            14    1        
+auto_INCR                  len[ec]                            9     1        
+auto_INCR                  len[ed]                            9     1        
+auto_INCR                  len[ee]                            11    1        
+auto_INCR                  len[ef]                            13    1        
+auto_INCR                  len[f0]                            8     1        
+auto_INCR                  len[f1]                            13    1        
+auto_INCR                  len[f2]                            10    1        
+auto_INCR                  len[f3]                            12    1        
+auto_INCR                  len[f4]                            8     1        
+auto_INCR                  len[f5]                            10    1        
+auto_INCR                  len[f6]                            14    1        
+auto_INCR                  len[f7]                            6     1        
+auto_INCR                  len[f8]                            5     1        
+auto_INCR                  len[f9]                            12    1        
+auto_INCR                  len[fa]                            8     1        
+auto_INCR                  len[fb]                            12    1        
+auto_INCR                  len[fc]                            10    1        
+auto_INCR                  len[fd]                            7     1        
+auto_INCR                  len[fe]                            6     1        
+auto_INCR                  len[ff]                            9     1        
+auto_WRAP                  len[01]                            220   1        
+auto_WRAP                  len[03]                            173   1        
+auto_WRAP                  len[07]                            207   1        
+auto_WRAP                  len[0f]                            350   1        
+
+
+User Defined Cross Bins for ei_axi4_read_burst_type_transaction_length_cr
+
+
+Excluded/Illegal bins
+
+NAME      COUNT STATUS   
+wrap_len  0     Excluded 
+fixed_len 0     Excluded 
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_read_burst_type_response_type
+
+
+Samples crossed: ei_axi4_read_burst_type_cp ei_axi4_read_response_type_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+Automatically Generated Cross Bins 6        0         6       100.00          
+
+
+Automatically Generated Cross Bins for ei_axi4_read_burst_type_response_type
+
+
+Bins
+
+ei_axi4_read_burst_type_cp ei_axi4_read_response_type_cp COUNT AT LEAST 
+auto_FIXED                 slv_err                       4     1        
+auto_FIXED                 okay                          2188  1        
+auto_INCR                  slv_err                       6     1        
+auto_INCR                  okay                          2363  1        
+auto_WRAP                  slv_err                       17    1        
+auto_WRAP                  okay                          947   1        
+
+
+Group : $unit::ei_axi4_coverage_c::ei_axi4_write_cg
+
+===============================================================================
+Group : $unit::ei_axi4_coverage_c::ei_axi4_write_cg
+===============================================================================
+SCORE  WEIGHT GOAL   AT LEAST AUTO BIN MAX PRINT MISSING 
+ 99.88 1      100    1        64           64            
+
+
+Source File(s) : 
+
+/home/divyesh.makwana1/github/AXI_VIP/Development/bin/../src/ei_axi4_coverage.sv
+
+
+
+-------------------------------------------------------------------------------
+
+Summary for Group   $unit::ei_axi4_coverage_c::ei_axi4_write_cg
+
+
+
+CATEGORY  EXPECTED UNCOVERED COVERED PERCENT 
+Variables 75       0         75      100.00  
+Crosses   347      3         344     99.77   
+
+
+Variables for Group  $unit::ei_axi4_coverage_c::ei_axi4_write_cg
+
+
+VARIABLE                            EXPECTED UNCOVERED COVERED PERCENT GOAL WEIGHT AT LEAST AUTO BIN MAX COMMENT 
+ei_axi4_write_address_type_cp       2        0         2       100.00  100  1      1        0                    
+ei_axi4_write_transfer_size_cp      4        0         4       100.00  100  1      1        0                    
+ei_axi4_write_transaction_length_cp 64       0         64      100.00  100  1      1        64                   
+ei_axi4_write_burst_type_cp         3        0         3       100.00  100  1      1        0                    
+ei_axi4_write_response_type_cp      2        0         2       100.00  100  1      1        0                    
+
+
+Crosses for Group  $unit::ei_axi4_coverage_c::ei_axi4_write_cg
+
+
+CROSS                                             EXPECTED UNCOVERED COVERED PERCENT GOAL WEIGHT AT LEAST PRINT MISSING COMMENT 
+ei_axi4_write_transaction_length_transfer_size_cr 256      3         253     98.83   100  1      1        0                     
+ei_axi4_write_burst_type_address_type_cr          5        0         5       100.00  100  1      1        0                     
+ei_axi4_write_burst_type_transfer_size_cr         12       0         12      100.00  100  1      1        0                     
+ei_axi4_write_burst_type_transaction_length_cr    68       0         68      100.00  100  1      1        0                     
+ei_axi4_write_burst_type_response_type            6        0         6       100.00  100  1      1        0                     
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_write_address_type_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 2        0         2       100.00  
+
+
+User Defined Bins for ei_axi4_write_address_type_cp
+
+
+Bins
+
+NAME           COUNT AT LEAST 
+unaligned_addr 2556  1        
+aligned_addr   2622  1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_write_transfer_size_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 4        0         4       100.00  
+
+
+User Defined Bins for ei_axi4_write_transfer_size_cp
+
+
+Bins
+
+NAME   COUNT AT LEAST 
+size_0 679   1        
+size_1 1525  1        
+size_2 1459  1        
+size_3 1515  1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_write_transaction_length_cp
+
+
+CATEGORY                     EXPECTED UNCOVERED COVERED PERCENT 
+Automatically Generated Bins 64       0         64      100.00  
+
+
+Automatically Generated Bins for ei_axi4_write_transaction_length_cp
+
+
+Bins
+
+NAME          COUNT AT LEAST 
+auto[0:3]     911   1        
+auto[4:7]     754   1        
+auto[8:11]    577   1        
+auto[12:15]   900   1        
+auto[16:19]   38    1        
+auto[20:23]   33    1        
+auto[24:27]   34    1        
+auto[28:31]   31    1        
+auto[32:35]   39    1        
+auto[36:39]   39    1        
+auto[40:43]   41    1        
+auto[44:47]   26    1        
+auto[48:51]   40    1        
+auto[52:55]   29    1        
+auto[56:59]   29    1        
+auto[60:63]   38    1        
+auto[64:67]   39    1        
+auto[68:71]   28    1        
+auto[72:75]   37    1        
+auto[76:79]   31    1        
+auto[80:83]   29    1        
+auto[84:87]   36    1        
+auto[88:91]   29    1        
+auto[92:95]   18    1        
+auto[96:99]   29    1        
+auto[100:103] 42    1        
+auto[104:107] 39    1        
+auto[108:111] 35    1        
+auto[112:115] 36    1        
+auto[116:119] 26    1        
+auto[120:123] 31    1        
+auto[124:127] 37    1        
+auto[128:131] 30    1        
+auto[132:135] 45    1        
+auto[136:139] 32    1        
+auto[140:143] 35    1        
+auto[144:147] 27    1        
+auto[148:151] 26    1        
+auto[152:155] 46    1        
+auto[156:159] 37    1        
+auto[160:163] 30    1        
+auto[164:167] 29    1        
+auto[168:171] 41    1        
+auto[172:175] 28    1        
+auto[176:179] 42    1        
+auto[180:183] 35    1        
+auto[184:187] 33    1        
+auto[188:191] 29    1        
+auto[192:195] 31    1        
+auto[196:199] 46    1        
+auto[200:203] 32    1        
+auto[204:207] 29    1        
+auto[208:211] 38    1        
+auto[212:215] 30    1        
+auto[216:219] 27    1        
+auto[220:223] 32    1        
+auto[224:227] 35    1        
+auto[228:231] 29    1        
+auto[232:235] 38    1        
+auto[236:239] 41    1        
+auto[240:243] 42    1        
+auto[244:247] 37    1        
+auto[248:251] 35    1        
+auto[252:255] 30    1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_write_burst_type_cp
+
+
+CATEGORY                     EXPECTED UNCOVERED COVERED PERCENT 
+Automatically Generated Bins 3        0         3       100.00  
+
+
+Automatically Generated Bins for ei_axi4_write_burst_type_cp
+
+
+Bins
+
+NAME       COUNT AT LEAST 
+auto_FIXED 2111  1        
+auto_INCR  2150  1        
+auto_WRAP  917   1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Variable ei_axi4_write_response_type_cp
+
+
+CATEGORY          EXPECTED UNCOVERED COVERED PERCENT 
+User Defined Bins 2        0         2       100.00  
+
+
+User Defined Bins for ei_axi4_write_response_type_cp
+
+
+Excluded/Illegal bins
+
+NAME         COUNT STATUS  
+invalid_resp 0     Illegal 
+
+
+Covered bins
+
+NAME    COUNT AT LEAST 
+slv_err 25    1        
+okay    5153  1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_write_transaction_length_transfer_size_cr
+
+
+Samples crossed: ei_axi4_write_transaction_length_cp ei_axi4_write_transfer_size_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+Automatically Generated Cross Bins 256      3         253     98.83   3       
+
+
+Automatically Generated Cross Bins for ei_axi4_write_transaction_length_transfer_size_cr
+
+
+Uncovered bins
+
+ei_axi4_write_transaction_length_cp ei_axi4_write_transfer_size_cp COUNT AT LEAST NUMBER 
+[auto[56:59]]                       [size_0]                       0     1        1      
+[auto[96:99]]                       [size_0]                       0     1        1      
+[auto[244:247]]                     [size_0]                       0     1        1      
+
+
+Covered bins
+
+ei_axi4_write_transaction_length_cp ei_axi4_write_transfer_size_cp COUNT AT LEAST 
+auto[0:3]                           size_0                         150   1        
+auto[0:3]                           size_1                         267   1        
+auto[0:3]                           size_2                         245   1        
+auto[0:3]                           size_3                         249   1        
+auto[4:7]                           size_0                         105   1        
+auto[4:7]                           size_1                         211   1        
+auto[4:7]                           size_2                         230   1        
+auto[4:7]                           size_3                         208   1        
+auto[8:11]                          size_0                         59    1        
+auto[8:11]                          size_1                         185   1        
+auto[8:11]                          size_2                         149   1        
+auto[8:11]                          size_3                         184   1        
+auto[12:15]                         size_0                         150   1        
+auto[12:15]                         size_1                         254   1        
+auto[12:15]                         size_2                         245   1        
+auto[12:15]                         size_3                         251   1        
+auto[16:19]                         size_0                         3     1        
+auto[16:19]                         size_1                         16    1        
+auto[16:19]                         size_2                         11    1        
+auto[16:19]                         size_3                         8     1        
+auto[20:23]                         size_0                         6     1        
+auto[20:23]                         size_1                         9     1        
+auto[20:23]                         size_2                         9     1        
+auto[20:23]                         size_3                         9     1        
+auto[24:27]                         size_0                         5     1        
+auto[24:27]                         size_1                         10    1        
+auto[24:27]                         size_2                         12    1        
+auto[24:27]                         size_3                         7     1        
+auto[28:31]                         size_0                         5     1        
+auto[28:31]                         size_1                         9     1        
+auto[28:31]                         size_2                         9     1        
+auto[28:31]                         size_3                         8     1        
+auto[32:35]                         size_0                         2     1        
+auto[32:35]                         size_1                         18    1        
+auto[32:35]                         size_2                         7     1        
+auto[32:35]                         size_3                         12    1        
+auto[36:39]                         size_0                         5     1        
+auto[36:39]                         size_1                         10    1        
+auto[36:39]                         size_2                         10    1        
+auto[36:39]                         size_3                         14    1        
+auto[40:43]                         size_0                         8     1        
+auto[40:43]                         size_1                         10    1        
+auto[40:43]                         size_2                         10    1        
+auto[40:43]                         size_3                         13    1        
+auto[44:47]                         size_0                         5     1        
+auto[44:47]                         size_1                         9     1        
+auto[44:47]                         size_2                         5     1        
+auto[44:47]                         size_3                         7     1        
+auto[48:51]                         size_0                         7     1        
+auto[48:51]                         size_1                         8     1        
+auto[48:51]                         size_2                         10    1        
+auto[48:51]                         size_3                         15    1        
+auto[52:55]                         size_0                         3     1        
+auto[52:55]                         size_1                         10    1        
+auto[52:55]                         size_2                         6     1        
+auto[52:55]                         size_3                         10    1        
+auto[56:59]                         size_1                         6     1        
+auto[56:59]                         size_2                         13    1        
+auto[56:59]                         size_3                         10    1        
+auto[60:63]                         size_0                         6     1        
+auto[60:63]                         size_1                         10    1        
+auto[60:63]                         size_2                         15    1        
+auto[60:63]                         size_3                         7     1        
+auto[64:67]                         size_0                         6     1        
+auto[64:67]                         size_1                         10    1        
+auto[64:67]                         size_2                         10    1        
+auto[64:67]                         size_3                         13    1        
+auto[68:71]                         size_0                         1     1        
+auto[68:71]                         size_1                         9     1        
+auto[68:71]                         size_2                         13    1        
+auto[68:71]                         size_3                         5     1        
+auto[72:75]                         size_0                         1     1        
+auto[72:75]                         size_1                         9     1        
+auto[72:75]                         size_2                         13    1        
+auto[72:75]                         size_3                         14    1        
+auto[76:79]                         size_0                         5     1        
+auto[76:79]                         size_1                         4     1        
+auto[76:79]                         size_2                         13    1        
+auto[76:79]                         size_3                         9     1        
+auto[80:83]                         size_0                         5     1        
+auto[80:83]                         size_1                         7     1        
+auto[80:83]                         size_2                         11    1        
+auto[80:83]                         size_3                         6     1        
+auto[84:87]                         size_0                         3     1        
+auto[84:87]                         size_1                         10    1        
+auto[84:87]                         size_2                         11    1        
+auto[84:87]                         size_3                         12    1        
+auto[88:91]                         size_0                         3     1        
+auto[88:91]                         size_1                         8     1        
+auto[88:91]                         size_2                         5     1        
+auto[88:91]                         size_3                         13    1        
+auto[92:95]                         size_0                         1     1        
+auto[92:95]                         size_1                         5     1        
+auto[92:95]                         size_2                         3     1        
+auto[92:95]                         size_3                         9     1        
+auto[96:99]                         size_1                         15    1        
+auto[96:99]                         size_2                         4     1        
+auto[96:99]                         size_3                         10    1        
+auto[100:103]                       size_0                         5     1        
+auto[100:103]                       size_1                         17    1        
+auto[100:103]                       size_2                         8     1        
+auto[100:103]                       size_3                         12    1        
+auto[104:107]                       size_0                         4     1        
+auto[104:107]                       size_1                         12    1        
+auto[104:107]                       size_2                         12    1        
+auto[104:107]                       size_3                         11    1        
+auto[108:111]                       size_0                         5     1        
+auto[108:111]                       size_1                         13    1        
+auto[108:111]                       size_2                         8     1        
+auto[108:111]                       size_3                         9     1        
+auto[112:115]                       size_0                         3     1        
+auto[112:115]                       size_1                         10    1        
+auto[112:115]                       size_2                         14    1        
+auto[112:115]                       size_3                         9     1        
+auto[116:119]                       size_0                         1     1        
+auto[116:119]                       size_1                         8     1        
+auto[116:119]                       size_2                         9     1        
+auto[116:119]                       size_3                         8     1        
+auto[120:123]                       size_0                         1     1        
+auto[120:123]                       size_1                         8     1        
+auto[120:123]                       size_2                         9     1        
+auto[120:123]                       size_3                         13    1        
+auto[124:127]                       size_0                         3     1        
+auto[124:127]                       size_1                         14    1        
+auto[124:127]                       size_2                         10    1        
+auto[124:127]                       size_3                         10    1        
+auto[128:131]                       size_0                         3     1        
+auto[128:131]                       size_1                         10    1        
+auto[128:131]                       size_2                         7     1        
+auto[128:131]                       size_3                         10    1        
+auto[132:135]                       size_0                         2     1        
+auto[132:135]                       size_1                         16    1        
+auto[132:135]                       size_2                         15    1        
+auto[132:135]                       size_3                         12    1        
+auto[136:139]                       size_0                         3     1        
+auto[136:139]                       size_1                         12    1        
+auto[136:139]                       size_2                         9     1        
+auto[136:139]                       size_3                         8     1        
+auto[140:143]                       size_0                         5     1        
+auto[140:143]                       size_1                         5     1        
+auto[140:143]                       size_2                         14    1        
+auto[140:143]                       size_3                         11    1        
+auto[144:147]                       size_0                         2     1        
+auto[144:147]                       size_1                         6     1        
+auto[144:147]                       size_2                         10    1        
+auto[144:147]                       size_3                         9     1        
+auto[148:151]                       size_0                         5     1        
+auto[148:151]                       size_1                         6     1        
+auto[148:151]                       size_2                         7     1        
+auto[148:151]                       size_3                         8     1        
+auto[152:155]                       size_0                         8     1        
+auto[152:155]                       size_1                         10    1        
+auto[152:155]                       size_2                         18    1        
+auto[152:155]                       size_3                         10    1        
+auto[156:159]                       size_0                         3     1        
+auto[156:159]                       size_1                         17    1        
+auto[156:159]                       size_2                         6     1        
+auto[156:159]                       size_3                         11    1        
+auto[160:163]                       size_0                         3     1        
+auto[160:163]                       size_1                         14    1        
+auto[160:163]                       size_2                         9     1        
+auto[160:163]                       size_3                         4     1        
+auto[164:167]                       size_0                         1     1        
+auto[164:167]                       size_1                         10    1        
+auto[164:167]                       size_2                         9     1        
+auto[164:167]                       size_3                         9     1        
+auto[168:171]                       size_0                         2     1        
+auto[168:171]                       size_1                         12    1        
+auto[168:171]                       size_2                         11    1        
+auto[168:171]                       size_3                         16    1        
+auto[172:175]                       size_0                         1     1        
+auto[172:175]                       size_1                         7     1        
+auto[172:175]                       size_2                         9     1        
+auto[172:175]                       size_3                         11    1        
+auto[176:179]                       size_0                         6     1        
+auto[176:179]                       size_1                         8     1        
+auto[176:179]                       size_2                         12    1        
+auto[176:179]                       size_3                         16    1        
+auto[180:183]                       size_0                         4     1        
+auto[180:183]                       size_1                         6     1        
+auto[180:183]                       size_2                         14    1        
+auto[180:183]                       size_3                         11    1        
+auto[184:187]                       size_0                         2     1        
+auto[184:187]                       size_1                         12    1        
+auto[184:187]                       size_2                         8     1        
+auto[184:187]                       size_3                         11    1        
+auto[188:191]                       size_0                         5     1        
+auto[188:191]                       size_1                         9     1        
+auto[188:191]                       size_2                         4     1        
+auto[188:191]                       size_3                         11    1        
+auto[192:195]                       size_0                         2     1        
+auto[192:195]                       size_1                         9     1        
+auto[192:195]                       size_2                         7     1        
+auto[192:195]                       size_3                         13    1        
+auto[196:199]                       size_0                         4     1        
+auto[196:199]                       size_1                         14    1        
+auto[196:199]                       size_2                         13    1        
+auto[196:199]                       size_3                         15    1        
+auto[200:203]                       size_0                         5     1        
+auto[200:203]                       size_1                         8     1        
+auto[200:203]                       size_2                         6     1        
+auto[200:203]                       size_3                         13    1        
+auto[204:207]                       size_0                         2     1        
+auto[204:207]                       size_1                         12    1        
+auto[204:207]                       size_2                         7     1        
+auto[204:207]                       size_3                         8     1        
+auto[208:211]                       size_0                         5     1        
+auto[208:211]                       size_1                         14    1        
+auto[208:211]                       size_2                         14    1        
+auto[208:211]                       size_3                         5     1        
+auto[212:215]                       size_0                         3     1        
+auto[212:215]                       size_1                         6     1        
+auto[212:215]                       size_2                         12    1        
+auto[212:215]                       size_3                         9     1        
+auto[216:219]                       size_0                         2     1        
+auto[216:219]                       size_1                         5     1        
+auto[216:219]                       size_2                         12    1        
+auto[216:219]                       size_3                         8     1        
+auto[220:223]                       size_0                         4     1        
+auto[220:223]                       size_1                         8     1        
+auto[220:223]                       size_2                         11    1        
+auto[220:223]                       size_3                         9     1        
+auto[224:227]                       size_0                         5     1        
+auto[224:227]                       size_1                         14    1        
+auto[224:227]                       size_2                         8     1        
+auto[224:227]                       size_3                         8     1        
+auto[228:231]                       size_0                         3     1        
+auto[228:231]                       size_1                         6     1        
+auto[228:231]                       size_2                         7     1        
+auto[228:231]                       size_3                         13    1        
+auto[232:235]                       size_0                         2     1        
+auto[232:235]                       size_1                         14    1        
+auto[232:235]                       size_2                         7     1        
+auto[232:235]                       size_3                         15    1        
+auto[236:239]                       size_0                         6     1        
+auto[236:239]                       size_1                         14    1        
+auto[236:239]                       size_2                         13    1        
+auto[236:239]                       size_3                         8     1        
+auto[240:243]                       size_0                         4     1        
+auto[240:243]                       size_1                         15    1        
+auto[240:243]                       size_2                         7     1        
+auto[240:243]                       size_3                         16    1        
+auto[244:247]                       size_1                         7     1        
+auto[244:247]                       size_2                         16    1        
+auto[244:247]                       size_3                         14    1        
+auto[248:251]                       size_0                         5     1        
+auto[248:251]                       size_1                         12    1        
+auto[248:251]                       size_2                         9     1        
+auto[248:251]                       size_3                         9     1        
+auto[252:255]                       size_0                         6     1        
+auto[252:255]                       size_1                         6     1        
+auto[252:255]                       size_2                         9     1        
+auto[252:255]                       size_3                         9     1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_write_burst_type_address_type_cr
+
+
+Samples crossed: ei_axi4_write_burst_type_cp ei_axi4_write_address_type_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+TOTAL                              5        0         5       100.00          
+Automatically Generated Cross Bins 5        0         5       100.00          
+User Defined Cross Bins            0        0         0                       
+
+
+Automatically Generated Cross Bins for ei_axi4_write_burst_type_address_type_cr
+
+
+Bins
+
+ei_axi4_write_burst_type_cp ei_axi4_write_address_type_cp COUNT AT LEAST 
+auto_FIXED                  unaligned_addr                1277  1        
+auto_FIXED                  aligned_addr                  834   1        
+auto_INCR                   unaligned_addr                1267  1        
+auto_INCR                   aligned_addr                  883   1        
+auto_WRAP                   aligned_addr                  905   1        
+
+
+User Defined Cross Bins for ei_axi4_write_burst_type_address_type_cr
+
+
+Excluded/Illegal bins
+
+NAME           COUNT STATUS   
+wrap_unaligned 0     Excluded 
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_write_burst_type_transfer_size_cr
+
+
+Samples crossed: ei_axi4_write_burst_type_cp ei_axi4_write_transfer_size_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+Automatically Generated Cross Bins 12       0         12      100.00          
+
+
+Automatically Generated Cross Bins for ei_axi4_write_burst_type_transfer_size_cr
+
+
+Bins
+
+ei_axi4_write_burst_type_cp ei_axi4_write_transfer_size_cp COUNT AT LEAST 
+auto_FIXED                  size_0                         221   1        
+auto_FIXED                  size_1                         669   1        
+auto_FIXED                  size_2                         593   1        
+auto_FIXED                  size_3                         628   1        
+auto_INCR                   size_0                         227   1        
+auto_INCR                   size_1                         640   1        
+auto_INCR                   size_2                         629   1        
+auto_INCR                   size_3                         654   1        
+auto_WRAP                   size_0                         231   1        
+auto_WRAP                   size_1                         216   1        
+auto_WRAP                   size_2                         237   1        
+auto_WRAP                   size_3                         233   1        
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_write_burst_type_transaction_length_cr
+
+
+Samples crossed: ei_axi4_write_burst_type_cp ei_axi4_write_transaction_length_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+TOTAL                              68       0         68      100.00          
+Automatically Generated Cross Bins 68       0         68      100.00          
+User Defined Cross Bins            0        0         0                       
+
+
+Automatically Generated Cross Bins for ei_axi4_write_burst_type_transaction_length_cr
+
+
+Bins
+
+ei_axi4_write_burst_type_cp ei_axi4_write_transaction_length_cp COUNT AT LEAST 
+auto_FIXED                  auto[0:3]                           500   1        
+auto_FIXED                  auto[4:7]                           521   1        
+auto_FIXED                  auto[8:11]                          545   1        
+auto_FIXED                  auto[12:15]                         539   1        
+auto_INCR                   auto[0:3]                           30    1        
+auto_INCR                   auto[4:7]                           35    1        
+auto_INCR                   auto[8:11]                          31    1        
+auto_INCR                   auto[12:15]                         30    1        
+auto_INCR                   auto[16:19]                         38    1        
+auto_INCR                   auto[20:23]                         33    1        
+auto_INCR                   auto[24:27]                         34    1        
+auto_INCR                   auto[28:31]                         31    1        
+auto_INCR                   auto[32:35]                         38    1        
+auto_INCR                   auto[36:39]                         38    1        
+auto_INCR                   auto[40:43]                         41    1        
+auto_INCR                   auto[44:47]                         26    1        
+auto_INCR                   auto[48:51]                         40    1        
+auto_INCR                   auto[52:55]                         28    1        
+auto_INCR                   auto[56:59]                         29    1        
+auto_INCR                   auto[60:63]                         38    1        
+auto_INCR                   auto[64:67]                         39    1        
+auto_INCR                   auto[68:71]                         28    1        
+auto_INCR                   auto[72:75]                         37    1        
+auto_INCR                   auto[76:79]                         31    1        
+auto_INCR                   auto[80:83]                         29    1        
+auto_INCR                   auto[84:87]                         36    1        
+auto_INCR                   auto[88:91]                         28    1        
+auto_INCR                   auto[92:95]                         18    1        
+auto_INCR                   auto[96:99]                         29    1        
+auto_INCR                   auto[100:103]                       42    1        
+auto_INCR                   auto[104:107]                       39    1        
+auto_INCR                   auto[108:111]                       35    1        
+auto_INCR                   auto[112:115]                       36    1        
+auto_INCR                   auto[116:119]                       26    1        
+auto_INCR                   auto[120:123]                       31    1        
+auto_INCR                   auto[124:127]                       37    1        
+auto_INCR                   auto[128:131]                       30    1        
+auto_INCR                   auto[132:135]                       45    1        
+auto_INCR                   auto[136:139]                       32    1        
+auto_INCR                   auto[140:143]                       35    1        
+auto_INCR                   auto[144:147]                       27    1        
+auto_INCR                   auto[148:151]                       26    1        
+auto_INCR                   auto[152:155]                       44    1        
+auto_INCR                   auto[156:159]                       37    1        
+auto_INCR                   auto[160:163]                       29    1        
+auto_INCR                   auto[164:167]                       29    1        
+auto_INCR                   auto[168:171]                       40    1        
+auto_INCR                   auto[172:175]                       27    1        
+auto_INCR                   auto[176:179]                       42    1        
+auto_INCR                   auto[180:183]                       35    1        
+auto_INCR                   auto[184:187]                       33    1        
+auto_INCR                   auto[188:191]                       29    1        
+auto_INCR                   auto[192:195]                       31    1        
+auto_INCR                   auto[196:199]                       46    1        
+auto_INCR                   auto[200:203]                       32    1        
+auto_INCR                   auto[204:207]                       29    1        
+auto_INCR                   auto[208:211]                       38    1        
+auto_INCR                   auto[212:215]                       30    1        
+auto_INCR                   auto[216:219]                       27    1        
+auto_INCR                   auto[220:223]                       30    1        
+auto_INCR                   auto[224:227]                       35    1        
+auto_INCR                   auto[228:231]                       29    1        
+auto_INCR                   auto[232:235]                       38    1        
+auto_INCR                   auto[236:239]                       41    1        
+auto_INCR                   auto[240:243]                       42    1        
+auto_INCR                   auto[244:247]                       37    1        
+auto_INCR                   auto[248:251]                       35    1        
+auto_INCR                   auto[252:255]                       29    1        
+
+
+User Defined Cross Bins for ei_axi4_write_burst_type_transaction_length_cr
+
+
+Excluded/Illegal bins
+
+NAME      COUNT STATUS   
+wrap_len  0     Excluded 
+fixed_len 0     Excluded 
+
+
+-------------------------------------------------------------------------------
+
+Summary for Cross ei_axi4_write_burst_type_response_type
+
+
+Samples crossed: ei_axi4_write_burst_type_cp ei_axi4_write_response_type_cp
+CATEGORY                           EXPECTED UNCOVERED COVERED PERCENT MISSING 
+Automatically Generated Cross Bins 6        0         6       100.00          
+
+
+Automatically Generated Cross Bins for ei_axi4_write_burst_type_response_type
+
+
+Bins
+
+ei_axi4_write_burst_type_cp ei_axi4_write_response_type_cp COUNT AT LEAST 
+auto_FIXED                  slv_err                        6     1        
+auto_FIXED                  okay                           2105  1        
+auto_INCR                   slv_err                        4     1        
+auto_INCR                   okay                           2146  1        
+auto_WRAP                   slv_err                        15    1        
+auto_WRAP                   okay                           902   1        
+
+

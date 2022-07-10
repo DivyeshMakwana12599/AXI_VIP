@@ -1,15 +1,19 @@
 Chronologic VCS simulator copyright 1991-2020
 Contains Synopsys proprietary information.
+<<<<<<< HEAD
 Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul  7 11:45 2022
+=======
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul  7 15:59 2022
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 ---------------------------------------------------------------
 [SLV_DRV] 		Virtual Interface has been linked.
 ---------------------------------------------------------------
-[GEN] ==================== Randomizing ========================
 +=========================================================================================+
-| Transaction Type :      WRITE              @    0                                       |
+| Transaction Type :       READ  [GENERATOR] @    0                                       |
 +=========================================================================================+
 | Sr No  |            Name |                           Type | Size |                Value |
 +=========================================================================================+
+<<<<<<< HEAD
 |     1. |            addr |                      bit[31:0] |   32 |           1707599077 |
 |     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
 |     3. |             len |                       bit[7:0] |    8 |                   60 |
@@ -141,6 +145,16 @@ Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Ju
 read data queue size = 0
 write data queue size = 0
 write response queue size = 0
+=======
+|     1. |            addr |                      bit[31:0] |   32 |            695683053 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   13 |
+|     4. |            size |                       bit[2:0] |    3 |                    2 |
+|     5. |         data[0] |                      bit[63:0] |   64 |                    0 |
++=========================================================================================+
+|     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
++=========================================================================================+
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 [SLV_DRV] 		@0 --> fork join disabled
 -------------------------------------------------------------
 ################ RESET HAS BEEN ASSERTED !! #################
@@ -148,6 +162,7 @@ write response queue size = 0
 -------------------------------------------------------------
 ################ RESET HAS BEEN DEASSERTED !! ############## 
 -------------------------------------------------------------
+<<<<<<< HEAD
 read data queue size = 0
 write data queue size = 0
 write response queue size = 0
@@ -575,6 +590,83 @@ got from reference
 |        |        data[58] |                      bit[63:0] |   64 |                 3877 |
 |        |        data[59] |                      bit[63:0] |   64 |            886046720 |
 |        |        data[60] |                      bit[63:0] |   64 |      162886634700800 |
+=======
+------------------------------------------------------------
+[Write Address Channel] 		@5 --> AWREADY Asserted
+----------------------------------------------------------:---
+@15 read handshake occured -> 695683053
+[Write Address Channel] 		@15 ARVALID & ARREADY Handshaked 
+----------------------------------------------------------:---
+@15 read handshake occured -> 695683053
+time                  15
+time                  25
+time                  35
+time                  45
+time                  55
+time                  65
+time                  75
+time                  85
+time                  95
+time                 105
+time                 115
+time                 125
+time                 135
+time                 145
+time                 155
+time                 155
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > =  695683053
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+got from reference
++=========================================================================================+
+| Transaction Type :       READ     [GOLDEN] @  205                                       |
++=========================================================================================+
+| Sr No  |            Name |                           Type | Size |                Value |
++=========================================================================================+
+|     1. |            addr |                      bit[31:0] |   32 |            695683053 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   13 |
+|     4. |            size |                       bit[2:0] |    3 |                    2 |
+|     5. |         data[0] |                      bit[63:0] |   64 |                    0 |
+|        |         data[1] |                      bit[63:0] |   64 |                    0 |
+|        |         data[2] |                      bit[63:0] |   64 |                    0 |
+|        |         data[3] |                      bit[63:0] |   64 |                    0 |
+|        |         data[4] |                      bit[63:0] |   64 |                    0 |
+|        |         data[5] |                      bit[63:0] |   64 |                    0 |
+|        |         data[6] |                      bit[63:0] |   64 |                    0 |
+|        |         data[7] |                      bit[63:0] |   64 |                    0 |
+|        |         data[8] |                      bit[63:0] |   64 |                    0 |
+|        |         data[9] |                      bit[63:0] |   64 |                    0 |
+|        |        data[10] |                      bit[63:0] |   64 |                    0 |
+|        |        data[11] |                      bit[63:0] |   64 |                    0 |
+|        |        data[12] |                      bit[63:0] |   64 |                    0 |
+|        |        data[13] |                      bit[63:0] |   64 |                    0 |
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 |     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[1] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[2] |         enum $unit::response_e |    2 |                 OKAY |
@@ -589,6 +681,7 @@ got from reference
 |        |       rresp[11] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[12] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[13] |         enum $unit::response_e |    2 |                 OKAY |
+<<<<<<< HEAD
 |        |       rresp[14] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[15] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[16] |         enum $unit::response_e |    2 |                 OKAY |
@@ -708,6 +801,33 @@ got from monitor
 |        |        data[58] |                      bit[63:0] |   64 |                 3877 |
 |        |        data[59] |                      bit[63:0] |   64 |            886046720 |
 |        |        data[60] |                      bit[63:0] |   64 |      162886634700800 |
+=======
++=========================================================================================+
+got from monitor
++=========================================================================================+
+| Transaction Type :       READ       [TRAN] @  205                                       |
++=========================================================================================+
+| Sr No  |            Name |                           Type | Size |                Value |
++=========================================================================================+
+|     1. |            addr |                      bit[31:0] |   32 |            695683053 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   13 |
+|     4. |            size |                       bit[2:0] |    3 |                    2 |
+|     5. |         data[0] |                      bit[63:0] |   64 |                    0 |
+|        |         data[1] |                      bit[63:0] |   64 |                    0 |
+|        |         data[2] |                      bit[63:0] |   64 |                    0 |
+|        |         data[3] |                      bit[63:0] |   64 |                    0 |
+|        |         data[4] |                      bit[63:0] |   64 |                    0 |
+|        |         data[5] |                      bit[63:0] |   64 |                    0 |
+|        |         data[6] |                      bit[63:0] |   64 |                    0 |
+|        |         data[7] |                      bit[63:0] |   64 |                    0 |
+|        |         data[8] |                      bit[63:0] |   64 |                    0 |
+|        |         data[9] |                      bit[63:0] |   64 |                    0 |
+|        |        data[10] |                      bit[63:0] |   64 |                    0 |
+|        |        data[11] |                      bit[63:0] |   64 |                    0 |
+|        |        data[12] |                      bit[63:0] |   64 |                    0 |
+|        |        data[13] |                      bit[63:0] |   64 |                    0 |
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 |     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[1] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[2] |         enum $unit::response_e |    2 |                 OKAY |
@@ -722,6 +842,7 @@ got from monitor
 |        |       rresp[11] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[12] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[13] |         enum $unit::response_e |    2 |                 OKAY |
+<<<<<<< HEAD
 |        |       rresp[14] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[15] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[16] |         enum $unit::response_e |    2 |                 OKAY |
@@ -775,11 +896,19 @@ no_of_trans_monitored = 2
 $finish called from file "../tb/ei_axi4_top.sv", line 67.
 TEST WRAP UP
 SANITY TEST SELECTED
+=======
++=========================================================================================+
+@205 Transaction Passed!
+no_of_trans_monitored = 1
+$finish called from file "../tb/ei_axi4_top.sv", line 67.
+TEST WRAP UP
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 No. of transaction passed : 1
 No. of transaction failed : 0
 +================================================================================================================================+
 | CHECKER ID         | DESCRIPTION                                                                 | FAIL COUNT   | PASS COUNT   |
 +================================================================================================================================+
+<<<<<<< HEAD
 | AXI4_CHECK_001     | Address must not cross 4 KB Boundary                                        | 0            | 2            |
 | AXI4_CHECK_002     | For Fixed burst type AWLEN must be between 0 to 15                          | 0            | 1            |
 | AXI4_CHECK_003     | For Fixed burst type ARLEN must be between 0 to 15                          | 0            | 1            |
@@ -788,6 +917,16 @@ No. of transaction failed : 0
 | AXI4_CHECK_008     | Transfer size - AWSIZE must be lesser than Data Bus Width                   | 0            | 1            |
 | AXI4_CHECK_009     | Transfer size - ARSIZE must be lesser than Data Bus Width                   | 0            | 1            |
 | AXI4_CHECK_010     | AWBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 1            |
+=======
+| AXI4_CHECK_001     | Address must not cross 4 KB Boundary                                        | 0            | 1            |
+| AXI4_CHECK_002     | For Fixed burst type AWLEN must be between 0 to 15                          | 0            | 0            |
+| AXI4_CHECK_003     | For Fixed burst type ARLEN must be between 0 to 15                          | 0            | 1            |
+| AXI4_CHECK_004     | For WRAP burst type AWLEN must be 1, 3, 7 and 15 only                       | 0            | 0            |
+| AXI4_CHECK_005     | For WRAP burst type ARLEN must be 1, 3, 7 and 15 only                       | 0            | 1            |
+| AXI4_CHECK_008     | Transfer size - AWSIZE must be lesser than Data Bus Width                   | 0            | 0            |
+| AXI4_CHECK_009     | Transfer size - ARSIZE must be lesser than Data Bus Width                   | 0            | 1            |
+| AXI4_CHECK_010     | AWBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 0            |
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 | AXI4_CHECK_011     | ARBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 1            |
 | AXI4_CHECK_012     | Approriate WSTRB must be there                                              | 0            | 0            |
 | AXI4_CHECK_013     | BRESP must be OKAY or SLVERR for every transaction                          | 0            | 0            |
@@ -795,6 +934,7 @@ No. of transaction failed : 0
 | AXI4_CHECK_015     | For WRAP burst type AWADDR must be Aligned address only                     | 0            | 0            |
 | AXI4_CHECK_016     | For WRAP burst type ARADDR must be Aligned address only                     | 0            | 0            |
 +================================================================================================================================+
+<<<<<<< HEAD
 $finish at simulation time                 1335
 "../src/ei_axi4_assertion.sv", 274: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_010, 134 attempts, 134 match
 "../src/ei_axi4_assertion.sv", 286: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_011, 134 attempts, 134 match
@@ -833,13 +973,61 @@ $finish at simulation time                 1335
 "../src/ei_axi4_assertion.sv", 505: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_041, 134 attempts, 1 match
 "../src/ei_axi4_assertion.sv", 661: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_043, 134 attempts, 1 match
 "../src/ei_axi4_assertion.sv", 673: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_044, 134 attempts, 1 match
+=======
+READ TESTCASE SELECTED
+$finish at simulation time                  205
+"../src/ei_axi4_assertion.sv", 274: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_010, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 286: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_011, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 299: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_013, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 312: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_009, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 325: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_012, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 517: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_015, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 529: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_017, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 541: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_019, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 553: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_022, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 565: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_024, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 577: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_026, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 589: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_031, 21 attempts, 14 match
+"../src/ei_axi4_assertion.sv", 601: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_033, 21 attempts, 14 match
+"../src/ei_axi4_assertion.sv", 613: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_038, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 625: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_042, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 637: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_036, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 649: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_029, 21 attempts, 14 match
+"../src/ei_axi4_assertion.sv", 238: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_007, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 250: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_008, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 262: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_006, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 337: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_014, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 349: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_016, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 361: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_018, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 373: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_020, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 385: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_021, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 397: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_023, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 409: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_025, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 421: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_027, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 433: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_028, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 445: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_030, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 457: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_032, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 469: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_035, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 481: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_037, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 493: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_039, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 505: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_041, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 661: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_043, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 673: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_044, 21 attempts, 0 match
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 "../src/ei_axi4_assertion.sv", 177: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_002, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 189: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_003, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 201: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_005, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 213: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_001, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 225: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_004, 0 attempts, 0 match
            V C S   S i m u l a t i o n   R e p o r t 
+<<<<<<< HEAD
 Time: 1335
 CPU Time:      0.480 seconds;       Data structure size:   0.1Mb
 Thu Jul  7 11:45:46 2022
 randomized with seed 9491312
+=======
+Time: 205
+CPU Time:      0.460 seconds;       Data structure size:   0.1Mb
+Thu Jul  7 15:59:14 2022
+randomized with seed 43982680
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31

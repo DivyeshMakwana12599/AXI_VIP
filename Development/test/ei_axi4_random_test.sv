@@ -33,7 +33,7 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
   
   /***
   //   Method name          : new()                 
-  //   Parameters passed    : master and slave interface                
+  //   Parameters passed    : master, monitor  and slave interface                
   //   Returned parameters  : None                        
   //   Description          : constructor       
   ***/
@@ -59,17 +59,18 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
   //   Description          : main task   
   ***/
   task start();
-    super.run();
+    super.run();  //calling run task of base class
     for(int i = 0; i < test_cfg.total_num_trans; i++) begin
       wr_trans = new();
       rd_trans = new(); 
           
+      //randomly select write or read transaction
       randsequence(main)
-        main  : write | read;
-        write : {env.mst_agt.mst_gen.start(wr_trans);};
-        read  : {env.mst_agt.mst_gen.start(rd_trans);};
+        main  : write | read; 
+        write : {env.mst_agt.mst_gen.start(wr_trans);}; //passing write transaction
+        read  : {env.mst_agt.mst_gen.start(rd_trans);}; //passing read transaction
       endsequence
-      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1);
+      wait(env.mst_agt.mst_mon.no_of_trans_monitored == i + 1); //wait for transaction to complete
     end
   endtask
 
@@ -81,7 +82,7 @@ class ei_axi4_random_test_c extends ei_axi4_base_test_c;
   //   Description          : wrap up task   
   ***/
    task wrap_up();
-     super.wrap_up();
+     super.wrap_up(); //calling wrap_up task of base class
      $display("RANDOM TESTCASE SELECTED");
    endtask
   

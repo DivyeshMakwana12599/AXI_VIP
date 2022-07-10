@@ -1,0 +1,44 @@
+<session version="1.1" release="R-2020.12-SP2" timestp="2022-07-07 10:29:15 GMT">
+  <info>
+    <attr name="datetime" value="Thu Jul  7 15:59:15 2022
+"/>
+    <attr name="command" value="urg -dir ./simv.vdb -dir ./mergedir.vdb -dbname mergedir/merged -format both"/>
+    <attr name="top_instance" value="ei_axi4_top"/>
+  </info>
+  <hvp>
+    <datadef>
+      <metdef name="Assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Group" type="percent" aggregator="average" builtin="1" />
+    </datadef>
+  </hvp>
+  <old_coverage>
+  <scope type="top" name="top">
+    <metric name="Assert" value="37/42" />
+    <metric name="Group" value="99.3164%" />
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="group" name="top">
+    <scope type="group" name="$unit::ei_axi4_coverage_c::ei_axi4_read_cg">
+      <metric name="Group" value="98.75%" />
+    </scope>
+    <scope type="group" name="$unit::ei_axi4_coverage_c::ei_axi4_write_cg">
+      <metric name="Group" value="99.8828%" />
+    </scope>
+  </scope>
+  <scope type="assert" name="Statistics">
+    <scorelist type="total" name="Design Hierarchy Assert">
+      <score name="Assert" value="37/42" />
+      <score name="Score" value="88.10" />
+    </scorelist>
+    <scorelist type="total" name="Module List Assert">
+      <score name="Assert" value="37/42" />
+      <score name="Score" value="88.10" />
+    </scorelist>
+    <scorelist type="total" name="Assertion">
+      <score name="Assert" value="37/42" />
+      <score name="Score" value="88.10" />
+    </scorelist>
+  </scope>
+  </old_coverage>
+</session>

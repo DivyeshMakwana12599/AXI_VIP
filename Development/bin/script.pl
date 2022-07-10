@@ -9,7 +9,6 @@ my $top_file_path = '../tb/ei_axi4_top.sv';
 my $compiler = 'vcs -sverilog -full64 -debug_access+r +error+20';
 my $simulator = './simv';
 
-system "$compiler $top_file_path";
 
 # get all testcases names for 
 open(TESTCASE, "<", "testcase.txt") or 
@@ -28,6 +27,7 @@ foreach my $line(@testcase_name){
 
 GetOptions(
   "gui" => \my $gui, 
+  "compile" => \my $compile,
   "testcase=s" => \my $testcase, 
   "burst=s" => \my $burst, 
   "address_type=s" => \my $address_type, 
@@ -39,7 +39,11 @@ GetOptions(
   "merge_coverage" => \my $merge_coverage
 );
 
+if($compile) {
+  system "$compiler $top_file_path";
+}
 # g - gui           - to run and open waveform i.e. gui
+# c - compile       - to compile code
 # t - testcase      - to give testcase as argument
 # b - burst         - to provide burst type in form of string or integer
 # a - address_type  - to provide address type in form of string or integer
@@ -117,8 +121,9 @@ else {
         system "urg -dir ./simv.vdb -dir ./mergedir.vdb -dbname mergedir/merged -format both";
       }
       else {
-        system "cp -r simv.vdb /tmp/temp.vdb";
-        system "urg -dir ./simv.vdb -dir /tmp/temp.vdb -dbname mergedir/merged -format both";
+        system "cp -r simv.vdb prevCov.vdb";
+        system "urg -dir ./simv.vdb -dir ./prevCov.vdb -dbname mergedir/merged -format both";
+        system "rm -rf ./prevCov.vdb";
       }
     }
   }
@@ -146,6 +151,7 @@ sub printTestcase {
   print("╠", "═"x45,"╬","═"x45,"═"x25,"╣\n");
 
   print("║", " "x45,"║"," "x70,"║\n");
+
   foreach (@testcase_name){
       if($i < 9){
           $current = length($testcase_name[$i]);
@@ -154,11 +160,11 @@ sub printTestcase {
           print("║\t\t AXI_TEST_00$m\t\t      ║\t\t\t$testcase_name[$i]"," "x5," "x$final_count," ║\n"); 
           $i++;
       }
-      if($i >= 9 && $i < 19){
+      elsif($i >= 9 && $i < 19){
           $current = length($testcase_name[$i]);
           $final_count = $max - $current;
           $m = $i + 1;
-          print("║\t\t AXI_TEST_0$m\t\t     ║\t\t\t$testcase_name[$i]"," "x5," "x$final_count,"║\n"); 
+          print("║\t\t AXI_TEST_0$m\t\t      ║\t\t\t$testcase_name[$i]"," "x5," "x$final_count," ║\n"); 
           $i++;
       }
   }

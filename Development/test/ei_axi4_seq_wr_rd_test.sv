@@ -83,35 +83,37 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
         //j++;
         m++;
     end
-     
+    //wait till write operation is performed if total num trans is even number 
     if(test_cfg.total_num_trans % 2 == 0)begin
       wait(env.mst_agt.mst_mon.no_of_trans_monitored == test_cfg.total_num_trans/2);
     end
+    //if odd then 
     else begin
       wait(env.mst_agt.mst_mon.no_of_trans_monitored == test_cfg.total_num_trans/2 + 1);
     end
 
+    //performing read operation after write 
     for(int i = 0; i < test_cfg.total_num_trans/2; i++) begin
         rd_trans = new();
-        rd_trans.addr.rand_mode(0);
+        rd_trans.addr.rand_mode(0); //disable randomization
         rd_trans.burst.rand_mode(0);
         rd_trans.len.rand_mode(0);
         rd_trans.size.rand_mode(0);
-        rd_trans.specific_burst_type.constraint_mode(0);
+        rd_trans.specific_burst_type.constraint_mode(0); //disable constraint mode
         rd_trans.addr_type_c.constraint_mode(0);
         rd_trans.specific_transaction_length.constraint_mode(0);
         rd_trans.specific_transfer_size.constraint_mode(0);
           
-        rd_trans.transaction_type = READ;
+        rd_trans.transaction_type = READ;              //assigning transaction type
         rd_trans.addr   = tmp_addr_arr.pop_back();     //to get data from same location 
-        rd_trans.burst  = tmp_burst_arr.pop_back();
+        rd_trans.burst  = tmp_burst_arr.pop_back();    
         rd_trans.len    = tmp_len_arr.pop_back();
         rd_trans.size   = tmp_size_arr.pop_back();
-        env.mst_agt.mst_gen.start(rd_trans);
+        env.mst_agt.mst_gen.start(rd_trans);           //passing transaction
         n++;
     end
         m = m + n;
-        wait(env.mst_agt.mst_mon.no_of_trans_monitored == m);
+        wait(env.mst_agt.mst_mon.no_of_trans_monitored == m); //wait till transaction completes
 
   endtask
 
@@ -122,7 +124,7 @@ class ei_axi4_seq_wr_rd_test_c extends ei_axi4_base_test_c;
   //   Description          : summary      
   ***/
     task wrap_up();
-        super.wrap_up();
+        super.wrap_up(); //calling wrap_up task of base class
         $display("SEQUENTIAL WRITE READ TASK SELECTED");
     endtask
   
