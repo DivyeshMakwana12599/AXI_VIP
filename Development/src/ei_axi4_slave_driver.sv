@@ -35,6 +35,7 @@ Revision  : 0.1
 
 class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
                                ADDR_WIDTH = `ADDR_WIDTH);
+  //Declaration 
   bit [ DATA_WIDTH - 1 : 0] slv_drv_mem [bit [ADDR_WIDTH - 1 : 0]];
   ei_axi4_transaction_c write_data_queue[$];
   ei_axi4_transaction_c read_data_queue[$];
@@ -91,6 +92,16 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
     end
   endtask : run
 
+
+/**
+*\   Method name          : reset()
+*\   parameters passed    : None                      
+*\   Returned parameters  : None
+*\   Description          : this task resets slave driver and erases the control
+*\                          signals and queues.
+*\                         
+*\                          
+**/
   task reset();
       $display("[SLV_DRV] \t\t@%0t --> fork join disabled",$time);
       $display("-------------------------------------------------------------");
@@ -123,6 +134,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_address_run();
+    // transaction class 
     ei_axi4_transaction_c write_trans;
     vif.awready               <= 0;
       @(`VSLV);
@@ -133,6 +145,7 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
        @(`VSLV iff(`VSLV.awvalid == 1)); 
        write_trans               = new();
        $display("[Write Address Channel] \t\t@%0t --> AWVALID & AWREADY Handshaked ",$time);
+       // sample the interface and make the packet
        write_trans.addr          =  `VSLV.awaddr;
        write_trans.burst         =  `VSLV.awburst;
        write_trans.len           =  `VSLV.awlen;
@@ -157,16 +170,21 @@ class ei_axi4_slave_driver_c #(DATA_WIDTH = `DATA_WIDTH,
 **/
 
   task write_data_run();
+    //declaration of varaibles 
     bit [`ADDR_WIDTH - 1 : 0] addr;
     bit [`ADDR_WIDTH - 1 : 0] alligned_addr;
     bit [`ADDR_WIDTH - 1 : 0] mem_addr;
     ei_axi4_transaction_c write_trans;
     vif.wready       = 0;
+    //wait for one clock as reset gets asserted
       @(`VSLV);
     
-    forever begin 
+    forever begin
+      //if write data queue is empty then wait here.
       wait(write_data_queue.size > 0);
+      // pop queue and store locally
       write_trans      = write_data_queue.pop_front();
+      //Assert wready, as a indicator that salve is ready to accept the data
       `VSLV.wready     <= 1;
       alligned_addr   = write_trans.addr - (write_trans.addr % (2**write_trans.size));
 
