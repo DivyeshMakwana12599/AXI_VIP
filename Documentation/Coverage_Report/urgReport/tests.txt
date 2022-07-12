@@ -2,7 +2,7 @@ Tests
 
 Total Coverage Summary 
 SCORE  ASSERT GROUP  
- 93.71  88.10  99.32 
+ 94.05  88.10 100.00 
 
 
 Total tests in report: 2

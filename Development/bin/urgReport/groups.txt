@@ -2,12 +2,12 @@ Testbench Group List
 
 Total Groups Coverage Summary 
 SCORE  WEIGHT 
- 99.32 1      
+100.00 1      
 
 
 Total groups in report: 2
 -------------------------------------------------------------------------------
 SCORE  WEIGHT GOAL   AT LEAST PER INSTANCE AUTO BIN MAX PRINT MISSING COMMENT NAME                                        
- 98.75 1      100    1        0            64           64                    $unit::ei_axi4_coverage_c::ei_axi4_read_cg  
- 99.88 1      100    1        0            64           64                    $unit::ei_axi4_coverage_c::ei_axi4_write_cg 
+100.00 1      100    1        0            64           64                    $unit::ei_axi4_coverage_c::ei_axi4_read_cg  
+100.00 1      100    1        0            64           64                    $unit::ei_axi4_coverage_c::ei_axi4_write_cg 
 
