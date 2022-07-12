@@ -1,6 +1,14 @@
 Chronologic VCS simulator copyright 1991-2020
 Contains Synopsys proprietary information.
+<<<<<<< HEAD
 Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul 12 10:48 2022
+=======
+<<<<<<< HEAD
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul  7 11:45 2022
+=======
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Jul  7 15:59 2022
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 ---------------------------------------------------------------
 [SLV_DRV] 		Virtual Interface has been linked.
 ---------------------------------------------------------------
@@ -9,7 +17,144 @@ Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Ju
 +=========================================================================================+
 | Sr No  |            Name |                           Type | Size |                Value |
 +=========================================================================================+
+<<<<<<< HEAD
 |     1. |            addr |                      bit[31:0] |   32 |           3752521740 |
+=======
+<<<<<<< HEAD
+|     1. |            addr |                      bit[31:0] |   32 |           1707599077 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   60 |
+|     4. |            size |                       bit[2:0] |    3 |                    1 |
+|     5. |         data[0] |                      bit[63:0] |   64 |  2064701248262552264 |
+|        |         data[1] |                      bit[63:0] |   64 | 14946791503655411466 |
+|        |         data[2] |                      bit[63:0] |   64 |  8179823655543466194 |
+|        |         data[3] |                      bit[63:0] |   64 |  8982832903279783320 |
+|        |         data[4] |                      bit[63:0] |   64 |  7043497981439899215 |
+|        |         data[5] |                      bit[63:0] |   64 | 13731916183500350100 |
+|        |         data[6] |                      bit[63:0] |   64 |  7972315797286207137 |
+|        |         data[7] |                      bit[63:0] |   64 | 18339796134995596273 |
+|        |         data[8] |                      bit[63:0] |   64 |  4828412993615851332 |
+|        |         data[9] |                      bit[63:0] |   64 |  8592653879347210909 |
+|        |        data[10] |                      bit[63:0] |   64 | 13554397291679810110 |
+|        |        data[11] |                      bit[63:0] |   64 | 13363854409309165492 |
+|        |        data[12] |                      bit[63:0] |   64 | 10185082606515494098 |
+|        |        data[13] |                      bit[63:0] |   64 |  4229145394549330486 |
+|        |        data[14] |                      bit[63:0] |   64 |  4914987842652273988 |
+|        |        data[15] |                      bit[63:0] |   64 | 11012238269332620239 |
+|        |        data[16] |                      bit[63:0] |   64 |  4266224235456513295 |
+|        |        data[17] |                      bit[63:0] |   64 |  8175524452950026721 |
+|        |        data[18] |                      bit[63:0] |   64 |  8442586332321142726 |
+|        |        data[19] |                      bit[63:0] |   64 | 10743852902292487263 |
+|        |        data[20] |                      bit[63:0] |   64 | 10062159701727118169 |
+|        |        data[21] |                      bit[63:0] |   64 | 16700947402170778216 |
+|        |        data[22] |                      bit[63:0] |   64 | 17530662308770395657 |
+|        |        data[23] |                      bit[63:0] |   64 |   965843687493850386 |
+|        |        data[24] |                      bit[63:0] |   64 | 13947495018564539968 |
+|        |        data[25] |                      bit[63:0] |   64 | 14528793004639668123 |
+|        |        data[26] |                      bit[63:0] |   64 |  9152139600646746392 |
+|        |        data[27] |                      bit[63:0] |   64 | 17326759171367535144 |
+|        |        data[28] |                      bit[63:0] |   64 |  1287001571137122698 |
+|        |        data[29] |                      bit[63:0] |   64 | 11326558374577401564 |
+|        |        data[30] |                      bit[63:0] |   64 |  4279645587507753114 |
+|        |        data[31] |                      bit[63:0] |   64 | 10786729193711125966 |
+|        |        data[32] |                      bit[63:0] |   64 | 11935361381297440559 |
+|        |        data[33] |                      bit[63:0] |   64 |  8901125013208654964 |
+|        |        data[34] |                      bit[63:0] |   64 |  1296840387431853131 |
+|        |        data[35] |                      bit[63:0] |   64 |  3438442354242426724 |
+|        |        data[36] |                      bit[63:0] |   64 |  2215996327499584927 |
+|        |        data[37] |                      bit[63:0] |   64 | 14381634376870801240 |
+|        |        data[38] |                      bit[63:0] |   64 |  3964458689871398760 |
+|        |        data[39] |                      bit[63:0] |   64 |  5951372837190812437 |
+|        |        data[40] |                      bit[63:0] |   64 |  1620065046270754112 |
+|        |        data[41] |                      bit[63:0] |   64 |  8025945075981720066 |
+|        |        data[42] |                      bit[63:0] |   64 | 11904287147797971879 |
+|        |        data[43] |                      bit[63:0] |   64 |  8335267060283990126 |
+|        |        data[44] |                      bit[63:0] |   64 | 10888166950784273187 |
+|        |        data[45] |                      bit[63:0] |   64 |   667586928428638131 |
+|        |        data[46] |                      bit[63:0] |   64 | 15369308525990132183 |
+|        |        data[47] |                      bit[63:0] |   64 | 11267877851853382328 |
+|        |        data[48] |                      bit[63:0] |   64 | 14817621990652091067 |
+|        |        data[49] |                      bit[63:0] |   64 | 15471958705157457761 |
+|        |        data[50] |                      bit[63:0] |   64 | 17939053010995615728 |
+|        |        data[51] |                      bit[63:0] |   64 |  5314646700168735158 |
+|        |        data[52] |                      bit[63:0] |   64 |  5840200475440430343 |
+|        |        data[53] |                      bit[63:0] |   64 |  6789655795505090832 |
+|        |        data[54] |                      bit[63:0] |   64 | 15540923388496934050 |
+|        |        data[55] |                      bit[63:0] |   64 |  9951853354707334914 |
+|        |        data[56] |                      bit[63:0] |   64 | 15569676708807254794 |
+|        |        data[57] |                      bit[63:0] |   64 | 13757198338886871874 |
+|        |        data[58] |                      bit[63:0] |   64 |  7191472860844920613 |
+|        |        data[59] |                      bit[63:0] |   64 | 15649208270123447671 |
+|        |        data[60] |                      bit[63:0] |   64 | 10808239045723419771 |
+|     6. |        wstrb[0] |                       bit[7:0] |    8 |                   32 |
+|        |        wstrb[1] |                       bit[7:0] |    8 |                  192 |
+|        |        wstrb[2] |                       bit[7:0] |    8 |                    3 |
+|        |        wstrb[3] |                       bit[7:0] |    8 |                   12 |
+|        |        wstrb[4] |                       bit[7:0] |    8 |                   48 |
+|        |        wstrb[5] |                       bit[7:0] |    8 |                  192 |
+|        |        wstrb[6] |                       bit[7:0] |    8 |                    3 |
+|        |        wstrb[7] |                       bit[7:0] |    8 |                   12 |
+|        |        wstrb[8] |                       bit[7:0] |    8 |                   48 |
+|        |        wstrb[9] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[10] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[11] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[12] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[13] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[14] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[15] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[16] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[17] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[18] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[19] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[20] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[21] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[22] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[23] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[24] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[25] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[26] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[27] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[28] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[29] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[30] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[31] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[32] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[33] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[34] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[35] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[36] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[37] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[38] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[39] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[40] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[41] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[42] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[43] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[44] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[45] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[46] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[47] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[48] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[49] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[50] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[51] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[52] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[53] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[54] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[55] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[56] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[57] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[58] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[59] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[60] |                       bit[7:0] |    8 |                   48 |
+|     7. |           bresp |         enum $unit::response_e |    2 |                 OKAY |
++=========================================================================================+
+read data queue size = 0
+write data queue size = 0
+write response queue size = 0
+=======
+|     1. |            addr |                      bit[31:0] |   32 |            695683053 |
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 |     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
 |     3. |             len |                       bit[7:0] |    8 |                   59 |
 |     4. |            size |                       bit[2:0] |    3 |                    2 |
@@ -135,6 +280,7 @@ Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Ju
 |        |       wstrb[59] |                       bit[7:0] |    8 |                   15 |
 |     7. |           bresp |         enum $unit::response_e |    2 |                 OKAY |
 +=========================================================================================+
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
 [SLV_DRV] 		@0 --> fork join disabled
 -------------------------------------------------------------
 ################ RESET HAS BEEN ASSERTED !! #################
@@ -142,10 +288,442 @@ Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Ju
 -------------------------------------------------------------
 ################ RESET HAS BEEN DEASSERTED !! ############## 
 -------------------------------------------------------------
+<<<<<<< HEAD
 ------- write_address = dfaaf00c
 ------- write burst = 1
 ------- write_len = 3b
 ------- write_size = 2
+=======
+<<<<<<< HEAD
+read data queue size = 0
+write data queue size = 0
+write response queue size = 0
+------- write_address = 65c7e4e5
+------- write burst = 1
+------- write_len = 3c
+------- write_size = 1
+------------------------------------------------------------
+[Write Address Channel] 		@5 --> AWREADY Asserted
+----------------------------------------------------------:---
+@15 write handshake occured -> 1707599077
+[Write Address Channel] 		@15 --> AWVALID & AWREADY Handshaked 
+[Write Address Channel] 		@15 --> write data queue = '{{ ref to class ei_axi4_transaction_c#(64,32)}} 
+------------------------------------------------------------
+------------------------------------------------------------
+[Write Address Channel] 		@15 --> AWREADY Asserted
+@15 write handshake occured -> 1707599077
+[MST DRV] --> .... @615 WLAST Asserted
+[MST DRV] --> .... @625 WLAST Deasserted
++=========================================================================================+
+| Transaction Type :      WRITE [MONITOR FOR WRITE] @  655                                       |
++=========================================================================================+
+| Sr No  |            Name |                           Type | Size |                Value |
++=========================================================================================+
+|     1. |            addr |                      bit[31:0] |   32 |           1707599077 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   60 |
+|     4. |            size |                       bit[2:0] |    3 |                    1 |
+|     5. |         data[0] |                      bit[63:0] |   64 |  2064701248262552264 |
+|        |         data[1] |                      bit[63:0] |   64 | 14946791503655411466 |
+|        |         data[2] |                      bit[63:0] |   64 |  8179823655543466194 |
+|        |         data[3] |                      bit[63:0] |   64 |  8982832903279783320 |
+|        |         data[4] |                      bit[63:0] |   64 |  7043497981439899215 |
+|        |         data[5] |                      bit[63:0] |   64 | 13731916183500350100 |
+|        |         data[6] |                      bit[63:0] |   64 |  7972315797286207137 |
+|        |         data[7] |                      bit[63:0] |   64 | 18339796134995596273 |
+|        |         data[8] |                      bit[63:0] |   64 |  4828412993615851332 |
+|        |         data[9] |                      bit[63:0] |   64 |  8592653879347210909 |
+|        |        data[10] |                      bit[63:0] |   64 | 13554397291679810110 |
+|        |        data[11] |                      bit[63:0] |   64 | 13363854409309165492 |
+|        |        data[12] |                      bit[63:0] |   64 | 10185082606515494098 |
+|        |        data[13] |                      bit[63:0] |   64 |  4229145394549330486 |
+|        |        data[14] |                      bit[63:0] |   64 |  4914987842652273988 |
+|        |        data[15] |                      bit[63:0] |   64 | 11012238269332620239 |
+|        |        data[16] |                      bit[63:0] |   64 |  4266224235456513295 |
+|        |        data[17] |                      bit[63:0] |   64 |  8175524452950026721 |
+|        |        data[18] |                      bit[63:0] |   64 |  8442586332321142726 |
+|        |        data[19] |                      bit[63:0] |   64 | 10743852902292487263 |
+|        |        data[20] |                      bit[63:0] |   64 | 10062159701727118169 |
+|        |        data[21] |                      bit[63:0] |   64 | 16700947402170778216 |
+|        |        data[22] |                      bit[63:0] |   64 | 17530662308770395657 |
+|        |        data[23] |                      bit[63:0] |   64 |   965843687493850386 |
+|        |        data[24] |                      bit[63:0] |   64 | 13947495018564539968 |
+|        |        data[25] |                      bit[63:0] |   64 | 14528793004639668123 |
+|        |        data[26] |                      bit[63:0] |   64 |  9152139600646746392 |
+|        |        data[27] |                      bit[63:0] |   64 | 17326759171367535144 |
+|        |        data[28] |                      bit[63:0] |   64 |  1287001571137122698 |
+|        |        data[29] |                      bit[63:0] |   64 | 11326558374577401564 |
+|        |        data[30] |                      bit[63:0] |   64 |  4279645587507753114 |
+|        |        data[31] |                      bit[63:0] |   64 | 10786729193711125966 |
+|        |        data[32] |                      bit[63:0] |   64 | 11935361381297440559 |
+|        |        data[33] |                      bit[63:0] |   64 |  8901125013208654964 |
+|        |        data[34] |                      bit[63:0] |   64 |  1296840387431853131 |
+|        |        data[35] |                      bit[63:0] |   64 |  3438442354242426724 |
+|        |        data[36] |                      bit[63:0] |   64 |  2215996327499584927 |
+|        |        data[37] |                      bit[63:0] |   64 | 14381634376870801240 |
+|        |        data[38] |                      bit[63:0] |   64 |  3964458689871398760 |
+|        |        data[39] |                      bit[63:0] |   64 |  5951372837190812437 |
+|        |        data[40] |                      bit[63:0] |   64 |  1620065046270754112 |
+|        |        data[41] |                      bit[63:0] |   64 |  8025945075981720066 |
+|        |        data[42] |                      bit[63:0] |   64 | 11904287147797971879 |
+|        |        data[43] |                      bit[63:0] |   64 |  8335267060283990126 |
+|        |        data[44] |                      bit[63:0] |   64 | 10888166950784273187 |
+|        |        data[45] |                      bit[63:0] |   64 |   667586928428638131 |
+|        |        data[46] |                      bit[63:0] |   64 | 15369308525990132183 |
+|        |        data[47] |                      bit[63:0] |   64 | 11267877851853382328 |
+|        |        data[48] |                      bit[63:0] |   64 | 14817621990652091067 |
+|        |        data[49] |                      bit[63:0] |   64 | 15471958705157457761 |
+|        |        data[50] |                      bit[63:0] |   64 | 17939053010995615728 |
+|        |        data[51] |                      bit[63:0] |   64 |  5314646700168735158 |
+|        |        data[52] |                      bit[63:0] |   64 |  5840200475440430343 |
+|        |        data[53] |                      bit[63:0] |   64 |  6789655795505090832 |
+|        |        data[54] |                      bit[63:0] |   64 | 15540923388496934050 |
+|        |        data[55] |                      bit[63:0] |   64 |  9951853354707334914 |
+|        |        data[56] |                      bit[63:0] |   64 | 15569676708807254794 |
+|        |        data[57] |                      bit[63:0] |   64 | 13757198338886871874 |
+|        |        data[58] |                      bit[63:0] |   64 |  7191472860844920613 |
+|        |        data[59] |                      bit[63:0] |   64 | 15649208270123447671 |
+|        |        data[60] |                      bit[63:0] |   64 | 10808239045723419771 |
+|     6. |        wstrb[0] |                       bit[7:0] |    8 |                   32 |
+|        |        wstrb[1] |                       bit[7:0] |    8 |                  192 |
+|        |        wstrb[2] |                       bit[7:0] |    8 |                    3 |
+|        |        wstrb[3] |                       bit[7:0] |    8 |                   12 |
+|        |        wstrb[4] |                       bit[7:0] |    8 |                   48 |
+|        |        wstrb[5] |                       bit[7:0] |    8 |                  192 |
+|        |        wstrb[6] |                       bit[7:0] |    8 |                    3 |
+|        |        wstrb[7] |                       bit[7:0] |    8 |                   12 |
+|        |        wstrb[8] |                       bit[7:0] |    8 |                   48 |
+|        |        wstrb[9] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[10] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[11] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[12] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[13] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[14] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[15] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[16] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[17] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[18] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[19] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[20] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[21] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[22] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[23] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[24] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[25] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[26] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[27] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[28] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[29] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[30] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[31] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[32] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[33] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[34] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[35] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[36] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[37] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[38] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[39] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[40] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[41] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[42] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[43] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[44] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[45] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[46] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[47] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[48] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[49] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[50] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[51] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[52] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[53] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[54] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[55] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[56] |                       bit[7:0] |    8 |                   48 |
+|        |       wstrb[57] |                       bit[7:0] |    8 |                  192 |
+|        |       wstrb[58] |                       bit[7:0] |    8 |                    3 |
+|        |       wstrb[59] |                       bit[7:0] |    8 |                   12 |
+|        |       wstrb[60] |                       bit[7:0] |    8 |                   48 |
+|     7. |           bresp |         enum $unit::response_e |    2 |                 OKAY |
++=========================================================================================+
+no_of_trans_monitored = 1
+[GEN] ==================== Randomizing ========================
++=========================================================================================+
+| Transaction Type :       READ              @  655                                       |
++=========================================================================================+
+| Sr No  |            Name |                           Type | Size |                Value |
++=========================================================================================+
+|     1. |            addr |                      bit[31:0] |   32 |           1707599077 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   60 |
+|     4. |            size |                       bit[2:0] |    3 |                    1 |
+|     5. |         data[0] |                      bit[63:0] |   64 |                    0 |
++=========================================================================================+
+|     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
++=========================================================================================+
+@675 read handshake occured -> 1707599077
+[Write Address Channel] 		@675 ARVALID & ARREADY Handshaked 
+----------------------------------------------------------:---
+@675 read handshake occured -> 1707599077
+time                 675
+time                 685
+time                 695
+time                 705
+time                 715
+time                 725
+time                 735
+time                 745
+time                 755
+time                 765
+time                 775
+time                 785
+time                 795
+time                 805
+time                 815
+time                 825
+time                 835
+time                 845
+time                 855
+time                 865
+time                 875
+time                 885
+time                 895
+time                 905
+time                 915
+time                 925
+time                 935
+time                 945
+time                 955
+time                 965
+time                 975
+time                 985
+time                 995
+time                1005
+time                1015
+time                1025
+time                1035
+time                1045
+time                1055
+time                1065
+time                1075
+time                1085
+time                1095
+time                1105
+time                1115
+time                1125
+time                1135
+time                1145
+time                1155
+time                1165
+time                1175
+time                1185
+time                1195
+time                1205
+time                1215
+time                1225
+time                1235
+time                1245
+time                1255
+time                1265
+time                1275
+time                1285
+time                1285
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+reference_model address -=-==-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-= > = 1707599077
+4kb_boundary if confdition dnskjfhbvhjAVDOKFDLISAGIDGSAISKFKUDSFKADS
+got from reference
++=========================================================================================+
+| Transaction Type :       READ     [GOLDEN] @ 1335                                       |
++=========================================================================================+
+| Sr No  |            Name |                           Type | Size |                Value |
++=========================================================================================+
+|     1. |            addr |                      bit[31:0] |   32 |           1707599077 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   60 |
+|     4. |            size |                       bit[2:0] |    3 |                    1 |
+|     5. |         data[0] |                      bit[63:0] |   64 |       81363860455424 |
+|        |         data[1] |                      bit[63:0] |   64 | 14946602738312544256 |
+|        |         data[2] |                      bit[63:0] |   64 |                26834 |
+|        |         data[3] |                      bit[63:0] |   64 |           3031302144 |
+|        |         data[4] |                      bit[63:0] |   64 |      149636660592640 |
+|        |         data[5] |                      bit[63:0] |   64 | 13731756738829352960 |
+|        |         data[6] |                      bit[63:0] |   64 |                48801 |
+|        |         data[7] |                      bit[63:0] |   64 |           2541617152 |
+|        |         data[8] |                      bit[63:0] |   64 |      272717538394112 |
+|        |         data[9] |                      bit[63:0] |   64 |  8592586614046195712 |
+|        |        data[10] |                      bit[63:0] |   64 |                33342 |
+|        |        data[11] |                      bit[63:0] |   64 |           3504930816 |
+|        |        data[12] |                      bit[63:0] |   64 |      192045167673344 |
+|        |        data[13] |                      bit[63:0] |   64 |  4228880050100895744 |
+|        |        data[14] |                      bit[63:0] |   64 |                64836 |
+|        |        data[15] |                      bit[63:0] |   64 |           1367867392 |
+|        |        data[16] |                      bit[63:0] |   64 |      189485367164928 |
+|        |        data[17] |                      bit[63:0] |   64 |  8175440698561003520 |
+|        |        data[18] |                      bit[63:0] |   64 |                55238 |
+|        |        data[19] |                      bit[63:0] |   64 |           2419130368 |
+|        |        data[20] |                      bit[63:0] |   64 |      273705380872192 |
+|        |        data[21] |                      bit[63:0] |   64 | 16700754793173352448 |
+|        |        data[22] |                      bit[63:0] |   64 |                46601 |
+|        |        data[23] |                      bit[63:0] |   64 |           1839136768 |
+|        |        data[24] |                      bit[63:0] |   64 |      128445291954176 |
+|        |        data[25] |                      bit[63:0] |   64 | 14528612397897220096 |
+|        |        data[26] |                      bit[63:0] |   64 |                45336 |
+|        |        data[27] |                      bit[63:0] |   64 |           1310326784 |
+|        |        data[28] |                      bit[63:0] |   64 |       97976793956352 |
+|        |        data[29] |                      bit[63:0] |   64 | 11326553062836797440 |
+|        |        data[30] |                      bit[63:0] |   64 |                45210 |
+|        |        data[31] |                      bit[63:0] |   64 |            394002432 |
+|        |        data[32] |                      bit[63:0] |   64 |      259416024678400 |
+|        |        data[33] |                      bit[63:0] |   64 |  8901083188521074688 |
+|        |        data[34] |                      bit[63:0] |   64 |                27723 |
+|        |        data[35] |                      bit[63:0] |   64 |           2168913920 |
+|        |        data[36] |                      bit[63:0] |   64 |      225309689380864 |
+|        |        data[37] |                      bit[63:0] |   64 | 14381400985077547008 |
+|        |        data[38] |                      bit[63:0] |   64 |                51048 |
+|        |        data[39] |                      bit[63:0] |   64 |           1319763968 |
+|        |        data[40] |                      bit[63:0] |   64 |      176553220636672 |
+|        |        data[41] |                      bit[63:0] |   64 |  8025696010950934528 |
+|        |        data[42] |                      bit[63:0] |   64 |                  935 |
+|        |        data[43] |                      bit[63:0] |   64 |           2889678848 |
+|        |        data[44] |                      bit[63:0] |   64 |      151900108357632 |
+|        |        data[45] |                      bit[63:0] |   64 |   667377169780965376 |
+|        |        data[46] |                      bit[63:0] |   64 |                14807 |
+|        |        data[47] |                      bit[63:0] |   64 |           3694526464 |
+|        |        data[48] |                      bit[63:0] |   64 |      216264488255488 |
+|        |        data[49] |                      bit[63:0] |   64 | 15471835044854628352 |
+|        |        data[50] |                      bit[63:0] |   64 |                38896 |
+|        |        data[51] |                      bit[63:0] |   64 |           4265738240 |
+|        |        data[52] |                      bit[63:0] |   64 |      157655364534272 |
+|        |        data[53] |                      bit[63:0] |   64 |  6789457913237733376 |
+|        |        data[54] |                      bit[63:0] |   64 |                29858 |
+|        |        data[55] |                      bit[63:0] |   64 |            538705920 |
+|        |        data[56] |                      bit[63:0] |   64 |      169844481720320 |
+|        |        data[57] |                      bit[63:0] |   64 | 13757089486733312000 |
+|        |        data[58] |                      bit[63:0] |   64 |                 3877 |
+|        |        data[59] |                      bit[63:0] |   64 |            886046720 |
+|        |        data[60] |                      bit[63:0] |   64 |      162886634700800 |
+=======
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 ------------------------------------------------------------
 [Write Address Channel] 		@5 --> AWREADY Asserted
 ----------------------------------------------------------:---
@@ -499,6 +1077,7 @@ got from reference
 |     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
 |     3. |             len |                       bit[7:0] |    8 |                   59 |
 |     4. |            size |                       bit[2:0] |    3 |                    2 |
+<<<<<<< HEAD
 |     5. |         data[0] |                      bit[63:0] |   64 |  5663618187476860928 |
 |        |         data[1] |                      bit[63:0] |   64 |           3717638527 |
 |        |         data[2] |                      bit[63:0] |   64 | 16187322097528209408 |
@@ -559,6 +1138,23 @@ got from reference
 |        |        data[57] |                      bit[63:0] |   64 |           1032118456 |
 |        |        data[58] |                      bit[63:0] |   64 |  2734434905168543744 |
 |        |        data[59] |                      bit[63:0] |   64 |            543078145 |
+=======
+|     5. |         data[0] |                      bit[63:0] |   64 |                    0 |
+|        |         data[1] |                      bit[63:0] |   64 |                    0 |
+|        |         data[2] |                      bit[63:0] |   64 |                    0 |
+|        |         data[3] |                      bit[63:0] |   64 |                    0 |
+|        |         data[4] |                      bit[63:0] |   64 |                    0 |
+|        |         data[5] |                      bit[63:0] |   64 |                    0 |
+|        |         data[6] |                      bit[63:0] |   64 |                    0 |
+|        |         data[7] |                      bit[63:0] |   64 |                    0 |
+|        |         data[8] |                      bit[63:0] |   64 |                    0 |
+|        |         data[9] |                      bit[63:0] |   64 |                    0 |
+|        |        data[10] |                      bit[63:0] |   64 |                    0 |
+|        |        data[11] |                      bit[63:0] |   64 |                    0 |
+|        |        data[12] |                      bit[63:0] |   64 |                    0 |
+|        |        data[13] |                      bit[63:0] |   64 |                    0 |
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 |     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[1] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[2] |         enum $unit::response_e |    2 |                 OKAY |
@@ -573,6 +1169,10 @@ got from reference
 |        |       rresp[11] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[12] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[13] |         enum $unit::response_e |    2 |                 OKAY |
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 |        |       rresp[14] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[15] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[16] |         enum $unit::response_e |    2 |                 OKAY |
@@ -619,6 +1219,83 @@ got from reference
 |        |       rresp[57] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[58] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[59] |         enum $unit::response_e |    2 |                 OKAY |
+<<<<<<< HEAD
+=======
+|        |       rresp[60] |         enum $unit::response_e |    2 |                 OKAY |
++=========================================================================================+
+got from monitor
++=========================================================================================+
+| Transaction Type :       READ       [TRAN] @ 1335                                       |
++=========================================================================================+
+| Sr No  |            Name |                           Type | Size |                Value |
++=========================================================================================+
+|     1. |            addr |                      bit[31:0] |   32 |           1707599077 |
+|     2. |           burst |       enum $unit::burst_type_e |    2 |                 INCR |
+|     3. |             len |                       bit[7:0] |    8 |                   60 |
+|     4. |            size |                       bit[2:0] |    3 |                    1 |
+|     5. |         data[0] |                      bit[63:0] |   64 |       81363860455424 |
+|        |         data[1] |                      bit[63:0] |   64 | 14946602738312544256 |
+|        |         data[2] |                      bit[63:0] |   64 |                26834 |
+|        |         data[3] |                      bit[63:0] |   64 |           3031302144 |
+|        |         data[4] |                      bit[63:0] |   64 |      149636660592640 |
+|        |         data[5] |                      bit[63:0] |   64 | 13731756738829352960 |
+|        |         data[6] |                      bit[63:0] |   64 |                48801 |
+|        |         data[7] |                      bit[63:0] |   64 |           2541617152 |
+|        |         data[8] |                      bit[63:0] |   64 |      272717538394112 |
+|        |         data[9] |                      bit[63:0] |   64 |  8592586614046195712 |
+|        |        data[10] |                      bit[63:0] |   64 |                33342 |
+|        |        data[11] |                      bit[63:0] |   64 |           3504930816 |
+|        |        data[12] |                      bit[63:0] |   64 |      192045167673344 |
+|        |        data[13] |                      bit[63:0] |   64 |  4228880050100895744 |
+|        |        data[14] |                      bit[63:0] |   64 |                64836 |
+|        |        data[15] |                      bit[63:0] |   64 |           1367867392 |
+|        |        data[16] |                      bit[63:0] |   64 |      189485367164928 |
+|        |        data[17] |                      bit[63:0] |   64 |  8175440698561003520 |
+|        |        data[18] |                      bit[63:0] |   64 |                55238 |
+|        |        data[19] |                      bit[63:0] |   64 |           2419130368 |
+|        |        data[20] |                      bit[63:0] |   64 |      273705380872192 |
+|        |        data[21] |                      bit[63:0] |   64 | 16700754793173352448 |
+|        |        data[22] |                      bit[63:0] |   64 |                46601 |
+|        |        data[23] |                      bit[63:0] |   64 |           1839136768 |
+|        |        data[24] |                      bit[63:0] |   64 |      128445291954176 |
+|        |        data[25] |                      bit[63:0] |   64 | 14528612397897220096 |
+|        |        data[26] |                      bit[63:0] |   64 |                45336 |
+|        |        data[27] |                      bit[63:0] |   64 |           1310326784 |
+|        |        data[28] |                      bit[63:0] |   64 |       97976793956352 |
+|        |        data[29] |                      bit[63:0] |   64 | 11326553062836797440 |
+|        |        data[30] |                      bit[63:0] |   64 |                45210 |
+|        |        data[31] |                      bit[63:0] |   64 |            394002432 |
+|        |        data[32] |                      bit[63:0] |   64 |      259416024678400 |
+|        |        data[33] |                      bit[63:0] |   64 |  8901083188521074688 |
+|        |        data[34] |                      bit[63:0] |   64 |                27723 |
+|        |        data[35] |                      bit[63:0] |   64 |           2168913920 |
+|        |        data[36] |                      bit[63:0] |   64 |      225309689380864 |
+|        |        data[37] |                      bit[63:0] |   64 | 14381400985077547008 |
+|        |        data[38] |                      bit[63:0] |   64 |                51048 |
+|        |        data[39] |                      bit[63:0] |   64 |           1319763968 |
+|        |        data[40] |                      bit[63:0] |   64 |      176553220636672 |
+|        |        data[41] |                      bit[63:0] |   64 |  8025696010950934528 |
+|        |        data[42] |                      bit[63:0] |   64 |                  935 |
+|        |        data[43] |                      bit[63:0] |   64 |           2889678848 |
+|        |        data[44] |                      bit[63:0] |   64 |      151900108357632 |
+|        |        data[45] |                      bit[63:0] |   64 |   667377169780965376 |
+|        |        data[46] |                      bit[63:0] |   64 |                14807 |
+|        |        data[47] |                      bit[63:0] |   64 |           3694526464 |
+|        |        data[48] |                      bit[63:0] |   64 |      216264488255488 |
+|        |        data[49] |                      bit[63:0] |   64 | 15471835044854628352 |
+|        |        data[50] |                      bit[63:0] |   64 |                38896 |
+|        |        data[51] |                      bit[63:0] |   64 |           4265738240 |
+|        |        data[52] |                      bit[63:0] |   64 |      157655364534272 |
+|        |        data[53] |                      bit[63:0] |   64 |  6789457913237733376 |
+|        |        data[54] |                      bit[63:0] |   64 |                29858 |
+|        |        data[55] |                      bit[63:0] |   64 |            538705920 |
+|        |        data[56] |                      bit[63:0] |   64 |      169844481720320 |
+|        |        data[57] |                      bit[63:0] |   64 | 13757089486733312000 |
+|        |        data[58] |                      bit[63:0] |   64 |                 3877 |
+|        |        data[59] |                      bit[63:0] |   64 |            886046720 |
+|        |        data[60] |                      bit[63:0] |   64 |      162886634700800 |
+=======
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 +=========================================================================================+
 got from monitor
 +=========================================================================================+
@@ -1039,6 +1716,7 @@ no_of_trans_monitored = 3
 |     3. |             len |                       bit[7:0] |    8 |                   59 |
 |     4. |            size |                       bit[2:0] |    3 |                    3 |
 |     5. |         data[0] |                      bit[63:0] |   64 |                    0 |
+<<<<<<< HEAD
 +=========================================================================================+
 |     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
 +=========================================================================================+
@@ -1298,6 +1976,22 @@ got from reference
 |        |        data[57] |                      bit[63:0] |   64 |   114545228457188891 |
 |        |        data[58] |                      bit[63:0] |   64 |  5924628618593558004 |
 |        |        data[59] |                      bit[63:0] |   64 |  8887909936913157059 |
+=======
+|        |         data[1] |                      bit[63:0] |   64 |                    0 |
+|        |         data[2] |                      bit[63:0] |   64 |                    0 |
+|        |         data[3] |                      bit[63:0] |   64 |                    0 |
+|        |         data[4] |                      bit[63:0] |   64 |                    0 |
+|        |         data[5] |                      bit[63:0] |   64 |                    0 |
+|        |         data[6] |                      bit[63:0] |   64 |                    0 |
+|        |         data[7] |                      bit[63:0] |   64 |                    0 |
+|        |         data[8] |                      bit[63:0] |   64 |                    0 |
+|        |         data[9] |                      bit[63:0] |   64 |                    0 |
+|        |        data[10] |                      bit[63:0] |   64 |                    0 |
+|        |        data[11] |                      bit[63:0] |   64 |                    0 |
+|        |        data[12] |                      bit[63:0] |   64 |                    0 |
+|        |        data[13] |                      bit[63:0] |   64 |                    0 |
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 |     6. |        rresp[0] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[1] |         enum $unit::response_e |    2 |                 OKAY |
 |        |        rresp[2] |         enum $unit::response_e |    2 |                 OKAY |
@@ -1312,6 +2006,10 @@ got from reference
 |        |       rresp[11] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[12] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[13] |         enum $unit::response_e |    2 |                 OKAY |
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 |        |       rresp[14] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[15] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[16] |         enum $unit::response_e |    2 |                 OKAY |
@@ -1358,6 +2056,17 @@ got from reference
 |        |       rresp[57] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[58] |         enum $unit::response_e |    2 |                 OKAY |
 |        |       rresp[59] |         enum $unit::response_e |    2 |                 OKAY |
+<<<<<<< HEAD
+=======
+|        |       rresp[60] |         enum $unit::response_e |    2 |                 OKAY |
++=========================================================================================+
+@1335 Transaction Passed!
+no_of_trans_monitored = 2
+$finish called from file "../tb/ei_axi4_top.sv", line 67.
+TEST WRAP UP
+SANITY TEST SELECTED
+=======
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 +=========================================================================================+
 got from monitor
 +=========================================================================================+
@@ -1770,12 +2479,18 @@ no_of_trans_monitored = 4
 no_of_trans_monitored = 5
 $finish called from file "../tb/ei_axi4_top.sv", line 67.
 TEST WRAP UP
+<<<<<<< HEAD
 SANITY TEST SELECTED
 No. of transaction passed : 2
+=======
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+No. of transaction passed : 1
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 No. of transaction failed : 0
 +================================================================================================================================+
 | CHECKER ID         | DESCRIPTION                                                                 | FAIL COUNT   | PASS COUNT   |
 +================================================================================================================================+
+<<<<<<< HEAD
 | AXI4_CHECK_001     | Address must not cross 4 KB Boundary                                        | 0            | 5            |
 | AXI4_CHECK_002     | For Fixed burst type AWLEN must be between 0 to 15                          | 0            | 3            |
 | AXI4_CHECK_003     | For Fixed burst type ARLEN must be between 0 to 15                          | 0            | 2            |
@@ -1785,12 +2500,35 @@ No. of transaction failed : 0
 | AXI4_CHECK_009     | Transfer size - ARSIZE must be lesser than Data Bus Width                   | 0            | 2            |
 | AXI4_CHECK_010     | AWBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 3            |
 | AXI4_CHECK_011     | ARBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 2            |
+=======
+<<<<<<< HEAD
+| AXI4_CHECK_001     | Address must not cross 4 KB Boundary                                        | 0            | 2            |
+| AXI4_CHECK_002     | For Fixed burst type AWLEN must be between 0 to 15                          | 0            | 1            |
+| AXI4_CHECK_003     | For Fixed burst type ARLEN must be between 0 to 15                          | 0            | 1            |
+| AXI4_CHECK_004     | For WRAP burst type AWLEN must be 1, 3, 7 and 15 only                       | 0            | 1            |
+| AXI4_CHECK_005     | For WRAP burst type ARLEN must be 1, 3, 7 and 15 only                       | 0            | 1            |
+| AXI4_CHECK_008     | Transfer size - AWSIZE must be lesser than Data Bus Width                   | 0            | 1            |
+| AXI4_CHECK_009     | Transfer size - ARSIZE must be lesser than Data Bus Width                   | 0            | 1            |
+| AXI4_CHECK_010     | AWBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 1            |
+=======
+| AXI4_CHECK_001     | Address must not cross 4 KB Boundary                                        | 0            | 1            |
+| AXI4_CHECK_002     | For Fixed burst type AWLEN must be between 0 to 15                          | 0            | 0            |
+| AXI4_CHECK_003     | For Fixed burst type ARLEN must be between 0 to 15                          | 0            | 1            |
+| AXI4_CHECK_004     | For WRAP burst type AWLEN must be 1, 3, 7 and 15 only                       | 0            | 0            |
+| AXI4_CHECK_005     | For WRAP burst type ARLEN must be 1, 3, 7 and 15 only                       | 0            | 1            |
+| AXI4_CHECK_008     | Transfer size - AWSIZE must be lesser than Data Bus Width                   | 0            | 0            |
+| AXI4_CHECK_009     | Transfer size - ARSIZE must be lesser than Data Bus Width                   | 0            | 1            |
+| AXI4_CHECK_010     | AWBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 0            |
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+| AXI4_CHECK_011     | ARBURST must not be equal to 2'b11 (RESERVED)                               | 0            | 1            |
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 | AXI4_CHECK_012     | Approriate WSTRB must be there                                              | 0            | 0            |
 | AXI4_CHECK_013     | BRESP must be OKAY or SLVERR for every transaction                          | 0            | 0            |
 | AXI4_CHECK_014     | RRESP must be OKAY or SLVERR for every transfer of transaction              | 0            | 0            |
 | AXI4_CHECK_015     | For WRAP burst type AWADDR must be Aligned address only                     | 0            | 0            |
 | AXI4_CHECK_016     | For WRAP burst type ARADDR must be Aligned address only                     | 0            | 0            |
 +================================================================================================================================+
+<<<<<<< HEAD
 $finish at simulation time                 3285
 "../src/ei_axi4_assertion.sv", 274: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_010, 329 attempts, 329 match
 "../src/ei_axi4_assertion.sv", 286: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_011, 329 attempts, 329 match
@@ -1829,13 +2567,109 @@ $finish at simulation time                 3285
 "../src/ei_axi4_assertion.sv", 505: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_041, 329 attempts, 3 match
 "../src/ei_axi4_assertion.sv", 661: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_043, 329 attempts, 3 match
 "../src/ei_axi4_assertion.sv", 673: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_044, 329 attempts, 3 match
+=======
+<<<<<<< HEAD
+$finish at simulation time                 1335
+"../src/ei_axi4_assertion.sv", 274: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_010, 134 attempts, 134 match
+"../src/ei_axi4_assertion.sv", 286: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_011, 134 attempts, 134 match
+"../src/ei_axi4_assertion.sv", 299: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_013, 134 attempts, 134 match
+"../src/ei_axi4_assertion.sv", 312: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_009, 134 attempts, 134 match
+"../src/ei_axi4_assertion.sv", 325: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_012, 134 attempts, 134 match
+"../src/ei_axi4_assertion.sv", 517: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_015, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 529: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_017, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 541: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_019, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 553: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_022, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 565: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_024, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 577: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_026, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 589: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_031, 134 attempts, 61 match
+"../src/ei_axi4_assertion.sv", 601: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_033, 134 attempts, 61 match
+"../src/ei_axi4_assertion.sv", 613: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_038, 134 attempts, 61 match
+"../src/ei_axi4_assertion.sv", 625: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_042, 134 attempts, 2 match
+"../src/ei_axi4_assertion.sv", 637: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_036, 134 attempts, 61 match
+"../src/ei_axi4_assertion.sv", 649: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_029, 134 attempts, 61 match
+"../src/ei_axi4_assertion.sv", 238: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_007, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 250: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_008, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 262: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_006, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 337: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_014, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 349: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_016, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 361: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_018, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 373: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_020, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 385: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_021, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 397: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_023, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 409: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_025, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 421: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_027, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 433: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_028, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 445: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_030, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 457: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_032, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 469: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_035, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 481: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_037, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 493: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_039, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 505: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_041, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 661: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_043, 134 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 673: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_044, 134 attempts, 1 match
+=======
+READ TESTCASE SELECTED
+$finish at simulation time                  205
+"../src/ei_axi4_assertion.sv", 274: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_010, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 286: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_011, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 299: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_013, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 312: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_009, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 325: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_012, 21 attempts, 21 match
+"../src/ei_axi4_assertion.sv", 517: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_015, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 529: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_017, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 541: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_019, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 553: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_022, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 565: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_024, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 577: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_026, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 589: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_031, 21 attempts, 14 match
+"../src/ei_axi4_assertion.sv", 601: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_033, 21 attempts, 14 match
+"../src/ei_axi4_assertion.sv", 613: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_038, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 625: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_042, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 637: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_036, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 649: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_029, 21 attempts, 14 match
+"../src/ei_axi4_assertion.sv", 238: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_007, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 250: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_008, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 262: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_006, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 337: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_014, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 349: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_016, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 361: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_018, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 373: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_020, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 385: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_021, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 397: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_023, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 409: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_025, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 421: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_027, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 433: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_028, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 445: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_030, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 457: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_032, 21 attempts, 1 match
+"../src/ei_axi4_assertion.sv", 469: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_035, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 481: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_037, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 493: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_039, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 505: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_041, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 661: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_043, 21 attempts, 0 match
+"../src/ei_axi4_assertion.sv", 673: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_044, 21 attempts, 0 match
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681
 "../src/ei_axi4_assertion.sv", 177: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_002, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 189: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_003, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 201: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_005, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 213: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_001, 0 attempts, 0 match
 "../src/ei_axi4_assertion.sv", 225: ei_axi4_top.axi_assertion.AXI4_COVER_ASSERTION_004, 0 attempts, 0 match
            V C S   S i m u l a t i o n   R e p o r t 
+<<<<<<< HEAD
 Time: 3285
 CPU Time:      0.400 seconds;       Data structure size:   0.1Mb
 Tue Jul 12 10:48:03 2022
 randomized with seed 95879346
+=======
+<<<<<<< HEAD
+Time: 1335
+CPU Time:      0.480 seconds;       Data structure size:   0.1Mb
+Thu Jul  7 11:45:46 2022
+randomized with seed 9491312
+=======
+Time: 205
+CPU Time:      0.460 seconds;       Data structure size:   0.1Mb
+Thu Jul  7 15:59:14 2022
+randomized with seed 43982680
+>>>>>>> 82bef44bc9897a347b797b7b476cee882498cc31
+>>>>>>> c11166c6dcc600c4b6a7217a8be3bda970fcf681

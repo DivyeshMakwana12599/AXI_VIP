@@ -32,7 +32,7 @@ module ei_axi4_top;
 
   bit aclk;
   bit aresetn;
-  time dummy_time;
+ // time dummy_time;
   
   ei_axi4_master_interface mst_pif(.aclk(aclk),.aresetn(aresetn));
   ei_axi4_slave_interface slv_pif(.aclk(aclk),.aresetn(aresetn));
